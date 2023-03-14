@@ -12,5 +12,7 @@
     <color name="yellow">#FE9B28</color>
     <color name="green">#34CB5F</color>
     <color name="pink">#FC5454</color>
+    <color name="bluetext">#4766F9</color>
+    <color name="blacktext">#12011F</color>
 
 </resources>
