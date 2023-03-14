@@ -57,6 +57,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/phoneEt"
                 android:layout_width="match_parent"
+                android:inputType="phone"
+                android:maxLength="13"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -76,6 +78,7 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordEt"
+                android:inputType="textPassword"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -94,6 +97,7 @@
             />
 
         <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/loginBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
