@@ -1,3 +1,6 @@
 <resources>
     <string name="app_name">Staffin</string>
+    <string name="onBoardingTxt1">Welcome To Fox</string>
+    <string name="OnBoardingTxt2">Staffin</string>
+    <string name="OnBoardingTxt3">Lorem Ipsum is simply dummy text of /\nhe printing and .</string>
 </resources>

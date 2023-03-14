@@ -27,7 +27,7 @@ public class SplashActivity extends AppCompatActivity {
             }
 
             public void onFinish() {
-                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), OnBoardingActivity.class));
 //                mTextField.setText("done!");
             }
         }.start();
