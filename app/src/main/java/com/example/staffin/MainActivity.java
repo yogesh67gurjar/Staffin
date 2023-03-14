@@ -7,13 +7,12 @@ import android.os.Bundle;
 import com.example.staffin.databinding.ActivityMainBinding;
 
 public class MainActivity extends AppCompatActivity {
-ActivityMainBinding binding;
+    ActivityMainBinding binding;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding=ActivityMainBinding.inflate(getLayoutInflater());
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
-
     }
 }
