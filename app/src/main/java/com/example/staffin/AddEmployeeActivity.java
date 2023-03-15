@@ -24,7 +24,14 @@ public class AddEmployeeActivity extends AppCompatActivity {
         binding = ActivityAddEmployeeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.birthdateEt.setOnClickListener(v -> {
+        binding.nextBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(AddEmployeeActivity.this,EmployeeIdActivity.class));
+            }
+        });
+
+        binding.dobEt.setOnClickListener(v -> {
             final Calendar c = Calendar.getInstance();
 
             int year = c.get(Calendar.YEAR);
@@ -34,7 +41,7 @@ public class AddEmployeeActivity extends AppCompatActivity {
             DatePickerDialog datePickerDialog = new DatePickerDialog(AddEmployeeActivity.this,
                     (view, year1, monthOfYear, dayOfMonth) -> {
                         //
-                        binding.birthdateEt.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year1);
+                        binding.dobEt.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year1);
                     },
                     year, month, day);
             datePickerDialog.show();

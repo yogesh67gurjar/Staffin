@@ -94,7 +94,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/dp_img" />
 
             <EditText
-                android:id="@+id/fullNameEt"
+                android:id="@+id/employeeIdEt"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
                 android:layout_marginHorizontal="15dp"
@@ -113,7 +113,7 @@
 
 
             <TextView
-                android:id="@+id/fatherNameTv"
+                android:id="@+id/departmentTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -122,10 +122,10 @@
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fullNameEt" />
+                app:layout_constraintTop_toBottomOf="@+id/employeeIdEt" />
 
             <EditText
-                android:id="@+id/fatherNameEt"
+                android:id="@+id/departmentEt"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
                 android:layout_marginHorizontal="15dp"
@@ -140,11 +140,11 @@
                 android:textColorHint="#80282729"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fatherNameTv" />
+                app:layout_constraintTop_toBottomOf="@id/departmentTv" />
 
 
             <TextView
-                android:id="@+id/birthDateTv"
+                android:id="@+id/designationTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
@@ -153,10 +153,10 @@
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/fatherNameEt" />
+                app:layout_constraintTop_toBottomOf="@+id/departmentEt" />
 
             <TextView
-                android:id="@+id/birthdateEt"
+                android:id="@+id/dobEt"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
                 android:gravity="center_vertical"
@@ -176,7 +176,7 @@
                 android:textColorHint="#80282729"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/birthDateTv" />
+                app:layout_constraintTop_toBottomOf="@id/designationTv" />
 
             <TextView
                 android:id="@+id/genderTv"
@@ -188,7 +188,7 @@
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/birthdateEt" />
+                app:layout_constraintTop_toBottomOf="@+id/dobEt" />
 
             <LinearLayout
                 android:id="@+id/genderLl"
@@ -377,9 +377,10 @@
                 android:layout_marginHorizontal="15dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
+                android:id="@+id/nextBtn"
                 app:layout_constraintTop_toBottomOf="@id/permAddEt"
                 android:layout_marginTop="30dp"
-                android:text="Login"
+                android:text="Next"
                 android:textColor="@color/white"
                 android:textSize="17sp"
                 android:textStyle="bold"
