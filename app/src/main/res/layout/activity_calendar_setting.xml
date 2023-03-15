@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".EmployeeIdActivity">
+    tools:context=".CalendarSettingActivity">
 
     <ImageButton
         android:id="@+id/imageButton2"
@@ -22,7 +22,7 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Employee Id"
+        android:text="Calendar Settings"
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -43,88 +43,38 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView" />
 
-
-    <TextView
-        android:id="@+id/userIdTv"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="60dp"
-        android:text="User Id"
-        android:textColor="@color/black"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
-
-    <EditText
-        android:id="@+id/userIdEt"
+    <CalendarView
+        android:id="@+id/calendarView"
         android:layout_width="match_parent"
-        android:layout_height="42dp"
+        android:layout_height="320dp"
         android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="7dp"
-        android:background="@drawable/edittext_layout"
-        android:drawableLeft="@drawable/ic_card"
-        android:drawablePadding="20dp"
-        android:hint="Enter Your UserId here"
-        android:inputType="textPersonName"
-        android:paddingStart="20dp"
-        android:textColor="@color/black"
-        android:textColorHint="#80282729"
+        android:layout_marginTop="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/userIdTv" />
-
+        app:layout_constraintTop_toBottomOf="@id/textView" />
 
     <TextView
-        android:id="@+id/passwordTv"
+        android:id="@+id/tv1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
         android:layout_marginTop="15dp"
-        android:text="Password"
+        android:text="Holiday"
         android:textColor="@color/black"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/userIdEt" />
+        app:layout_constraintTop_toBottomOf="@+id/calendarView" />
 
-    <EditText
-        android:id="@+id/passwordEt"
+    <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="42dp"
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="7dp"
-        android:background="@drawable/edittext_layout"
-        android:drawableLeft="@drawable/ic_lock"
-        android:drawablePadding="20dp"
-        android:hint="Enter Your Password Here"
-        android:inputType="textPersonName"
-        android:paddingStart="20dp"
-        android:textColor="@color/black"
-        android:textColorHint="#80282729"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/passwordTv" />
-
-
-    <androidx.appcompat.widget.AppCompatButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="15dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="30dp"
-        android:text="Next"
-        android:textColor="@color/white"
-        android:textSize="17sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="30dp"
-        android:background="@drawable/login_btn_bg"
-        android:paddingVertical="18dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="15dp"
+        android:paddingHorizontal="15dp"
+        android:id="@+id/holidayRecyclerView"
+        tools:listitem="@layout/holiday_layout"
         app:layout_constraintBottom_toBottomOf="parent"
-        />
-
-
-
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv1" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
