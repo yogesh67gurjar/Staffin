@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_white"
+    tools:context=".Fragment.PresentBottomSheetFragment">
+
+    <TextView
+        android:id="@+id/txt1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:text="January 2023"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <TextView
+        android:id="@+id/txtPresent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/gradient_edit_employee"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="13dp"
+        android:text="Present"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@+id/txt1"
+        app:layout_constraintTop_toBottomOf="@+id/txt1" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/bg_green_corner"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="13dp"
+        android:text="Double  Present"
+        android:textColor="@color/txtGreen"
+        app:layout_constraintBottom_toBottomOf="@+id/txtPresent"
+        app:layout_constraintStart_toEndOf="@+id/txtPresent"
+        app:layout_constraintTop_toTopOf="@+id/txtPresent" />
+
+
+    <TextView
+        android:id="@+id/txtAbsent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/bg_red_corner"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="13dp"
+        android:text="Absent"
+        android:textColor="@color/txtRed"
+        app:layout_constraintStart_toStartOf="@+id/txt1"
+        app:layout_constraintTop_toBottomOf="@+id/txtPresent" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/bg_red_corner"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="13dp"
+        android:text="Half Day"
+        android:textColor="@color/txtRed"
+        app:layout_constraintBottom_toBottomOf="@+id/txtAbsent"
+        app:layout_constraintStart_toEndOf="@+id/txtAbsent"
+        app:layout_constraintTop_toTopOf="@+id/txtAbsent" />
+
+
+    <TextView
+        android:id="@+id/txt2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:text="Over Time"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtAbsent" />
+
+    <TextView
+        android:id="@+id/txtOverTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_green_corner"
+        android:drawableStart="@drawable/ic_green_clock"
+        android:drawablePadding="10dp"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="13dp"
+        android:text="OverTime"
+        android:textColor="@color/txtGreen"
+        app:layout_constraintStart_toStartOf="@+id/txt2"
+        app:layout_constraintTop_toBottomOf="@+id/txt2" />
+
+
+    <TextView
+        android:id="@+id/txt3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:text="Leaves"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtOverTime" />
+
+
+    <TextView
+        android:id="@+id/txtPaidLeave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_purple_corner"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="13dp"
+        android:text="Paid Leave"
+        android:textColor="@color/txtPurple"
+        app:layout_constraintStart_toStartOf="@+id/txt1"
+        app:layout_constraintTop_toBottomOf="@+id/txt3" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/bg_purple_corner"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="13dp"
+        android:text="Sick Leave"
+        android:textColor="@color/txtPurple"
+        app:layout_constraintBottom_toBottomOf="@+id/txtPaidLeave"
+        app:layout_constraintStart_toEndOf="@+id/txtPaidLeave"
+        app:layout_constraintTop_toTopOf="@+id/txtPaidLeave" />
+
+    <TextView
+        android:id="@+id/txtUnPaidLeave"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_purple_corner"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="13dp"
+        android:text="UnPaid Leave"
+        android:textColor="@color/txtPurple"
+        app:layout_constraintStart_toStartOf="@+id/txt1"
+        app:layout_constraintTop_toBottomOf="@+id/txtPaidLeave" />
+
+    <TextView
+        android:id="@+id/txt4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:text="Notes"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="normal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtUnPaidLeave" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/bg_back_btn"
+        android:gravity="top"
+        android:hint="type..."
+        android:layout_marginBottom="10dp"
+        android:paddingLeft="10dp"
+        android:textAlignment="gravity"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txt4" />
+</androidx.constraintlayout.widget.ConstraintLayout>

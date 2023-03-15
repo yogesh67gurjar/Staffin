@@ -15,5 +15,8 @@
     <color name="bluetext">#4766F9</color>
     <color name="blacktext">#12011F</color>
     <color name="txtGray">#5E5E5E</color>
+    <color name="txtGreen">#34CB5F</color>
+    <color name="txtRed">#FC5454</color>
+    <color name="txtPurple">#AC6CFE</color>
 
 </resources>
