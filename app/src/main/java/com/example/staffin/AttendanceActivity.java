@@ -21,5 +21,42 @@ public class AttendanceActivity extends AppCompatActivity {
         binding.attendanceRv.setLayoutManager(new LinearLayoutManager(this));
         binding.attendanceRv.setAdapter(new AttendanceAdapter(AttendanceActivity.this));
 
+        binding.txtAttendance.setOnClickListener(v -> {
+            binding.txtAttendance.setBackgroundResource(R.drawable.bg__blue_attendance);
+            binding.txtAttendance.setTextColor(getResources().getColor(R.color.white));
+
+            binding.txtViewAttendance.setBackgroundResource(R.drawable.bg_back_btn);
+            binding.txtViewAttendance.setTextColor(getResources().getColor(R.color.black));
+
+            binding.txtLeave.setBackgroundResource(R.drawable.bg_back_btn);
+            binding.txtLeave.setTextColor(getResources().getColor(R.color.black));
+        });
+
+        binding.txtViewAttendance.setOnClickListener(v -> {
+
+            binding.txtAttendance.setBackgroundResource(R.drawable.bg_back_btn);
+            binding.txtAttendance.setTextColor(getResources().getColor(R.color.black));
+
+            binding.txtViewAttendance.setBackgroundResource(R.drawable.bg__blue_attendance);
+            binding.txtViewAttendance.setTextColor(getResources().getColor(R.color.white));
+
+            binding.txtLeave.setBackgroundResource(R.drawable.bg_back_btn);
+            binding.txtLeave.setTextColor(getResources().getColor(R.color.black));
+
+        });
+
+        binding.txtLeave.setOnClickListener(v -> {
+
+            binding.txtAttendance.setBackgroundResource(R.drawable.bg_back_btn);
+            binding.txtAttendance.setTextColor(getResources().getColor(R.color.black));
+
+            binding.txtViewAttendance.setBackgroundResource(R.drawable.bg_back_btn);
+            binding.txtViewAttendance.setTextColor(getResources().getColor(R.color.black));
+
+            binding.txtLeave.setBackgroundResource(R.drawable.bg__blue_attendance);
+            binding.txtLeave.setTextColor(getResources().getColor(R.color.white));
+
+        });
+
     }
 }

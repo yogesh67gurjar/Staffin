@@ -74,29 +74,41 @@
             android:weightSum="3">
 
             <TextView
+                android:id="@+id/txtAttendance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="normal"
                 android:background="@drawable/bg_back_btn"
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="10dp"
                 android:text="Attendance" />
 
             <TextView
+                android:id="@+id/txtViewAttendance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_weight="1"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="normal"
                 android:background="@drawable/bg_back_btn"
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="10dp"
                 android:text="View attendance" />
 
             <TextView
+                android:id="@+id/txtLeave"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
                 android:layout_weight="1"
+                android:textColor="@color/black"
+                android:textSize="14sp"
+                android:textStyle="normal"
                 android:background="@drawable/bg_back_btn"
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="10dp"
