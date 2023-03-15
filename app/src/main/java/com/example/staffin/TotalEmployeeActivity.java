@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.staffin.Adapter.TotalEmployeeAdapter;
@@ -19,6 +20,10 @@ public class TotalEmployeeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityTotalEmployeeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        binding.imgBtnAddEmployee.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), AddEmployeeActivity.class));
+        });
 
         binding.totalEmployeeRv.setLayoutManager(new LinearLayoutManager(this));
         binding.totalEmployeeRv.setAdapter(new TotalEmployeeAdapter(TotalEmployeeActivity.this));

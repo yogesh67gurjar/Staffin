@@ -7,14 +7,14 @@
     tools:context=".AddEmployeeActivity">
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/btnHome"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="28dp"
-        android:alpha="0"
+        android:alpha="1"
         android:background="@drawable/bg_back_btn"
-        android:src="@drawable/back_arrow"
+        android:src="@drawable/ic_home"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -26,10 +26,10 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton2"
+        app:layout_constraintBottom_toBottomOf="@+id/btnHome"
         app:layout_constraintEnd_toStartOf="@+id/imageButton"
-        app:layout_constraintStart_toEndOf="@+id/imageButton2"
-        app:layout_constraintTop_toTopOf="@+id/imageButton2" />
+        app:layout_constraintStart_toEndOf="@+id/btnHome"
+        app:layout_constraintTop_toTopOf="@+id/btnHome" />
 
     <ImageButton
         android:id="@+id/imageButton"
@@ -159,20 +159,20 @@
                 android:id="@+id/dobEt"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
-                android:gravity="center_vertical"
                 android:layout_marginHorizontal="15dp"
                 android:layout_marginTop="7dp"
-                android:drawableStart="@drawable/ic_cake"
                 android:background="@drawable/edittext_layout"
                 android:clickable="true"
+                android:drawableStart="@drawable/ic_cake"
                 android:drawableLeft="@drawable/ic_profile"
+                android:drawableEnd="@drawable/ic_calendar"
                 android:drawablePadding="20dp"
+                android:gravity="center_vertical"
                 android:hint="Pick Your DOB"
                 android:inputType="date"
                 android:paddingStart="20dp"
-                android:textColor="@color/black"
-                android:drawableEnd="@drawable/ic_calendar"
                 android:paddingEnd="20dp"
+                android:textColor="@color/black"
                 android:textColorHint="#80282729"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -211,10 +211,10 @@
                         android:id="@+id/rb_male"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Male"
-                        android:buttonTint="@color/mainColor"
                         android:layout_marginEnd="10dp"
                         android:layout_weight="1"
+                        android:buttonTint="@color/mainColor"
+                        android:text="Male"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
 
@@ -223,11 +223,11 @@
                         android:id="@+id/rb_female"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Female"
-                        android:buttonTint="@color/mainColor"
-
                         android:layout_marginEnd="10dp"
                         android:layout_weight="1"
+
+                        android:buttonTint="@color/mainColor"
+                        android:text="Female"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
 
@@ -235,10 +235,10 @@
                         android:id="@+id/rb_other"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Other"
+                        android:layout_weight="1"
                         android:buttonTint="@color/mainColor"
 
-                        android:layout_weight="1"
+                        android:text="Other"
                         android:textColor="@color/black"
                         android:textSize="15sp" />
 
@@ -270,8 +270,8 @@
                 android:drawablePadding="20dp"
                 android:hint="Enter Your Mobile Number"
                 android:inputType="phone"
-                android:paddingStart="20dp"
                 android:maxLength="13"
+                android:paddingStart="20dp"
                 android:textColor="@color/black"
                 android:textColorHint="#80282729"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -372,23 +372,22 @@
                 app:layout_constraintTop_toBottomOf="@id/permAddTv" />
 
             <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/nextBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="15dp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                android:id="@+id/nextBtn"
-                app:layout_constraintTop_toBottomOf="@id/permAddEt"
                 android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:background="@drawable/login_btn_bg"
+                android:paddingVertical="18dp"
                 android:text="Next"
                 android:textColor="@color/white"
                 android:textSize="17sp"
                 android:textStyle="bold"
-                android:layout_marginBottom="30dp"
-                android:background="@drawable/login_btn_bg"
-                android:paddingVertical="18dp"
                 app:layout_constraintBottom_toBottomOf="parent"
-                />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/permAddEt" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

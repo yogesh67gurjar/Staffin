@@ -38,7 +38,7 @@ public class OnBoardingActivity extends AppCompatActivity {
                 if (getItem(0) < 2) {
                     binding.viewPager.setCurrentItem(getItem(1), true);
                 } else {
-                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                     startActivity(intent);
                     finish();
                 }

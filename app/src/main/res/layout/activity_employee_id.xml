@@ -7,12 +7,12 @@
     tools:context=".EmployeeIdActivity">
 
     <ImageButton
-        android:id="@+id/imageButton2"
+        android:id="@+id/btnBack"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_marginStart="10dp"
         android:layout_marginTop="28dp"
-        android:alpha="0"
+        android:alpha="1"
         android:background="@drawable/bg_back_btn"
         android:src="@drawable/back_arrow"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,10 +26,10 @@
         android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/imageButton2"
+        app:layout_constraintBottom_toBottomOf="@+id/btnBack"
         app:layout_constraintEnd_toStartOf="@+id/imageButton"
-        app:layout_constraintStart_toEndOf="@+id/imageButton2"
-        app:layout_constraintTop_toTopOf="@+id/imageButton2" />
+        app:layout_constraintStart_toEndOf="@+id/btnBack"
+        app:layout_constraintTop_toTopOf="@+id/btnBack" />
 
     <ImageButton
         android:id="@+id/imageButton"
@@ -107,6 +107,7 @@
 
 
     <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/btnNext"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
