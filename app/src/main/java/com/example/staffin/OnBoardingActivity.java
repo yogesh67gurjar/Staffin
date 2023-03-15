@@ -60,9 +60,8 @@ public class OnBoardingActivity extends AppCompatActivity {
             }
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            dots[position].setText(Html.fromHtml("&#8211", Html.FROM_HTML_MODE_LEGACY));
+            dots[position].setText(Html.fromHtml("&#8212", Html.FROM_HTML_MODE_LEGACY));
         }
-
         dots[position].setTextColor(Color.parseColor("#4766F9"));
     }
     private int getItem(int i) {
