@@ -34,6 +34,9 @@ public class TotalEmployeeActivity extends AppCompatActivity {
         employeesList.add("sakshi naidu");
         employeesList.add("shubhi gupta");
 
+        binding.btnCalendar.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), CalendarSettingActivity.class));
+        });
         binding.imgBtnAddEmployee.setOnClickListener(v -> {
             Intent addIntent=new Intent(TotalEmployeeActivity.this,AddEmployeeActivity.class);
             addIntent.putExtra("from","add");

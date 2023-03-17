@@ -3,6 +3,7 @@ package com.example.staffin;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.staffin.Adapter.AttendanceAdapter;
@@ -18,6 +19,12 @@ public class AttendanceActivity extends AppCompatActivity {
         binding = ActivityAttendanceBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        binding.btnBack.setOnClickListener(v -> {
+            finish();
+        });
+        binding.btnCalendar.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), CalendarSettingActivity.class));
+        });
         binding.attendanceRv.setLayoutManager(new LinearLayoutManager(this));
         binding.attendanceRv.setAdapter(new AttendanceAdapter(AttendanceActivity.this));
 
