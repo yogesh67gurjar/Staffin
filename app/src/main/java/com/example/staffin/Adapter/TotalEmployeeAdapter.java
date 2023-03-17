@@ -24,7 +24,7 @@ import java.util.List;
 
 public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdapter.MyViewHolder> {
     Context context;
-      List<String> employeesList;
+    List<String> employeesList;
     Dialog adDialog;
 
     public TotalEmployeeAdapter(List<String> employeesList, Context context) {
@@ -34,7 +34,7 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
     }
 
     public void filterList(List<String> filterlist) {
-       employeesList = filterlist;
+        employeesList = filterlist;
         notifyDataSetChanged();
     }
 
@@ -64,10 +64,6 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
                 showPopup();
             }
         });
-        holder.btnDelete.setOnClickListener(v -> {
-            Toast.makeText(context, "Delete Button...", Toast.LENGTH_SHORT).show();
-
-        });
     }
 
     @Override
@@ -93,7 +89,6 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageButton btnEdit, btnDelete;
-
         TextView txtName;
 
         public MyViewHolder(@NonNull View itemView) {
