@@ -24,13 +24,18 @@ import java.util.List;
 
 public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdapter.MyViewHolder> {
     Context context;
-    List<String> employeesList;
+      List<String> employeesList;
     Dialog adDialog;
 
     public TotalEmployeeAdapter(List<String> employeesList, Context context) {
         this.context = context;
         this.employeesList = employeesList;
         adDialog = new Dialog(this.context);
+    }
+
+    public void filterList(List<String> filterlist) {
+       employeesList = filterlist;
+        notifyDataSetChanged();
     }
 
     @NonNull
