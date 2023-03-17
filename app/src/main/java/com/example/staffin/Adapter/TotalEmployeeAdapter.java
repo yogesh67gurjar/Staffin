@@ -64,6 +64,10 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
                 showPopup();
             }
         });
+        holder.btnDelete.setOnClickListener(v -> {
+            Toast.makeText(context, "Delete Button...", Toast.LENGTH_SHORT).show();
+
+        });
     }
 
     @Override
@@ -89,6 +93,7 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageButton btnEdit, btnDelete;
+
         TextView txtName;
 
         public MyViewHolder(@NonNull View itemView) {

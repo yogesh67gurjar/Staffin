@@ -26,12 +26,12 @@
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/btnBack"
-        app:layout_constraintEnd_toStartOf="@+id/imageButton"
+        app:layout_constraintEnd_toStartOf="@+id/btnCalendar"
         app:layout_constraintStart_toEndOf="@+id/btnBack"
         app:layout_constraintTop_toTopOf="@+id/btnBack" />
 
     <ImageButton
-        android:id="@+id/imageButton"
+        android:id="@+id/btnCalendar"
         android:layout_width="36dp"
         android:layout_height="36dp"
         android:layout_marginEnd="10dp"
