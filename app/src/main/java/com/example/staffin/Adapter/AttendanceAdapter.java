@@ -7,8 +7,12 @@ import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -19,13 +23,22 @@ import com.example.staffin.InsideAttendanceActivity;
 import com.example.staffin.MainActivity;
 import com.example.staffin.R;
 
+import java.util.List;
+
 import de.hdodenhof.circleimageview.BuildConfig;
 
 public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.MyViewHolder> {
     Context context;
+    List<String> employeeNumber;
+    String issueSelected;
 
-    public AttendanceAdapter(Context context) {
+    String[] shift = {"Attendance",
+            "Present",
+            "Absent"};
+
+    public AttendanceAdapter(Context context, List<String> employeeNumber) {
         this.context = context;
+        this.employeeNumber = employeeNumber;
     }
 
     @NonNull
@@ -38,13 +51,15 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
 
     @Override
     public void onBindViewHolder(@NonNull AttendanceAdapter.MyViewHolder holder, int position) {
+        String singleUnit = employeeNumber.get(position);
+//        holder.txtMail.setText(singleUnit);
 
         holder.btnWhatsApp.setOnClickListener(v -> {
-            String phone= "+91 7000563594";
-            if (!iswhatsAppInstall()){
-                Intent i = new Intent(Intent.ACTION_VIEW,Uri.parse("https://api.whatsapp.com/send?phone="+ phone));
+            String phone = singleUnit;
+            if (!iswhatsAppInstall()) {
+                Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://api.whatsapp.com/send?phone=" + phone));
                 context.startActivity(i);
-            }else {
+            } else {
                 Toast.makeText(context, "Please Install WhatsApp...", Toast.LENGTH_SHORT).show();
             }
 
@@ -52,31 +67,60 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
         holder.btnCall.setOnClickListener(v -> {
 //            Toast.makeText(context, "Open Call", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(Intent.ACTION_DIAL);
-            intent.setData(Uri.parse("tel:9143143143"));
+            String phoneCall = singleUnit;
+            intent.setData(Uri.parse("tel:" + phoneCall));
             context.startActivity(intent);
         });
-
         holder.MainCard.setOnClickListener(v -> {
             Intent intent = new Intent(context, InsideAttendanceActivity.class);
             context.startActivity(intent);
+        });
+
+
+        ArrayAdapter aa = new ArrayAdapter(context.getApplicationContext(), android.R.layout.simple_spinner_item, shift);
+        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        holder.spinner.setAdapter(aa);
+
+        holder.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                issueSelected = shift[position];
+                if (issueSelected.equalsIgnoreCase("Present")) {
+                    holder.spinnerConstraint.setBackgroundColor(context.getResources().getColor(R.color.txtGreen));
+                    holder.spinner.setBackgroundResource(R.color.txtGreen);
+                } else if (issueSelected.equalsIgnoreCase("Absent")) {
+                    holder.spinnerConstraint.setBackgroundColor(context.getResources().getColor(R.color.txtRed));
+                    holder.spinner.setBackgroundResource(R.color.txtRed);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
         });
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return employeeNumber.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
-        ConstraintLayout MainCard;
+        ConstraintLayout MainCard, spinnerConstraint;
         ImageButton btnWhatsApp, btnCall;
+        TextView txtMail;
+        Spinner spinner;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             MainCard = itemView.findViewById(R.id.MainCard);
             btnWhatsApp = itemView.findViewById(R.id.btnWhatsApp);
             btnCall = itemView.findViewById(R.id.btnCall);
+            txtMail = itemView.findViewById(R.id.txtMail);
+            spinner = itemView.findViewById(R.id.spinner);
+            spinnerConstraint = itemView.findViewById(R.id.spinnerConstraint);
         }
     }
 

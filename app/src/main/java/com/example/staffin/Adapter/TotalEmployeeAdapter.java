@@ -64,6 +64,7 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
                 showPopup();
             }
         });
+
     }
 
     @Override
@@ -86,7 +87,6 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
         noBtn.setOnClickListener(v -> adDialog.dismiss());
         adDialog.setOnCancelListener(dialog -> adDialog.dismiss());
     }
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageButton btnEdit, btnDelete;
         TextView txtName;

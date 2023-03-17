@@ -10,14 +10,32 @@ import com.example.staffin.Adapter.AttendanceAdapter;
 import com.example.staffin.Adapter.TotalEmployeeAdapter;
 import com.example.staffin.databinding.ActivityAttendanceBinding;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AttendanceActivity extends AppCompatActivity {
     ActivityAttendanceBinding binding;
+    List<String> employeeNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityAttendanceBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        employeeNumber = new ArrayList<>();
+        employeeNumber.add("+91 7000563592");
+        employeeNumber.add("+91 7000563593");
+        employeeNumber.add("+91 7000563594");
+        employeeNumber.add("+91 7000563595");
+        employeeNumber.add("+91 7000563596");
+        employeeNumber.add("+91 7000563597");
+        employeeNumber.add("+91 7000563598");
+        employeeNumber.add("+91 7000563599");
+        employeeNumber.add("+91 7000563590");
+        employeeNumber.add("+91 7000563100");
+
+
 
         binding.btnBack.setOnClickListener(v -> {
             finish();
@@ -26,7 +44,7 @@ public class AttendanceActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), CalendarSettingActivity.class));
         });
         binding.attendanceRv.setLayoutManager(new LinearLayoutManager(this));
-        binding.attendanceRv.setAdapter(new AttendanceAdapter(AttendanceActivity.this));
+        binding.attendanceRv.setAdapter(new AttendanceAdapter(AttendanceActivity.this,employeeNumber));
 
         binding.txtAttendance.setOnClickListener(v -> {
             binding.txtAttendance.setBackgroundResource(R.drawable.bg__blue_attendance);
