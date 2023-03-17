@@ -134,6 +134,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="0dp"
+            android:id="@+id/spinnerConstraint"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:paddingHorizontal="30dp"

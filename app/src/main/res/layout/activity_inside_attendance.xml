@@ -91,11 +91,15 @@
                 app:layout_constraintStart_toStartOf="@+id/txtName"
                 app:layout_constraintTop_toBottomOf="@+id/txtName" />
 
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <TextView
                 android:id="@+id/constraintLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:text="Present"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="15sp"
                 android:background="@drawable/gradient_edit_employee"
                 android:paddingHorizontal="40dp"
                 android:paddingVertical="10dp"
@@ -103,14 +107,14 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/txtMail">
 
-                <Spinner
-                    android:id="@+id/spinner"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    tools:layout_editor_absoluteX="50dp" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
+<!--                <Spinner-->
+<!--                    android:id="@+id/spinner"-->
+<!--                    android:layout_width="match_parent"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    app:layout_constraintBottom_toBottomOf="parent"-->
+<!--                    app:layout_constraintTop_toTopOf="parent"-->
+<!--                    tools:layout_editor_absoluteX="50dp" />-->
+            </TextView>
 
             <LinearLayout
                 android:id="@+id/ll"
