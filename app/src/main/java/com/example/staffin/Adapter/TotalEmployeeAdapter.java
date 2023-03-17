@@ -33,6 +33,11 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
         adDialog = new Dialog(this.context);
     }
 
+    public void filterList(List<String> filterlist) {
+        employeesList = filterlist;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public TotalEmployeeAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -84,7 +89,6 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
     }
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageButton btnEdit, btnDelete;
-
         TextView txtName;
 
         public MyViewHolder(@NonNull View itemView) {
