@@ -138,6 +138,7 @@
                     android:text="At work -1 Year 5 month "
                     android:textColor="@color/black"
                     android:textSize="12sp"
+                    android:layout_marginBottom="15dp"
                     android:textStyle="normal" />
 
             </LinearLayout>
@@ -148,6 +149,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:paddingHorizontal="30dp"
+            android:visibility="gone"
             android:paddingVertical="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

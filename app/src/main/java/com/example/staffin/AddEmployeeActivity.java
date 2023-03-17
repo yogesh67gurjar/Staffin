@@ -18,6 +18,7 @@ public class AddEmployeeActivity extends AppCompatActivity {
     ActivityAddEmployeeBinding binding;
 
     static Boolean dpImageBoolean = false;
+    String from="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +26,13 @@ public class AddEmployeeActivity extends AppCompatActivity {
         binding = ActivityAddEmployeeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        from = getIntent().getStringExtra("from");
+
+        if (from.equalsIgnoreCase("edit")) {
+            binding.textView.setText("Edit Employee");
+        } else if(from.equalsIgnoreCase("add")){
+            binding.textView.setText("Add Employee");
+        }
         binding.btnHome.setOnClickListener(v -> {
             finish();
         });
@@ -92,7 +100,6 @@ public class AddEmployeeActivity extends AppCompatActivity {
                 startActivityForResult(Intent.createChooser(intent, "Select Picture"), 100);
             }
         });
-
     }
 
     @Override
