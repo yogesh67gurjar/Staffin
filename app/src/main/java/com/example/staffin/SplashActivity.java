@@ -17,13 +17,10 @@ public class SplashActivity extends AppCompatActivity {
         binding = ActivitySplashBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        new CountDownTimer(3000, 2000) {
+        new CountDownTimer(3000, 1000) {
 
             public void onTick(long millisUntilFinished) {
-                binding.splashLogo2.animate().alpha(0).setDuration(1500);
-
-//                binding.splashLogo.setImageResource(R.drawable.splash_logo2);
-//                mTextField.setText("seconds remaining: " + millisUntilFinished / 1000);
+//                binding.splashLogo2.animate().alpha(0).setDuration(1500);
             }
 
             public void onFinish() {

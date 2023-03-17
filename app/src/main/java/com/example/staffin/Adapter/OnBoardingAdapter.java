@@ -36,7 +36,7 @@ public class OnBoardingAdapter extends PagerAdapter {
 
     @Override
     public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
-        return view == (ConstraintLayout) object;
+        return view == (LinearLayout) object;
     }
 
     @NonNull
@@ -61,6 +61,6 @@ public class OnBoardingAdapter extends PagerAdapter {
     }
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        container.removeView((ConstraintLayout) object);
+        container.removeView((LinearLayout) object);
     }
 }

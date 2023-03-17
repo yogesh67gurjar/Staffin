@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import com.example.staffin.databinding.ActivityMainBinding;
 
@@ -26,7 +27,16 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), EventActivity.class));
         });
         binding.card4.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(),PayrollActivity.class));
+            Toast.makeText(this, "PayRoll Activity", Toast.LENGTH_SHORT).show();
+
+//            startActivity(new Intent(getApplicationContext(), PayrollActivity.class));
+        });
+        binding.card5.setOnClickListener(v -> {
+            Toast.makeText(this, "Calendar Activity", Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(getApplicationContext(), CalendarSettingActivity.class);
+            intent.putExtra("from", "mainactivity");
+            startActivity(intent);
         });
     }
 }

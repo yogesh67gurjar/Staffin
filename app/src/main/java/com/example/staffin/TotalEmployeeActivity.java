@@ -21,6 +21,9 @@ public class TotalEmployeeActivity extends AppCompatActivity {
         binding = ActivityTotalEmployeeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        binding.btnCalendar.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), CalendarSettingActivity.class));
+        });
         binding.imgBtnAddEmployee.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), AddEmployeeActivity.class));
         });
