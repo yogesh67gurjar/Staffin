@@ -4,19 +4,29 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import com.example.staffin.Interface.ApiInterface;
+import com.example.staffin.Response.LoginResponse;
+import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.ActivityLoginBinding;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity {
     ActivityLoginBinding binding;
+    ApiInterface apiInterface;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
 
         binding.loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -30,12 +40,36 @@ public class LoginActivity extends AppCompatActivity {
                 } else if (binding.passwordEt.getText().toString().trim().isEmpty()) {
                     binding.passwordEt.setError("Enter Password");
                     binding.passwordEt.requestFocus();
-                } else if (binding.passwordEt.getText().toString().trim().length() < 6) {
-                    binding.passwordEt.setError("Enter password min 6 words");
+                } else if (binding.passwordEt.getText().toString().trim().length() < 4) {
+                    binding.passwordEt.setError("Enter password min 4 words");
                     binding.passwordEt.requestFocus();
                 } else {
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                    finish();
+
+                    String number = binding.phoneEt.getText().toString();
+                    String password = binding.passwordEt.getText().toString();
+
+
+                    Call<LoginResponse> call = apiInterface.postLoginResponse(number, password);
+                    call.enqueue(new Callback<LoginResponse>() {
+                        @Override
+                        public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                            if (response.isSuccessful()) {
+                                Toast.makeText(LoginActivity.this, "Welcome...", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                finish();
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Response Error", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<LoginResponse> call, Throwable t) {
+                           // Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                            Log.d("Message karo", t.getMessage());
+                          //  Toast.makeText(LoginActivity.this, "Enter Correct Details ", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                 }
             }
         });
