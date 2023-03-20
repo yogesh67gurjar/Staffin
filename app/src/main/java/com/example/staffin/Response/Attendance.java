@@ -7,15 +7,28 @@ public class Attendance {
     private String dob;
     private String empId;
     private String email;
+    private String status;
 
-    public Attendance(String name, String phone, String dpImg, String dob, String empId, String email) {
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Attendance(String name, String phone, String dpImg, String dob, String empId, String email, String status) {
         this.name = name;
         this.phone = phone;
         this.dpImg = dpImg;
         this.dob = dob;
         this.empId = empId;
         this.email = email;
+        this.status = status;
     }
+
+
 
 
     public String getName() {

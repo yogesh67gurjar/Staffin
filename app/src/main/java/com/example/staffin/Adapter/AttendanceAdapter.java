@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.net.Uri;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,10 +32,10 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
     String issueSelected;
     String[] shift = {"Attendance", "Present", "Absent"};
 
-    public AttendanceAdapter(Context context,List<Attendance> attendanceList) {
+    public AttendanceAdapter(Context context, List<Attendance> attendanceList) {
 
         this.context = context;
-        this.attendanceList=attendanceList;
+        this.attendanceList = attendanceList;
     }
 
     public void filterList(List<Attendance> filterlist) {
@@ -55,7 +56,19 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
         Attendance singleUnit = attendanceList.get(position);
         holder.txtName.setText(singleUnit.getName());
         holder.txtMail.setText(singleUnit.getEmail());
-        holder.empIdTv.setText("Emp. ID - "+ singleUnit.getEmpId());
+        holder.empIdTv.setText("Emp. ID - " + singleUnit.getEmpId());
+        Log.d("STATUS",singleUnit.getStatus());
+//        if (singleUnit.getStatus().equalsIgnoreCase("present")) {
+//            holder.spinnerConstraint.setBackgroundResource(R.drawable.bg_green);
+//            holder.spinner.setBackgroundResource(R.color.txtGreen);
+//            holder.spinner.setSelection(1);
+//        } else if (singleUnit.getStatus().equalsIgnoreCase("absent")) {
+//            holder.spinnerConstraint.setBackgroundResource(R.drawable.bg_red);
+//            holder.spinner.setBackgroundResource(R.color.txtRed);
+//            holder.spinner.setSelection(2);
+////            ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
+//        }
+
         holder.btnWhatsApp.setOnClickListener(v -> {
             String phone = singleUnit.getPhone();
             if (!iswhatsAppInstall()) {
@@ -122,13 +135,13 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
 
         ConstraintLayout MainCard, spinnerConstraint;
         ImageButton btnWhatsApp, btnCall;
-        TextView txtMail,txtName,empIdTv;
+        TextView txtMail, txtName, empIdTv;
         Spinner spinner;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            empIdTv=itemView.findViewById(R.id.empIdTv);
-            txtName=itemView.findViewById(R.id.txtName);
+            empIdTv = itemView.findViewById(R.id.empIdTv);
+            txtName = itemView.findViewById(R.id.txtName);
             MainCard = itemView.findViewById(R.id.MainCard);
             btnWhatsApp = itemView.findViewById(R.id.btnWhatsApp);
             btnCall = itemView.findViewById(R.id.btnCall);

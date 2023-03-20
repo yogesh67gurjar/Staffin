@@ -86,19 +86,5 @@ public class TotalEmployeeActivity extends AppCompatActivity {
         //update recyclerview
         adapter.filterList(filteredList);
     }
-//
-//   private void filter(String text) {
-//        List<String> filteredlist=new ArrayList<>();
-//
-//        for (String item : employeesList) {
-//            if (item.toLowerCase().contains(text.toLowerCase())) {
-//                filteredlist.add(item);
-//            }
-//        }
-//        if (filteredlist.isEmpty()) {
-//            Toast.makeText(TotalEmployeeActivity.this, "No Data Found..", Toast.LENGTH_SHORT).show();
-//        } else {
-//            TotalEmployeeAdapter.filterList(filteredlist);
-//        }
-//    }
+
 }

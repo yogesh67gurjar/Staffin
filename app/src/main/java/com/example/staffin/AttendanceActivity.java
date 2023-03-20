@@ -21,6 +21,7 @@ public class AttendanceActivity extends AppCompatActivity {
 
     List<Attendance> attendanceList;
     AttendanceAdapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,35 +35,35 @@ public class AttendanceActivity extends AppCompatActivity {
         binding.absentBtn.setBackgroundResource(R.drawable.bg_back_btn);
         binding.absentBtn.setTextColor(getResources().getColor(R.color.black));
 
-        attendanceList=new ArrayList<>();
-        attendanceList.add(new Attendance("yogesh gurjar","7999717423","ksdfnsdfkjsdn","08/08/1999","1234","yogesh67gurjar@gmail.com"));
-        attendanceList.add(new Attendance("sakshi naidu","6262688978","ksdfnsdfkjsdn","10/09/1999","1235","sakshinaidu@gmail.com"));
-        attendanceList.add(new Attendance("ashok sir","8998787678","ksdfnsdfkjsdn","08/08/1979","1444","agehlot806@gmail.com"));
-        attendanceList.add(new Attendance("shubham sharma","9981688969","ksdfnsdfkjsdn","08/08/1999","2244","shubhamsharma19994@gmail.com"));
-        attendanceList.add(new Attendance("shubham raikwar","8319987270","ksdfnsdfkjsdn","08/08/1999","1221","shubhamraikwar@gmail.com"));
-        attendanceList.add(new Attendance("pragati sharma","7566579522","ksdfnsdfkjsdn","08/08/1999","1124","psharma@gmail.com"));
-        attendanceList.add(new Attendance("madhur sir","8997644533","ksdfnsdfkjsdn","08/08/1999","1111","madhurandroid@gmail.com"));
-        attendanceList.add(new Attendance("shubhi gupta","9826821679","ksdfnsdfkjsdn","08/08/1999","8778","shubhigupta@gmail.com"));
-        attendanceList.add(new Attendance("shivani mam","9288356233","ksdfnsdfkjsdn","08/08/1999","1284","hrtechpanda@gmail.com"));
+        attendanceList = new ArrayList<>();
+        attendanceList.add(new Attendance("yogesh gurjar", "7999717423", "ksdfnsdfkjsdn", "08/08/1999", "1234", "yogesh67gurjar@gmail.com", "present"));
+        attendanceList.add(new Attendance("sakshi naidu", "6262688978", "ksdfnsdfkjsdn", "10/09/1999", "1235", "sakshinaidu@gmail.com", "present"));
+        attendanceList.add(new Attendance("ashok sir", "8998787678", "ksdfnsdfkjsdn", "08/08/1979", "1444", "agehlot806@gmail.com", "absent"));
+        attendanceList.add(new Attendance("shubham sharma", "9981688969", "ksdfnsdfkjsdn", "08/08/1999", "2244", "shubhamsharma19994@gmail.com", "absent"));
+        attendanceList.add(new Attendance("shubham raikwar", "8319987270", "ksdfnsdfkjsdn", "08/08/1999", "1221", "shubhamraikwar@gmail.com", "absent"));
+        attendanceList.add(new Attendance("pragati sharma", "7566579522", "ksdfnsdfkjsdn", "08/08/1999", "1124", "psharma@gmail.com", "absent"));
+        attendanceList.add(new Attendance("madhur sir", "8997644533", "ksdfnsdfkjsdn", "08/08/1999", "1111", "madhurandroid@gmail.com", "absent"));
+        attendanceList.add(new Attendance("shubhi gupta", "9826821679", "ksdfnsdfkjsdn", "08/08/1999", "8778", "shubhigupta@gmail.com", "absent"));
+        attendanceList.add(new Attendance("shivani mam", "9288356233", "ksdfnsdfkjsdn", "08/08/1999", "1284", "hrtechpanda@gmail.com", "absent"));
 
         binding.attendanceRv.setLayoutManager(new LinearLayoutManager(this));
-        adapter=new AttendanceAdapter(AttendanceActivity.this,attendanceList);
+        adapter = new AttendanceAdapter(AttendanceActivity.this, attendanceList);
         binding.attendanceRv.setAdapter(adapter);
-        
+
         binding.searchBar.addTextChangedListener(new TextWatcher() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                filter(s.toString());}
+                filter(s.toString());
+            }
 
             @Override
-            public void afterTextChanged(Editable s) {}
+            public void afterTextChanged(Editable s) {
+            }
         });
-
-       
-    
 
         binding.allEmployeesBtn.setOnClickListener(v -> {
             binding.allEmployeesBtn.setBackgroundResource(R.drawable.bg__blue_attendance);
@@ -81,7 +82,7 @@ public class AttendanceActivity extends AppCompatActivity {
             binding.presentBtn.setTextColor(getResources().getColor(R.color.white));
             binding.absentBtn.setBackgroundResource(R.drawable.bg_back_btn);
             binding.absentBtn.setTextColor(getResources().getColor(R.color.black));
-
+            filterPresent("present");
         });
 
         binding.absentBtn.setOnClickListener(v -> {
@@ -91,7 +92,7 @@ public class AttendanceActivity extends AppCompatActivity {
             binding.presentBtn.setTextColor(getResources().getColor(R.color.black));
             binding.absentBtn.setBackgroundResource(R.drawable.bg__blue_attendance);
             binding.absentBtn.setTextColor(getResources().getColor(R.color.white));
-
+            filterAbsent("absent");
         });
         binding.btnBack.setOnClickListener(v -> {
             finish();
@@ -101,12 +102,36 @@ public class AttendanceActivity extends AppCompatActivity {
         });
 
     }
-    void filter(String text){
+
+    void filter(String text) {
         List<Attendance> filteredList = new ArrayList();
 
-        for(Attendance a: attendanceList){
-            if(a.getName().toLowerCase().contains(text.toLowerCase()))
-            {
+        for (Attendance a : attendanceList) {
+            if (a.getName().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(a);
+            }
+        }
+        //update recyclerview
+        adapter.filterList(filteredList);
+    }
+
+    void filterPresent(String text) {
+        List<Attendance> filteredList = new ArrayList();
+
+        for (Attendance a : attendanceList) {
+            if (a.getStatus().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(a);
+            }
+        }
+        //update recyclerview
+        adapter.filterList(filteredList);
+    }
+
+    void filterAbsent(String text) {
+        List<Attendance> filteredList = new ArrayList();
+
+        for (Attendance a : attendanceList) {
+            if (a.getStatus().toLowerCase().contains(text.toLowerCase())) {
                 filteredList.add(a);
             }
         }
