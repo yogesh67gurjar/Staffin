@@ -41,6 +41,11 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
         this.employeeNumber = employeeNumber;
     }
 
+    public void filterList(List<String> filterlist) {
+        employeeNumber = filterlist;
+        notifyDataSetChanged();
+    }
+
     @NonNull
     @Override
     public AttendanceAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
