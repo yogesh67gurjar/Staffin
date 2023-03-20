@@ -3,6 +3,7 @@ package com.example.staffin.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
 import android.net.Uri;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -82,16 +83,26 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         holder.spinner.setAdapter(aa);
 
+
         holder.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+                holder.spinnerConstraint.setBackgroundResource(R.drawable.bg_back_btn);
+                holder.spinner.setBackgroundResource(R.color.white);
                 issueSelected = shift[position];
                 if (issueSelected.equalsIgnoreCase("Present")) {
-                    holder.spinnerConstraint.setBackgroundColor(context.getResources().getColor(R.color.txtGreen));
+//                    holder.spinnerConstraint.setBackgroundColor(context.getResources().getColor(R.color.txtGreen));
+                    holder.spinnerConstraint.setBackgroundResource(R.drawable.bg_green);
                     holder.spinner.setBackgroundResource(R.color.txtGreen);
+                    ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
+//                    ((TextView) parent.getChildAt(0)).setTextSize(5);
                 } else if (issueSelected.equalsIgnoreCase("Absent")) {
-                    holder.spinnerConstraint.setBackgroundColor(context.getResources().getColor(R.color.txtRed));
+//                    holder.spinnerConstraint.setBackgroundColor(context.getResources().getColor(R.color.txtRed));
+                    holder.spinnerConstraint.setBackgroundResource(R.drawable.bg_red);
                     holder.spinner.setBackgroundResource(R.color.txtRed);
+                    ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
+
                 }
             }
 
