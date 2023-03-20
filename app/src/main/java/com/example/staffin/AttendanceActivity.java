@@ -15,7 +15,8 @@ import java.util.List;
 
 public class AttendanceActivity extends AppCompatActivity {
     ActivityAttendanceBinding binding;
-    List<String> employeeNumber;
+    List<String> EmpPhoneNo;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,17 +24,17 @@ public class AttendanceActivity extends AppCompatActivity {
         binding = ActivityAttendanceBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        employeeNumber = new ArrayList<>();
-        employeeNumber.add("+91 7000563592");
-        employeeNumber.add("+91 7000563593");
-        employeeNumber.add("+91 7000563594");
-        employeeNumber.add("+91 7000563595");
-        employeeNumber.add("+91 7000563596");
-        employeeNumber.add("+91 7000563597");
-        employeeNumber.add("+91 7000563598");
-        employeeNumber.add("+91 7000563599");
-        employeeNumber.add("+91 7000563590");
-        employeeNumber.add("+91 7000563100");
+        EmpPhoneNo = new ArrayList<>();
+        EmpPhoneNo.add("+91 7000563592");
+        EmpPhoneNo.add("+91 7000563593");
+        EmpPhoneNo.add("+91 7000563594");
+        EmpPhoneNo.add("+91 7000563595");
+        EmpPhoneNo.add("+91 7000563596");
+        EmpPhoneNo.add("+91 7000563597");
+        EmpPhoneNo.add("+91 7000563598");
+        EmpPhoneNo.add("+91 7000563599");
+        EmpPhoneNo.add("+91 7000563590");
+        EmpPhoneNo.add("+91 7000563100");
 
 
 
@@ -44,7 +45,7 @@ public class AttendanceActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), CalendarSettingActivity.class));
         });
         binding.attendanceRv.setLayoutManager(new LinearLayoutManager(this));
-        binding.attendanceRv.setAdapter(new AttendanceAdapter(AttendanceActivity.this,employeeNumber));
+        binding.attendanceRv.setAdapter(new AttendanceAdapter(AttendanceActivity.this,EmpPhoneNo));
 
         binding.txtAttendance.setOnClickListener(v -> {
             binding.txtAttendance.setBackgroundResource(R.drawable.bg__blue_attendance);

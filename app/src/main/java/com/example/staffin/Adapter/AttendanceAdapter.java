@@ -10,7 +10,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,29 +19,26 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.staffin.InsideAttendanceActivity;
-import com.example.staffin.MainActivity;
 import com.example.staffin.R;
 
 import java.util.List;
 
-import de.hdodenhof.circleimageview.BuildConfig;
-
 public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.MyViewHolder> {
     Context context;
-    List<String> employeeNumber;
+    List<String> empPhoneNo;
     String issueSelected;
 
     String[] shift = {"Attendance",
             "Present",
             "Absent"};
 
-    public AttendanceAdapter(Context context, List<String> employeeNumber) {
+    public AttendanceAdapter(Context context, List<String> empPhoneNo) {
         this.context = context;
-        this.employeeNumber = employeeNumber;
+        this.empPhoneNo = empPhoneNo;
     }
 
     public void filterList(List<String> filterlist) {
-        employeeNumber = filterlist;
+        empPhoneNo = filterlist;
         notifyDataSetChanged();
     }
 
@@ -56,7 +52,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
 
     @Override
     public void onBindViewHolder(@NonNull AttendanceAdapter.MyViewHolder holder, int position) {
-        String singleUnit = employeeNumber.get(position);
+        String singleUnit = empPhoneNo.get(position);
 //        holder.txtMail.setText(singleUnit);
 
         holder.btnWhatsApp.setOnClickListener(v -> {
@@ -108,7 +104,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
 
     @Override
     public int getItemCount() {
-        return employeeNumber.size();
+        return empPhoneNo.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
