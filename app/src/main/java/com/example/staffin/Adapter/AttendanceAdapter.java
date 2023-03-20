@@ -20,25 +20,24 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.staffin.InsideAttendanceActivity;
 import com.example.staffin.R;
+import com.example.staffin.Response.Attendance;
 
 import java.util.List;
 
 public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.MyViewHolder> {
     Context context;
-    List<String> empPhoneNo;
+    List<Attendance> attendanceList;
     String issueSelected;
+    String[] shift = {"Attendance", "Present", "Absent"};
 
-    String[] shift = {"Attendance",
-            "Present",
-            "Absent"};
+    public AttendanceAdapter(Context context,List<Attendance> attendanceList) {
 
-    public AttendanceAdapter(Context context, List<String> empPhoneNo) {
         this.context = context;
-        this.empPhoneNo = empPhoneNo;
+        this.attendanceList=attendanceList;
     }
 
-    public void filterList(List<String> filterlist) {
-        empPhoneNo = filterlist;
+    public void filterList(List<Attendance> filterlist) {
+        attendanceList = filterlist;
         notifyDataSetChanged();
     }
 
@@ -52,11 +51,12 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
 
     @Override
     public void onBindViewHolder(@NonNull AttendanceAdapter.MyViewHolder holder, int position) {
-        String singleUnit = empPhoneNo.get(position);
-//        holder.txtMail.setText(singleUnit);
-
+        Attendance singleUnit = attendanceList.get(position);
+        holder.txtName.setText(singleUnit.getName());
+        holder.txtMail.setText(singleUnit.getEmail());
+        holder.empIdTv.setText("Emp. ID - "+ singleUnit.getEmpId());
         holder.btnWhatsApp.setOnClickListener(v -> {
-            String phone = singleUnit;
+            String phone = singleUnit.getPhone();
             if (!iswhatsAppInstall()) {
                 Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://api.whatsapp.com/send?phone=" + phone));
                 context.startActivity(i);
@@ -68,7 +68,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
         holder.btnCall.setOnClickListener(v -> {
 //            Toast.makeText(context, "Open Call", Toast.LENGTH_SHORT).show();
             Intent intent = new Intent(Intent.ACTION_DIAL);
-            String phoneCall = singleUnit;
+            String phoneCall = singleUnit.getPhone();
             intent.setData(Uri.parse("tel:" + phoneCall));
             context.startActivity(intent);
         });
@@ -104,18 +104,20 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
 
     @Override
     public int getItemCount() {
-        return empPhoneNo.size();
+        return attendanceList.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
 
         ConstraintLayout MainCard, spinnerConstraint;
         ImageButton btnWhatsApp, btnCall;
-        TextView txtMail;
+        TextView txtMail,txtName,empIdTv;
         Spinner spinner;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            empIdTv=itemView.findViewById(R.id.empIdTv);
+            txtName=itemView.findViewById(R.id.txtName);
             MainCard = itemView.findViewById(R.id.MainCard);
             btnWhatsApp = itemView.findViewById(R.id.btnWhatsApp);
             btnCall = itemView.findViewById(R.id.btnCall);

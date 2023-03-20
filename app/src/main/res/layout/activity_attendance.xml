@@ -41,8 +41,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView" />
 
-    <TextView
-        android:id="@+id/txtSearch"
+    <androidx.appcompat.widget.AppCompatEditText
+        android:id="@+id/searchBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
@@ -56,7 +56,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-
     <HorizontalScrollView
         android:id="@+id/firstHSV"
         android:layout_width="match_parent"
@@ -65,7 +64,7 @@
         android:scrollbars="none"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtSearch">
+        app:layout_constraintTop_toBottomOf="@+id/searchBar">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -74,7 +73,7 @@
             android:weightSum="3">
 
             <TextView
-                android:id="@+id/txtAttendance"
+                android:id="@+id/allEmployeesBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -84,10 +83,10 @@
                 android:background="@drawable/bg_back_btn"
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="10dp"
-                android:text="Attendance" />
+                android:text="All Employees" />
 
             <TextView
-                android:id="@+id/txtViewAttendance"
+                android:id="@+id/presentBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
@@ -98,10 +97,10 @@
                 android:background="@drawable/bg_back_btn"
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="10dp"
-                android:text="View attendance" />
+                android:text="Present" />
 
             <TextView
-                android:id="@+id/txtLeave"
+                android:id="@+id/absentBtn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
@@ -112,7 +111,7 @@
                 android:background="@drawable/bg_back_btn"
                 android:paddingHorizontal="15dp"
                 android:paddingVertical="10dp"
-                android:text="Leave types" />
+                android:text="Absent" />
         </LinearLayout>
     </HorizontalScrollView>
 
