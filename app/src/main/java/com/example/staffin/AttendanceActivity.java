@@ -36,15 +36,15 @@ public class AttendanceActivity extends AppCompatActivity {
         binding.absentBtn.setTextColor(getResources().getColor(R.color.black));
 
         attendanceList = new ArrayList<>();
-        attendanceList.add(new Attendance("yogesh gurjar", "7999717423", "ksdfnsdfkjsdn", "08/08/1999", "1234", "yogesh67gurjar@gmail.com", "present"));
-        attendanceList.add(new Attendance("sakshi naidu", "6262688978", "ksdfnsdfkjsdn", "10/09/1999", "1235", "sakshinaidu@gmail.com", "present"));
-        attendanceList.add(new Attendance("ashok sir", "8998787678", "ksdfnsdfkjsdn", "08/08/1979", "1444", "agehlot806@gmail.com", "absent"));
-        attendanceList.add(new Attendance("shubham sharma", "9981688969", "ksdfnsdfkjsdn", "08/08/1999", "2244", "shubhamsharma19994@gmail.com", "absent"));
-        attendanceList.add(new Attendance("shubham raikwar", "8319987270", "ksdfnsdfkjsdn", "08/08/1999", "1221", "shubhamraikwar@gmail.com", "absent"));
-        attendanceList.add(new Attendance("pragati sharma", "7566579522", "ksdfnsdfkjsdn", "08/08/1999", "1124", "psharma@gmail.com", "absent"));
-        attendanceList.add(new Attendance("madhur sir", "8997644533", "ksdfnsdfkjsdn", "08/08/1999", "1111", "madhurandroid@gmail.com", "absent"));
-        attendanceList.add(new Attendance("shubhi gupta", "9826821679", "ksdfnsdfkjsdn", "08/08/1999", "8778", "shubhigupta@gmail.com", "absent"));
-        attendanceList.add(new Attendance("shivani mam", "9288356233", "ksdfnsdfkjsdn", "08/08/1999", "1284", "hrtechpanda@gmail.com", "absent"));
+        attendanceList.add(new Attendance("yogesh gurjar", "+917999717423", "ksdfnsdfkjsdn", "08/08/1999", "1234", "yogesh67gurjar@gmail.com", "present"));
+        attendanceList.add(new Attendance("sakshi naidu", "+916262688978", "ksdfnsdfkjsdn", "10/09/1999", "1235", "sakshinaidu@gmail.com", "present"));
+        attendanceList.add(new Attendance("ashok sir", "+918998787678", "ksdfnsdfkjsdn", "08/08/1979", "1444", "agehlot806@gmail.com", "absent"));
+        attendanceList.add(new Attendance("shubham sharma", "+919981688969", "ksdfnsdfkjsdn", "08/08/1999", "2244", "shubhamsharma19994@gmail.com", "absent"));
+        attendanceList.add(new Attendance("shubham raikwar", "+918319987270", "ksdfnsdfkjsdn", "08/08/1999", "1221", "shubhamraikwar@gmail.com", "absent"));
+        attendanceList.add(new Attendance("pragati sharma", "+917566579522", "ksdfnsdfkjsdn", "08/08/1999", "1124", "psharma@gmail.com", "absent"));
+        attendanceList.add(new Attendance("madhur sir", "+918997644533", "ksdfnsdfkjsdn", "08/08/1999", "1111", "madhurandroid@gmail.com", "absent"));
+        attendanceList.add(new Attendance("shubhi gupta", "+919826821679", "ksdfnsdfkjsdn", "08/08/1999", "8778", "shubhigupta@gmail.com", "absent"));
+        attendanceList.add(new Attendance("shivani mam", "+919288356233", "ksdfnsdfkjsdn", "08/08/1999", "1284", "hrtechpanda@gmail.com", "absent"));
 
         binding.attendanceRv.setLayoutManager(new LinearLayoutManager(this));
         adapter = new AttendanceAdapter(AttendanceActivity.this, attendanceList);

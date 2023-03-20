@@ -57,6 +57,8 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
         holder.txtName.setText(singleUnit.getName());
         holder.txtMail.setText(singleUnit.getEmail());
         holder.empIdTv.setText("Emp. ID - " + singleUnit.getEmpId());
+        holder.dobTv.setText("Date Of Birth - " + singleUnit.getDob());
+
         Log.d("STATUS",singleUnit.getStatus());
 //        if (singleUnit.getStatus().equalsIgnoreCase("present")) {
 //            holder.spinnerConstraint.setBackgroundResource(R.drawable.bg_green);
@@ -88,6 +90,11 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
         });
         holder.MainCard.setOnClickListener(v -> {
             Intent intent = new Intent(context, InsideAttendanceActivity.class);
+            intent.putExtra("name",singleUnit.getName());
+            intent.putExtra("status",singleUnit.getStatus());
+            intent.putExtra("empId",singleUnit.getEmpId());
+            intent.putExtra("dpImg",singleUnit.getDpImg());
+
             context.startActivity(intent);
         });
 
@@ -135,19 +142,20 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
 
         ConstraintLayout MainCard, spinnerConstraint;
         ImageButton btnWhatsApp, btnCall;
-        TextView txtMail, txtName, empIdTv;
+        TextView txtMail, txtName, empIdTv,dobTv;
         Spinner spinner;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             empIdTv = itemView.findViewById(R.id.empIdTv);
-            txtName = itemView.findViewById(R.id.txtName);
+            txtName = itemView.findViewById(R.id.nameTv);
             MainCard = itemView.findViewById(R.id.MainCard);
             btnWhatsApp = itemView.findViewById(R.id.btnWhatsApp);
             btnCall = itemView.findViewById(R.id.btnCall);
-            txtMail = itemView.findViewById(R.id.txtMail);
+            txtMail = itemView.findViewById(R.id.empId);
             spinner = itemView.findViewById(R.id.spinner);
             spinnerConstraint = itemView.findViewById(R.id.spinnerConstraint);
+            dobTv=itemView.findViewById(R.id.dobTv);
         }
     }
 

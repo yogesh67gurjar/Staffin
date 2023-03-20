@@ -2,7 +2,9 @@ package com.example.staffin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -20,6 +22,8 @@ import retrofit2.Response;
 public class LoginActivity extends AppCompatActivity {
     ActivityLoginBinding binding;
     ApiInterface apiInterface;
+    SharedPreferences sharedPreferences;
+    SharedPreferences.Editor editor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +31,14 @@ public class LoginActivity extends AppCompatActivity {
         binding = ActivityLoginBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
+
+        sharedPreferences = getSharedPreferences("staffin", Context.MODE_PRIVATE);
+        editor = sharedPreferences.edit();
+
+        if (sharedPreferences.getAll().containsKey("mobile")) {
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            finish();
+        }
 
         binding.loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -72,6 +84,28 @@ public class LoginActivity extends AppCompatActivity {
 //                          //  Toast.makeText(LoginActivity.this, "Enter Correct Details ", Toast.LENGTH_SHORT).show();
 //                        }
 //                    });
+                    Call<LoginResponse> call = apiInterface.postLoginResponse(number, password);
+                    call.enqueue(new Callback<LoginResponse>() {
+                        @Override
+                        public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                            if (response.isSuccessful()) {
+                                Toast.makeText(LoginActivity.this, "Welcome...", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                editor.putString("mobile", number);
+                                editor.apply();
+                                finish();
+                            } else {
+                                Toast.makeText(LoginActivity.this, "Response Error", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<LoginResponse> call, Throwable t) {
+                            // Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                            Log.d("Message karo", t.getMessage());
+                            //  Toast.makeText(LoginActivity.this, "Enter Correct Details ", Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
                 }
             }
