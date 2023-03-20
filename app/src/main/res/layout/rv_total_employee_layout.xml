@@ -17,7 +17,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
-            android:id="@+id/txtName"
+            android:id="@+id/nameTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -30,15 +30,15 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/txtMail"
+            android:id="@+id/empId"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="techcameron123@"
             android:textColor="#02141F"
             android:textSize="16sp"
             android:textStyle="normal"
-            app:layout_constraintStart_toStartOf="@+id/txtName"
-            app:layout_constraintTop_toBottomOf="@+id/txtName" />
+            app:layout_constraintStart_toStartOf="@+id/nameTv"
+            app:layout_constraintTop_toBottomOf="@+id/nameTv" />
 
         <ImageButton
             android:id="@+id/btnEdit"
@@ -67,7 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintTop_toBottomOf="@+id/txtMail">
+            app:layout_constraintTop_toBottomOf="@+id/empId">
 
             <LinearLayout
                 android:layout_width="match_parent"

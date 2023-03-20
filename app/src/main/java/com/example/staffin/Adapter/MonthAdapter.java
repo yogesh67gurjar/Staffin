@@ -11,13 +11,23 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.staffin.EventActivity;
 import com.example.staffin.R;
+import com.example.staffin.Response.Attendance;
+import com.example.staffin.Response.MyMonth;
+
+import java.util.List;
 
 public class MonthAdapter extends RecyclerView.Adapter<MonthAdapter.MyViewHolder> {
     Context context;
-    EventAdapter eventAdapter;
+    List<MyMonth> my;
 
-    public MonthAdapter(Context context) {
+    public MonthAdapter(List<MyMonth>my,Context context) {
         this.context = context;
+        this.my=my;
+    }
+
+    public void filterList(List<MyMonth> filterlist) {
+        my = filterlist;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -40,7 +50,7 @@ public class MonthAdapter extends RecyclerView.Adapter<MonthAdapter.MyViewHolder
 
     @Override
     public int getItemCount() {
-        return 10;
+        return my.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
