@@ -61,6 +61,29 @@ public class LoginActivity extends AppCompatActivity {
                     String password = binding.passwordEt.getText().toString();
 
 
+                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+
+
+                    Call<LoginResponse> call = apiInterface.postLoginResponse(number, password);
+//                    call.enqueue(new Callback<LoginResponse>() {
+//                        @Override
+//                        public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+//                            if (response.isSuccessful()) {
+//                                Toast.makeText(LoginActivity.this, "Welcome...", Toast.LENGTH_SHORT).show();
+//                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
+//                                finish();
+//                            } else {
+//                                Toast.makeText(LoginActivity.this, "Response Error", Toast.LENGTH_SHORT).show();
+//                            }
+//                        }
+//
+//                        @Override
+//                        public void onFailure(Call<LoginResponse> call, Throwable t) {
+//                           // Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+//                            Log.d("Message karo", t.getMessage());
+//                          //  Toast.makeText(LoginActivity.this, "Enter Correct Details ", Toast.LENGTH_SHORT).show();
+//                        }
+//                    });
                     Call<LoginResponse> call = apiInterface.postLoginResponse(number, password);
                     call.enqueue(new Callback<LoginResponse>() {
                         @Override

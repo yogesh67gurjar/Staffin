@@ -27,9 +27,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), EventActivity.class));
         });
         binding.card4.setOnClickListener(v -> {
-            Toast.makeText(this, "PayRoll Activity", Toast.LENGTH_SHORT).show();
-
-//            startActivity(new Intent(getApplicationContext(), PayrollActivity.class));
+            startActivity(new Intent(getApplicationContext(), PayrollActivity.class));
         });
         binding.card5.setOnClickListener(v -> {
             Toast.makeText(this, "Calendar Activity", Toast.LENGTH_SHORT).show();
