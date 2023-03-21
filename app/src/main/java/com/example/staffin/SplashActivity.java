@@ -27,6 +27,7 @@ public class SplashActivity extends AppCompatActivity {
         editor = sharedPreferences.edit();
 
 
+
         new CountDownTimer(3000, 1000) {
 
             public void onTick(long millisUntilFinished) {
