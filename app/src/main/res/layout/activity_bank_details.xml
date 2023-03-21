@@ -102,7 +102,7 @@
 
 
     <TextView
-        android:id="@+id/tv3"
+        android:id="@+id/forgotTv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -127,7 +127,7 @@
         android:textColorHint="#80282729"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv3" />
+        app:layout_constraintTop_toBottomOf="@id/forgotTv" />
 
 
     <TextView

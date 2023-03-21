@@ -10,9 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.viewpager.widget.PagerAdapter;
-import androidx.viewpager.widget.ViewPager;
 
 import com.example.staffin.R;
 
@@ -48,7 +46,7 @@ public class OnBoardingAdapter extends PagerAdapter {
         ImageView sliderImage = (ImageView) view.findViewById(R.id.sliderImage);
         TextView sliderTitle = (TextView) view.findViewById(R.id.tv1);
         TextView sliderDesc = (TextView) view.findViewById(R.id.tv2);
-        TextView sliderDesc2 = (TextView) view.findViewById(R.id.tv3);
+        TextView sliderDesc2 = (TextView) view.findViewById(R.id.forgotTv);
 
         sliderImage.setImageResource(sliderAllImages[position]);
         sliderTitle.setText(this.sliderAllTitles[position]);
