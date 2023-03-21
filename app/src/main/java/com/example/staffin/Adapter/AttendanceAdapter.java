@@ -60,16 +60,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
         holder.dobTv.setText("Date Of Birth - " + singleUnit.getDob());
 
         Log.d("STATUS",singleUnit.getStatus());
-//        if (singleUnit.getStatus().equalsIgnoreCase("present")) {
-//            holder.spinnerConstraint.setBackgroundResource(R.drawable.bg_green);
-//            holder.spinner.setBackgroundResource(R.color.txtGreen);
-//            holder.spinner.setSelection(1);
-//        } else if (singleUnit.getStatus().equalsIgnoreCase("absent")) {
-//            holder.spinnerConstraint.setBackgroundResource(R.drawable.bg_red);
-//            holder.spinner.setBackgroundResource(R.color.txtRed);
-//            holder.spinner.setSelection(2);
-////            ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
-//        }
+
 
         holder.btnWhatsApp.setOnClickListener(v -> {
             String phone = singleUnit.getPhone();
@@ -127,9 +118,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent) {}
         });
     }
 
