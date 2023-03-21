@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.View;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -45,6 +46,12 @@ public class TotalEmployeeActivity extends AppCompatActivity {
         binding.totalEmployeeRv.setLayoutManager(new LinearLayoutManager(this));
         binding.totalEmployeeRv.setAdapter(adapter);
 
+        binding.imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),CalendarSettingActivity.class));
+            }
+        });
 
         binding.imgBtnAddEmployee.setOnClickListener(v -> {
             Intent addIntent=new Intent(TotalEmployeeActivity.this,AddEmployeeActivity.class);

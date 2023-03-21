@@ -60,11 +60,7 @@ public class LoginActivity extends AppCompatActivity {
                     String number = binding.phoneEt.getText().toString();
                     String password = binding.passwordEt.getText().toString();
 
-
-                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
-
-
-                    Call<LoginResponse> call = apiInterface.postLoginResponse(number, password);
+//                    Call<LoginResponse> call = apiInterface.postLoginResponse(number, password);
 //                    call.enqueue(new Callback<LoginResponse>() {
 //                        @Override
 //                        public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
@@ -85,7 +81,7 @@ public class LoginActivity extends AppCompatActivity {
 //                        }
 //                    });
                     Call<LoginResponse> call = apiInterface.postLoginResponse(number, password);
-                    call.enqueue(new Callback<LoginResponse>() {
+                    call.enqueue(new Callback<>() {
                         @Override
                         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                             if (response.isSuccessful()) {
@@ -95,7 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                                 editor.apply();
                                 finish();
                             } else {
-                                Toast.makeText(LoginActivity.this, "Response Error", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginActivity.this, "Please Enter Correct Details", Toast.LENGTH_SHORT).show();
                             }
                         }
 
@@ -103,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void onFailure(Call<LoginResponse> call, Throwable t) {
                             // Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                             Log.d("Message karo", t.getMessage());
-                            //  Toast.makeText(LoginActivity.this, "Enter Correct Details ", Toast.LENGTH_SHORT).show();
+                              Toast.makeText(LoginActivity.this, "Enter Correct Details", Toast.LENGTH_SHORT).show();
                         }
                     });
 
