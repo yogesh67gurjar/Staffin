@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/orange_bg"
-    tools:context=".LoginActivity">
-
+    tools:context=".ForgotActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainCl"
@@ -25,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="72dp"
-            android:text="@string/login_tv1"
+            android:text="@string/Forgot_tv1"
             android:textColor="@color/black"
             android:textSize="17sp"
             android:textStyle="bold"
@@ -43,78 +42,45 @@
             app:layout_constraintTop_toBottomOf="@id/tv1" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/phoneTf"
+            android:id="@+id/numberTf"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="20dp"
             android:hint="Mobile Number"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv2">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/phoneEt"
+                android:id="@+id/numberEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="phone"
                 android:maxLength="13" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/passwordTf"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/otpBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="20dp"
-            android:hint="Password"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/phoneTf"
-            app:passwordToggleDrawable="@drawable/login_password_hide_show"
-            app:passwordToggleEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/passwordEt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/forgotTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="15dp"
-            android:text="@string/login_tv3"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/passwordTf" />
-
-        <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/loginBtn"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="30dp"
             android:background="@drawable/login_btn_bg"
             android:paddingVertical="18dp"
-            android:text="Login"
+            android:text="Get OTP"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="17sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/forgotTv" />
+            app:layout_constraintTop_toBottomOf="@id/numberTf" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cvLogo"
         android:layout_width="80dp"
@@ -142,4 +108,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

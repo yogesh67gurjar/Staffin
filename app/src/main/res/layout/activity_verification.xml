@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/orange_bg"
-    tools:context=".LoginActivity">
-
+    tools:context=".VerificationActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainCl"
@@ -25,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="72dp"
-            android:text="@string/login_tv1"
+            android:text="Verify Your OTP"
             android:textColor="@color/black"
             android:textSize="17sp"
             android:textStyle="bold"
@@ -42,79 +41,98 @@
             android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@id/tv1" />
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/phoneTf"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="15dp"
+
+<!--        android:autofillHints="smsOTPCode"-->
+<!--        android:importantForAutofill="yes"-->
+
+        <EditText
+            android:id="@+id/otp1"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
             android:layout_marginTop="30dp"
-            android:hint="Mobile Number"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv2">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/phoneEt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:maxLength="13" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/passwordTf"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="15dp"
-            android:layout_marginTop="20dp"
-            android:hint="Password"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/phoneTf"
-            app:passwordToggleDrawable="@drawable/login_password_hide_show"
-            app:passwordToggleEnabled="true">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/passwordEt"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textPassword" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <TextView
-            android:id="@+id/forgotTv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:layout_marginEnd="15dp"
-            android:text="@string/login_tv3"
+            android:background="@drawable/bg_back_btn"
+            android:inputType="phone"
+            android:maxLength="1"
+            android:textAlignment="center"
             android:textColor="@color/black"
-            android:textStyle="bold"
+            android:textSize="30sp"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toStartOf="@+id/otp2"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv2" />
+
+        <EditText
+            android:id="@+id/otp2"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/bg_back_btn"
+            android:inputType="phone"
+            android:maxLength="1"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toStartOf="@+id/otp3"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/otp1"
+            app:layout_constraintTop_toBottomOf="@+id/tv2" />
+
+        <EditText
+            android:id="@+id/otp3"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/bg_back_btn"
+            android:inputType="phone"
+            android:maxLength="1"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="normal"
+            app:layout_constraintEnd_toStartOf="@+id/otp4"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/otp2"
+            app:layout_constraintTop_toBottomOf="@+id/tv2" />
+
+        <EditText
+            android:id="@+id/otp4"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/bg_back_btn"
+            android:inputType="phone"
+            android:maxLength="1"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="30sp"
+            android:textStyle="normal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/passwordTf" />
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/otp3"
+            app:layout_constraintTop_toBottomOf="@+id/tv2" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/loginBtn"
+
+            android:id="@+id/confirmBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="30dp"
             android:background="@drawable/login_btn_bg"
             android:paddingVertical="18dp"
-            android:text="Login"
+            android:text="Confirm"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="17sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/forgotTv" />
+            app:layout_constraintTop_toBottomOf="@id/otp1" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
     <androidx.cardview.widget.CardView
         android:id="@+id/cvLogo"
         android:layout_width="80dp"

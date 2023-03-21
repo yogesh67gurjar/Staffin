@@ -26,15 +26,16 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:background="@drawable/gradient_edit_employee"
+        android:background="@drawable/bg_green_corner"
         android:paddingHorizontal="20dp"
         android:paddingVertical="13dp"
         android:text="Present"
-        android:textColor="@color/white"
+        android:textColor="@color/txtGreen"
         app:layout_constraintStart_toStartOf="@+id/txt1"
         app:layout_constraintTop_toBottomOf="@+id/txt1" />
 
     <TextView
+        android:id="@+id/txtDoublePresent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -62,14 +63,15 @@
         app:layout_constraintTop_toBottomOf="@+id/txtPresent" />
 
     <TextView
+        android:id="@+id/txtHalfDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
-        android:background="@drawable/bg_red_corner"
+        android:background="@drawable/bg_orange_corner"
         android:paddingHorizontal="20dp"
         android:paddingVertical="13dp"
         android:text="Half Day"
-        android:textColor="@color/txtRed"
+        android:textColor="@color/txtOrange"
         app:layout_constraintBottom_toBottomOf="@+id/txtAbsent"
         app:layout_constraintStart_toEndOf="@+id/txtAbsent"
         app:layout_constraintTop_toTopOf="@+id/txtAbsent" />
@@ -132,6 +134,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txt3" />
 
     <TextView
+        android:id="@+id/txtSickLeave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
@@ -175,10 +178,10 @@
         android:layout_height="100dp"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/bg_back_btn"
         android:gravity="top"
         android:hint="type..."
-        android:layout_marginBottom="10dp"
         android:paddingLeft="10dp"
         android:textAlignment="gravity"
         app:layout_constraintBottom_toBottomOf="parent"

@@ -40,6 +40,12 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         }
 
+        binding.forgotTv.setOnClickListener(v -> {
+
+            startActivity(new Intent(getApplicationContext(), ForgotActivity.class));
+            finish();
+
+        });
         binding.loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
                         public void onFailure(Call<LoginResponse> call, Throwable t) {
                             // Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                             Log.d("Message karo", t.getMessage());
-                              Toast.makeText(LoginActivity.this, "Enter Correct Details", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "Enter Correct Details", Toast.LENGTH_SHORT).show();
                         }
                     });
 

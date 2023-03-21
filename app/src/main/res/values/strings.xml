@@ -4,6 +4,12 @@
     <string name="login_tv1">Login with Mobile Number</string>
     <string name="login_tv2">Lorem Ipsum is simply dummy text of the printing and .</string>
     <string name="login_tv3">Forget Password ?</string>
+
+    <string name="SignUp_tv1">Sign up with  Mobile Number </string>
+
+    <string name="Forgot_tv1">Forgot Password with  Mobile Number </string>
+
+
     <string name="main_tv1">Total Employees</string>
     <string name="main_tv2">Employee Attendance</string>
     <string name="main_tv3">Events</string>
