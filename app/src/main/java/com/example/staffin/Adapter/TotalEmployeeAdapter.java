@@ -80,12 +80,12 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
         AppCompatButton noBtn = adDialog.findViewById(R.id.noBtn);
 
         yesBtn.setOnClickListener(v -> {
-//            Toast.makeText(context, "Employee Removed Successfully", Toast.LENGTH_SHORT).show();
-            Toast toast = Toast.makeText(context.getApplicationContext(), "Employee Removed Successfully", Toast.LENGTH_SHORT);
-            View view1 = toast.getView();
-            view1.setBackgroundResource(R.drawable.bg_red);
-            view1.setPadding(70, 30, 70, 30);
-            toast.show();
+            Toast.makeText(context, "Employee Removed Successfully", Toast.LENGTH_SHORT).show();
+//            Toast toast = Toast.makeText(context.getApplicationContext(), "Employee Removed Successfully", Toast.LENGTH_SHORT);
+//            View view1 = toast.getView();
+//            view1.setBackgroundResource(R.drawable.bg_red);
+//            view1.setPadding(70, 30, 70, 30);
+//            toast.show();
             adDialog.dismiss();
         });
         noBtn.setOnClickListener(v -> adDialog.dismiss());

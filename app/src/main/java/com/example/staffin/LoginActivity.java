@@ -40,6 +40,14 @@ public class LoginActivity extends AppCompatActivity {
             finish();
         }
 
+        binding.alreadyUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),SignUpActivity.class));
+                finish();
+            }
+        });
+
         binding.forgotTv.setOnClickListener(v -> {
 
             startActivity(new Intent(getApplicationContext(), ForgotActivity.class));
