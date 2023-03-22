@@ -13,21 +13,26 @@ import android.view.View;
 import android.widget.CalendarView;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.example.staffin.Fragment.PresentBottomSheetFragment;
 import com.example.staffin.databinding.ActivityInsideAttendanceBinding;
+import com.github.sundeepk.compactcalendarview.CompactCalendarView;
+import com.github.sundeepk.compactcalendarview.domain.Event;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 import java.util.TimeZone;
 
 public class InsideAttendanceActivity extends AppCompatActivity {
     ActivityInsideAttendanceBinding binding;
     String name, status, empId, dpImg;
 
-    private ArrayList<Date> dates;
-    private Date date = new Date();
-    Calendar cal = Calendar.getInstance();
+
+    private SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MMMM- yyyy", Locale.getDefault());
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +40,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         binding = ActivityInsideAttendanceBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        binding.compactcalendarView.setUseThreeLetterAbbreviation(true);
 
         final ProgressDialog progressDialog = new ProgressDialog(InsideAttendanceActivity.this);
         progressDialog.setMessage("Loading...");
@@ -74,34 +80,32 @@ public class InsideAttendanceActivity extends AppCompatActivity {
 //            }
 //        });
 
- binding.Calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-     @Override
-     public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-         Bundle bundle = new Bundle();
-
-         Log.d("DATE", String.valueOf(dayOfMonth) + month + year);
-         initializeCalendar(dayOfMonth,month,year);
-
-         PresentBottomSheetFragment presentBottomSheetFragment = new PresentBottomSheetFragment();
-         presentBottomSheetFragment.setArguments(bundle);
-         presentBottomSheetFragment.show(getSupportFragmentManager(), presentBottomSheetFragment.getTag());
-     }
- });
-//        binding.Calendar.setOnDayClickListener(new OnDayClickListener() {
+// binding.Calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
+//     @Override
+//     public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
+//         Bundle bundle = new Bundle();
+//
+//         Log.d("DATE", String.valueOf(dayOfMonth) + month + year);
+//         initializeCalendar(dayOfMonth,month,year);
+//
+//         PresentBottomSheetFragment presentBottomSheetFragment = new PresentBottomSheetFragment();
+//         presentBottomSheetFragment.setArguments(bundle);
+//         presentBottomSheetFragment.show(getSupportFragmentManager(), presentBottomSheetFragment.getTag());
+//     }
+// });
+//        binding.calendarView.setOnDayClickListener(new OnDayClickListener() {
 //            @Override
 //            public void onDayClick(@NonNull EventDay eventDay) {
 //                Bundle bundle = new Bundle();
-////                eventDay += 1;
-////                bundle.putString("Date", String.valueOf(dayOfMonth) + "-" + month + "-" + year);
 //                Log.d("DATE", eventDay.getCalendar().getTime().toString());
 //                Calendar cal = Calendar.getInstance();
 //                cal.setTime(eventDay.getCalendar().getTime());
 //                int year = cal.get(Calendar.YEAR);
 //                int month = cal.get(Calendar.MONTH);
 //                int day = cal.get(Calendar.DATE);
-//                month+=1;
+//                month += 1;
 //                Log.d("DATE", String.valueOf(day) + month + year);
-//                initializeCalendar(day,month,year);
+//                initializeCalendar(day, month, year);
 //
 //                PresentBottomSheetFragment presentBottomSheetFragment = new PresentBottomSheetFragment();
 //                presentBottomSheetFragment.setArguments(bundle);
@@ -116,27 +120,110 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         binding.imageButton.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), CalendarSettingActivity.class));
         });
+        initializeCalendar();
 
-        binding.indicator.setOnClickListener(new View.OnClickListener() {
+        progressDialog.dismiss();
+
+        binding.compactcalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
-            public void onClick(View v) {
+            public void onDayClick(Date dateClicked) {
+                List<Event> events = binding.compactcalendarView.getEvents(dateClicked);
 
-//                PresentBottomSheetFragment presentBottomSheetFragment = new PresentBottomSheetFragment();
-//                presentBottomSheetFragment.show(getSupportFragmentManager(), presentBottomSheetFragment.getTag());
+                Bundle bundle = new Bundle();
 
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(dateClicked);
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+                int day = cal.get(Calendar.DATE);
+                month += 1;
+                Log.d("DATE", String.valueOf(day) + month + year);
+                bundle.putString("Date", day + "-" + month + "-" + year);
+                PresentBottomSheetFragment presentBottomSheetFragment = new PresentBottomSheetFragment();
+                presentBottomSheetFragment.setArguments(bundle);
+                presentBottomSheetFragment.show(getSupportFragmentManager(), presentBottomSheetFragment.getTag());
+
+                Log.d("CLICKED", "Day was clicked: " + dateClicked + " with events " + events);
+            }
+
+            @Override
+            public void onMonthScroll(Date firstDayOfNewMonth) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(firstDayOfNewMonth);
+                int year = cal.get(Calendar.YEAR);
+                int month = cal.get(Calendar.MONTH);
+//                int day = cal.get(Calendar.DATE);
+                month += 1;
+                Log.d("CLICKED", "Month was scrolled to: " + month);
+                switch (month) {
+                    case 1:
+                        binding.monthTv.setText("January  " + year);
+                        break;
+                    case 2:
+                        binding.monthTv.setText("February  " + year);
+                        break;
+                    case 3:
+                        binding.monthTv.setText("March  " + year);
+                        break;
+                    case 4:
+                        binding.monthTv.setText("April  " + year);
+                        break;
+                    case 5:
+                        binding.monthTv.setText("May  " + year);
+                        break;
+                    case 6:
+                        binding.monthTv.setText("June  " + year);
+                        break;
+                    case 7:
+                        binding.monthTv.setText("July  " + year);
+                        break;
+                    case 8:
+                        binding.monthTv.setText("August  " + year);
+                        break;
+                    case 9:
+                        binding.monthTv.setText("September  " + year);
+                        break;
+                    case 10:
+                        binding.monthTv.setText("October  " + year);
+                        break;
+                    case 11:
+                        binding.monthTv.setText("November  " + year);
+                        break;
+                    case 12:
+                        binding.monthTv.setText("December  " + year);
+                        break;
+                }
             }
         });
-        progressDialog.dismiss();
     }
 
-    private void initializeCalendar(int day,int month,int year) {
-        Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR, year);
-        calendar.set(Calendar.MONTH, month);
-        calendar.set(Calendar.DAY_OF_MONTH, day);
-        long milliTime = calendar.getTimeInMillis();
+    private void initializeCalendar() {
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.set(Calendar.YEAR, 2023);
+        calendar1.set(Calendar.MONTH, 2);
+        calendar1.set(Calendar.DAY_OF_MONTH, 6);
+        long milliTime = calendar1.getTimeInMillis();
 
-        binding.Calendar.setDate (milliTime, true, true);
+        Event ev1 = new Event(Color.RED, milliTime, "Teachers' Professional Day");
+        binding.compactcalendarView.addEvent(ev1);
+
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.set(Calendar.YEAR, 2023);
+        calendar2.set(Calendar.MONTH, 2);
+        calendar2.set(Calendar.DAY_OF_MONTH, 7);
+        milliTime = calendar2.getTimeInMillis();
+
+        Event ev2 = new Event(Color.BLUE, milliTime, "Teachers' Professional Day");
+        binding.compactcalendarView.addEvent(ev2);
+
+        Calendar calendar3 = Calendar.getInstance();
+        calendar3.set(Calendar.YEAR, 2023);
+        calendar3.set(Calendar.MONTH, 2);
+        calendar3.set(Calendar.DAY_OF_MONTH, 8);
+        milliTime = calendar3.getTimeInMillis();
+
+        Event ev3 = new Event(Color.GREEN, milliTime, "Teachers' Professional Day");
+        binding.compactcalendarView.addEvent(ev3);
 
     }
 

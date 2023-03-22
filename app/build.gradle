@@ -32,8 +32,13 @@ android {
 }
 
 dependencies {
+    //Toasty
+//    implementation 'com.github.GrenderG:Toasty:1.5.0'
+
+    // calendarview
     implementation 'de.hdodenhof:circleimageview:3.1.0'
 
+    // system
     implementation 'androidx.appcompat:appcompat:1.6.1'
     implementation 'com.google.android.material:material:1.8.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
@@ -47,11 +52,7 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.5'
     implementation 'com.squareup.retrofit2:converter-scalars:2.9.0'
 
-    //Toasty
-//    implementation 'com.github.GrenderG:Toasty:1.5.0'
-    //Calendar
-//    implementation 'com.github.dorukkangal:material-calendar-view:1.5.3'
 //    implementation 'com.applandeo:material-calendar-view:1.9.0-rc03'
-
+    implementation 'com.github.sundeepk:compact-calendar-view:3.0.0'
 
 }

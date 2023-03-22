@@ -4,7 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 
 import com.example.staffin.Adapter.HolidayAdapter;
 import com.example.staffin.databinding.ActivityCalendarSettingBinding;
@@ -34,6 +37,7 @@ public class CalendarSettingActivity extends AppCompatActivity {
 
 
         });
+
 
         binding.holidayRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.holidayRecyclerView.setAdapter(new HolidayAdapter(CalendarSettingActivity.this));
