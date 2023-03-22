@@ -141,7 +141,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
             MainCard = itemView.findViewById(R.id.MainCard);
             btnWhatsApp = itemView.findViewById(R.id.btnWhatsApp);
             btnCall = itemView.findViewById(R.id.btnCall);
-            txtMail = itemView.findViewById(R.id.empId);
+            txtMail = itemView.findViewById(R.id.txtEmail);
             spinner = itemView.findViewById(R.id.spinner);
             spinnerConstraint = itemView.findViewById(R.id.spinnerConstraint);
             dobTv=itemView.findViewById(R.id.dobTv);

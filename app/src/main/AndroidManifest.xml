@@ -15,6 +15,27 @@
         android:theme="@style/Theme.Staffin"
         tools:targetApi="31">
         <activity
+            android:name=".PaySlipActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".SalaryInfoActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
+            android:name=".InsidePayrollActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".ConfirmPasswordActivity"
             android:exported="false">
             <meta-data

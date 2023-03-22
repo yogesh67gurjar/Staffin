@@ -2,12 +2,14 @@ package com.example.staffin.Interface;
 
 import com.example.staffin.Response.AddEmployeeResponse;
 import com.example.staffin.Response.LoginResponse;
+import com.example.staffin.Response.TotalEmployeeResponse;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -30,5 +32,10 @@ public interface ApiInterface {
                                               @Part("email") RequestBody email,
                                               @Part("local_address") RequestBody local_address,
                                               @Part("parmanent_address") RequestBody parmanent_address
-                                              );
+    );
+
+    @GET("get-all-employee-details")
+    Call<TotalEmployeeResponse> getTotalEmployee();
+
+
 }
