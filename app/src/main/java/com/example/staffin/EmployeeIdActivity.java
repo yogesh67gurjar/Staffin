@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
+import android.widget.Toast;
 
 import com.example.staffin.databinding.ActivityAddEmployeeBinding;
 import com.example.staffin.databinding.ActivityEmployeeIdBinding;
@@ -18,7 +20,7 @@ public class EmployeeIdActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         binding.btnBack.setOnClickListener(v -> {
-            finish();
+            onBackPressed();
         });
 
         binding.btnNext.setOnClickListener(v -> {
@@ -32,6 +34,20 @@ public class EmployeeIdActivity extends AppCompatActivity {
                 startActivity(new Intent(getApplicationContext(), CompanyDetailsActivity.class));
             }
         });
+    }
+
+    @Override
+    public boolean onKeyLongPress(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            super.onKeyDown(keyCode, event);
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public void onBackPressed() {
+        Toast.makeText(this, "Can't Go Back", Toast.LENGTH_SHORT).show();
 
     }
 }

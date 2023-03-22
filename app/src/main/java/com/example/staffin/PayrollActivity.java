@@ -26,6 +26,10 @@ public class PayrollActivity extends AppCompatActivity {
             finish();
         });
 
+        binding.nextBtn.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), InsidePayrollActivity.class));
+        });
+
         binding.btnCalendar.setOnClickListener(v -> {
 
             startActivity(new Intent(getApplicationContext(), CalendarSettingActivity.class));

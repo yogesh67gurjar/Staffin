@@ -1,13 +1,16 @@
 package com.example.staffin.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.staffin.PaySlipActivity;
 import com.example.staffin.R;
 
 public class PayRollAdapter extends RecyclerView.Adapter<PayRollAdapter.MyViewHolder> {
@@ -29,7 +32,9 @@ public class PayRollAdapter extends RecyclerView.Adapter<PayRollAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(@NonNull PayRollAdapter.MyViewHolder holder, int position) {
-
+        holder.btnEdit.setOnClickListener(v -> {
+            context.startActivity(new Intent(context.getApplicationContext(), PaySlipActivity.class));
+        });
     }
 
     @Override
@@ -38,8 +43,11 @@ public class PayRollAdapter extends RecyclerView.Adapter<PayRollAdapter.MyViewHo
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
+        ImageButton btnEdit;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            btnEdit = itemView.findViewById(R.id.btnEdit);
         }
     }
 }

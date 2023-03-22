@@ -18,22 +18,25 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.staffin.AddEmployeeActivity;
 import com.example.staffin.R;
+import com.example.staffin.Response.EmployeeResult;
 
 import java.util.List;
 
 public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdapter.MyViewHolder> {
     Context context;
-    List<String> employeesList;
+    //    List<String> employeesList;
+    List<EmployeeResult> employeeResultList;
     Dialog adDialog;
 
-    public TotalEmployeeAdapter(List<String> employeesList, Context context) {
+    public TotalEmployeeAdapter(Context context, List<EmployeeResult> employeeResultList) {
         this.context = context;
-        this.employeesList = employeesList;
+        this.employeeResultList = employeeResultList;
         adDialog = new Dialog(this.context);
     }
 
-    public void filterList(List<String> filterlist) {
-        employeesList = filterlist;
+    public void filterList(List<EmployeeResult> filterlist) {
+//        employeesList = filterlist;
+        employeeResultList = filterlist;
         notifyDataSetChanged();
     }
 
@@ -47,9 +50,16 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
 
     @Override
     public void onBindViewHolder(@NonNull TotalEmployeeAdapter.MyViewHolder holder, int position) {
-        String singleUnit = employeesList.get(position);
+        EmployeeResult singleUnit = employeeResultList.get(position);
 
-        holder.txtName.setText(singleUnit);
+        holder.txtName.setText(singleUnit.getFullName());
+        holder.txtEmail.setText(singleUnit.getEmail());
+        holder.txtDOB.setText("Date of birth -" + "Null");//singleUnit.getDateOfBirth());
+        holder.txtEmpId.setText("Emp.ID -" + singleUnit.getEmployeeID());
+        holder.txtDepartment.setText("Department - Null");
+        holder.txtDesignation.setText("Designation - Null");
+        holder.txtAtWork.setText("At work -" + singleUnit.getWorkDuration());
+
 
         holder.btnEdit.setOnClickListener(v -> {
             Intent editIntent = new Intent(context, AddEmployeeActivity.class);
@@ -68,7 +78,7 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
 
     @Override
     public int getItemCount() {
-        return employeesList.size();
+        return employeeResultList.size();
     }
 
     public void showPopup() {
@@ -94,13 +104,19 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageButton btnEdit, btnDelete;
-        TextView txtName;
+        TextView txtName, txtEmail, txtDOB, txtEmpId, txtDepartment, txtDesignation, txtAtWork;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             txtName = itemView.findViewById(R.id.nameTv);
             btnEdit = itemView.findViewById(R.id.btnEdit);
             btnDelete = itemView.findViewById(R.id.btnDelete);
+            txtEmail = itemView.findViewById(R.id.txtEmail);
+            txtDOB = itemView.findViewById(R.id.txtDOB);
+            txtEmpId = itemView.findViewById(R.id.txtEmpId);
+            txtDepartment = itemView.findViewById(R.id.txtDepartment);
+            txtDesignation = itemView.findViewById(R.id.txtDesignation);
+            txtAtWork = itemView.findViewById(R.id.txtAtWork);
         }
     }
 }
