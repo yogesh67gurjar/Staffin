@@ -265,7 +265,6 @@ public class AddEmployeeActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<AddEmployeeResponse> call, Throwable t) {
                 Toast.makeText(AddEmployeeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-
             }
         });
     }

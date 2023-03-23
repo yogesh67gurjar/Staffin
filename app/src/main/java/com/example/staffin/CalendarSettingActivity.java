@@ -34,14 +34,8 @@ public class CalendarSettingActivity extends AppCompatActivity {
             } else {
                 finish();
             }
-
-
         });
-
-
         binding.holidayRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.holidayRecyclerView.setAdapter(new HolidayAdapter(CalendarSettingActivity.this));
-
-
     }
 }
