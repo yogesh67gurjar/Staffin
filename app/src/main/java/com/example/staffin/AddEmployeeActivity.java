@@ -23,8 +23,11 @@ import android.view.View;
 import android.widget.Toast;
 
 
+import com.bumptech.glide.Glide;
 import com.example.staffin.Interface.ApiInterface;
 import com.example.staffin.Response.AddEmployeeResponse;
+import com.example.staffin.Response.EmployeeResult;
+import com.example.staffin.Response.SingleEmployeeResponse;
 import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.ActivityAddEmployeeBinding;
 
@@ -57,14 +60,62 @@ public class AddEmployeeActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
-
+        final ProgressDialog progressDialog = new ProgressDialog(AddEmployeeActivity.this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
 
         from = getIntent().getStringExtra("from");
 
         if (from.equalsIgnoreCase("edit")) {
             binding.textView.setText("Edit Employee");
+            binding.nextBtn.setText("Save");
+            int Id = getIntent().getIntExtra("id", 0);
+
+            if (Id == 0) {
+                Toast.makeText(this, "Some Error", Toast.LENGTH_SHORT).show();
+            } else {
+
+                Call<SingleEmployeeResponse> call = apiInterface.getSingleEmployee(Id);
+                call.enqueue(new Callback<SingleEmployeeResponse>() {
+                    @Override
+                    public void onResponse(Call<SingleEmployeeResponse> call, Response<SingleEmployeeResponse> response) {
+                        if (response.isSuccessful()) {
+                            progressDialog.dismiss();
+                            EmployeeResult user = response.body().getEmployeeResult().get(0);
+//                            Glide.with(getApplicationContext()).load(user.getProfileImage()).placeholder(R.drawable.img_add_employee).into(binding.dpImg);
+
+                            binding.employeeIdEt.setText(user.getFullName());
+                            binding.departmentEt.setText(user.getFatherName());
+                            binding.dobEt.setText(user.getDateOfBirth());
+                            if (user.getGender().equalsIgnoreCase("male")) {
+                                binding.rbMale.setChecked(true);
+                            } else if (user.getGender().equalsIgnoreCase("female")) {
+                                binding.rbFemale.setChecked(true);
+                            } else {
+                                binding.rbOther.setChecked(true);
+                            }
+                            binding.mobileEt.setText(user.getMobileNumber());
+                            binding.emailEt.setText(user.getEmail());
+                            binding.localAddEt.setText(user.getLocalAddress());
+                            binding.permAddEt.setText(user.getLocalAddress());
+                        } else {
+                            Toast.makeText(AddEmployeeActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SingleEmployeeResponse> call, Throwable t) {
+                        Toast.makeText(AddEmployeeActivity.this, "Not In Response", Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+
+            }
+
+
         } else if (from.equalsIgnoreCase("add")) {
             binding.textView.setText("Add Employee");
+            binding.nextBtn.setText("Next");
         }
         binding.btnHome.setOnClickListener(v -> {
             finish();

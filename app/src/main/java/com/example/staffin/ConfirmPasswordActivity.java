@@ -17,8 +17,24 @@ public class ConfirmPasswordActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         binding.confirmBtn.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-            finish();
+
+            if (binding.newPasswordEt.getText().toString().trim().isEmpty()) {
+                binding.newPasswordEt.setError("Enter New Password");
+                binding.newPasswordEt.requestFocus();
+            } else if (binding.newPasswordEt.getText().toString().trim().length() < 4) {
+                binding.newPasswordEt.setError("Enter password min 4 words");
+                binding.newPasswordEt.requestFocus();
+            } else if (binding.confirmPasswordEt.getText().toString().trim().isEmpty()) {
+                binding.confirmPasswordEt.setError("Confirm Password");
+                binding.confirmPasswordEt.requestFocus();
+            } else if (!binding.confirmPasswordEt.getText().toString().trim().equals(binding.newPasswordEt.getText().toString().trim())) {
+                binding.confirmPasswordEt.setError("Both passwords are not identical ");
+                binding.confirmPasswordEt.requestFocus();
+            } else {
+
+                startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                finish();
+            }
         });
 
     }

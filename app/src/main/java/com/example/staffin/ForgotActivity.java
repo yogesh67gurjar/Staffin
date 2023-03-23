@@ -17,8 +17,15 @@ public class ForgotActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         binding.otpBtn.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(), VerificationActivity.class));
-
+            if (binding.numberEt.getText().toString().trim().isEmpty()) {
+                binding.numberEt.setError("Enter Mobile Number");
+                binding.numberEt.requestFocus();
+            } else if (binding.numberEt.getText().toString().trim().length() < 10) {
+                binding.numberEt.setError("Enter Correct Mobile Number");
+                binding.numberEt.requestFocus();
+            } else {
+                startActivity(new Intent(getApplicationContext(), VerificationActivity.class));
+            }
         });
 
     }

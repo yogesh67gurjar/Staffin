@@ -58,7 +58,7 @@
 
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:id="@+id/dp_img"
+                android:id="@+id/dpImg"
                 android:layout_width="118dp"
                 android:layout_height="118dp"
                 android:layout_marginTop="20dp"
@@ -76,10 +76,10 @@
                 android:background="@drawable/login_btn_bg"
                 android:padding="3dp"
                 android:src="@drawable/ic_camera"
-                app:layout_constraintBottom_toBottomOf="@id/dp_img"
-                app:layout_constraintEnd_toEndOf="@id/dp_img"
-                app:layout_constraintStart_toStartOf="@id/dp_img"
-                app:layout_constraintTop_toBottomOf="@id/dp_img" />
+                app:layout_constraintBottom_toBottomOf="@id/dpImg"
+                app:layout_constraintEnd_toEndOf="@id/dpImg"
+                app:layout_constraintStart_toStartOf="@id/dpImg"
+                app:layout_constraintTop_toBottomOf="@id/dpImg" />
 
             <TextView
                 android:id="@+id/fullNameTv"
@@ -91,7 +91,7 @@
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/dp_img" />
+                app:layout_constraintTop_toBottomOf="@+id/dpImg" />
 
             <EditText
                 android:id="@+id/employeeIdEt"

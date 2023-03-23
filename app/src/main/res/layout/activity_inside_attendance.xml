@@ -328,8 +328,8 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/monthTv" />
-
-                    <com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
+                    <com.github.sundeepk.compactcalendarview.CompactCalendarView
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/compactcalendar_view"
                         android:layout_width="match_parent"
                         android:layout_height="250dp"
