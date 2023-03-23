@@ -3,10 +3,14 @@ package com.example.staffin;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DownloadManager;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -18,6 +22,7 @@ import com.example.staffin.Fragment.PresentBottomSheetFragment;
 import com.example.staffin.databinding.ActivityInsideAttendanceBinding;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,6 +35,7 @@ import java.util.TimeZone;
 public class InsideAttendanceActivity extends AppCompatActivity {
     ActivityInsideAttendanceBinding binding;
     String name, status, empId, dpImg;
+    DownloadManager manager;
 
 
     private SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MMMM- yyyy", Locale.getDefault());
@@ -113,12 +119,12 @@ public class InsideAttendanceActivity extends AppCompatActivity {
 //            }
 //        });
 
-
         binding.btnBack.setOnClickListener(v -> {
             finish();
         });
         binding.imageButton.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(), CalendarSettingActivity.class));
+            initDownload();
+
         });
         initializeCalendar();
 
@@ -225,6 +231,24 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         Event ev3 = new Event(Color.GREEN, milliTime, "Teachers' Professional Day");
         binding.compactcalendarView.addEvent(ev3);
 
+    }
+
+    private void initDownload() {
+        String uri = "https://drive.google.com/file/d/1FrGQUneY7UNZCT8w33hPDHYgwhwwjNx5/view?usp=share_link";
+        download(getApplicationContext(), "CodeSpeedy_writer", ".pdf", "Downloads", uri.trim());
+    }
+
+    private void download(Context context, String Filename, String FileExtension, String DesignationDirectory, String url) {
+        DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
+        Uri uri = Uri.parse(url);
+        DownloadManager.Request request = new DownloadManager.Request(uri);
+        request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED);
+        request.setDestinationInExternalFilesDir(context, DesignationDirectory, Filename + FileExtension);
+        assert downloadManager != null;
+        downloadManager.enqueue(request);
+        Snackbar snackbar = (Snackbar) Snackbar
+                .make(findViewById(android.R.id.content), "Downloading...", Snackbar.LENGTH_LONG);
+        snackbar.show();
     }
 
 

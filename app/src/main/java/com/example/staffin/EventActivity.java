@@ -37,12 +37,16 @@ public class EventActivity extends AppCompatActivity {
         binding = ActivityEventBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         monthsList = new ArrayList<>();
-        membersOnly=new ArrayList<>();
-        membersOnly.add(new MembersOfEvent(1,"fjksdnf"));
-        membersOnly.add(new MembersOfEvent(2,"fjksdnf"));
-        monthsList.add(new MyMonth(1,"yogesh birthday","bfjisnsdjkf","shajapur","at hanuman mandir shajapur","08-08-1999",membersOnly));
-        monthsList.add(new MyMonth(2,"shubham birthday","bfjisnsdjkf","shajapur","at hanuman mandir shajapur","08-08-1999",membersOnly));
-        monthsList.add(new MyMonth(3,"sunil birthday","bfjisnsdjkf","shajapur","at hanuman mandir shajapur","08-08-1999",membersOnly));
+        membersOnly = new ArrayList<>();
+        membersOnly.add(new MembersOfEvent(1, "fjksdnf"));
+        membersOnly.add(new MembersOfEvent(2, "fjksdnf"));
+        monthsList.add(new MyMonth(1, "yogesh birthday", "bfjisnsdjkf", "shajapur", "at hanuman mandir shajapur", "08-08-1999", membersOnly));
+        monthsList.add(new MyMonth(2, "shubham birthday", "bfjisnsdjkf", "shajapur", "at hanuman mandir shajapur", "08-08-1999", membersOnly));
+        monthsList.add(new MyMonth(3, "sunil birthday", "bfjisnsdjkf", "shajapur", "at hanuman mandir shajapur", "08-08-1999", membersOnly));
+
+        binding.btnAddEvent.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), CreateEventActivity.class));
+        });
 
 
         binding.searchBar.addTextChangedListener(new TextWatcher() {
