@@ -62,7 +62,7 @@ public class AddEmployeeActivity extends AppCompatActivity {
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
         final ProgressDialog progressDialog = new ProgressDialog(AddEmployeeActivity.this);
         progressDialog.setMessage("Loading...");
-        progressDialog.show();
+//        progressDialog.show();
 
         from = getIntent().getStringExtra("from");
 
@@ -76,38 +76,40 @@ public class AddEmployeeActivity extends AppCompatActivity {
             } else {
 
                 Call<SingleEmployeeResponse> call = apiInterface.getSingleEmployee(Id);
-                call.enqueue(new Callback<SingleEmployeeResponse>() {
-                    @Override
-                    public void onResponse(Call<SingleEmployeeResponse> call, Response<SingleEmployeeResponse> response) {
-                        if (response.isSuccessful()) {
-                            progressDialog.dismiss();
-                            EmployeeResult user = response.body().getEmployeeResult().get(0);
-//                            Glide.with(getApplicationContext()).load(user.getProfileImage()).placeholder(R.drawable.img_add_employee).into(binding.dpImg);
-
-                            binding.employeeIdEt.setText(user.getFullName());
-                            binding.departmentEt.setText(user.getFatherName());
-                            binding.dobEt.setText(user.getDateOfBirth());
-                            if (user.getGender().equalsIgnoreCase("male")) {
-                                binding.rbMale.setChecked(true);
-                            } else if (user.getGender().equalsIgnoreCase("female")) {
-                                binding.rbFemale.setChecked(true);
-                            } else {
-                                binding.rbOther.setChecked(true);
-                            }
-                            binding.mobileEt.setText(user.getMobileNumber());
-                            binding.emailEt.setText(user.getEmail());
-                            binding.localAddEt.setText(user.getLocalAddress());
-                            binding.permAddEt.setText(user.getLocalAddress());
-                        } else {
-                            Toast.makeText(AddEmployeeActivity.this, "Error", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<SingleEmployeeResponse> call, Throwable t) {
-                        Toast.makeText(AddEmployeeActivity.this, "Not In Response", Toast.LENGTH_SHORT).show();
-                    }
-                });
+//                call.enqueue(new Callback<SingleEmployeeResponse>() {
+//                    @Override
+//                    public void onResponse(Call<SingleEmployeeResponse> call, Response<SingleEmployeeResponse> response) {
+//                        if (response.isSuccessful()) {
+//                            progressDialog.dismiss();
+//                            EmployeeResult user = response.body().getEmployeeResult().get(0);
+////                            Glide.with(getApplicationContext()).load(user.getProfileImage()).placeholder(R.drawable.img_add_employee).into(binding.dpImg);
+//
+//                            binding.employeeIdEt.setText(user.getFullName());
+//                            binding.departmentEt.setText(user.getFatherName());
+//                            binding.dobEt.setText(user.getDateOfBirth());
+//
+//
+//                            if (user.getGender().equalsIgnoreCase("male")) {
+//                                binding.rbMale.setChecked(true);
+//                            } else if (user.getGender().equalsIgnoreCase("female")) {
+//                                binding.rbFemale.setChecked(true);
+//                            } else {
+//                                binding.rbOther.setChecked(true);
+//                            }
+//                            binding.mobileEt.setText(user.getMobileNumber());
+//                            binding.emailEt.setText(user.getEmail());
+//                            binding.localAddEt.setText(user.getLocalAddress());
+//                            binding.permAddEt.setText(user.getLocalAddress());
+//                        } else {
+//                            Toast.makeText(AddEmployeeActivity.this, "Error", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<SingleEmployeeResponse> call, Throwable t) {
+//                        Toast.makeText(AddEmployeeActivity.this, "Not In Response", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
 
 
             }
@@ -236,10 +238,7 @@ public class AddEmployeeActivity extends AppCompatActivity {
                 Intent imgIntent1 = new Intent(Intent.ACTION_PICK);
                 imgIntent1.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(imgIntent1, 101);
-//                Intent intent = new Intent();
-//                intent.setType("image/*");
-//                intent.setAction(Intent.ACTION_GET_CONTENT);
-//                startActivityForResult(Intent.createChooser(intent, "Select Picture"), 100);
+
             }
         });
     }
@@ -247,15 +246,6 @@ public class AddEmployeeActivity extends AppCompatActivity {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
-//            if (data != null) {
-//                String img;
-////                binding.dpImg.setImageURI(data.getData());
-//                Uri pi = Uri.parse(data.getData().toString());
-//                profileImage = data.getData();
-//                uripi = getRealPathFromURI(pi);
-//                dpImageBoolean = true;
-
         if (resultCode == RESULT_OK && requestCode == 101) {
             binding.dpImg.setImageURI(data.getData());
             profileImage = data.getData();

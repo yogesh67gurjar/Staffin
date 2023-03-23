@@ -78,7 +78,7 @@
         android:background="@drawable/accept_btn_bg"
         android:text="+ Add Event"
         android:textColor="@color/white"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
