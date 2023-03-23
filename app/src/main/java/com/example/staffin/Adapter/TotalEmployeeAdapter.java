@@ -17,7 +17,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.example.staffin.AddEmployeeActivity;
 import com.example.staffin.R;
 import com.example.staffin.Response.EmployeeResult;
