@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.widget.Toast;
 
 import com.example.staffin.databinding.ActivityVerificationBinding;
 
@@ -21,8 +22,24 @@ public class VerificationActivity extends AppCompatActivity {
         MoveNumToNext();
 
         binding.confirmBtn.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(), ConfirmPasswordActivity.class));
-            finish();
+
+            if (binding.otp1.getText().toString().trim().isEmpty()) {
+                Toast.makeText(this, "Enter Otp", Toast.LENGTH_SHORT).show();
+
+            } else if (binding.otp2.getText().toString().trim().isEmpty()) {
+                Toast.makeText(this, "Enter Otp", Toast.LENGTH_SHORT).show();
+
+            } else if (binding.otp3.getText().toString().trim().isEmpty()) {
+                Toast.makeText(this, "Enter Otp", Toast.LENGTH_SHORT).show();
+
+            } else if (binding.otp4.getText().toString().trim().isEmpty()) {
+                Toast.makeText(this, "Enter Otp", Toast.LENGTH_SHORT).show();
+
+            } else {
+
+                startActivity(new Intent(getApplicationContext(), ConfirmPasswordActivity.class));
+                finish();
+            }
         });
 
     }

@@ -2,6 +2,7 @@ package com.example.staffin.Interface;
 
 import com.example.staffin.Response.AddEmployeeResponse;
 import com.example.staffin.Response.LoginResponse;
+import com.example.staffin.Response.SingleEmployeeResponse;
 import com.example.staffin.Response.TotalEmployeeResponse;
 
 import okhttp3.MultipartBody;
@@ -13,6 +14,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 
 public interface ApiInterface {
 
@@ -36,6 +38,9 @@ public interface ApiInterface {
 
     @GET("get-all-employee-details")
     Call<TotalEmployeeResponse> getTotalEmployee();
+
+    @GET("get-employee-details/{id}")
+    Call<SingleEmployeeResponse> getSingleEmployee(@Path("id") int id);
 
 
 }

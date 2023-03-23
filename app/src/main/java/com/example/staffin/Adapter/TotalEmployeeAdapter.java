@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.staffin.AddEmployeeActivity;
 import com.example.staffin.R;
 import com.example.staffin.Response.EmployeeResult;
@@ -51,6 +53,7 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
     @Override
     public void onBindViewHolder(@NonNull TotalEmployeeAdapter.MyViewHolder holder, int position) {
         EmployeeResult singleUnit = employeeResultList.get(position);
+//        Glide.with(context.getApplicationContext()).load(singleUnit.getProfileImage()).placeholder(R.drawable.image_employee).into(holder.userImage);
 
         holder.txtName.setText(singleUnit.getFullName());
         holder.txtEmail.setText(singleUnit.getEmail());
@@ -63,6 +66,7 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
 
         holder.btnEdit.setOnClickListener(v -> {
             Intent editIntent = new Intent(context, AddEmployeeActivity.class);
+            editIntent.putExtra("id", singleUnit.getId());
             editIntent.putExtra("from", "edit");
             context.startActivity(editIntent);
         });
@@ -105,6 +109,7 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageButton btnEdit, btnDelete;
         TextView txtName, txtEmail, txtDOB, txtEmpId, txtDepartment, txtDesignation, txtAtWork;
+        ImageView userImage;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -117,6 +122,7 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
             txtDepartment = itemView.findViewById(R.id.txtDepartment);
             txtDesignation = itemView.findViewById(R.id.txtDesignation);
             txtAtWork = itemView.findViewById(R.id.txtAtWork);
+            userImage = itemView.findViewById(R.id.userImage);
         }
     }
 }
