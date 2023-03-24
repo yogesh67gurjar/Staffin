@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -59,7 +61,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
         holder.empIdTv.setText("Emp. ID - " + singleUnit.getEmpId());
         holder.dobTv.setText("Date Of Birth - " + singleUnit.getDob());
 
-        Log.d("STATUS",singleUnit.getStatus());
+        Log.d("STATUS", singleUnit.getStatus());
 
 
         holder.btnWhatsApp.setOnClickListener(v -> {
@@ -81,10 +83,10 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
         });
         holder.MainCard.setOnClickListener(v -> {
             Intent intent = new Intent(context, InsideAttendanceActivity.class);
-            intent.putExtra("name",singleUnit.getName());
-            intent.putExtra("status",singleUnit.getStatus());
-            intent.putExtra("empId",singleUnit.getEmpId());
-            intent.putExtra("dpImg",singleUnit.getDpImg());
+            intent.putExtra("name", singleUnit.getName());
+            intent.putExtra("status", singleUnit.getStatus());
+            intent.putExtra("empId", singleUnit.getEmpId());
+            intent.putExtra("dpImg", singleUnit.getDpImg());
 
             context.startActivity(intent);
         });
@@ -98,27 +100,28 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
         holder.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
-                holder.spinnerConstraint.setBackgroundResource(R.drawable.bg_back_btn);
-                holder.spinner.setBackgroundResource(R.color.white);
                 issueSelected = shift[position];
                 if (issueSelected.equalsIgnoreCase("Present")) {
 //                    holder.spinnerConstraint.setBackgroundColor(context.getResources().getColor(R.color.txtGreen));
                     holder.spinnerConstraint.setBackgroundResource(R.drawable.bg_green);
-                    holder.spinner.setBackgroundResource(R.color.txtGreen);
+                    holder.spinner.setBackgroundColor(context.getResources().getColor(R.color.txtGreen));
                     ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
 //                    ((TextView) parent.getChildAt(0)).setTextSize(5);
                 } else if (issueSelected.equalsIgnoreCase("Absent")) {
 //                    holder.spinnerConstraint.setBackgroundColor(context.getResources().getColor(R.color.txtRed));
                     holder.spinnerConstraint.setBackgroundResource(R.drawable.bg_red);
-                    holder.spinner.setBackgroundResource(R.color.txtRed);
+                    holder.spinner.setBackgroundColor(context.getResources().getColor(R.color.txtRed));
                     ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
-
+                }else {
+                ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+                holder.spinnerConstraint.setBackgroundResource(R.drawable.bg_back_btn);
+                holder.spinner.setBackgroundResource(R.color.white);
                 }
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
         });
     }
 
@@ -131,7 +134,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
 
         ConstraintLayout MainCard, spinnerConstraint;
         ImageButton btnWhatsApp, btnCall;
-        TextView txtMail, txtName, empIdTv,dobTv;
+        TextView txtMail, txtName, empIdTv, dobTv;
         Spinner spinner;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -144,7 +147,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
             txtMail = itemView.findViewById(R.id.txtEmail);
             spinner = itemView.findViewById(R.id.spinner);
             spinnerConstraint = itemView.findViewById(R.id.spinnerConstraint);
-            dobTv=itemView.findViewById(R.id.dobTv);
+            dobTv = itemView.findViewById(R.id.dobTv);
         }
     }
 

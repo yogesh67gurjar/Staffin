@@ -61,20 +61,21 @@ public class AddEmployeeActivity extends AppCompatActivity {
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
         final ProgressDialog progressDialog = new ProgressDialog(AddEmployeeActivity.this);
         progressDialog.setMessage("Loading...");
-//        progressDialog.show();
+
 
         from = getIntent().getStringExtra("from");
 
         if (from.equalsIgnoreCase("edit")) {
             binding.textView.setText("Edit Employee");
             binding.nextBtn.setText("Save");
+            progressDialog.show();
             int Id = getIntent().getIntExtra("id", 0);
 
             if (Id == 0) {
                 Toast.makeText(this, "Some Error", Toast.LENGTH_SHORT).show();
             } else {
 
-                Call<SingleEmployeeResponse> call = apiInterface.getSingleEmployee(Id);
+//                Call<SingleEmployeeResponse> call = apiInterface.getSingleEmployee(Id);
 //                call.enqueue(new Callback<SingleEmployeeResponse>() {
 //                    @Override
 //                    public void onResponse(Call<SingleEmployeeResponse> call, Response<SingleEmployeeResponse> response) {
@@ -110,11 +111,11 @@ public class AddEmployeeActivity extends AppCompatActivity {
 //                    }
 //                });
 
-
             }
 
 
         } else if (from.equalsIgnoreCase("add")) {
+
             binding.textView.setText("Add Employee");
             binding.nextBtn.setText("Next");
         }
@@ -158,7 +159,7 @@ public class AddEmployeeActivity extends AppCompatActivity {
 
                     startActivity(new Intent(AddEmployeeActivity.this, EmployeeIdActivity.class));
 
-//                    PImg = new File(uripi);
+                    PImg = new File(uripi);
                     name = binding.employeeIdEt.getText().toString();
                     fName = binding.departmentEt.getText().toString();
                     dob = binding.dobEt.getText().toString();
@@ -178,36 +179,8 @@ public class AddEmployeeActivity extends AppCompatActivity {
                     email = binding.emailEt.getText().toString();
                     localAddress = binding.localAddEt.getText().toString();
                     permanentAddress = binding.permAddEt.getText().toString();
-//
-//
-//                    RequestBody proImg = RequestBody.create(MediaType.parse("image/*"), PImg);
-//                    MultipartBody.Part profile_img = MultipartBody.Part.createFormData("profile_image", PImg.getName(), proImg);
-//                    RequestBody xName = RequestBody.create(MediaType.parse("text/plain"), name);
-//                    RequestBody xFName = RequestBody.create(MediaType.parse("text/plain"), fName);
-//                    RequestBody XDOB = RequestBody.create(MediaType.parse("text/plain"), dob);
-//                    RequestBody xGender = RequestBody.create(MediaType.parse("text/plain"), finalGender);
-//                    RequestBody xNumber = RequestBody.create(MediaType.parse("text/plain"), number);
-//                    RequestBody xEmail = RequestBody.create(MediaType.parse("text/plain"), email);
-//                    RequestBody xLAddress = RequestBody.create(MediaType.parse("text/plain"), localAddress);
-//                    RequestBody xPAddress = RequestBody.create(MediaType.parse("text/plain"), permanentAddress);
 
-//
-//                    Call<AddEmployeeResponse> call = apiInterface.postAddEmployee(profile_img, xName, xFName, XDOB, xGender, xNumber, xEmail, xLAddress, xPAddress);
-//                    call.enqueue(new Callback<AddEmployeeResponse>() {
-//                        @Override
-//                        public void onResponse(Call<AddEmployeeResponse> call, Response<AddEmployeeResponse> response) {
-//                            if (response.isSuccessful()) {
-//                                startActivity(new Intent(AddEmployeeActivity.this, EmployeeIdActivity.class));
-//                            } else {
-//                                Toast.makeText(AddEmployeeActivity.this, response.message(), Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Call<AddEmployeeResponse> call, Throwable t) {
-//                            Toast.makeText(AddEmployeeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
+//                    progressDialog.show();
 //                    sendDetails(uripi, name, fName, dob, finalGender, number, email, localAddress, permanentAddress);
 
                 }
@@ -269,20 +242,22 @@ public class AddEmployeeActivity extends AppCompatActivity {
         return result;
     }
 
-    private void sendDetails(String uripfs, String xName, String xFather, String xDOB,
-                             String xGender, String xMobile, String xMail, String xLAddress, String xPAddress) {
-        File panF = new File(uripfs);
+    private void sendDetails(String profile_image, String xName, String xFather, String xDOB,
+                             String xMobile, String xGender, String xMail, String xLAddress, String xPAddress) {
+//        File panF = new File(uripfs);
+        final ProgressDialog progressDialog = new ProgressDialog(AddEmployeeActivity.this);
+        progressDialog.setMessage("Loading...");
 
 
-        RequestBody pImage = RequestBody.create(MediaType.parse("image/*"), panF);
-        MultipartBody.Part profile_image = MultipartBody.Part.createFormData("profile_image", panF.getName(), pImage);
+        RequestBody proImg = RequestBody.create(MediaType.parse("image/*"), PImg);
+        MultipartBody.Part profile_img = MultipartBody.Part.createFormData("profile_image", PImg.getName(), proImg);
 
 
         RequestBody fullname = RequestBody.create(MediaType.parse("text/plain"), xName);
         RequestBody father = RequestBody.create(MediaType.parse("text/plain"), xFather);
         RequestBody dob = RequestBody.create(MediaType.parse("text/plain"), xDOB);
-        RequestBody gender = RequestBody.create(MediaType.parse("text/plain"), xGender);
         RequestBody mobile = RequestBody.create(MediaType.parse("text/plain"), xMobile);
+        RequestBody gender = RequestBody.create(MediaType.parse("text/plain"), xGender);
         RequestBody mail = RequestBody.create(MediaType.parse("text/plain"), xMail);
         RequestBody lAddress = RequestBody.create(MediaType.parse("text/plain"), xLAddress);
         RequestBody pAddress = RequestBody.create(MediaType.parse("text/plain"), xPAddress);
@@ -291,20 +266,29 @@ public class AddEmployeeActivity extends AppCompatActivity {
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
 
 
-        Call<AddEmployeeResponse> call = apiInterface.postAddEmployee(profile_image, fullname, father, dob, gender, mobile, mail, lAddress, pAddress);
+        Call<AddEmployeeResponse> call = apiInterface.postAddEmployee(profile_img, fullname, father, dob, gender, mobile, mail, lAddress, pAddress);
         call.enqueue(new Callback<AddEmployeeResponse>() {
             @Override
             public void onResponse(Call<AddEmployeeResponse> call, Response<AddEmployeeResponse> response) {
                 if (response.isSuccessful()) {
-                    startActivity(new Intent(AddEmployeeActivity.this, EmployeeIdActivity.class));
+                    int Id = getIntent().getIntExtra("id", 0);
+
+                    progressDialog.dismiss();
+                    String empID = response.body().getEmployeeID();
+                    Intent intent = new Intent(getApplicationContext(), EmployeeIdActivity.class);
+                    intent.putExtra("empid", empID);
+                    intent.putExtra("id", Id);
+
+
+                    startActivity(intent);
                 } else {
-                    Toast.makeText(AddEmployeeActivity.this, response.message(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddEmployeeActivity.this, "peninsula", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<AddEmployeeResponse> call, Throwable t) {
-                Toast.makeText(AddEmployeeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddEmployeeActivity.this, "dada", Toast.LENGTH_SHORT).show();
             }
         });
     }

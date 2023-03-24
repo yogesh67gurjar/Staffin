@@ -1,16 +1,26 @@
 package com.example.staffin.Response;
 
-public class AddEmployeeResponse {
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-    private int status;
+public class AddPasswordForEmployee {
+
+
+    @SerializedName("status")
+    @Expose
+    private Integer status;
+    @SerializedName("message")
+    @Expose
     private String message;
+    @SerializedName("employeeID")
+    @Expose
     private String employeeID;
 
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 

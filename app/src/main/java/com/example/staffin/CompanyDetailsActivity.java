@@ -15,15 +15,31 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.example.staffin.Interface.ApiInterface;
+import com.example.staffin.Response.CompanyDetailsResponse;
+import com.example.staffin.Response.Department;
+import com.example.staffin.Response.DepartmentResponse;
+import com.example.staffin.Response.DesignationDetail;
+import com.example.staffin.Response.DesignationResponse;
+import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.ActivityCompanyDetailsBinding;
 import com.example.staffin.databinding.ActivityLoginBinding;
 
 import java.util.Calendar;
+import java.util.List;
+
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class CompanyDetailsActivity extends AppCompatActivity {
     ActivityCompanyDetailsBinding binding;
@@ -31,15 +47,104 @@ public class CompanyDetailsActivity extends AppCompatActivity {
     SharedPreferences.Editor editor;
     Dialog adDialog;
     int hour, minute = 0;
+    ApiInterface apiInterface;
+    String departmentSelected, designationSelected;
+    String Status, finalStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCompanyDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
+        int Id = getIntent().getIntExtra("id", 0);
+        String empId = getIntent().getStringExtra("empid");
+        binding.employeeIdEt.setText(empId);
         adDialog = new Dialog(CompanyDetailsActivity.this);
         sharedPreferences = getSharedPreferences("staffin", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
+
+//        //Department Spinner Code
+//        Call<DepartmentResponse> call = apiInterface.getDepartment();
+//        call.enqueue(new Callback<DepartmentResponse>() {
+//            @Override
+//            public void onResponse(Call<DepartmentResponse> call, Response<DepartmentResponse> response) {
+//                if (response.isSuccessful()) {
+//                    assert response.body() != null;
+//                    List<Department> departments = response.body().getDepartment();
+//                    String tamp = "Please select Department,,,";
+//                    for (int i = 0; i < departments.size(); i++) {
+//                        tamp = tamp.concat(response.body().getDepartment().get(i).getName() + ",,,");
+//                    }
+//                    String[] strArray = tamp.split(",,,");
+//                    ArrayAdapter aa = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, strArray);
+//                    aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//                    //Setting the ArrayAdapter data on the Spinner
+//                    binding.departmentEt.setAdapter(aa);
+//                    binding.departmentEt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//                        @Override
+//                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                            departmentSelected = strArray[position];
+//
+//                        }
+//
+//                        @Override
+//                        public void onNothingSelected(AdapterView<?> parent) {
+//
+//                        }
+//                    });
+//
+//                } else {
+//                    Toast.makeText(CompanyDetailsActivity.this, "no Response", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<DepartmentResponse> call, Throwable t) {
+//                Toast.makeText(CompanyDetailsActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//        //Designation Spinner Code
+//        Call<DesignationResponse> call1 = apiInterface.getDesignation();
+//        call1.enqueue(new Callback<DesignationResponse>() {
+//            @Override
+//            public void onResponse(Call<DesignationResponse> call, Response<DesignationResponse> response) {
+//                if (response.isSuccessful()) {
+//                    List<DesignationDetail> designationDetails = response.body().getDesignationDetails();
+//                    String tamp = "Please select Designation,,,";
+//                    for (int i = 0; i < designationDetails.size(); i++) {
+//                        tamp = tamp.concat(response.body().getDesignationDetails().get(i).getDesignation() + ",,,");
+//                    }
+//                    String[] strArray = tamp.split(",,,");
+//                    ArrayAdapter aa = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, strArray);
+//                    aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//                    //Setting the ArrayAdapter data on the Spinner
+//                    binding.designationEt.setAdapter(aa);
+//                    binding.designationEt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//                        @Override
+//                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                            designationSelected = strArray[position];
+//
+//                        }
+//
+//                        @Override
+//                        public void onNothingSelected(AdapterView<?> parent) {
+//
+//                        }
+//                    });
+//
+//
+//                } else {
+//                    Toast.makeText(CompanyDetailsActivity.this, "On Response Fail", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<DesignationResponse> call, Throwable t) {
+//                Toast.makeText(CompanyDetailsActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+
 
         binding.btnBack.setOnClickListener(v -> {
             onBackPressed();
@@ -57,13 +162,13 @@ public class CompanyDetailsActivity extends AppCompatActivity {
             if (binding.employeeIdEt.getText().toString().isEmpty()) {
                 binding.employeeIdEt.setError("Enter Id");
                 binding.employeeIdEt.requestFocus();
-            } else if (binding.departmentEt.getText().toString().isEmpty()) {
-                binding.departmentEt.setError("Enter Department Name");
-                binding.departmentEt.requestFocus();
-            } else if (binding.designationEt.getText().toString().isEmpty()) {
-                binding.designationEt.setError("Enter Designation Name");
-                binding.designationEt.requestFocus();
-            } else if (binding.annualLeaveEt.getText().toString().isEmpty()) {
+            }
+//            else if (binding.departmentEt.getSelectedItem() != "Please select Department") {
+//                Toast.makeText(this, "Please select Department", Toast.LENGTH_SHORT).show();
+//            } else if (binding.designationEt.getSelectedItem() != "Please select Designation") {
+//                Toast.makeText(this, "Please select Department", Toast.LENGTH_SHORT).show();
+//            }
+            else if (binding.annualLeaveEt.getText().toString().isEmpty()) {
                 binding.annualLeaveEt.setError("Enter Annual Leaves");
                 binding.annualLeaveEt.requestFocus();
             } else if (binding.medicalLeaveEt.getText().toString().isEmpty()) {
@@ -82,7 +187,57 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                 binding.hourlyEt.setError("Enter Hourly Rate");
                 binding.hourlyEt.requestFocus();
             } else {
-
+//
+//                String employeeId = binding.employeeIdEt.getText().toString();
+//                String spinner = binding.departmentEt.getSelectedItem().toString();
+//                String spinner2 = binding.designationEt.getSelectedItem().toString();
+//                String annualLeave = binding.annualLeaveEt.getText().toString();
+//                String medicalLeave = binding.medicalLeaveEt.getText().toString();
+//                String jdate = binding.jDateEt.getText().toString();
+//                String rdate = binding.rDateEt.getText().toString();
+//                Status = "";
+//                if (binding.rbActive.isChecked()) {
+//                    binding.rbActive.getText().toString();
+//                    Status = "Active";
+//                } else {
+//                    binding.rbInactive.getText().toString();
+//                    Status = "InActive";
+//                }
+//                finalStatus = Status;
+//                String basicSalary = binding.basicEt.getText().toString();
+//                String hourlyRate = binding.hourlyEt.getText().toString();
+//
+//
+////                RequestBody xemployeeId = RequestBody.create(MediaType.parse("text/plain"), employeeId);
+//                RequestBody xspinner = RequestBody.create(MediaType.parse("text/plain"), spinner);
+//                RequestBody xspinner2 = RequestBody.create(MediaType.parse("text/plain"), spinner2);
+//                RequestBody xannualLeave = RequestBody.create(MediaType.parse("text/plain"), annualLeave);
+//                RequestBody xmedicalLeave = RequestBody.create(MediaType.parse("text/plain"), medicalLeave);
+//                RequestBody xjdate = RequestBody.create(MediaType.parse("text/plain"), jdate);
+//                RequestBody xrdate = RequestBody.create(MediaType.parse("text/plain"), rdate);
+//                RequestBody xfinalStatus = RequestBody.create(MediaType.parse("text/plain"), finalStatus);
+//                RequestBody xbasicSalary = RequestBody.create(MediaType.parse("text/plain"), basicSalary);
+//                RequestBody xhourlyRate = RequestBody.create(MediaType.parse("text/plain"), hourlyRate);
+//
+//
+//                Call<CompanyDetailsResponse> call2 = apiInterface.postSingleCompanyDetailsEmployee(xspinner, xspinner2, xannualLeave, xmedicalLeave, xfinalStatus, xjdate, xrdate, xbasicSalary, xhourlyRate, Id);
+//                call2.enqueue(new Callback<CompanyDetailsResponse>() {
+//                    @Override
+//                    public void onResponse(Call<CompanyDetailsResponse> call, Response<CompanyDetailsResponse> response) {
+//                        if (response.isSuccessful()) {
+//                            Intent intent = new Intent(getApplicationContext(), BankDetailsActivity.class);
+//                            startActivity(intent);
+//                        } else {
+//                            Toast.makeText(CompanyDetailsActivity.this, "onResponse Fail", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<CompanyDetailsResponse> call, Throwable t) {
+//                        Toast.makeText(CompanyDetailsActivity.this, "OnFailure", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
+//
 
                 startActivity(new Intent(getApplicationContext(), BankDetailsActivity.class));
             }
@@ -176,8 +331,7 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                     Toast.makeText(CompanyDetailsActivity.this, "Enter Start Time For 2nd Overtime", Toast.LENGTH_SHORT).show();
                 } else if (fourthTv.getText().toString().isEmpty()) {
                     Toast.makeText(CompanyDetailsActivity.this, "Enter End Time For 2nd Overtime", Toast.LENGTH_SHORT).show();
-                }
-                else if (firstAmountEt.getText().toString().isEmpty()) {
+                } else if (firstAmountEt.getText().toString().isEmpty()) {
                     Toast.makeText(CompanyDetailsActivity.this, "Enter Amount For 1st Overtime", Toast.LENGTH_SHORT).show();
                 } else if (secondAmountEt.getText().toString().isEmpty()) {
                     Toast.makeText(CompanyDetailsActivity.this, "Enter Amount For 2nd Overtime", Toast.LENGTH_SHORT).show();
@@ -276,4 +430,5 @@ public class CompanyDetailsActivity extends AppCompatActivity {
             editor.apply();
         }
     }
+
 }
