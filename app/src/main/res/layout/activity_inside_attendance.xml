@@ -151,6 +151,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="Present"
+                        android:inputType="textMultiLine"
+
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="15sp"
@@ -183,6 +185,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="Absent"
+                        android:inputType="textMultiLine"
+
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="15sp"
@@ -214,6 +218,8 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:text="Half day"
+                        android:inputType="textMultiLine"
+
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="15sp"
@@ -245,7 +251,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="Paid lea"
+                        android:text="Paid leave"
+                        android:inputType="textMultiLine"
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="15sp"
@@ -278,6 +285,8 @@
                         android:layout_weight="1"
                         android:paddingHorizontal="10dp"
                         android:text="Late"
+                        android:inputType="textMultiLine"
+
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="15sp"
