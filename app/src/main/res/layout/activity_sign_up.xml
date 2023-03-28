@@ -49,6 +49,7 @@
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="30dp"
             android:hint="Name"
+            android:textColorHint="@color/txtGray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv2">
@@ -56,6 +57,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/nameEt"
                 android:layout_width="match_parent"
+                android:textColor="@color/black"
                 android:layout_height="wrap_content"
                 android:inputType="text"
                 android:maxLength="13" />
@@ -68,6 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="10dp"
+            android:textColorHint="@color/txtGray"
             android:hint="Mobile Number"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -76,6 +79,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/phoneEt"
                 android:layout_width="match_parent"
+                android:textColor="@color/black"
                 android:layout_height="wrap_content"
                 android:inputType="phone"
                 android:maxLength="13" />
@@ -89,6 +93,7 @@
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="10dp"
             android:hint="Password"
+            android:textColorHint="@color/txtGray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/phoneTf"
@@ -98,6 +103,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/passwordEt"
                 android:layout_width="match_parent"
+                android:textColor="@color/black"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -110,6 +116,7 @@
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="10dp"
             android:hint="Confirm Password"
+            android:textColorHint="@color/txtGray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/passwordTf"
@@ -119,6 +126,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/confirmPasswordEt"
                 android:layout_width="match_parent"
+                android:textColor="@color/black"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -170,6 +178,7 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
+            android:background="@color/white"
             android:layout_height="match_parent">
 
 

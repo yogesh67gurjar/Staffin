@@ -16,10 +16,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Staffin"
+        android:windowSoftInputMode="adjustResize"
         tools:targetApi="31">
         <activity
             android:name=".CreateEventActivity"
-            android:exported="false">
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -33,7 +35,8 @@
         </activity>
         <activity
             android:name=".SalaryInfoActivity"
-            android:exported="false">
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -47,28 +50,32 @@
         </activity>
         <activity
             android:name=".ConfirmPasswordActivity"
-            android:exported="false">
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".VerificationActivity"
-            android:exported="false">
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".ForgotActivity"
-            android:exported="false">
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".SignUpActivity"
-            android:exported="false">
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -96,14 +103,16 @@
         </activity>
         <activity
             android:name=".BankDetailsActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".CompanyDetailsActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
 
             <meta-data
                 android:name="android.app.lib_name"
@@ -118,7 +127,8 @@
         </activity>
         <activity
             android:name=".AddEmployeeActivity"
-            android:exported="true">
+            android:exported="true"
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -158,7 +168,8 @@
         </activity>
         <activity
             android:name=".LoginActivity"
-            android:exported="false">
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

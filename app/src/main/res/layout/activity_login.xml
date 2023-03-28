@@ -50,6 +50,7 @@
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="30dp"
             android:hint="Mobile Number"
+            android:textColorHint="@color/txtGray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv2">
@@ -59,7 +60,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="phone"
-                android:maxLength="13" />
+                android:maxLength="13"
+                android:textColor="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
@@ -70,6 +72,7 @@
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="20dp"
             android:hint="Password"
+            android:textColorHint="@color/txtGray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/phoneTf"
@@ -80,7 +83,8 @@
                 android:id="@+id/passwordEt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textPassword" />
+                android:inputType="textPassword"
+                android:textColor="@color/black" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
@@ -99,8 +103,8 @@
             android:id="@+id/alreadyUser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
             android:layout_marginStart="15dp"
+            android:layout_marginTop="15dp"
             android:text="Click For SignUp"
             android:textColor="@color/black"
             android:textStyle="bold"
@@ -140,7 +144,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:background="@color/white">
 
 
             <ImageView

@@ -2,17 +2,18 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
     android:id="@+id/MainCard"
+    style="@style/ScreenBackground"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/ScreenBackground"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="38dp"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/bg_back_btn"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,12 +21,12 @@
 
         <TextView
             android:id="@+id/nameTv"
+            style="@style/textColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="40dp"
             android:text="Bessie Cooper"
-            android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintStart_toStartOf="parent"
@@ -33,10 +34,10 @@
 
         <TextView
             android:id="@+id/txtEmail"
+            style="@style/textColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="techcameron123@"
-            android:textColor="#02141F"
             android:textSize="16sp"
             android:textStyle="normal"
             app:layout_constraintStart_toStartOf="@+id/nameTv"
@@ -67,10 +68,10 @@
         <LinearLayout
             android:id="@+id/linearLayout"
             android:layout_width="match_parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtEmail">
 
             <LinearLayout
@@ -83,21 +84,21 @@
 
                 <TextView
                     android:id="@+id/dobTv"
+                    style="@style/textColor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Dath of birth - 30/05/1995"
-                    android:textColor="@color/black"
                     android:textSize="12sp"
                     android:textStyle="normal" />
 
                 <TextView
                     android:id="@+id/empIdTv"
+                    style="@style/textColor"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Emp. ID - TPIT000148"
-                    android:textColor="@color/black"
                     android:textSize="12sp"
                     android:textStyle="normal" />
             </LinearLayout>
@@ -105,47 +106,47 @@
 
         <TextView
             android:id="@+id/txtPunchIn"
+            style="@style/textColor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:background="@drawable/bg_back_btn"
             android:drawableStart="@drawable/ic_clock"
+            android:drawablePadding="5dp"
             android:paddingHorizontal="15dp"
             android:paddingVertical="10dp"
-            android:textColor="@color/txtGray"
-            android:drawablePadding="5dp"
             android:text="Punch in"
             app:layout_constraintEnd_toStartOf="@+id/tctPunchOut"
             app:layout_constraintHorizontal_bias="0.5"
-            android:layout_marginTop="20dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
         <TextView
             android:id="@+id/tctPunchOut"
+            style="@style/textColor"
             android:layout_width="wrap_content"
-            android:drawablePadding="5dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:background="@drawable/bg_back_btn"
             android:drawableStart="@drawable/ic_clock"
+            android:drawablePadding="5dp"
             android:paddingHorizontal="15dp"
             android:paddingVertical="10dp"
             android:text="Punch out"
-            android:textColor="@color/txtGray"
-            android:layout_marginTop="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/txtPunchIn"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="0dp"
             android:id="@+id/spinnerConstraint"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="20dp"
+            android:background="@drawable/bg_back_btn"
             android:paddingHorizontal="30dp"
             android:paddingVertical="10dp"
-            android:layout_marginTop="20dp"
-            android:background="@drawable/bg_back_btn"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/tctPunchOut"
             app:layout_constraintStart_toStartOf="@+id/txtPunchIn"

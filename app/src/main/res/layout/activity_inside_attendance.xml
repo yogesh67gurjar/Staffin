@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".InsideAttendanceActivity">
 
     <ImageButton
@@ -245,7 +246,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="Paid lea"
+                        android:text="Paid leave"
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="15sp"
@@ -304,6 +305,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
+                    android:background="@color/white"
                     android:layout_height="match_parent">
 
                     <TextView
