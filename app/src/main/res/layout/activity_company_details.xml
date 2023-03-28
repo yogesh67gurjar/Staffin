@@ -68,7 +68,7 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <EditText
+            <TextView
                 android:id="@+id/employeeIdEt"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
@@ -77,9 +77,11 @@
                 android:background="@drawable/edittext_layout"
                 android:drawableLeft="@drawable/ic_card"
                 android:drawablePadding="20dp"
+                android:gravity="center_vertical"
                 android:hint="Enter Employee Id"
                 android:inputType="text"
                 android:paddingStart="20dp"
+                android:textAlignment="gravity"
                 android:textColor="@color/black"
                 android:textColorHint="#80282729"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -99,20 +101,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/employeeIdEt" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/departmentEt"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
                 android:layout_marginHorizontal="15dp"
                 android:layout_marginTop="7dp"
-                android:background="@drawable/edittext_layout"
-                android:drawableLeft="@drawable/ic_department"
-                android:drawablePadding="20dp"
-                android:hint="Enter Your Department"
-                android:inputType="text"
-                android:paddingStart="20dp"
-                android:textColor="@color/black"
-                android:textColorHint="#80282729"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/departmentTv" />
@@ -130,21 +124,12 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/departmentEt" />
 
-            <EditText
+            <Spinner
                 android:id="@+id/designationEt"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
                 android:layout_marginHorizontal="15dp"
                 android:layout_marginTop="7dp"
-                android:background="@drawable/edittext_layout"
-                android:drawableStart="@drawable/ic_card"
-                android:drawablePadding="20dp"
-                android:gravity="center_vertical"
-                android:hint="Pick Your Designation"
-                android:inputType="text"
-                android:paddingStart="20dp"
-                android:textColor="@color/black"
-                android:textColorHint="#80282729"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/designationTv" />
@@ -393,7 +378,7 @@
                         android:layout_marginTop="7dp"
                         android:background="@drawable/edittext_layout"
                         android:hint="Enter Basic Salary"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:paddingStart="20dp"
                         android:textColor="@color/black"
                         android:textColorHint="#80282729"
@@ -422,7 +407,7 @@
                         android:layout_marginTop="7dp"
                         android:background="@drawable/edittext_layout"
                         android:hint="Enter Hourly Rate"
-                        android:inputType="number"
+                        android:inputType="numberDecimal"
                         android:paddingStart="20dp"
                         android:textColor="@color/black"
                         android:textColorHint="#80282729"

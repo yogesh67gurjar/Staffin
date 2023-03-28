@@ -1,6 +1,10 @@
 package com.example.staffin.Interface;
 
 import com.example.staffin.Response.AddEmployeeResponse;
+import com.example.staffin.Response.AddPasswordForEmployee;
+import com.example.staffin.Response.CompanyDetailsResponse;
+import com.example.staffin.Response.DepartmentResponse;
+import com.example.staffin.Response.DesignationResponse;
 import com.example.staffin.Response.LoginResponse;
 import com.example.staffin.Response.SingleEmployeeResponse;
 import com.example.staffin.Response.TotalEmployeeResponse;
@@ -42,5 +46,30 @@ public interface ApiInterface {
     @GET("get-employee-details/{id}")
     Call<SingleEmployeeResponse> getSingleEmployee(@Path("id") int id);
 
+    @FormUrlEncoded
+    @POST("employee-add-password/{employeeID}")
+    Call<AddPasswordForEmployee> postSinglePasswordEmployee(@Field("password") String password
+            , @Path("employeeID") String employeeID);
+
+    @GET("get-department")
+    Call<DepartmentResponse> getDepartment();
+
+    @GET("get-designation")
+    Call<DesignationResponse> getDesignation();
+
+    @Multipart
+    @POST("add-company-details{id}")
+    Call<CompanyDetailsResponse> postSingleCompanyDetailsEmployee(
+
+            @Part("department") RequestBody department,
+            @Part("designation") RequestBody designation,
+            @Part("annual_leave") RequestBody annual_leave,
+            @Part("medical_leave") RequestBody medical_leave,
+            @Part("status") RequestBody status,
+            @Part("joining_date") RequestBody joining_date,
+            @Part("exit_date") RequestBody exit_date,
+            @Part("basic") RequestBody basic,
+            @Part("hourly") RequestBody hourly,
+            @Path("id") int id);
 
 }
