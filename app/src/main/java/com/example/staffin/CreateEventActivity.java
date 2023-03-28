@@ -3,6 +3,7 @@ package com.example.staffin;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -12,6 +13,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.example.staffin.databinding.ActivityCreateEventBinding;
+
+import java.util.Calendar;
 
 public class CreateEventActivity extends AppCompatActivity {
     ActivityCreateEventBinding binding;
@@ -36,6 +39,24 @@ public class CreateEventActivity extends AppCompatActivity {
 
         };
         binding.descriptionEt.addTextChangedListener(mTextEditorWatcher);
+
+        binding.dateEt.setOnClickListener(v -> {
+
+            final Calendar c = Calendar.getInstance();
+
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(CreateEventActivity.this,
+                    (view, year1, monthOfYear, dayOfMonth) -> {
+                        //
+                        binding.dateEt.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year1);
+                    },
+                    year, month, day);
+            datePickerDialog.show();
+
+        });
 
         binding.createBtn.setOnClickListener(new View.OnClickListener() {
             @Override

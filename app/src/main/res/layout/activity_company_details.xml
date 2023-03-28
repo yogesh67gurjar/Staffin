@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".CompanyDetailsActivity">
 
     <ImageButton
@@ -340,6 +341,7 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
+                    android:background="@color/white"
                     android:layout_height="match_parent">
 
                     <TextView
@@ -392,7 +394,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="15dp"
                         android:layout_marginTop="20dp"
-                        android:text="Hourly Rate"
+                        android:text="Total Working Day"
                         android:textColor="@color/black"
                         android:textSize="16sp"
                         android:textStyle="bold"
@@ -406,7 +408,7 @@
                         android:layout_marginHorizontal="20dp"
                         android:layout_marginTop="7dp"
                         android:background="@drawable/edittext_layout"
-                        android:hint="Enter Hourly Rate"
+                        android:hint="Enter Total Working Day"
                         android:inputType="numberDecimal"
                         android:paddingStart="20dp"
                         android:textColor="@color/black"

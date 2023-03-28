@@ -29,9 +29,9 @@ public class BankDetailsActivity extends AppCompatActivity {
             } else if (binding.accNoEt.getText().toString().trim().isEmpty()) {
                 binding.accNoEt.setError("Enter Account Number");
                 binding.accNoEt.requestFocus();
-            } else if (binding.ifscEt.getText().toString().trim().isEmpty()) {
-                binding.ifscEt.setError("Enter IFSC Code");
-                binding.ifscEt.requestFocus();
+//            } else if (binding.ifscEt.getText().toString().trim().isEmpty()) {
+//                binding.ifscEt.setError("Enter IFSC Code");
+//                binding.ifscEt.requestFocus();
             } else if (binding.bankEt.getText().toString().trim().isEmpty()) {
                 binding.bankEt.setError("Enter Bank Name");
                 binding.bankEt.requestFocus();

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".SalaryInfoActivity">
 
     <ImageButton
@@ -127,7 +128,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="10dp"
-                android:text="Hourly Rate"
+                android:text="Daily Rate"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -158,7 +159,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
-                android:text="Hours Clocked"
+                android:text="Total Working day"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -172,7 +173,7 @@
                 android:layout_marginTop="7dp"
                 android:background="@drawable/edittext_layout"
                 android:drawablePadding="20dp"
-                android:hint="Hours Clocked"
+                android:hint="Total Working Day"
                 android:inputType="textPersonName"
                 android:paddingStart="20dp"
                 android:textColor="@color/black"
@@ -343,7 +344,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
-                android:text="Duration"
+                android:text="Deductions"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
