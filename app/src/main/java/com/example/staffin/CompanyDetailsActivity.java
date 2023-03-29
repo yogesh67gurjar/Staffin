@@ -13,6 +13,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -157,6 +158,15 @@ public class CompanyDetailsActivity extends AppCompatActivity {
             }
         });
 
+        binding.rbActive.setOnClickListener(v -> {
+            binding.rDateEt.setVisibility(View.GONE);
+            binding.rDateTv.setVisibility(View.GONE);
+        });
+        binding.rbInactive.setOnClickListener(v -> {
+            binding.rDateEt.setVisibility(View.VISIBLE);
+            binding.rDateTv.setVisibility(View.VISIBLE);
+
+        });
         binding.btnNext.setOnClickListener(v -> {
 
             if (binding.employeeIdEt.getText().toString().isEmpty()) {
@@ -176,10 +186,14 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                 binding.medicalLeaveEt.requestFocus();
             } else if (binding.jDateEt.getText().toString().isEmpty()) {
                 Toast.makeText(this, "Enter Joining Date", Toast.LENGTH_SHORT).show();
-            } else if (binding.rDateEt.getText().toString().isEmpty()) {
-                Toast.makeText(this, "Enter Relieving Date", Toast.LENGTH_SHORT).show();
+//            } else if (binding.rDateEt.getText().toString().isEmpty()) {
+//                Toast.makeText(this, "Enter Relieving Date", Toast.LENGTH_SHORT).show();
             } else if (!binding.rbActive.isChecked() && !binding.rbInactive.isChecked()) {
                 Toast.makeText(this, "Please Select Status", Toast.LENGTH_SHORT).show();
+//            }else  if (binding.rbActive.isChecked() && binding.jDateEt.getText().toString().isEmpty()) {
+//                Toast.makeText(this, "Enter Joining Date", Toast.LENGTH_SHORT).show();
+            } else if (binding.rbInactive.isChecked() && binding.rDateEt.getText().toString().isEmpty()) {
+                Toast.makeText(this, "Enter Relieving Date", Toast.LENGTH_SHORT).show();
             } else if (binding.basicEt.getText().toString().isEmpty()) {
                 binding.basicEt.setError("Enter Basic Salary");
                 binding.basicEt.requestFocus();
