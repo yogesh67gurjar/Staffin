@@ -2,8 +2,10 @@ package com.example.staffin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -19,7 +21,6 @@ public class MainActivity extends AppCompatActivity {
     private static final int TIME_DELAY = 2000;
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
-
 
 
     @Override
@@ -43,25 +44,36 @@ public class MainActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), PayrollActivity.class));
         });
         binding.card5.setOnClickListener(v -> {
-            Toast.makeText(this, "Calendar Activity", Toast.LENGTH_SHORT).show();
-
             Intent intent = new Intent(getApplicationContext(), CalendarSettingActivity.class);
             intent.putExtra("from", "mainactivity");
             startActivity(intent);
         });
         binding.card6.setOnClickListener(v -> {
-//            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-//            editor.remove("mobile");
-//            editor.apply();
-//            finish();
+
+            AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+            dialog.setTitle("Logout");
+            dialog.setCancelable(false);
+            dialog.setMessage("Are you sure");
 
 
+            dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+                    editor.remove("mobile");
+                    editor.apply();
+                    finish();
 
-
-
-
-
-
+                }
+            });
+            dialog.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            AlertDialog alertDialog = dialog.create();
+            alertDialog.show();
         });
     }
 

@@ -47,19 +47,19 @@ public class InsidePayrollActivity extends AppCompatActivity {
 
 
         binding.dateEt.setOnClickListener(v -> {
-//            final Calendar c = Calendar.getInstance();
-//
-//            int year = c.get(Calendar.YEAR);
-//            int month = c.get(Calendar.MONTH);
-//            int day = c.get(Calendar.DAY_OF_MONTH);
-//
-//            DatePickerDialog datePickerDialog = new DatePickerDialog(InsidePayrollActivity.this,
-//                    (view, year1, monthOfYear, dayOfMonth) -> {
-//                        //
-//                        binding.dateEt.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year1);
-//                    },
-//                    year, month, day);
-//            datePickerDialog.show();
+            final Calendar c = Calendar.getInstance();
+
+            int year = c.get(Calendar.YEAR);
+            int month = c.get(Calendar.MONTH);
+            int day = c.get(Calendar.DAY_OF_MONTH);
+
+            DatePickerDialog datePickerDialog = new DatePickerDialog(InsidePayrollActivity.this,
+                    (view, year1, monthOfYear, dayOfMonth) -> {
+                        //
+                        binding.dateEt.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year1);
+                    },
+                    year, month, day);
+            datePickerDialog.show();
         });
 
     }
@@ -70,53 +70,52 @@ public class InsidePayrollActivity extends AppCompatActivity {
         builder.setTitle("Select Courses");
         builder.setCancelable(false);
         builder.setMultiChoiceItems(courseArray, selectedCourses, new DialogInterface.OnMultiChoiceClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which, boolean isChecked) {
-                if (isChecked) {
-                    courseList.add(which);
-                }
-//                else {
-//                    courseList.remove(which);
-//                }
-            }
-        }).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                //creating String Builder
-                StringBuilder stringBuilder = new StringBuilder();
-                for (int i = 0; i < courseList.size(); i++) {
-                    stringBuilder.append(courseArray[courseList.get(i)]);
-                    //Check Condition
-                    if (i != courseList.size()) {
-                        //when i value no equal of course list
-                        //then add a comma
-                        stringBuilder.append(", ");
+                    @Override
+                    public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                        if (isChecked) {
+                            courseList.add(which);
+//                        } else {
+//                            courseList.remove(which);
+                        }
                     }
-                    //String selected courses to textview
+                }).setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        //creating String Builder
+                        StringBuilder stringBuilder = new StringBuilder();
+                        for (int i = 0; i < courseList.size(); i++) {
+                            stringBuilder.append(courseArray[courseList.get(i)]);
+                            //Check Condition
+                            if (i != courseList.size() - 1) {
+                                //when i value no equal of course list
+                                //then add a comma
+                                stringBuilder.append(", ");
+                            }
+                            //String selected courses to textview
 
 
-                    binding.employeeIdEt.setText(stringBuilder.toString());
-                }
+                            binding.employeeIdEt.setText(stringBuilder.toString());
+                        }
 //                courseList.clear();
-            }
-        });
-//                .setPositiveButton("Cancel", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.dismiss();
-//            }
-//        });
-//        .setPositiveButton("Clear All", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                for (int i = 0; i < selectedCourses.length; i++) {
-//                selectedCourses[i] = false;
-//                courseList.clear();
-//                binding.employeeIdEt.setText("");
-//                }
-//            }
-//        });
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setNeutralButton("Clear All", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        for (int i = 0; i < selectedCourses.length; i++) {
+                            selectedCourses[i] = false;
+                            courseList.clear();
+                            binding.employeeIdEt.setText("");
+                        }
+                    }
+                });
         builder.show();
 
 

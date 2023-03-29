@@ -6,9 +6,6 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-
-
-
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -21,11 +18,16 @@
         android:windowSoftInputMode="adjustResize"
         tools:targetApi="31">
         <activity
+            android:name=".HolidayActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".CreateEventActivity"
             android:exported="false"
-
             android:windowSoftInputMode="adjustResize">
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -117,7 +119,6 @@
             android:name=".CompanyDetailsActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -163,6 +164,7 @@
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
