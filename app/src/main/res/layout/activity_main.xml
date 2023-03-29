@@ -288,7 +288,6 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card5"
-
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
                     android:layout_margin="10dp"
@@ -337,11 +336,11 @@
 
 
                 <androidx.cardview.widget.CardView
+                    android:id="@+id/card6"
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
-                    android:alpha="0"
                     app:cardCornerRadius="15dp"
                     app:cardElevation="8dp">
 
@@ -352,13 +351,13 @@
 
 
                         <ImageView
-                            android:id="@+id/imageView6"
+                            android:id="@+id/imgLogout"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
                             android:background="@drawable/main_image_bg_stroke"
-                            android:padding="3dp"
-                            android:src="@drawable/ic_calendar_settings"
-                            app:layout_constraintBottom_toTopOf="@+id/main_tv6"
+                            android:padding="5dp"
+                            android:src="@drawable/ic_logout"
+                            app:layout_constraintBottom_toTopOf="@+id/txtLogout"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintStart_toStartOf="parent"
@@ -366,19 +365,20 @@
                             app:layout_constraintVertical_chainStyle="packed" />
 
                         <TextView
-                            android:id="@+id/main_tv6"
+                            android:id="@+id/txtLogout"
                             style="@style/textColor"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
-                            android:text="@string/main_tv5"
-                            android:textSize="17sp"
+                            android:text="Logout"
+                            android:textAlignment="center"
+                            android:textSize="15sp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+                            app:layout_constraintTop_toBottomOf="@+id/imgLogout" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
