@@ -45,6 +45,14 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityInsideAttendanceBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        Date date=new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int month = cal.get(Calendar.MONTH);
+//                int day = cal.get(Calendar.DATE);
+        month += 1;
+        int year=cal.get(Calendar.YEAR);
+        binding.monthTv.setText(month + " " + year);
 
         binding.compactcalendarView.setUseThreeLetterAbbreviation(true);
 
