@@ -4,17 +4,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
-import android.os.Build;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -91,38 +86,45 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
             context.startActivity(intent);
         });
 
+        if (singleUnit.getStatus().equalsIgnoreCase("absent")) {
+            holder.spinnerConstraint.setBackgroundResource(R.drawable.bg_red);
+            holder.statusTv.setText("Absent");
+            holder.statusTv.setTextColor(Color.WHITE);
+            holder.statusTv.setBackgroundResource(R.drawable.bg_red);
+        } else if (singleUnit.getStatus().equalsIgnoreCase("present")) {
+            holder.spinnerConstraint.setBackgroundResource(R.drawable.bg_green);
+            holder.statusTv.setText("Present");
+            holder.statusTv.setTextColor(Color.WHITE);
+            holder.statusTv.setBackgroundResource(R.drawable.bg_green);
+        }
 
-        ArrayAdapter aa = new ArrayAdapter(context.getApplicationContext(), android.R.layout.simple_spinner_item, shift);
-        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        holder.spinner.setAdapter(aa);
 
-
-        holder.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                issueSelected = shift[position];
-                if (issueSelected.equalsIgnoreCase("Present")) {
-//                    holder.spinnerConstraint.setBackgroundColor(context.getResources().getColor(R.color.txtGreen));
-                    holder.spinnerConstraint.setBackgroundResource(R.drawable.bg_green);
-                    holder.spinner.setBackgroundColor(context.getResources().getColor(R.color.txtGreen));
-                    ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
-//                    ((TextView) parent.getChildAt(0)).setTextSize(5);
-                } else if (issueSelected.equalsIgnoreCase("Absent")) {
-//                    holder.spinnerConstraint.setBackgroundColor(context.getResources().getColor(R.color.txtRed));
-                    holder.spinnerConstraint.setBackgroundResource(R.drawable.bg_red);
-                    holder.spinner.setBackgroundColor(context.getResources().getColor(R.color.txtRed));
-                    ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
-                }else {
-                ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
-                holder.spinnerConstraint.setBackgroundResource(R.drawable.bg_back_btn);
-                holder.spinner.setBackgroundResource(R.color.white);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-            }
-        });
+//        holder.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+//                issueSelected = shift[position];
+//                if (issueSelected.equalsIgnoreCase("Present")) {
+////                    holder.spinnerConstraint.setBackgroundColor(context.getResources().getColor(R.color.txtGreen));
+//                    holder.spinnerConstraint.setBackgroundResource(R.drawable.bg_green);
+//                    holder.spinner.setBackgroundColor(context.getResources().getColor(R.color.txtGreen));
+//                    ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
+////                    ((TextView) parent.getChildAt(0)).setTextSize(5);
+//                } else if (issueSelected.equalsIgnoreCase("Absent")) {
+////                    holder.spinnerConstraint.setBackgroundColor(context.getResources().getColor(R.color.txtRed));
+//                    holder.spinnerConstraint.setBackgroundResource(R.drawable.bg_red);
+//                    holder.spinner.setBackgroundColor(context.getResources().getColor(R.color.txtRed));
+//                    ((TextView) parent.getChildAt(0)).setTextColor(Color.WHITE);
+//                } else {
+//                    ((TextView) parent.getChildAt(0)).setTextColor(Color.BLACK);
+//                    holder.spinnerConstraint.setBackgroundResource(R.drawable.bg_back_btn);
+//                    holder.spinner.setBackgroundResource(R.color.white);
+//                }
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> parent) {
+//            }
+//        });
     }
 
     @Override
@@ -135,7 +137,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
         ConstraintLayout MainCard, spinnerConstraint;
         ImageButton btnWhatsApp, btnCall;
         TextView txtMail, txtName, empIdTv, dobTv;
-        Spinner spinner;
+        TextView statusTv;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -145,7 +147,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
             btnWhatsApp = itemView.findViewById(R.id.btnWhatsApp);
             btnCall = itemView.findViewById(R.id.btnCall);
             txtMail = itemView.findViewById(R.id.txtEmail);
-            spinner = itemView.findViewById(R.id.spinner);
+            statusTv = itemView.findViewById(R.id.statusTv);
             spinnerConstraint = itemView.findViewById(R.id.spinnerConstraint);
             dobTv = itemView.findViewById(R.id.dobTv);
         }

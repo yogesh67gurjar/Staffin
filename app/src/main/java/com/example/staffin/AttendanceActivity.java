@@ -1,18 +1,18 @@
 package com.example.staffin;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.staffin.Adapter.AttendanceAdapter;
-import com.example.staffin.Adapter.TotalEmployeeAdapter;
+import com.example.staffin.AttendanceFragments.Absent;
+import com.example.staffin.AttendanceFragments.AllEmployees;
+import com.example.staffin.AttendanceFragments.Present;
 import com.example.staffin.Response.Attendance;
 import com.example.staffin.databinding.ActivityAttendanceBinding;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +20,8 @@ public class AttendanceActivity extends AppCompatActivity {
     ActivityAttendanceBinding binding;
 
     List<Attendance> attendanceList;
+    List<Attendance> present;
+    List<Attendance> absent;
     AttendanceAdapter adapter;
 
     @Override
@@ -46,24 +48,28 @@ public class AttendanceActivity extends AppCompatActivity {
         attendanceList.add(new Attendance("shubhi gupta", "+919826821679", "ksdfnsdfkjsdn", "08/08/1999", "8778", "shubhigupta@gmail.com", "absent"));
         attendanceList.add(new Attendance("shivani mam", "+919288356233", "ksdfnsdfkjsdn", "08/08/1999", "1284", "hrtechpanda@gmail.com", "absent"));
 
-        binding.attendanceRv.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new AttendanceAdapter(AttendanceActivity.this, attendanceList);
-        binding.attendanceRv.setAdapter(adapter);
+        present = new ArrayList<>();
+        absent = new ArrayList<>();
 
-        binding.searchBar.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        for (Attendance a : attendanceList) {
+            if (a.getStatus().equalsIgnoreCase("present")) {
+                present.add(a);
+            } else {
+                absent.add(a);
             }
+        }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                filter(s.toString());
-            }
 
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
+        AllEmployees allEmployeesByDefault = new AllEmployees();
+
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("allEmployees", (Serializable) attendanceList);
+        allEmployeesByDefault.setArguments(bundle);
+
+        // on activity open
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, allEmployeesByDefault).commit();
+
+
 
         binding.allEmployeesBtn.setOnClickListener(v -> {
             binding.allEmployeesBtn.setBackgroundResource(R.drawable.bg__blue_attendance);
@@ -72,7 +78,11 @@ public class AttendanceActivity extends AppCompatActivity {
             binding.presentBtn.setTextColor(getResources().getColor(R.color.black));
             binding.absentBtn.setBackgroundResource(R.drawable.bg_back_btn);
             binding.absentBtn.setTextColor(getResources().getColor(R.color.black));
-            adapter.filterList(attendanceList);
+
+            bundle.putSerializable("allEmployees", (Serializable) attendanceList);
+            allEmployeesByDefault.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, allEmployeesByDefault).commit();
+//            adapter.filterList(attendanceList);
         });
 
         binding.presentBtn.setOnClickListener(v -> {
@@ -82,7 +92,13 @@ public class AttendanceActivity extends AppCompatActivity {
             binding.presentBtn.setTextColor(getResources().getColor(R.color.white));
             binding.absentBtn.setBackgroundResource(R.drawable.bg_back_btn);
             binding.absentBtn.setTextColor(getResources().getColor(R.color.black));
-            filterPresent("present");
+
+            Present presentFrag=new Present();
+            bundle.putSerializable("present",(Serializable) present);
+            presentFrag.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, presentFrag).commit();
+
+//            filterPresent("present");
         });
 
         binding.absentBtn.setOnClickListener(v -> {
@@ -92,7 +108,13 @@ public class AttendanceActivity extends AppCompatActivity {
             binding.presentBtn.setTextColor(getResources().getColor(R.color.black));
             binding.absentBtn.setBackgroundResource(R.drawable.bg__blue_attendance);
             binding.absentBtn.setTextColor(getResources().getColor(R.color.white));
-            filterAbsent("absent");
+
+            Absent absentFrag=new Absent();
+            bundle.putSerializable("absent",(Serializable) absent);
+            absentFrag.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.container, absentFrag).commit();
+
+//            filterAbsent("absent");
         });
         binding.btnBack.setOnClickListener(v -> {
             finish();
@@ -103,39 +125,39 @@ public class AttendanceActivity extends AppCompatActivity {
 
     }
 
-    void filter(String text) {
-        List<Attendance> filteredList = new ArrayList();
+//    void filter(String text) {
+//        List<Attendance> filteredList = new ArrayList();
+//
+//        for (Attendance a : attendanceList) {
+//            if (a.getName().toLowerCase().contains(text.toLowerCase())) {
+//                filteredList.add(a);
+//            }
+//        }
+//        //update recyclerview
+//        adapter.filterList(filteredList);
+//    }
 
-        for (Attendance a : attendanceList) {
-            if (a.getName().toLowerCase().contains(text.toLowerCase())) {
-                filteredList.add(a);
-            }
-        }
-        //update recyclerview
-        adapter.filterList(filteredList);
-    }
-
-    void filterPresent(String text) {
-        List<Attendance> filteredList = new ArrayList();
-
-        for (Attendance a : attendanceList) {
-            if (a.getStatus().toLowerCase().contains(text.toLowerCase())) {
-                filteredList.add(a);
-            }
-        }
-        //update recyclerview
-        adapter.filterList(filteredList);
-    }
-
-    void filterAbsent(String text) {
-        List<Attendance> filteredList = new ArrayList();
-
-        for (Attendance a : attendanceList) {
-            if (a.getStatus().toLowerCase().contains(text.toLowerCase())) {
-                filteredList.add(a);
-            }
-        }
-        //update recyclerview
-        adapter.filterList(filteredList);
-    }
+//    void filterPresent(String text) {
+//        List<Attendance> filteredList = new ArrayList();
+//
+//        for (Attendance a : attendanceList) {
+//            if (a.getStatus().toLowerCase().contains(text.toLowerCase())) {
+//                filteredList.add(a);
+//            }
+//        }
+//        //update recyclerview
+//        adapter.filterList(filteredList);
+//    }
+//
+//    void filterAbsent(String text) {
+//        List<Attendance> filteredList = new ArrayList();
+//
+//        for (Attendance a : attendanceList) {
+//            if (a.getStatus().toLowerCase().contains(text.toLowerCase())) {
+//                filteredList.add(a);
+//            }
+//        }
+//        //update recyclerview
+//        adapter.filterList(filteredList);
+//    }
 }

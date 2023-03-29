@@ -1,6 +1,6 @@
 package com.example.staffin.Response;
 
-public class Attendance {
+public class Attendance implements java.io.Serializable {
     private String name;
     private String phone;
     private String dpImg;
@@ -27,8 +27,6 @@ public class Attendance {
         this.email = email;
         this.status = status;
     }
-
-
 
 
     public String getName() {
