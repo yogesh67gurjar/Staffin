@@ -1,22 +1,14 @@
 package com.example.staffin;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.widget.CalendarView;
-import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.staffin.Fragment.PresentBottomSheetFragment;
 import com.example.staffin.databinding.ActivityInsideAttendanceBinding;
@@ -25,12 +17,10 @@ import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.TimeZone;
 
 public class InsideAttendanceActivity extends AppCompatActivity {
     ActivityInsideAttendanceBinding binding;
@@ -45,14 +35,51 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityInsideAttendanceBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        Date date=new Date();
+        Date date = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         int month = cal.get(Calendar.MONTH);
 //                int day = cal.get(Calendar.DATE);
         month += 1;
-        int year=cal.get(Calendar.YEAR);
-        binding.monthTv.setText(month + " " + year);
+        int year = cal.get(Calendar.YEAR);
+        switch (month) {
+            case 1:
+                binding.monthTv.setText("January  " + year);
+                break;
+            case 2:
+                binding.monthTv.setText("February  " + year);
+                break;
+            case 3:
+                binding.monthTv.setText("March  " + year);
+                break;
+            case 4:
+                binding.monthTv.setText("April  " + year);
+                break;
+            case 5:
+                binding.monthTv.setText("May  " + year);
+                break;
+            case 6:
+                binding.monthTv.setText("June  " + year);
+                break;
+            case 7:
+                binding.monthTv.setText("July  " + year);
+                break;
+            case 8:
+                binding.monthTv.setText("August  " + year);
+                break;
+            case 9:
+                binding.monthTv.setText("September  " + year);
+                break;
+            case 10:
+                binding.monthTv.setText("October  " + year);
+                break;
+            case 11:
+                binding.monthTv.setText("November  " + year);
+                break;
+            case 12:
+                binding.monthTv.setText("December  " + year);
+                break;
+        }
 
         binding.compactcalendarView.setUseThreeLetterAbbreviation(true);
 
@@ -138,13 +165,14 @@ public class InsideAttendanceActivity extends AppCompatActivity {
 
         progressDialog.dismiss();
 
+
+        binding.compactcalendarView.shouldScrollMonth(false);
         binding.compactcalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
                 List<Event> events = binding.compactcalendarView.getEvents(dateClicked);
 
                 Bundle bundle = new Bundle();
-
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(dateClicked);
                 int year = cal.get(Calendar.YEAR);
@@ -152,7 +180,12 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                 int day = cal.get(Calendar.DATE);
                 month += 1;
                 Log.d("DATE", String.valueOf(day) + month + year);
-                bundle.putString("Date", day + "-" + month + "-" + year);
+                String monthName = makeStringMonth(month);
+                bundle.putString("Date", day + "-" + monthName + "-" + year);
+                bundle.putInt("tareekh", day);
+                bundle.putString("mahina", monthName);
+                bundle.putInt("saal", year);
+
                 PresentBottomSheetFragment presentBottomSheetFragment = new PresentBottomSheetFragment();
                 presentBottomSheetFragment.setArguments(bundle);
                 presentBottomSheetFragment.show(getSupportFragmentManager(), presentBottomSheetFragment.getTag());
@@ -209,6 +242,37 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    private String makeStringMonth(int month) {
+        switch (month) {
+            case 1:
+                return "January";
+            case 2:
+                return "February";
+            case 3:
+                return "March";
+            case 4:
+                return "April";
+            case 5:
+                return "May";
+            case 6:
+                return "June";
+            case 7:
+                return "July";
+            case 8:
+                return "August";
+            case 9:
+                return "September";
+            case 10:
+                return "October";
+            case 11:
+                return "November";
+            case 12:
+                return "December";
+            default:
+                return "Not Available";
+        }
     }
 
     private void initializeCalendar() {

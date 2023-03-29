@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.staffin.R;
 import com.example.staffin.databinding.FragmentPresentBottomSheetBinding;
@@ -99,6 +100,17 @@ public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
             binding.txtUnPaidLeave.setBackgroundResource(R.drawable.bg_purple);
             binding.txtUnPaidLeave.setTextColor(getResources().getColor(R.color.white));
         });
+
+        binding.submitBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().finish();
+
+                Toast.makeText(getActivity(), "Changes Saved", Toast.LENGTH_SHORT).show();
+                PresentBottomSheetFragment.this.dismiss();
+            }
+        });
+
         return binding.getRoot();
     }
 }

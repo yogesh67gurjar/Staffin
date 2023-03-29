@@ -1,5 +1,6 @@
 package com.example.staffin.Adapter;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -100,6 +101,7 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
 //            view1.setPadding(70, 30, 70, 30);
 //            toast.show();
             adDialog.dismiss();
+
         });
         noBtn.setOnClickListener(v -> adDialog.dismiss());
         adDialog.setOnCancelListener(dialog -> adDialog.dismiss());

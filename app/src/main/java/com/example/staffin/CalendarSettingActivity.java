@@ -32,6 +32,56 @@ public class CalendarSettingActivity extends AppCompatActivity {
         if (getIntent().hasExtra("from")) {
             from = getIntent().getStringExtra("from");
         }
+
+        Date date = new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        int month = cal.get(Calendar.MONTH);
+//                int day = cal.get(Calendar.DATE);
+        month += 1;
+        int year = cal.get(Calendar.YEAR);
+        switch (month) {
+            case 1:
+                binding.monthTv.setText("January  " + year);
+                break;
+            case 2:
+                binding.monthTv.setText("February  " + year);
+                break;
+            case 3:
+                binding.monthTv.setText("March  " + year);
+                break;
+            case 4:
+                binding.monthTv.setText("April  " + year);
+                break;
+            case 5:
+                binding.monthTv.setText("May  " + year);
+                break;
+            case 6:
+                binding.monthTv.setText("June  " + year);
+                break;
+            case 7:
+                binding.monthTv.setText("July  " + year);
+                break;
+            case 8:
+                binding.monthTv.setText("August  " + year);
+                break;
+            case 9:
+                binding.monthTv.setText("September  " + year);
+                break;
+            case 10:
+                binding.monthTv.setText("October  " + year);
+                break;
+            case 11:
+                binding.monthTv.setText("November  " + year);
+                break;
+            case 12:
+                binding.monthTv.setText("December  " + year);
+                break;
+        }
+
+        binding.compactcalendarView.scrollRight();
+        binding.compactcalendarView.scrollLeft();
+
         binding.btnBack.setOnClickListener(v -> {
 
             if (from.equalsIgnoreCase("mainactivity")) {
@@ -115,7 +165,6 @@ public class CalendarSettingActivity extends AppCompatActivity {
                 }
             }
         });
-
         binding.holidayRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.holidayRecyclerView.setAdapter(new HolidayAdapter(CalendarSettingActivity.this));
     }
