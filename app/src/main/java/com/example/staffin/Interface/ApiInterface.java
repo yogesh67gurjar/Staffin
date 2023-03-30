@@ -2,6 +2,7 @@ package com.example.staffin.Interface;
 
 import com.example.staffin.Response.AddEmployeeResponse;
 import com.example.staffin.Response.AddPasswordForEmployee;
+import com.example.staffin.Response.BankDetailsResponse;
 import com.example.staffin.Response.CompanyDetailsResponse;
 import com.example.staffin.Response.DepartmentResponse;
 import com.example.staffin.Response.DesignationResponse;
@@ -58,19 +59,19 @@ public interface ApiInterface {
     @GET("get-designation")
     Call<DesignationResponse> getDesignation();
 
-    @Multipart
-    @POST("add-company-details{id}")
+    @FormUrlEncoded
+    @POST("add-company-details/{id}")
     Call<CompanyDetailsResponse> postSingleCompanyDetailsEmployee(
 
-            @Part("department") RequestBody department,
-            @Part("designation") RequestBody designation,
-            @Part("annual_leave") RequestBody annual_leave,
-            @Part("medical_leave") RequestBody medical_leave,
-            @Part("status") RequestBody status,
-            @Part("joining_date") RequestBody joining_date,
-            @Part("exit_date") RequestBody exit_date,
-            @Part("basic") RequestBody basic,
-            @Part("hourly") RequestBody hourly,
+            @Field("department") String department,
+            @Field("designation") String designation,
+            @Field("annual_leave") String annual_leave,
+            @Field("medical_leave") String medical_leave,
+            @Field("status") String status,
+            @Field("joining_date") String joining_date,
+            @Field("exit_date") String exit_date,
+            @Field("basic") String basic,
+            @Field("hourly") String hourly,
             @Path("id") int id);
 
 
@@ -78,6 +79,15 @@ public interface ApiInterface {
     @POST("add-holiday")
     Call<HolidayResponse> postHoliday(@Field("date") String date,
                                       @Field("occassion") String occassion);
+
+    @FormUrlEncoded
+    @POST("add-bank-details/{id}")
+    Call<BankDetailsResponse> postSingleBankDetails(@Path("id") int id,
+                                                    @Field("employee_id") String employee_id,
+                                                    @Field("account_name") String account_name,
+                                                    @Field("account_number") String account_number,
+                                                    @Field("bank") String bank,
+                                                    @Field("branch") String branch);
 
 }
 

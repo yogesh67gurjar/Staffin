@@ -1,20 +1,9 @@
 package com.example.staffin;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.app.Activity;
 import android.app.DatePickerDialog;
-
-
-import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -22,9 +11,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.staffin.Interface.ApiInterface;
-import com.example.staffin.Response.AddEmployeeResponse;
 import com.example.staffin.Response.EmployeeResult;
 import com.example.staffin.Response.SingleEmployeeResponse;
 import com.example.staffin.Retrofit.RetrofitServices;
@@ -46,6 +35,9 @@ public class AddEmployeeActivity extends AppCompatActivity {
 
     static Boolean dpImageBoolean = false;
     String from = "";
+    int Id = 0;
+    String empId = "";
+
     Uri profileImage;
     String uripi;
     File PImg;
@@ -67,58 +59,64 @@ public class AddEmployeeActivity extends AppCompatActivity {
 
         if (from.equalsIgnoreCase("edit")) {
             binding.textView.setText("Edit Employee");
-            binding.nextBtn.setText("Save");
+            binding.nextBtn.setText("Next");
             progressDialog.show();
-            int Id = getIntent().getIntExtra("id", 0);
+            Id = getIntent().getIntExtra("Id", 0);
+            empId = getIntent().getStringExtra("empId");
 
             if (Id == 0) {
                 Toast.makeText(this, "Some Error", Toast.LENGTH_SHORT).show();
             } else {
 
-//                Call<SingleEmployeeResponse> call = apiInterface.getSingleEmployee(Id);
-//                call.enqueue(new Callback<SingleEmployeeResponse>() {
-//                    @Override
-//                    public void onResponse(Call<SingleEmployeeResponse> call, Response<SingleEmployeeResponse> response) {
-//                        if (response.isSuccessful()) {
-//                            progressDialog.dismiss();
-//                            EmployeeResult user = response.body().getEmployeeResult().get(0);
-////                            Glide.with(getApplicationContext()).load(user.getProfileImage()).placeholder(R.drawable.img_add_employee).into(binding.dpImg);
-//
-//                            binding.employeeIdEt.setText(user.getFullName());
-//                            binding.departmentEt.setText(user.getFatherName());
-//                            binding.dobEt.setText(user.getDateOfBirth());
-//
-//
-//                            if (user.getGender().equalsIgnoreCase("male")) {
-//                                binding.rbMale.setChecked(true);
-//                            } else if (user.getGender().equalsIgnoreCase("female")) {
-//                                binding.rbFemale.setChecked(true);
-//                            } else {
-//                                binding.rbOther.setChecked(true);
-//                            }
-//                            binding.mobileEt.setText(user.getMobileNumber());
-//                            binding.emailEt.setText(user.getEmail());
-//                            binding.localAddEt.setText(user.getLocalAddress());
-//                            binding.permAddEt.setText(user.getLocalAddress());
-//                        } else {
-//                            Toast.makeText(AddEmployeeActivity.this, "Error", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<SingleEmployeeResponse> call, Throwable t) {
-//                        Toast.makeText(AddEmployeeActivity.this, "Not In Response", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
+                Call<SingleEmployeeResponse> call = apiInterface.getSingleEmployee(Id);
+                call.enqueue(new Callback<SingleEmployeeResponse>() {
+                    @Override
+                    public void onResponse(Call<SingleEmployeeResponse> call, Response<SingleEmployeeResponse> response) {
+                        if (response.isSuccessful()) {
+                            progressDialog.dismiss();
+                            EmployeeResult user = response.body().getEmployeeResult().get(0);
+//                            Glide.with(getApplicationContext()).load(user.getProfileImage()).placeholder(R.drawable.img_add_employee).into(binding.dpImg);
+
+                            binding.employeeIdEt.setText(user.getFullName());
+                            binding.departmentEt.setText(user.getFatherName());
+                            binding.dobEt.setText(user.getDateOfBirth());
+
+
+                            if (user.getGender().equalsIgnoreCase("male")) {
+                                binding.rbMale.setChecked(true);
+                            } else if (user.getGender().equalsIgnoreCase("female")) {
+                                binding.rbFemale.setChecked(true);
+                            } else {
+                                binding.rbOther.setChecked(true);
+                            }
+                            binding.mobileEt.setText(user.getMobileNumber());
+                            binding.emailEt.setText(user.getEmail());
+                            binding.localAddEt.setText(user.getLocalAddress());
+                            binding.permAddEt.setText(user.getLocalAddress());
+                        } else {
+                            progressDialog.dismiss();
+                            Log.d("dkfnsdf", response.message());
+                            Toast.makeText(AddEmployeeActivity.this, "Try Again", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SingleEmployeeResponse> call, Throwable t) {
+                        Log.d("nsdfsdf", t.getMessage());
+                        progressDialog.dismiss();
+                        Toast.makeText(AddEmployeeActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
             }
 
 
         } else if (from.equalsIgnoreCase("add")) {
-
             binding.textView.setText("Add Employee");
             binding.nextBtn.setText("Next");
         }
+
+
         binding.btnHome.setOnClickListener(v -> {
             finish();
         });
@@ -157,32 +155,41 @@ public class AddEmployeeActivity extends AppCompatActivity {
                     binding.permAddEt.requestFocus();
                 } else {
 
-                    startActivity(new Intent(AddEmployeeActivity.this, EmployeeIdActivity.class));
-
-                    PImg = new File(uripi);
-                    name = binding.employeeIdEt.getText().toString();
-                    fName = binding.departmentEt.getText().toString();
-                    dob = binding.dobEt.getText().toString();
-                    gender = "";
-                    if (binding.rbMale.isChecked()) {
-                        binding.rbMale.getText().toString();
-                        gender = "Male";
-                    } else if (binding.rbFemale.isChecked()) {
-                        binding.rbFemale.getText().toString();
-                        gender = "Female";
+                    if (from.equalsIgnoreCase("edit")) {
+                        Intent intent = new Intent(AddEmployeeActivity.this, EmployeeIdActivity.class);
+                        intent.putExtra("from", "edit");
+                        intent.putExtra("Id", Id);
+                        intent.putExtra("empId", empId);
+                        // patch api and uske response se apn intent se aage jaenge
+                        // progress bhi usi k according
+                        startActivity(intent);
                     } else {
-                        binding.rbOther.getText().toString();
-                        gender = "Other";
+//                        startActivity(new Intent(AddEmployeeActivity.this, EmployeeIdActivity.class));
+
+
+                        name = binding.employeeIdEt.getText().toString();
+                        fName = binding.departmentEt.getText().toString();
+                        dob = binding.dobEt.getText().toString();
+                        gender = "";
+                        if (binding.rbMale.isChecked()) {
+                            binding.rbMale.getText().toString();
+                            gender = "Male";
+                        } else if (binding.rbFemale.isChecked()) {
+                            binding.rbFemale.getText().toString();
+                            gender = "Female";
+                        } else {
+                            binding.rbOther.getText().toString();
+                            gender = "Other";
+                        }
+                        finalGender = gender;
+                        number = binding.mobileEt.getText().toString();
+                        email = binding.emailEt.getText().toString();
+                        localAddress = binding.localAddEt.getText().toString();
+                        permanentAddress = binding.permAddEt.getText().toString();
+
+                        progressDialog.show();
+                        sendDetails(uripi, name, fName, dob, finalGender, number, email, localAddress, permanentAddress);
                     }
-                    finalGender = gender;
-                    number = binding.mobileEt.getText().toString();
-                    email = binding.emailEt.getText().toString();
-                    localAddress = binding.localAddEt.getText().toString();
-                    permanentAddress = binding.permAddEt.getText().toString();
-
-//                    progressDialog.show();
-//                    sendDetails(uripi, name, fName, dob, finalGender, number, email, localAddress, permanentAddress);
-
                 }
             }
         });
@@ -224,7 +231,6 @@ public class AddEmployeeActivity extends AppCompatActivity {
             uripi = getRealPathFromURI(profileImage);
             dpImageBoolean = true;
 
-
         }
     }
 
@@ -244,7 +250,7 @@ public class AddEmployeeActivity extends AppCompatActivity {
 
     private void sendDetails(String profile_image, String xName, String xFather, String xDOB,
                              String xMobile, String xGender, String xMail, String xLAddress, String xPAddress) {
-//        File panF = new File(uripfs);
+        PImg = new File(profile_image);
         final ProgressDialog progressDialog = new ProgressDialog(AddEmployeeActivity.this);
         progressDialog.setMessage("Loading...");
 
@@ -265,32 +271,46 @@ public class AddEmployeeActivity extends AppCompatActivity {
 
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
 
+        progressDialog.dismiss();
+        Intent intent = new Intent(getApplicationContext(), EmployeeIdActivity.class);
+        intent.putExtra("empId", empId);
+        intent.putExtra("Id", Id);
+        intent.putExtra("from", "add");
+        startActivity(intent);
 
-        Call<AddEmployeeResponse> call = apiInterface.postAddEmployee(profile_img, fullname, father, dob, gender, mobile, mail, lAddress, pAddress);
-        call.enqueue(new Callback<AddEmployeeResponse>() {
-            @Override
-            public void onResponse(Call<AddEmployeeResponse> call, Response<AddEmployeeResponse> response) {
-                if (response.isSuccessful()) {
-                    int Id = getIntent().getIntExtra("id", 0);
+        // $$$$$$$$$$$$$$$$$$
 
-                    progressDialog.dismiss();
-                    String empID = response.body().getEmployeeID();
-                    Intent intent = new Intent(getApplicationContext(), EmployeeIdActivity.class);
-                    intent.putExtra("empid", empID);
-                    intent.putExtra("id", Id);
+//        Call<AddEmployeeResponse> call = apiInterface.postAddEmployee(profile_img, fullname, father, dob, gender, mobile, mail, lAddress, pAddress);
+//        call.enqueue(new Callback<AddEmployeeResponse>() {
+//            @Override
+//            public void onResponse(Call<AddEmployeeResponse> call, Response<AddEmployeeResponse> response) {
+//                if (response.isSuccessful()) {
+//                    int Id = getIntent().getIntExtra("id", 0);
+//
+//                    progressDialog.dismiss();
+//                    String empID = response.body().getEmployeeID();
+//                    Intent intent = new Intent(getApplicationContext(), EmployeeIdActivity.class);
+//                    intent.putExtra("empId", empID);
+//                    intent.putExtra("Id", Id);
+//                    intent.putExtra("from", "add");
+//
+//                    startActivity(intent);
+//                } else {
+//                    Log.d("fkdjfnsdf", response.message());
+//                    progressDialog.dismiss();
+//                    Toast.makeText(AddEmployeeActivity.this, "Try again", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//
+//            @Override
+//            public void onFailure(Call<AddEmployeeResponse> call, Throwable t) {
+//                Log.d("Pdkjfnsdf", t.getMessage());
+//                progressDialog.dismiss();
+//                Toast.makeText(AddEmployeeActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
-
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(AddEmployeeActivity.this, "peninsula", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<AddEmployeeResponse> call, Throwable t) {
-                Toast.makeText(AddEmployeeActivity.this, "dada", Toast.LENGTH_SHORT).show();
-            }
-        });
+        // $$$$$$$$$$$$$
     }
 
 }

@@ -26,7 +26,6 @@ import java.util.List;
 
 public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdapter.MyViewHolder> {
     Context context;
-    //    List<String> employeesList;
     List<EmployeeResult> employeeResultList;
     Dialog adDialog;
 
@@ -37,7 +36,6 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
     }
 
     public void filterList(List<EmployeeResult> filterlist) {
-//        employeesList = filterlist;
         employeeResultList = filterlist;
         notifyDataSetChanged();
     }
@@ -66,8 +64,9 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
 
         holder.btnEdit.setOnClickListener(v -> {
             Intent editIntent = new Intent(context, AddEmployeeActivity.class);
-            editIntent.putExtra("id", singleUnit.getId());
+            editIntent.putExtra("Id", singleUnit.getId());
             editIntent.putExtra("from", "edit");
+            editIntent.putExtra("empId",singleUnit.getEmployeeID());
             context.startActivity(editIntent);
         });
 

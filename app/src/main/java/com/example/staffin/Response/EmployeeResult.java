@@ -84,6 +84,7 @@ public class EmployeeResult {
     @Expose
     private String workDuration;
 
+
     public Integer getId() {
         return id;
     }
