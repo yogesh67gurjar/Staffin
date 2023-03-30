@@ -1,17 +1,15 @@
 package com.example.staffin;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
-import android.app.DatePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.staffin.databinding.ActivityInsidePayrollBinding;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class InsidePayrollActivity extends AppCompatActivity {
     ActivityInsidePayrollBinding binding;
@@ -32,35 +30,34 @@ public class InsidePayrollActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         selectedCourses = new boolean[courseArray.length];
-        binding.employeeIdEt.setOnClickListener(v -> {
-
+        binding.selectEmployeesEt.setOnClickListener(v -> {
             showCoursedialog();
-
         });
 
         binding.btnHome.setOnClickListener(v -> {
             finish();
         });
         binding.nextBtn.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(), SalaryInfoActivity.class));
+            startActivity(new Intent(getApplicationContext(), PayrollActivity.class));
+            finish();
         });
 
 
-        binding.dateEt.setOnClickListener(v -> {
-            final Calendar c = Calendar.getInstance();
-
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
-
-            DatePickerDialog datePickerDialog = new DatePickerDialog(InsidePayrollActivity.this,
-                    (view, year1, monthOfYear, dayOfMonth) -> {
-                        //
-                        binding.dateEt.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year1);
-                    },
-                    year, month, day);
-            datePickerDialog.show();
-        });
+//        binding.monthEt.setOnClickListener(v -> {
+//            final Calendar c = Calendar.getInstance();
+//
+//            int year = c.get(Calendar.YEAR);
+//            int month = c.get(Calendar.MONTH);
+//            int day = c.get(Calendar.DAY_OF_MONTH);
+//
+//            DatePickerDialog datePickerDialog = new DatePickerDialog(InsidePayrollActivity.this,
+//                    (view, year1, monthOfYear, dayOfMonth) -> {
+//                        //
+////                        binding.monthEt.setText(dayOfMonth + "-" + (monthOfYear + 1) + "-" + year1);
+//                    },
+//                    year, month, day);
+//            datePickerDialog.show();
+//        });
 
     }
 
@@ -95,7 +92,7 @@ public class InsidePayrollActivity extends AppCompatActivity {
                             //String selected courses to textview
 
 
-                            binding.employeeIdEt.setText(stringBuilder.toString());
+                            binding.selectEmployeesEt.setText(stringBuilder.toString());
                         }
 //                courseList.clear();
                     }
@@ -112,7 +109,7 @@ public class InsidePayrollActivity extends AppCompatActivity {
                         for (int i = 0; i < selectedCourses.length; i++) {
                             selectedCourses[i] = false;
                             courseList.clear();
-                            binding.employeeIdEt.setText("");
+                            binding.selectEmployeesEt.setText("");
                         }
                     }
                 });

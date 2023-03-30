@@ -29,9 +29,9 @@ public class PayrollActivity extends AppCompatActivity {
         binding.PayRollRv.setLayoutManager(new LinearLayoutManager(this));
         binding.PayRollRv.setAdapter(new PayRollAdapter(PayrollActivity.this));
 
-//        binding.shimmerViewContainer.stopShimmer();
-//        binding.shimmerViewContainer.setVisibility(View.GONE);
-//        binding.PayRollRv.setVisibility(View.VISIBLE);
+        binding.shimmerViewContainer.stopShimmer();
+        binding.shimmerViewContainer.setVisibility(View.GONE);
+        binding.PayRollRv.setVisibility(View.VISIBLE);
 
         binding.btnHome.setOnClickListener(v -> {
             finish();

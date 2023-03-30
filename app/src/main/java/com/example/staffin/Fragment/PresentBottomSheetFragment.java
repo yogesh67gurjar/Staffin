@@ -1,11 +1,6 @@
 package com.example.staffin.Fragment;
 
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-
-import androidx.core.content.res.ResourcesCompat;
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,25 +14,37 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
     FragmentPresentBottomSheetBinding binding;
 
+    boolean present, absent, doublePresent, halfDay, paidLeave, sickLeave, unpaidLeave, overTime;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentPresentBottomSheetBinding.inflate(inflater, container, false);
+        present = absent = doublePresent = halfDay = paidLeave = sickLeave = unpaidLeave = false;
 
         String date = this.getArguments().getString("Date");
 
         binding.txt1.setText(date);
 
         binding.txtPresent.setOnClickListener(v -> {
-            binding.txtPresent.setBackgroundResource(R.drawable.bg_green);
-            binding.txtPresent.setTextColor(getResources().getColor(R.color.white));
-            binding.txtDoublePresent.setBackgroundResource(R.drawable.bg_green_corner);
-            binding.txtDoublePresent.setTextColor(getResources().getColor(R.color.txtGreen));
-            binding.txtAbsent.setBackgroundResource(R.drawable.bg_red_corner);
-            binding.txtAbsent.setTextColor(getResources().getColor(R.color.txtRed));
-            binding.txtHalfDay.setBackgroundResource(R.drawable.bg_orange_corner);
-            binding.txtHalfDay.setTextColor(getResources().getColor(R.color.txtOrange));
+            if (!present) {
+                present = true;
+                absent = doublePresent = halfDay = paidLeave = sickLeave = unpaidLeave = false;
+
+                binding.txtPresent.setBackgroundResource(R.drawable.bg_green);
+                binding.txtPresent.setTextColor(getResources().getColor(R.color.white));
+
+                binding.txtDoublePresent.setBackgroundResource(R.drawable.bg_green_corner);
+                binding.txtDoublePresent.setTextColor(getResources().getColor(R.color.txtGreen));
+                binding.txtAbsent.setBackgroundResource(R.drawable.bg_red_corner);
+                binding.txtAbsent.setTextColor(getResources().getColor(R.color.txtRed));
+                binding.txtHalfDay.setBackgroundResource(R.drawable.bg_orange_corner);
+                binding.txtHalfDay.setTextColor(getResources().getColor(R.color.txtOrange));
+
+            } else {
+
+            }
+
         });
         binding.txtDoublePresent.setOnClickListener(v -> {
             binding.txtPresent.setBackgroundResource(R.drawable.bg_green_corner);

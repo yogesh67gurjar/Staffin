@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.staffin.PaySlipActivity;
 import com.example.staffin.R;
+import com.example.staffin.SalaryInfoActivity;
 
 public class PayRollAdapter extends RecyclerView.Adapter<PayRollAdapter.MyViewHolder> {
 
@@ -32,8 +33,15 @@ public class PayRollAdapter extends RecyclerView.Adapter<PayRollAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(@NonNull PayRollAdapter.MyViewHolder holder, int position) {
-        holder.btnEdit.setOnClickListener(v -> {
+        holder.viewIcon.setOnClickListener(v -> {
             context.startActivity(new Intent(context.getApplicationContext(), PaySlipActivity.class));
+        });
+
+        holder.editIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                context.startActivity(new Intent(context.getApplicationContext(), SalaryInfoActivity.class));
+            }
         });
     }
 
@@ -43,11 +51,12 @@ public class PayRollAdapter extends RecyclerView.Adapter<PayRollAdapter.MyViewHo
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        ImageButton btnEdit;
+        ImageButton editIcon, viewIcon;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
-            btnEdit = itemView.findViewById(R.id.btnEdit);
+            editIcon = itemView.findViewById(R.id.editIcon);
+            viewIcon = itemView.findViewById(R.id.viewIcon);
         }
     }
 }

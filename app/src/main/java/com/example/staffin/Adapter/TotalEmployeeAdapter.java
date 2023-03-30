@@ -1,6 +1,5 @@
 package com.example.staffin.Adapter;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -114,7 +113,7 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             txtName = itemView.findViewById(R.id.nameTv);
-            btnEdit = itemView.findViewById(R.id.btnEdit);
+            btnEdit = itemView.findViewById(R.id.editIcon);
             btnDelete = itemView.findViewById(R.id.btnDelete);
             txtEmail = itemView.findViewById(R.id.txtEmail);
             txtDOB = itemView.findViewById(R.id.txtDOB);

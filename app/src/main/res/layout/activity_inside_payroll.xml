@@ -58,19 +58,19 @@
             android:layout_height="match_parent">
 
             <TextView
-                android:id="@+id/fullNameTv"
+                android:id="@+id/selectEmployeesTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="30dp"
-                android:text="Full Name"
+                android:text="Select Employees"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/employeeIdEt"
+                android:id="@+id/selectEmployeesEt"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
                 android:layout_marginHorizontal="15dp"
@@ -79,79 +79,52 @@
                 android:drawableLeft="@drawable/ic_profile"
                 android:drawablePadding="20dp"
                 android:gravity="start|center_vertical"
-                android:hint="Enter Your Name"
+                android:hint="select From Here"
+
                 android:inputType="textPersonName"
                 android:paddingStart="20dp"
                 android:textColor="@color/black"
                 android:textColorHint="#80282729"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/fullNameTv" />
+                app:layout_constraintTop_toBottomOf="@id/selectEmployeesTv" />
 
             <TextView
-                android:id="@+id/departmentTv"
+                android:id="@+id/monthTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
-                android:text="Personal ID"
+                android:text="Select Month"
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/employeeIdEt" />
+                app:layout_constraintTop_toBottomOf="@+id/selectEmployeesEt" />
 
-            <EditText
-                android:id="@+id/departmentEt"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/monthConstraint"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
                 android:layout_marginHorizontal="15dp"
                 android:layout_marginTop="7dp"
                 android:background="@drawable/edittext_layout"
-                android:drawableLeft="@drawable/ic_profile"
-                android:drawablePadding="20dp"
-                android:hint="Enter Your Personal ID"
-                android:inputType="textPersonName"
-                android:paddingStart="20dp"
-                android:textColor="@color/black"
-                android:textColorHint="#80282729"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/departmentTv" />
+                app:layout_constraintTop_toBottomOf="@id/monthTv">
 
-            <TextView
-                android:id="@+id/designationTv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
-                android:text="Date"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/departmentEt" />
+                <Spinner
+                    android:id="@+id/monthEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:hint="Enter Your Personal ID"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/dateEt"
-                android:layout_width="match_parent"
-                android:layout_height="42dp"
-                android:layout_marginHorizontal="15dp"
-                android:layout_marginTop="7dp"
-                android:background="@drawable/edittext_layout"
-                android:clickable="true"
-                android:drawableStart="@drawable/ic_cake"
-                android:drawableLeft="@drawable/ic_profile"
-                android:drawableEnd="@drawable/ic_calendar"
-                android:drawablePadding="20dp"
-                android:gravity="center_vertical"
-                android:hint="DD/MM/YYYY"
-                android:inputType="date"
-                android:paddingStart="20dp"
-                android:paddingEnd="20dp"
-                android:textColor="@color/black"
-                android:textColorHint="#80282729"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/designationTv" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.appcompat.widget.AppCompatButton
                 android:id="@+id/nextBtn"
@@ -169,7 +142,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/dateEt" />
+                app:layout_constraintTop_toBottomOf="@id/monthConstraint" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

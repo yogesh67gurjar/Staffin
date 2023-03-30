@@ -90,7 +90,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtAbsent" />
 
-    <TextView
+    <EditText
         android:id="@+id/txtOverTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -100,7 +100,8 @@
         android:drawablePadding="10dp"
         android:paddingHorizontal="20dp"
         android:paddingVertical="13dp"
-        android:text="OverTime"
+        android:hint="OverTime"
+        android:textColorHint="@color/txtGreen"
         android:textColor="@color/txtGreen"
         app:layout_constraintStart_toStartOf="@+id/txt2"
         app:layout_constraintTop_toBottomOf="@+id/txt2" />
