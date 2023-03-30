@@ -5,6 +5,7 @@ import com.example.staffin.Response.AddPasswordForEmployee;
 import com.example.staffin.Response.CompanyDetailsResponse;
 import com.example.staffin.Response.DepartmentResponse;
 import com.example.staffin.Response.DesignationResponse;
+import com.example.staffin.Response.HolidayResponse;
 import com.example.staffin.Response.LoginResponse;
 import com.example.staffin.Response.SingleEmployeeResponse;
 import com.example.staffin.Response.TotalEmployeeResponse;
@@ -72,4 +73,12 @@ public interface ApiInterface {
             @Part("hourly") RequestBody hourly,
             @Path("id") int id);
 
+
+    @FormUrlEncoded
+    @POST("add-holiday")
+    Call<HolidayResponse> postHoliday(@Field("date") String date,
+                                      @Field("occassion") String occassion);
+
 }
+
+

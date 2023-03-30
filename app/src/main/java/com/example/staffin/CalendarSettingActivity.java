@@ -85,6 +85,9 @@ public class CalendarSettingActivity extends AppCompatActivity {
         binding.leftScroll.setOnClickListener(v -> {
             binding.compactcalendarView.scrollLeft();
         });
+        binding.loginBtn.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), HolidayActivity.class));
+        });
 
         binding.btnBack.setOnClickListener(v -> {
 
