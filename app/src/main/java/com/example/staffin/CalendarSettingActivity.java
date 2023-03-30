@@ -78,14 +78,13 @@ public class CalendarSettingActivity extends AppCompatActivity {
                 binding.monthTv.setText("December  " + year);
                 break;
         }
+
         binding.rightScroll.setOnClickListener(v -> {
             binding.compactcalendarView.scrollRight();
         });
         binding.leftScroll.setOnClickListener(v -> {
             binding.compactcalendarView.scrollLeft();
         });
-//        binding.compactcalendarView.scrollRight();
-//        binding.compactcalendarView.scrollLeft();
 
         binding.btnBack.setOnClickListener(v -> {
 
