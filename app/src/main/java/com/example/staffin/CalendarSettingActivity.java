@@ -79,8 +79,8 @@ public class CalendarSettingActivity extends AppCompatActivity {
                 break;
         }
 
-        binding.compactcalendarView.scrollRight();
-        binding.compactcalendarView.scrollLeft();
+//        binding.compactcalendarView.scrollRight();
+//        binding.compactcalendarView.scrollLeft();
 
         binding.btnBack.setOnClickListener(v -> {
 
