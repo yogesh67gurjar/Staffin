@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/white"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".TotalEmployeeActivity">
 
     <ImageButton
@@ -50,15 +50,52 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="20dp"
-        android:textColorHint="@color/txtGray"
         android:background="@drawable/bg_searchview"
         android:drawableStart="@drawable/ic_search"
         android:drawablePadding="10dp"
         android:hint="Search employee"
         android:paddingVertical="10dp"
+        android:textColorHint="@color/txtGray"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/fbShimmer"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="10dp"
+        android:layout_marginTop="20dp"
+        app:shimmer_auto_start="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchBar"
+        app:shimmer_duration="800">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/shimmer_total_employee_layout" />
+
+            <include layout="@layout/shimmer_total_employee_layout" />
+
+            <include layout="@layout/shimmer_total_employee_layout" />
+
+            <include layout="@layout/shimmer_total_employee_layout" />
+
+            <include layout="@layout/shimmer_total_employee_layout" />
+
+            <include layout="@layout/shimmer_total_employee_layout" />
+
+            <include layout="@layout/shimmer_total_employee_layout" />
+        </LinearLayout>
+
+
+    </com.facebook.shimmer.ShimmerFrameLayout>
+
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/totalEmployeeRv"
@@ -66,6 +103,7 @@
         android:layout_height="0dp"
         android:layout_marginHorizontal="10dp"
         android:layout_marginTop="20dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

@@ -72,8 +72,9 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <androidx.appcompat.widget.AppCompatImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/leftScroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="27dp"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:background="@color/white"
@@ -82,7 +83,7 @@
 
                 <TextView
                     android:id="@id/monthTv"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_weight="1"
@@ -93,8 +94,9 @@
                     android:textStyle="bold" />
 
                 <androidx.appcompat.widget.AppCompatImageButton
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:id="@+id/rightScroll"
+                    android:layout_width="match_parent"
+                    android:layout_height="27dp"
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:background="@color/white"
@@ -148,7 +150,7 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/holidayRecyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
+                android:layout_height="400dp"
                 android:layout_marginTop="15dp"
                 android:paddingHorizontal="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
