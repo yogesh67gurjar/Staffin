@@ -4,6 +4,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,20 +18,37 @@ import java.util.ArrayList;
 public class InsidePayrollActivity extends AppCompatActivity {
     ActivityInsidePayrollBinding binding;
     boolean[] selectedCourses;
+    String monthSelected;
     ArrayList<Integer> courseList = new ArrayList<>();
-    String[] courseArray = {"Biology", "English", "Maths", "Physics", "Chemistry", "Computer"
-            , "Biology", "English", "Maths", "Physics", "Chemistry", "Computer"
-            , "Biology", "English", "Maths", "Physics", "Chemistry", "Computer"
-            , "Biology", "English", "Maths", "Physics", "Chemistry", "Computer"
-            , "Biology", "English", "Maths", "Physics", "Chemistry", "Computer"
-            , "Biology", "English", "Maths", "Physics", "Chemistry", "Computer"
-            , "Biology", "English", "Maths", "Physics", "Chemistry", "Computer"};
+    String[] courseArray = {"Yogesh", "Saakshi", "Shubham Sharma", "Shubham Raikwar", "Pragati", "Shubhi"
+            , "ShreeOm", "Madhur", "Ashok Sir", "Shiksha", "Soniya", "Ashutosh"
+            , "Umesh", "Vishnu", "Shoabi", "Rahul", "Shailja", "Rajat"
+            , "Shivani", "Dhruv"};
+    String[] months = {"January", "February", "March", "April", "May", "June",
+            "July", "August", "September", "October", "November", "December"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityInsidePayrollBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+//        binding.monthEt.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
+        ArrayAdapter ss = new ArrayAdapter(this, android.R.layout.simple_spinner_item, months);
+        ss.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        binding.monthEt.setAdapter(ss);
+
+        binding.monthEt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                monthSelected = months[position];
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         selectedCourses = new boolean[courseArray.length];
         binding.selectEmployeesEt.setOnClickListener(v -> {
@@ -115,6 +136,6 @@ public class InsidePayrollActivity extends AppCompatActivity {
                 });
         builder.show();
 
-
     }
+
 }

@@ -48,6 +48,7 @@ public class CompanyDetailsActivity extends AppCompatActivity {
     int Id;
     String empId;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
