@@ -104,23 +104,23 @@ public class CalendarSettingActivity extends AppCompatActivity {
         binding.compactcalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
-                List<Event> events = binding.compactcalendarView.getEvents(dateClicked);
-
-                Bundle bundle = new Bundle();
-
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(dateClicked);
-                int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
-                int day = cal.get(Calendar.DATE);
-                month += 1;
-                Log.d("DATE", String.valueOf(day) + month + year);
-                bundle.putString("Date", day + "-" + month + "-" + year);
-                PresentBottomSheetFragment presentBottomSheetFragment = new PresentBottomSheetFragment();
-                presentBottomSheetFragment.setArguments(bundle);
-                presentBottomSheetFragment.show(getSupportFragmentManager(), presentBottomSheetFragment.getTag());
-
-                Log.d("CLICKED", "Day was clicked: " + dateClicked + " with events " + events);
+//                List<Event> events = binding.compactcalendarView.getEvents(dateClicked);
+//
+//                Bundle bundle = new Bundle();
+//
+//                Calendar cal = Calendar.getInstance();
+//                cal.setTime(dateClicked);
+//                int year = cal.get(Calendar.YEAR);
+//                int month = cal.get(Calendar.MONTH);
+//                int day = cal.get(Calendar.DATE);
+//                month += 1;
+//                Log.d("DATE", String.valueOf(day) + month + year);
+//                bundle.putString("Date", day + "-" + month + "-" + year);
+//                PresentBottomSheetFragment presentBottomSheetFragment = new PresentBottomSheetFragment();
+//                presentBottomSheetFragment.setArguments(bundle);
+//                presentBottomSheetFragment.show(getSupportFragmentManager(), presentBottomSheetFragment.getTag());
+//
+//                Log.d("CLICKED", "Day was clicked: " + dateClicked + " with events " + events);
             }
 
             @Override
