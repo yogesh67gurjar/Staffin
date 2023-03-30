@@ -164,18 +164,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp"
         android:background="@drawable/login_btn_bg"
         android:paddingVertical="18dp"
         android:text="Finish"
         android:textAllCaps="false"
+        android:layout_marginTop="20dp"
         android:textColor="@color/white"
         android:textSize="17sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/bankEt" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

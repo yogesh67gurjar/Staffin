@@ -5,8 +5,8 @@
     android:layout_width="300dp"
     android:layout_height="wrap_content"
     android:backgroundTint="@color/white"
-    app:cardElevation="15dp"
-    app:cardCornerRadius="20dp">
+    app:cardCornerRadius="20dp"
+    app:cardElevation="15dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -32,7 +32,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginTop="5dp"
             android:text="Lorem Ipsum is simply dummy text of the printing and typesetting industry"
             android:textAlignment="center"
             android:textColor="@color/black"
@@ -40,6 +40,45 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv1" />
+
+        <TextView
+            android:id="@+id/txtLeaveType"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="leave type:-paid leave"
+            android:textColor="@color/black"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv2" />
+
+        <TextView
+            android:id="@+id/txtStartDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:text="Start Date"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            app:layout_constraintEnd_toStartOf="@+id/txtEndDate"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/txtLeaveType" />
+
+        <TextView
+            android:id="@+id/txtEndDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="End Date"
+            android:textColor="@color/black"
+            android:textSize="13sp"
+            android:layout_marginTop="3dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toEndOf="@+id/txtStartDate"
+            app:layout_constraintTop_toBottomOf="@+id/txtLeaveType" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/noBtn"
@@ -58,7 +97,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toEndOf="@+id/yesBtn"
-            app:layout_constraintTop_toBottomOf="@+id/tv2" />
+            app:layout_constraintTop_toBottomOf="@+id/txtStartDate" />
 
 
         <androidx.appcompat.widget.AppCompatButton
@@ -77,7 +116,7 @@
             app:layout_constraintEnd_toStartOf="@+id/noBtn"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv2" />
+            app:layout_constraintTop_toBottomOf="@+id/txtStartDate" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
