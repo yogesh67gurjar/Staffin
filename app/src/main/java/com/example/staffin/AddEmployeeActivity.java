@@ -14,7 +14,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.staffin.Interface.ApiInterface;
-import com.example.staffin.Response.AddEmployeeResponse;
 import com.example.staffin.Response.EmployeeResult;
 import com.example.staffin.Response.SingleEmployeeResponse;
 import com.example.staffin.Retrofit.RetrofitServices;
@@ -277,6 +276,7 @@ public class AddEmployeeActivity extends AppCompatActivity {
         intent.putExtra("empId", empId);
         intent.putExtra("Id", Id);
         intent.putExtra("from", "add");
+        startActivity(intent);
 
         // $$$$$$$$$$$$$$$$$$
 

@@ -40,10 +40,11 @@ public class EmployeeIdActivity extends AppCompatActivity {
         });
 
         binding.btnNext.setOnClickListener(v -> {
-            if (binding.userIdEt.getText().toString().trim().isEmpty()) {
-                binding.userIdEt.setError("Enter Your Id");
-                binding.userIdEt.requestFocus();
-            } else if (binding.passwordEt.getText().toString().trim().isEmpty()) {
+//            if (binding.userIdEt.getText().toString().trim().isEmpty()) {
+//                binding.userIdEt.setError("Enter Your Id");
+//                binding.userIdEt.requestFocus();
+//            } else
+            if (binding.passwordEt.getText().toString().trim().isEmpty()) {
                 binding.passwordEt.setError("Enter Your Password");
                 binding.passwordEt.requestFocus();
             } else {

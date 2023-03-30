@@ -178,7 +178,11 @@ public class CompanyDetailsActivity extends AppCompatActivity {
         });
         binding.btnNext.setOnClickListener(v -> {
             Intent intent = new Intent(getApplicationContext(), BankDetailsActivity.class);
-            intent.putExtra("from", "add");
+            if (from.equalsIgnoreCase("edit")) {
+                intent.putExtra("from", "edit");
+            } else {
+                intent.putExtra("from", "add");
+            }
             intent.putExtra("Id", Id);
             intent.putExtra("empId", empId);
             startActivity(intent);
