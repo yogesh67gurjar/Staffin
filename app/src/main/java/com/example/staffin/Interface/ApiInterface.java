@@ -6,6 +6,7 @@ import com.example.staffin.Response.BankDetailsResponse;
 import com.example.staffin.Response.CompanyDetailsResponse;
 import com.example.staffin.Response.DepartmentResponse;
 import com.example.staffin.Response.DesignationResponse;
+import com.example.staffin.Response.HolidayResponse;
 import com.example.staffin.Response.LoginResponse;
 import com.example.staffin.Response.SingleEmployeeResponse;
 import com.example.staffin.Response.TotalEmployeeResponse;
@@ -73,6 +74,12 @@ public interface ApiInterface {
             @Field("hourly") String hourly,
             @Path("id") int id);
 
+
+    @FormUrlEncoded
+    @POST("add-holiday")
+    Call<HolidayResponse> postHoliday(@Field("date") String date,
+                                      @Field("occassion") String occassion);
+
     @FormUrlEncoded
     @POST("add-bank-details/{id}")
     Call<BankDetailsResponse> postSingleBankDetails(@Path("id") int id,
@@ -83,3 +90,5 @@ public interface ApiInterface {
                                                     @Field("branch") String branch);
 
 }
+
+
