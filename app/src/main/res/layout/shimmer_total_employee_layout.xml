@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="38dp"
+        android:layout_marginBottom="20dp"
+        android:background="@drawable/bg_back_btn"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <View
+            android:id="@+id/nameTv"
+            android:layout_width="100dp"
+            android:layout_height="16dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="40dp"
+            android:background="@color/background1"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <View
+            android:id="@+id/txtEmail"
+            android:layout_width="140dp"
+            android:layout_height="16dp"
+            android:layout_marginTop="3dp"
+            android:background="@color/background1"
+
+            app:layout_constraintStart_toStartOf="@+id/nameTv"
+            app:layout_constraintTop_toBottomOf="@+id/nameTv" />
+
+        <View
+            android:id="@+id/btnEdit"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginEnd="20dp"
+            android:background="@color/background1"
+            app:layout_constraintEnd_toStartOf="@+id/btnDelete"
+            app:layout_constraintTop_toTopOf="@+id/btnDelete" />
+
+
+        <View
+            android:id="@+id/btnDelete"
+            android:layout_width="42dp"
+            android:layout_height="42dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:background="@color/background1"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintTop_toBottomOf="@+id/txtEmail">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <View
+                    android:id="@+id/txtDOB"
+                    android:layout_width="match_parent"
+                    android:layout_height="14dp"
+                    android:layout_weight="1"
+                    android:background="@color/background1" />
+
+                <View
+                    android:id="@+id/txtEmpId"
+                    android:layout_width="match_parent"
+                    android:layout_height="14dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_weight="1"
+                    android:background="@color/background1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <View
+                    android:id="@+id/txtDepartment"
+                    android:layout_width="match_parent"
+                    android:layout_height="14dp"
+                    android:layout_weight="1"
+                    android:background="@color/background1" />
+
+                <View
+                    android:id="@+id/txtDesignation"
+                    android:layout_width="match_parent"
+                    android:layout_height="14dp"
+                    android:layout_marginStart="2dp"
+                    android:layout_weight="1"
+                    android:background="@color/background1" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal"
+                android:weightSum="2">
+
+                <View
+                    android:id="@+id/txtAtWork"
+                    android:layout_width="match_parent"
+                    android:layout_height="14dp"
+                    android:layout_marginBottom="15dp"
+                    android:layout_weight="1"
+                    android:background="@color/background1" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/userImage"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_marginStart="20dp"
+        android:background="@color/background1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

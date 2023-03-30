@@ -1,6 +1,7 @@
 package com.example.staffin;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.app.ProgressDialog;
@@ -10,6 +11,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.SearchView;
 import android.widget.Toast;
 
@@ -19,6 +21,8 @@ import com.example.staffin.Response.EmployeeResult;
 import com.example.staffin.Response.TotalEmployeeResponse;
 import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.ActivityTotalEmployeeBinding;
+import com.facebook.shimmer.Shimmer;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,11 +48,25 @@ public class TotalEmployeeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityTotalEmployeeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        Shimmer.ColorHighlightBuilder shimmerBuilder = new Shimmer.ColorHighlightBuilder()
+                .setBaseColor(ContextCompat.getColor(getApplicationContext(), R.color.white))
+                .setHighlightColor(ContextCompat.getColor(getApplicationContext(), R.color.white))
+                .setDuration(1200)
+                .setIntensity(0.9f)
+                .setDropoff(0.9f)
+                .setBaseAlpha(0.6f)
+                .setHighlightAlpha(1f);
+        //Create shimmer
+        Shimmer shimmer = shimmerBuilder.build();
 
         final ProgressDialog progressDialog = new ProgressDialog(TotalEmployeeActivity.this);
         progressDialog.setMessage("Loading...");
-        progressDialog.show();
+        ShimmerFrameLayout shimmerContainer = new ShimmerFrameLayout(getApplicationContext());
+        shimmerContainer.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT));
+        shimmerContainer.setShimmer(shimmer);
+
+        binding.fbShimmer.showShimmer(true);
+//        progressDialog.show();
 
 //        employeesList=new ArrayList<>();
 //
@@ -71,7 +89,10 @@ public class TotalEmployeeActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<TotalEmployeeResponse> call, Response<TotalEmployeeResponse> response) {
                 if (response.isSuccessful()) {
-                    progressDialog.dismiss();
+//                    progressDialog.dismiss();
+                    binding.fbShimmer.stopShimmer();
+                    binding.fbShimmer.setVisibility(View.GONE);
+                    binding.totalEmployeeRv.setVisibility(View.VISIBLE);
                     employeeResultList = response.body().getEmployeeResult();
                     adapter = new TotalEmployeeAdapter(TotalEmployeeActivity.this, employeeResultList);
                     binding.totalEmployeeRv.setAdapter(adapter);
