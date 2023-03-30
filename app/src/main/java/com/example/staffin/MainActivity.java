@@ -48,6 +48,9 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("from", "mainactivity");
             startActivity(intent);
         });
+        binding.card7.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), LeaveActivity.class));
+        });
         binding.card6.setOnClickListener(v -> {
 
             AlertDialog.Builder dialog = new AlertDialog.Builder(this);
