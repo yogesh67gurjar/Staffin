@@ -291,15 +291,13 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         compactCalendarView.setLocale(TimeZone.getDefault(), Locale.ENGLISH);
         compactCalendarView.setUseThreeLetterAbbreviation(true);
 
-
         Calendar calendar1 = Calendar.getInstance();
         calendar1.set(Calendar.YEAR, 2023);
         calendar1.set(Calendar.MONTH, 2);
         calendar1.set(Calendar.DAY_OF_MONTH, 1);
         milliTime = calendar1.getTimeInMillis();
-
         Event ev1 = new Event(getResources().getColor(R.color.calRed), milliTime, "Teachers' Professional Day");
-        
+       
         binding.compactcalendarView.addEvent(ev1);
 
         Calendar calendar2 = Calendar.getInstance();
