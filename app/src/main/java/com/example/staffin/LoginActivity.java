@@ -1,14 +1,17 @@
 package com.example.staffin;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.staffin.Interface.ApiInterface;
 import com.example.staffin.Response.LoginResponse;
@@ -43,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
         binding.alreadyUser.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),SignUpActivity.class));
+                startActivity(new Intent(getApplicationContext(), SignUpActivity.class));
                 finish();
             }
         });
@@ -94,32 +97,52 @@ public class LoginActivity extends AppCompatActivity {
 //                          //  Toast.makeText(LoginActivity.this, "Enter Correct Details ", Toast.LENGTH_SHORT).show();
 //                        }
 //                    });
-                    Call<LoginResponse> call = apiInterface.postLoginResponse(number, password);
-                    call.enqueue(new Callback<>() {
-                        @Override
-                        public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                            if (response.isSuccessful()) {
-                                Toast.makeText(LoginActivity.this, "Welcome...", Toast.LENGTH_SHORT).show();
-                                startActivity(new Intent(LoginActivity.this, MainActivity.class));
-                                editor.putString("mobile", number);
-                                editor.apply();
-                                finish();
-                            } else {
-                                Toast.makeText(LoginActivity.this, "Please Enter Correct Details", Toast.LENGTH_SHORT).show();
-                            }
-                        }
 
-                        @Override
-                        public void onFailure(Call<LoginResponse> call, Throwable t) {
-                            // Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                            Log.d("Message karo", t.getMessage());
-                            Toast.makeText(LoginActivity.this, "Enter Correct Details", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+
+                    if (isNetworkAvailable()) {
+                        ProgressDialog progressDialog=new ProgressDialog(LoginActivity.this);
+                        progressDialog.setMessage("please wait...");
+                        progressDialog.show();
+                        Call<LoginResponse> call = apiInterface.postLoginResponse(number, password);
+                        call.enqueue(new Callback<>() {
+                            @Override
+                            public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                                if (response.isSuccessful()) {
+                                    Toast.makeText(LoginActivity.this, "Welcome...", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                    editor.putString("mobile", number);
+                                    editor.apply();
+                                    progressDialog.dismiss();
+                                    finish();
+                                } else {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(LoginActivity.this, "Please Enter Correct Details", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<LoginResponse> call, Throwable t) {
+                                // Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                Log.d("Message karo", t.getMessage());
+                                progressDialog.dismiss();
+                                Toast.makeText(LoginActivity.this, "Enter Correct Details", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        Toast.makeText(LoginActivity.this, "Check Your Internet Connection...", Toast.LENGTH_SHORT).show();
+                    }
 
                 }
             }
         });
 
     }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
 }

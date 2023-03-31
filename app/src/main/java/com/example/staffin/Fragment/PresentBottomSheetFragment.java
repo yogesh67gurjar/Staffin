@@ -1,5 +1,6 @@
 package com.example.staffin.Fragment;
 
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,8 @@ import android.widget.Toast;
 import com.example.staffin.R;
 import com.example.staffin.databinding.FragmentPresentBottomSheetBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+
+import java.util.Calendar;
 
 
 public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
@@ -235,11 +238,25 @@ public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
                 binding.txtPaidLeave.setTextColor(getResources().getColor(R.color.txtPurple));
                 binding.txtSickLeave.setBackgroundResource(R.drawable.bg_purple_corner);
                 binding.txtSickLeave.setTextColor(getResources().getColor(R.color.txtPurple));
-
             } else {
                 unpaidLeave = false;
                 binding.txtUnPaidLeave.setBackgroundResource(R.drawable.bg_purple_corner);
                 binding.txtUnPaidLeave.setTextColor(getResources().getColor(R.color.txtPurple));
+            }
+        });
+
+        binding.txtOverTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final Calendar c = Calendar.getInstance();
+                // on below line we are getting our hour, minute.
+                int hour = c.get(Calendar.HOUR_OF_DAY);
+                int minute = c.get(Calendar.MINUTE);
+                // on below line we are initializing our Time Picker Dialog
+                TimePickerDialog timePickerDialog = new TimePickerDialog(getContext(),
+                        (view, hourOfDay, minute1) -> binding.txtOverTime.setText(hourOfDay + ":" + minute1 + " hours"), hour, minute, true);
+                timePickerDialog.show();
+
             }
         });
 
@@ -253,7 +270,6 @@ public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
                 } else {
                     Toast.makeText(getContext(), "Please Select Any Status Of Attendance", Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
 
