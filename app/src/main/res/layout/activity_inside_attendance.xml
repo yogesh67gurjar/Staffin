@@ -151,8 +151,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="Present"
                         android:inputType="textMultiLine"
+                        android:text="Present"
 
                         android:textAlignment="center"
                         android:textColor="@color/black"
@@ -185,8 +185,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="Absent"
                         android:inputType="textMultiLine"
+                        android:text="Absent"
 
                         android:textAlignment="center"
                         android:textColor="@color/black"
@@ -218,8 +218,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:text="Half day"
                         android:inputType="textMultiLine"
+                        android:text="Half day"
 
                         android:textAlignment="center"
                         android:textColor="@color/black"
@@ -252,14 +252,15 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:inputType="textMultiLine"
                         android:text="Paid leave"
-                     android:inputType="textMultiLine"
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="15sp"
                         android:textStyle="normal" />
 
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -284,9 +285,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
+                        android:inputType="textMultiLine"
                         android:paddingHorizontal="10dp"
                         android:text="Late"
-                        android:inputType="textMultiLine"
 
                         android:textAlignment="center"
                         android:textColor="@color/black"
@@ -303,10 +304,10 @@
                 android:layout_height="300dp"
                 android:layout_marginHorizontal="10dp"
                 android:layout_marginTop="20dp"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="10dp"
                 android:layout_marginBottom="10dp"
                 android:paddingBottom="10dp"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="10dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -314,8 +315,8 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:background="@color/white"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:background="@color/white">
 
                     <TextView
                         android:id="@+id/monthTv"
@@ -339,23 +340,26 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/monthTv" />
-                    <com.github.sundeepk.compactcalendarview.CompactCalendarView
-                        xmlns:app="http://schemas.android.com/apk/res-auto"
+
+                    <com.github.sundeepk.compactcalendarview.CompactCalendarView xmlns:app="http://schemas.android.com/apk/res-auto"
                         android:id="@+id/compactcalendar_view"
                         android:layout_width="match_parent"
                         android:layout_height="250dp"
                         android:layout_marginHorizontal="10dp"
                         android:layout_marginTop="10dp"
                         android:paddingLeft="10dp"
-                        app:compactCalendarEventIndicatorStyle="fill_large_indicator"
                         android:paddingRight="10dp"
-                        app:compactCalendarShouldSelectFirstDayOfMonthOnScroll="false"
+                        app:compactCalendarBackgroundColor="#FFFFFF"
+                        app:compactCalendarCurrentDayBackgroundColor="@color/bluetext"
+                        app:compactCalendarCurrentSelectedDayBackgroundColor="@color/txtGray"
                         app:compactCalendarCurrentSelectedDayTextColor="@color/white"
                         app:compactCalendarDisplayOtherMonthDays="false"
-                        app:compactCalendarBackgroundColor="#FFFFFF"
-                        app:compactCalendarCurrentDayBackgroundColor="#CAD3FF"
-                        app:compactCalendarCurrentSelectedDayBackgroundColor="@color/txtOrange"
+                        app:compactCalendarCurrentDayTextColor="@color/white"
+
+
+                        app:compactCalendarEventIndicatorStyle="fill_large_indicator"
                         app:compactCalendarMultiEventIndicatorColor="#fff"
+                        app:compactCalendarShouldSelectFirstDayOfMonthOnScroll="false"
                         app:compactCalendarTargetHeight="250dp"
                         app:compactCalendarTextColor="#000000"
                         app:compactCalendarTextSize="12sp"
