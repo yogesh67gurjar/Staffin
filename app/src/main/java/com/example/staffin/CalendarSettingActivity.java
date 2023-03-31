@@ -26,6 +26,12 @@ public class CalendarSettingActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityCalendarSettingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        binding.scroll.scrollTo(0, 0);
+        binding.holidayRecyclerView.scrollTo(0, 0);
+
+        initializeCalendar();
+
         if (getIntent().hasExtra("from")) {
             from = getIntent().getStringExtra("from");
         }
@@ -173,34 +179,81 @@ public class CalendarSettingActivity extends AppCompatActivity {
         binding.holidayRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.holidayRecyclerView.setAdapter(new HolidayAdapter(CalendarSettingActivity.this));
 
-        initializeCalendar();
+
     }
 
     private void initializeCalendar() {
-
+        long milliTime;
         CompactCalendarView compactCalendarView = (CompactCalendarView) findViewById(R.id.compactcalendar_view);
         compactCalendarView.setLocale(TimeZone.getDefault(), Locale.ENGLISH);
         compactCalendarView.setUseThreeLetterAbbreviation(true);
 
-        Calendar[] calendars = new Calendar[7];
-        long milliTime;
-        for (int i = 0; i < 7; i++) {
-            calendars[i] = Calendar.getInstance();
-            calendars[i].set(Calendar.YEAR, 2023);
-            calendars[i].set(Calendar.MONTH, 2);
-            calendars[i].set(Calendar.YEAR, i + 1);
-            milliTime = calendars[i].getTimeInMillis();
-            Event event = new Event(getResources().getColor(R.color.calGreen), milliTime, "huifuhsdfusdn");
-            binding.compactcalendarView.addEvent(event);
-        }
 
-//        Calendar calendar1 = Calendar.getInstance();
-//        calendar1.set(Calendar.YEAR, 2023);
-//        calendar1.set(Calendar.MONTH, 2);
-//        calendar1.set(Calendar.DAY_OF_MONTH, 2);
-//        milliTime = calendar1.getTimeInMillis();
-//        Event ev1 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev1);
+        Calendar calendar1 = Calendar.getInstance();
+        calendar1.set(Calendar.YEAR, 2023);
+        calendar1.set(Calendar.MONTH, 2);
+        calendar1.set(Calendar.DAY_OF_MONTH, 1);
+        milliTime = calendar1.getTimeInMillis();
+        Event ev1 = new Event(getResources().getColor(R.color.txtRed), milliTime, "Teachers' Professional Day");
+        binding.compactcalendarView.addEvent(ev1);
+
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.set(Calendar.YEAR, 2023);
+        calendar2.set(Calendar.MONTH, 2);
+        calendar2.set(Calendar.DAY_OF_MONTH, 2);
+        milliTime = calendar2.getTimeInMillis();
+        Event ev2 = new Event(getResources().getColor(R.color.yellow), milliTime, "Teachers' Professional Day");
+        binding.compactcalendarView.addEvent(ev2);
+
+        Calendar calendar3 = Calendar.getInstance();
+        calendar3.set(Calendar.YEAR, 2023);
+        calendar3.set(Calendar.MONTH, 2);
+        calendar3.set(Calendar.DAY_OF_MONTH, 3);
+        milliTime = calendar3.getTimeInMillis();
+        Event ev3 = new Event(getResources().getColor(R.color.green), milliTime, "Teachers' Professional Day");
+        binding.compactcalendarView.addEvent(ev3);
+
+        Calendar calendar4 = Calendar.getInstance();
+        calendar4.set(Calendar.YEAR, 2023);
+        calendar4.set(Calendar.MONTH, 2);
+        calendar4.set(Calendar.DAY_OF_MONTH, 4);
+        milliTime = calendar4.getTimeInMillis();
+        Event ev4 = new Event(getResources().getColor(R.color.bluetext), milliTime, "Teachers' Professional Day");
+        binding.compactcalendarView.addEvent(ev4);
+
+        Calendar calendar5 = Calendar.getInstance();
+        calendar5.set(Calendar.YEAR, 2023);
+        calendar5.set(Calendar.MONTH, 2);
+        calendar5.set(Calendar.DAY_OF_MONTH, 5);
+        milliTime = calendar5.getTimeInMillis();
+        Event ev5 = new Event(getResources().getColor(R.color.txtGray), milliTime, "Teachers' Professional Day");
+        binding.compactcalendarView.addEvent(ev5);
+
+        Calendar calendar6 = Calendar.getInstance();
+        calendar6.set(Calendar.YEAR, 2023);
+        calendar6.set(Calendar.MONTH, 2);
+        calendar6.set(Calendar.DAY_OF_MONTH, 6);
+        milliTime = calendar6.getTimeInMillis();
+        Event ev6 = new Event(getResources().getColor(R.color.txtPurple), milliTime, "Teachers' Professional Day");
+        binding.compactcalendarView.addEvent(ev6);
+
+
+        Calendar calendar7 = Calendar.getInstance();
+        calendar7.set(Calendar.YEAR, 2023);
+        calendar7.set(Calendar.MONTH, 2);
+        calendar7.set(Calendar.DAY_OF_MONTH, 7);
+        milliTime = calendar7.getTimeInMillis();
+        Event ev7 = new Event(getResources().getColor(R.color.black), milliTime, "Teachers' Professional Day");
+        binding.compactcalendarView.addEvent(ev7);
+
+
+        Calendar calendar10 = Calendar.getInstance();
+        calendar10.set(Calendar.YEAR, 2023);
+        calendar10.set(Calendar.MONTH, 2);
+        calendar10.set(Calendar.DAY_OF_MONTH, 29);
+        milliTime = calendar10.getTimeInMillis();
+        Event ev10 = new Event(getResources().getColor(R.color.purple_200), milliTime, "Ram Navami");
+        binding.compactcalendarView.addEvent(ev10);
 
 
     }

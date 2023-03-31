@@ -296,7 +296,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         calendar10.set(Calendar.YEAR, 2023);
         calendar10.set(Calendar.MONTH, 2);
         calendar10.set(Calendar.DAY_OF_MONTH, 29);
-        long milliTime = calendar10.getTimeInMillis();
+         milliTime = calendar10.getTimeInMillis();
 
 
         Event ev10 = new Event(R.drawable.bg_green, milliTime, "Ram Navami");
