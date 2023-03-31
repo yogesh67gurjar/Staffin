@@ -301,14 +301,12 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         Event ev10 = new Event(R.drawable.bg_green, milliTime, "Ram Navami");
         binding.compactcalendarView.addEvent(ev10);
 
-
         Calendar calendar1 = Calendar.getInstance();
         calendar1.set(Calendar.YEAR, 2023);
         calendar1.set(Calendar.MONTH, 2);
         calendar1.set(Calendar.DAY_OF_MONTH, 6);
         milliTime = calendar1.getTimeInMillis();
 
-        long milliTime = calendar1.getTimeInMillis();
         Event ev1 = new Event(Color.RED, milliTime, "Teachers' Professional Day");
         binding.compactcalendarView.addEvent(ev1);
 
