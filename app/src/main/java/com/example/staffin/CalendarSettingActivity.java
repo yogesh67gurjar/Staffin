@@ -27,8 +27,6 @@ public class CalendarSettingActivity extends AppCompatActivity {
         binding = ActivityCalendarSettingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        binding.scroll.scrollTo(0, 0);
-        binding.holidayRecyclerView.scrollTo(0, 0);
 
         initializeCalendar();
 
