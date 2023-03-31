@@ -301,12 +301,14 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         Event ev10 = new Event(R.drawable.bg_green, milliTime, "Ram Navami");
         binding.compactcalendarView.addEvent(ev10);
 
+
         Calendar calendar1 = Calendar.getInstance();
         calendar1.set(Calendar.YEAR, 2023);
         calendar1.set(Calendar.MONTH, 2);
         calendar1.set(Calendar.DAY_OF_MONTH, 6);
         milliTime = calendar1.getTimeInMillis();
 
+        long milliTime = calendar1.getTimeInMillis();
         Event ev1 = new Event(Color.RED, milliTime, "Teachers' Professional Day");
         binding.compactcalendarView.addEvent(ev1);
 
@@ -315,7 +317,6 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         calendar2.set(Calendar.MONTH, 2);
         calendar2.set(Calendar.DAY_OF_MONTH, 7);
         milliTime = calendar2.getTimeInMillis();
-
         Event ev2 = new Event(Color.BLUE, milliTime, "Teachers' Professional Day");
         binding.compactcalendarView.addEvent(ev2);
 
@@ -324,9 +325,9 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         calendar3.set(Calendar.MONTH, 2);
         calendar3.set(Calendar.DAY_OF_MONTH, 8);
         milliTime = calendar3.getTimeInMillis();
-
         Event ev3 = new Event(Color.GREEN, milliTime, "Teachers' Professional Day");
         binding.compactcalendarView.addEvent(ev3);
+
 
     }
 
