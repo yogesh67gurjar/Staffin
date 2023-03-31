@@ -347,6 +347,7 @@
                         android:layout_marginHorizontal="10dp"
                         android:layout_marginTop="10dp"
                         android:paddingLeft="10dp"
+                        app:compactCalendarEventIndicatorStyle="fill_large_indicator"
                         android:paddingRight="10dp"
                         app:compactCalendarShouldSelectFirstDayOfMonthOnScroll="false"
                         app:compactCalendarCurrentSelectedDayTextColor="@color/white"
