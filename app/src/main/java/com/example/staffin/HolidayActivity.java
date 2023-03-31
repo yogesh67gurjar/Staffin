@@ -32,6 +32,10 @@ public class HolidayActivity extends AppCompatActivity {
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
         binding.btnNext.setOnClickListener(v -> {
 
+            binding.btnBack.setOnClickListener(v1 -> {
+                finish();
+            });
+
             if (binding.occasionEt.getText().toString().isEmpty()) {
                 binding.occasionEt.setError("Enter Occasion Name");
                 binding.occasionEt.requestFocus();
