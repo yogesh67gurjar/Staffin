@@ -1,24 +1,21 @@
 package com.example.staffin;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.View;
-
 import com.example.staffin.Adapter.HolidayAdapter;
-import com.example.staffin.Fragment.PresentBottomSheetFragment;
 import com.example.staffin.databinding.ActivityCalendarSettingBinding;
-import com.example.staffin.databinding.ActivityCompanyDetailsBinding;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class CalendarSettingActivity extends AppCompatActivity {
     ActivityCalendarSettingBinding binding;
@@ -171,8 +168,41 @@ public class CalendarSettingActivity extends AppCompatActivity {
                         break;
                 }
             }
+
         });
         binding.holidayRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         binding.holidayRecyclerView.setAdapter(new HolidayAdapter(CalendarSettingActivity.this));
+
+        initializeCalendar();
     }
+
+    private void initializeCalendar() {
+
+        CompactCalendarView compactCalendarView = (CompactCalendarView) findViewById(R.id.compactcalendar_view);
+        compactCalendarView.setLocale(TimeZone.getDefault(), Locale.ENGLISH);
+        compactCalendarView.setUseThreeLetterAbbreviation(true);
+
+        Calendar[] calendars = new Calendar[7];
+        long milliTime;
+        for (int i = 0; i < 7; i++) {
+            calendars[i] = Calendar.getInstance();
+            calendars[i].set(Calendar.YEAR, 2023);
+            calendars[i].set(Calendar.MONTH, 2);
+            calendars[i].set(Calendar.YEAR, i + 1);
+            milliTime = calendars[i].getTimeInMillis();
+            Event event = new Event(getResources().getColor(R.color.calGreen), milliTime, "huifuhsdfusdn");
+            binding.compactcalendarView.addEvent(event);
+        }
+
+//        Calendar calendar1 = Calendar.getInstance();
+//        calendar1.set(Calendar.YEAR, 2023);
+//        calendar1.set(Calendar.MONTH, 2);
+//        calendar1.set(Calendar.DAY_OF_MONTH, 2);
+//        milliTime = calendar1.getTimeInMillis();
+//        Event ev1 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
+//        binding.compactcalendarView.addEvent(ev1);
+
+
+    }
+
 }

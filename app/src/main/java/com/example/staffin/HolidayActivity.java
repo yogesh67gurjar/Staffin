@@ -2,6 +2,7 @@ package com.example.staffin;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
@@ -11,8 +12,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.staffin.Interface.ApiInterface;
 import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.ActivityHolidayBinding;
+import com.github.sundeepk.compactcalendarview.CompactCalendarView;
+import com.github.sundeepk.compactcalendarview.domain.Event;
 
 import java.util.Calendar;
+import java.util.Locale;
+import java.util.TimeZone;
 
 public class HolidayActivity extends AppCompatActivity {
 
@@ -79,4 +84,5 @@ public class HolidayActivity extends AppCompatActivity {
             datePickerDialog.show();
         });
     }
+
 }
