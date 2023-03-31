@@ -1,12 +1,18 @@
 package com.example.staffin;
 
+import static android.icu.lang.UCharacter.DecompositionType.SQUARE;
+
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.util.Log;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,15 +23,19 @@ import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.android.material.snackbar.Snackbar;
 
 import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.TimeZone;
 
 public class InsideAttendanceActivity extends AppCompatActivity {
     ActivityInsideAttendanceBinding binding;
     String name, status, empId, dpImg;
     DownloadManager manager;
+    private Rect textSizeRect;
+    private int heightPerDay;
 
 
     private SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MMMM- yyyy", Locale.getDefault());
@@ -277,10 +287,27 @@ public class InsideAttendanceActivity extends AppCompatActivity {
 
     private void initializeCalendar() {
 
+        CompactCalendarView compactCalendarView = (CompactCalendarView) findViewById(R.id.compactcalendar_view);
+        compactCalendarView.setLocale(TimeZone.getDefault(), Locale.ENGLISH);
+        compactCalendarView.setUseThreeLetterAbbreviation(true);
+
+        Calendar calendar10 = Calendar.getInstance();
+        calendar10.set(Calendar.YEAR, 2023);
+        calendar10.set(Calendar.MONTH, 2);
+        calendar10.set(Calendar.DAY_OF_MONTH, 29);
+        long milliTime = calendar10.getTimeInMillis();
+
+
+        Event ev10 = new Event(R.drawable.bg_green, milliTime, "Ram Navami");
+        binding.compactcalendarView.addEvent(ev10);
+
+
         Calendar calendar1 = Calendar.getInstance();
         calendar1.set(Calendar.YEAR, 2023);
         calendar1.set(Calendar.MONTH, 2);
         calendar1.set(Calendar.DAY_OF_MONTH, 6);
+        milliTime = calendar1.getTimeInMillis();
+
         long milliTime = calendar1.getTimeInMillis();
         Event ev1 = new Event(Color.RED, milliTime, "Teachers' Professional Day");
         binding.compactcalendarView.addEvent(ev1);

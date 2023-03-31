@@ -50,13 +50,14 @@ public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.MyViewHolder
     public void showPopup() {
         adDialog.setContentView(R.layout.leave_application_popup);
         adDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        adDialog.setCancelable(false);
         adDialog.show();
 
         AppCompatButton yesBtn = adDialog.findViewById(R.id.yesBtn);
         AppCompatButton noBtn = adDialog.findViewById(R.id.noBtn);
 
         yesBtn.setOnClickListener(v -> {
-            Toast.makeText(context, "Employee Removed Successfully", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Leave Application Accepted", Toast.LENGTH_SHORT).show();
 //            Toast toast = Toast.makeText(context.getApplicationContext(), "Employee Removed Successfully", Toast.LENGTH_SHORT);
 //            View view1 = toast.getView();
 //            view1.setBackgroundResource(R.drawable.bg_red);
@@ -65,8 +66,12 @@ public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.MyViewHolder
             adDialog.dismiss();
 
         });
-        noBtn.setOnClickListener(v -> adDialog.dismiss());
-        adDialog.setOnCancelListener(dialog -> adDialog.dismiss());
+        noBtn.setOnClickListener(v -> {
+            adDialog.dismiss();
+            Toast.makeText(context, "Leave Application Rejected", Toast.LENGTH_SHORT).show();
+
+        });
+//        adDialog.setOnCancelListener(dialog -> adDialog.dismiss());
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
