@@ -6,6 +6,7 @@ import com.example.staffin.Response.BankDetailsResponse;
 import com.example.staffin.Response.CompanyDetailsResponse;
 import com.example.staffin.Response.DepartmentResponse;
 import com.example.staffin.Response.DesignationResponse;
+import com.example.staffin.Response.EventResponse;
 import com.example.staffin.Response.HolidayResponse;
 import com.example.staffin.Response.LoginResponse;
 import com.example.staffin.Response.SingleEmployeeResponse;
@@ -89,6 +90,11 @@ public interface ApiInterface {
                                                     @Field("account_number") String account_number,
                                                     @Field("bank") String bank,
                                                     @Field("branch") String branch);
+
+
+
+    @GET("get-event-details")
+    Call<EventResponse> getAllEvents();
 
     //get all holidays
     @GET("get-holiday")

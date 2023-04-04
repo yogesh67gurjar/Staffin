@@ -3,8 +3,12 @@ package com.example.staffin;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+
+import android.content.res.Configuration;
+
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -21,6 +25,8 @@ import com.example.staffin.Response.EmployeeResult;
 import com.example.staffin.Response.TotalEmployeeResponse;
 import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.ActivityTotalEmployeeBinding;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +51,12 @@ public class TotalEmployeeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityTotalEmployeeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        employeeResultList = new ArrayList<>();
+        adapter = new TotalEmployeeAdapter(TotalEmployeeActivity.this, employeeResultList);
+
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
+
 
 
         final ProgressDialog progressDialog = new ProgressDialog(TotalEmployeeActivity.this);
@@ -70,6 +81,27 @@ public class TotalEmployeeActivity extends AppCompatActivity {
 
 
         binding.totalEmployeeRv.setLayoutManager(new LinearLayoutManager(this));
+
+
+
+        apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
+        Call<TotalEmployeeResponse> call = apiInterface.getTotalEmployee();
+        call.enqueue(new Callback<TotalEmployeeResponse>() {
+            @Override
+            public void onResponse(Call<TotalEmployeeResponse> call, Response<TotalEmployeeResponse> response) {
+                if (response.isSuccessful()) {
+//                    progressDialog.dismiss();
+                    adapter = null;
+                    binding.fbShimmer.stopShimmer();
+                    binding.fbShimmer.setVisibility(View.GONE);
+                    binding.totalEmployeeRv.setVisibility(View.VISIBLE);
+                    employeeResultList = response.body().getEmployeeResult();
+                    adapter = new TotalEmployeeAdapter(TotalEmployeeActivity.this, employeeResultList);
+                    binding.totalEmployeeRv.setAdapter(adapter);
+
+                } else {
+                    Toast.makeText(TotalEmployeeActivity.this, "Find Some Error", Toast.LENGTH_SHORT).show();
+
 
         if(isNetworkAvailable())
         {
@@ -150,10 +182,27 @@ public class TotalEmployeeActivity extends AppCompatActivity {
         //update recyclerview
         adapter.filterList(filteredList);
     }
+
+    @Override public void onConfigurationChanged(@NotNull Configuration
+                                                         newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            startActivity(new Intent(getApplicationContext(),TotalEmployeeActivity.class));
+            finish();
+//            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            startActivity(new Intent(getApplicationContext(),TotalEmployeeActivity.class));
+            finish();
+//            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+        } }
+
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
                 = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
+
 }

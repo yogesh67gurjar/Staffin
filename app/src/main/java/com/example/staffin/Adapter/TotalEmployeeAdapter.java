@@ -29,6 +29,7 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
     List<EmployeeResult> employeeResultList;
     Dialog adDialog;
 
+
     public TotalEmployeeAdapter(Context context, List<EmployeeResult> employeeResultList) {
         this.context = context;
         this.employeeResultList = employeeResultList;
@@ -51,7 +52,9 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
     @Override
     public void onBindViewHolder(@NonNull TotalEmployeeAdapter.MyViewHolder holder, int position) {
         EmployeeResult singleUnit = employeeResultList.get(position);
+
         Glide.with(context.getApplicationContext()).load(singleUnit.getProfileImage()).placeholder(R.drawable.img_dp).into(holder.userImage);
+
 
         holder.txtName.setText(singleUnit.getFullName());
         holder.txtEmail.setText(singleUnit.getEmail());
@@ -66,7 +69,7 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
             Intent editIntent = new Intent(context, AddEmployeeActivity.class);
             editIntent.putExtra("Id", singleUnit.getId());
             editIntent.putExtra("from", "edit");
-            editIntent.putExtra("empId",singleUnit.getEmployeeID());
+            editIntent.putExtra("empId", singleUnit.getEmployeeID());
             context.startActivity(editIntent);
         });
 
@@ -99,6 +102,7 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
 //            view1.setBackgroundResource(R.drawable.bg_red);
 //            view1.setPadding(70, 30, 70, 30);
 //            toast.show();
+
             adDialog.dismiss();
 
         });
