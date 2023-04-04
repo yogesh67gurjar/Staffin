@@ -1,19 +1,19 @@
 package com.example.staffin;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.ContextCompat;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
-import android.widget.FrameLayout;
-import android.widget.SearchView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.staffin.Adapter.TotalEmployeeAdapter;
 import com.example.staffin.Interface.ApiInterface;
@@ -21,12 +21,9 @@ import com.example.staffin.Response.EmployeeResult;
 import com.example.staffin.Response.TotalEmployeeResponse;
 import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.ActivityTotalEmployeeBinding;
-import com.facebook.shimmer.Shimmer;
-import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -48,6 +45,7 @@ public class TotalEmployeeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityTotalEmployeeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
 
 
         final ProgressDialog progressDialog = new ProgressDialog(TotalEmployeeActivity.this);
@@ -73,33 +71,37 @@ public class TotalEmployeeActivity extends AppCompatActivity {
 
         binding.totalEmployeeRv.setLayoutManager(new LinearLayoutManager(this));
 
+        if(isNetworkAvailable())
+        {
+            Call<TotalEmployeeResponse> call = apiInterface.getTotalEmployee();
+            call.enqueue(new Callback<TotalEmployeeResponse>() {
+                @Override
+                public void onResponse(Call<TotalEmployeeResponse> call, Response<TotalEmployeeResponse> response) {
+                    if (response.isSuccessful()) {
+                        binding.fbShimmer.stopShimmer();
+                        binding.fbShimmer.setVisibility(View.GONE);
+                        binding.totalEmployeeRv.setVisibility(View.VISIBLE);
+                        employeeResultList = response.body().getEmployeeResult();
+                        adapter = new TotalEmployeeAdapter(TotalEmployeeActivity.this, employeeResultList);
+                        binding.totalEmployeeRv.setAdapter(adapter);
 
-        apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
-        Call<TotalEmployeeResponse> call = apiInterface.getTotalEmployee();
-        call.enqueue(new Callback<TotalEmployeeResponse>() {
-            @Override
-            public void onResponse(Call<TotalEmployeeResponse> call, Response<TotalEmployeeResponse> response) {
-                if (response.isSuccessful()) {
-//                    progressDialog.dismiss();
-                    binding.fbShimmer.stopShimmer();
-                    binding.fbShimmer.setVisibility(View.GONE);
-                    binding.totalEmployeeRv.setVisibility(View.VISIBLE);
-                    employeeResultList = response.body().getEmployeeResult();
-                    adapter = new TotalEmployeeAdapter(TotalEmployeeActivity.this, employeeResultList);
-                    binding.totalEmployeeRv.setAdapter(adapter);
-
-                } else {
-                    Toast.makeText(TotalEmployeeActivity.this, "Find Some Error", Toast.LENGTH_SHORT).show();
-
+                    } else {
+                        Log.d("ndfnsdf", response.message());
+                        Toast.makeText(TotalEmployeeActivity.this, "Some Error Occured", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<TotalEmployeeResponse> call, Throwable t) {
-                Toast.makeText(TotalEmployeeActivity.this, "Failure,Try Again", Toast.LENGTH_SHORT).show();
+                @Override
+                public void onFailure(Call<TotalEmployeeResponse> call, Throwable t) {
+                    Toast.makeText(TotalEmployeeActivity.this, "Failure,Try Again", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
+        else
+        {
+            Toast.makeText(this, "Internet Not Available", Toast.LENGTH_SHORT).show();
+        }
 
-            }
-        });
 
 
         binding.imageButton.setOnClickListener(new View.OnClickListener() {
@@ -148,5 +150,10 @@ public class TotalEmployeeActivity extends AppCompatActivity {
         //update recyclerview
         adapter.filterList(filteredList);
     }
-
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 }

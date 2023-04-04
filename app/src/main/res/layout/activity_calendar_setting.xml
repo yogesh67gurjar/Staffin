@@ -44,12 +44,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView" />
 
-    <androidx.core.widget.NestedScrollView
+    <ScrollView
+        android:orientation="vertical"
         android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -111,7 +113,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="250dp"
                 android:layout_marginHorizontal="10dp"
-                android:layout_marginTop="5dp"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 app:compactCalendarBackgroundColor="#FFFFFF"
@@ -143,7 +144,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="5dp"
                 android:text="Holiday"
                 android:textColor="@color/black"
                 android:textStyle="bold"
@@ -154,7 +155,6 @@
                 android:id="@+id/holidayRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:layout_marginTop="15dp"
                 android:layout_marginBottom="80dp"
                 android:nestedScrollingEnabled="false"
                 android:paddingHorizontal="15dp"
@@ -162,15 +162,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/tv1"
-                tools:listitem="@layout/holiday_layout">
-
-
-            </androidx.recyclerview.widget.RecyclerView>
+                tools:listitem="@layout/holiday_layout"/>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </androidx.core.widget.NestedScrollView>
+    </ScrollView>
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/loginBtn"

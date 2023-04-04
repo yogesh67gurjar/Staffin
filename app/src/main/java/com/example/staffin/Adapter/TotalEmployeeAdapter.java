@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.staffin.AddEmployeeActivity;
 import com.example.staffin.R;
 import com.example.staffin.Response.EmployeeResult;
@@ -50,7 +51,7 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
     @Override
     public void onBindViewHolder(@NonNull TotalEmployeeAdapter.MyViewHolder holder, int position) {
         EmployeeResult singleUnit = employeeResultList.get(position);
-//        Glide.with(context.getApplicationContext()).load(singleUnit.getProfileImage()).placeholder(R.drawable.image_employee).into(holder.userImage);
+        Glide.with(context.getApplicationContext()).load(singleUnit.getProfileImage()).placeholder(R.drawable.img_dp).into(holder.userImage);
 
         holder.txtName.setText(singleUnit.getFullName());
         holder.txtEmail.setText(singleUnit.getEmail());
