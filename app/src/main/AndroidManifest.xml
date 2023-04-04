@@ -161,6 +161,7 @@
                 android:value="" />
         </activity>
         <activity
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:name=".TotalEmployeeActivity"
             android:exported="true">
             <meta-data

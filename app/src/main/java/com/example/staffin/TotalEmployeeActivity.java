@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -23,6 +24,8 @@ import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.ActivityTotalEmployeeBinding;
 import com.facebook.shimmer.Shimmer;
 import com.facebook.shimmer.ShimmerFrameLayout;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -48,7 +51,8 @@ public class TotalEmployeeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityTotalEmployeeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        employeeResultList = new ArrayList<>();
+        adapter = new TotalEmployeeAdapter(TotalEmployeeActivity.this, employeeResultList);
 
         final ProgressDialog progressDialog = new ProgressDialog(TotalEmployeeActivity.this);
         progressDialog.setMessage("Loading...");
@@ -81,6 +85,7 @@ public class TotalEmployeeActivity extends AppCompatActivity {
             public void onResponse(Call<TotalEmployeeResponse> call, Response<TotalEmployeeResponse> response) {
                 if (response.isSuccessful()) {
 //                    progressDialog.dismiss();
+                    adapter = null;
                     binding.fbShimmer.stopShimmer();
                     binding.fbShimmer.setVisibility(View.GONE);
                     binding.totalEmployeeRv.setVisibility(View.VISIBLE);
@@ -148,5 +153,18 @@ public class TotalEmployeeActivity extends AppCompatActivity {
         //update recyclerview
         adapter.filterList(filteredList);
     }
+    @Override public void onConfigurationChanged(@NotNull Configuration
+                                                         newConfig) {
+        super.onConfigurationChanged(newConfig);
 
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            startActivity(new Intent(getApplicationContext(),TotalEmployeeActivity.class));
+            finish();
+//            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
+            startActivity(new Intent(getApplicationContext(),TotalEmployeeActivity.class));
+            finish();
+//            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+        } }
 }

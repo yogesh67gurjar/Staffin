@@ -9,26 +9,37 @@ import android.media.metrics.Event;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.widget.Toast;
 
 import com.example.staffin.Adapter.EventAdapter;
 import com.example.staffin.Adapter.MonthAdapter;
+import com.example.staffin.Interface.ApiInterface;
+import com.example.staffin.Response.AllEvents;
 import com.example.staffin.Response.Attendance;
+import com.example.staffin.Response.EventResponse;
 import com.example.staffin.Response.EventsResponse;
 import com.example.staffin.Response.MembersOfEvent;
 import com.example.staffin.Response.MyMonth;
+import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.ActivityEventBinding;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class EventActivity extends AppCompatActivity {
 
     ActivityEventBinding binding;
 
-    List<MyMonth> monthsList;
+//    List<MyMonth> monthsList;
     MonthAdapter adapter;
-    List<MembersOfEvent> membersOnly;
+    //    List<MembersOfEvent> membersOnly;
+    List<AllEvents> allEventsList;
+    ApiInterface apiInterface;
 
 
     @Override
@@ -36,13 +47,38 @@ public class EventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityEventBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        monthsList = new ArrayList<>();
-        membersOnly = new ArrayList<>();
-        membersOnly.add(new MembersOfEvent(1, "fjksdnf"));
-        membersOnly.add(new MembersOfEvent(2, "fjksdnf"));
-        monthsList.add(new MyMonth(1, "yogesh birthday", "bfjisnsdjkf", "shajapur", "at hanuman mandir shajapur", "08-08-1999", membersOnly));
-        monthsList.add(new MyMonth(2, "shubham birthday", "bfjisnsdjkf", "shajapur", "at hanuman mandir shajapur", "08-08-1999", membersOnly));
-        monthsList.add(new MyMonth(3, "sunil birthday", "bfjisnsdjkf", "shajapur", "at hanuman mandir shajapur", "08-08-1999", membersOnly));
+        binding.EventMonthRv.setLayoutManager(new LinearLayoutManager(this));
+
+        apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
+        Call<EventResponse> call = apiInterface.getAllEvents();
+        call.enqueue(new Callback<EventResponse>() {
+            @Override
+            public void onResponse(Call<EventResponse> call, Response<EventResponse> response) {
+                if (response.isSuccessful()) {
+                    allEventsList = response.body().getAllEvents();
+                    adapter = new MonthAdapter(EventActivity.this, allEventsList);
+                    binding.EventMonthRv.setAdapter(adapter);
+
+                } else {
+                    Toast.makeText(EventActivity.this, "Find Some Error", Toast.LENGTH_SHORT).show();
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<EventResponse> call, Throwable t) {
+                Toast.makeText(EventActivity.this, "Failure,Try Again", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+//
+//        monthsList = new ArrayList<>();
+//        membersOnly = new ArrayList<>();
+//        membersOnly.add(new MembersOfEvent(1, "fjksdnf"));
+//        membersOnly.add(new MembersOfEvent(2, "fjksdnf"));
+//        monthsList.add(new MyMonth(1, "yogesh birthday", "bfjisnsdjkf", "shajapur", "at hanuman mandir shajapur", "08-08-1999", membersOnly));
+//        monthsList.add(new MyMonth(2, "shubham birthday", "bfjisnsdjkf", "shajapur", "at hanuman mandir shajapur", "08-08-1999", membersOnly));
+//        monthsList.add(new MyMonth(3, "sunil birthday", "bfjisnsdjkf", "shajapur", "at hanuman mandir shajapur", "08-08-1999", membersOnly));
 
         binding.btnAddEvent.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), CreateEventActivity.class));
@@ -65,9 +101,8 @@ public class EventActivity extends AppCompatActivity {
         });
 
 
-        binding.EventMonthRv.setLayoutManager(new LinearLayoutManager(this));
-        adapter = new MonthAdapter(monthsList, EventActivity.this);
-        binding.EventMonthRv.setAdapter(adapter);
+//        adapter = new MonthAdapter(monthsList, EventActivity.this);
+//        binding.EventMonthRv.setAdapter(adapter);
 
         binding.btnCalendar.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), CalendarSettingActivity.class));
@@ -80,10 +115,10 @@ public class EventActivity extends AppCompatActivity {
     }
 
     void filter(String text) {
-        List<MyMonth> myMonths = new ArrayList<>();
+        List<AllEvents> myMonths = new ArrayList<>();
 
-        for (MyMonth a : monthsList) {
-            if (a.getTitle().toLowerCase().contains(text.toLowerCase())) {
+        for (AllEvents a : allEventsList) {
+            if (a.getTitleName().toLowerCase().contains(text.toLowerCase())) {
                 myMonths.add(a);
             }
         }

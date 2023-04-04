@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.staffin.EventActivity;
 import com.example.staffin.R;
+import com.example.staffin.Response.AllEvents;
 import com.example.staffin.Response.Attendance;
 import com.example.staffin.Response.MyMonth;
 
@@ -20,30 +21,36 @@ import java.util.List;
 
 public class MonthAdapter extends RecyclerView.Adapter<MonthAdapter.MyViewHolder> {
     Context context;
-    List<MyMonth> my;
+    //    List<MyMonth> my;
+    List<AllEvents> allEvents;
 
-    List<String> months;
-
-    public MonthAdapter(List<MyMonth> my, Context context) {
+    public MonthAdapter(Context context, List<AllEvents> allEvents) {
         this.context = context;
-        this.my = my;
-        months = new ArrayList<>();
-        months.add("january");
-        months.add("february");
-        months.add("march");
-        months.add("april");
-        months.add("may");
-        months.add("june");
-        months.add("july");
-        months.add("august");
-        months.add("september");
-        months.add("october");
-        months.add("november");
-        months.add("december");
+        this.allEvents = allEvents;
     }
 
-    public void filterList(List<MyMonth> filterlist) {
-        my = filterlist;
+    //    List<String> months;
+//
+//    public MonthAdapter(List<MyMonth> my, Context context) {
+//        this.context = context;
+//        this.my = my;
+//        months = new ArrayList<>();
+//        months.add("january");
+//        months.add("february");
+//        months.add("march");
+//        months.add("april");
+//        months.add("may");
+//        months.add("june");
+//        months.add("july");
+//        months.add("august");
+//        months.add("september");
+//        months.add("october");
+//        months.add("november");
+//        months.add("december");
+//    }
+
+    public void filterList(List<AllEvents> filterlist) {
+        allEvents = filterlist;
         notifyDataSetChanged();
     }
 
@@ -61,13 +68,56 @@ public class MonthAdapter extends RecyclerView.Adapter<MonthAdapter.MyViewHolder
     public void onBindViewHolder(@NonNull MonthAdapter.MyViewHolder holder, int position) {
         LinearLayoutManager layoutManager = new LinearLayoutManager(context, RecyclerView.HORIZONTAL, false);
         holder.recyclerView.setLayoutManager(layoutManager);
-        holder.recyclerView.setAdapter(new EventAdapter(context));
-        holder.monthTv.setText(months.get(position));
+        holder.recyclerView.setAdapter(new EventAdapter(context, allEvents));
+        String month = null;
+        AllEvents singleUnit = allEvents.get(position);
+        String[] dateInParts = singleUnit.getDate().split("-");
+        switch (dateInParts[1]) {
+            case "01":
+                month = "January";
+                break;
+            case "02":
+                month = "February";
+                break;
+            case "03":
+                month = "March";
+                break;
+            case "04":
+                month = "April";
+                break;
+            case "05":
+                month = "May";
+                break;
+            case "06":
+                month = "June";
+                break;
+            case "07":
+                month = "July";
+                break;
+            case "08":
+                month = "August";
+                break;
+            case "09":
+                month = "September";
+                break;
+            case "10":
+                month = "October";
+                break;
+            case "11":
+                month = "November";
+                break;
+            case "12":
+                month = "december";
+                break;
+        }
+
+//        holder.monthTv.setText((CharSequence) allEvents.get(position));
+        holder.monthTv.setText(month);
     }
 
     @Override
     public int getItemCount() {
-        return months.size();
+        return allEvents.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
