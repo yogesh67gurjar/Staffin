@@ -3,6 +3,8 @@ package com.example.staffin.Response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class HolidayResponse {
 
     @SerializedName("status")
@@ -12,6 +14,16 @@ public class HolidayResponse {
     @SerializedName("message")
     @Expose
     private String message;
+
+    private List<AllHolidays> holiday_list;
+
+    public List<AllHolidays> getHoliday_list() {
+        return holiday_list;
+    }
+
+    public void setHoliday_list(List<AllHolidays> holiday_list) {
+        this.holiday_list = holiday_list;
+    }
 
     public int getStatus() {
         return status;

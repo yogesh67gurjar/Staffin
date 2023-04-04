@@ -8,8 +8,13 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.staffin.Interface.ApiInterface;
+import com.example.staffin.Response.AddPasswordForEmployee;
 import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.ActivityEmployeeIdBinding;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EmployeeIdActivity extends AppCompatActivity {
     ActivityEmployeeIdBinding binding;
@@ -51,37 +56,31 @@ public class EmployeeIdActivity extends AppCompatActivity {
                 if (from.equalsIgnoreCase("add")) {
                     String password = binding.passwordEt.getText().toString();
 
-                    //$$$$$$$$$
 
-//                    Call<AddPasswordForEmployee> call = apiInterface.postSinglePasswordEmployee(password, empId);
-//                    call.enqueue(new Callback<AddPasswordForEmployee>() {
-//                        @Override
-//                        public void onResponse(Call<AddPasswordForEmployee> call, Response<AddPasswordForEmployee> response) {
-//                            if (response.isSuccessful()) {
-//                                Intent intent = new Intent(getApplicationContext(), CompanyDetailsActivity.class);
-//                                intent.putExtra("empId", empId);
-//                                intent.putExtra("Id", Id);
-//                                intent.putExtra("from", "add");
-//                                startActivity(intent);
-//
-//                            } else {
-//                                Toast.makeText(EmployeeIdActivity.this, "OnResponse Fail", Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
-//
-//                        @Override
-//                        public void onFailure(Call<AddPasswordForEmployee> call, Throwable t) {
-//                            Toast.makeText(EmployeeIdActivity.this, "Failure", Toast.LENGTH_SHORT).show();
-//                        }
-//                    });
-                    Intent intent = new Intent(getApplicationContext(), CompanyDetailsActivity.class);
-                    intent.putExtra("empId", empId);
-                    intent.putExtra("Id", Id);
-                    intent.putExtra("from", "add");
-                    startActivity(intent);
-                }
-                else
-                {
+                    Call<AddPasswordForEmployee> call = apiInterface.postSinglePasswordEmployee(password, empId);
+                    call.enqueue(new Callback<AddPasswordForEmployee>() {
+                        @Override
+                        public void onResponse(Call<AddPasswordForEmployee> call, Response<AddPasswordForEmployee> response) {
+                            if (response.isSuccessful()) {
+                                Intent intent = new Intent(getApplicationContext(), CompanyDetailsActivity.class);
+                                intent.putExtra("empId", empId);
+                                intent.putExtra("Id", Id);
+                                intent.putExtra("from", "add");
+                                startActivity(intent);
+
+                            } else {
+                                Toast.makeText(EmployeeIdActivity.this, "OnResponse Fail", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<AddPasswordForEmployee> call, Throwable t) {
+                            Toast.makeText(EmployeeIdActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+                } else {
+                    // yha pe already sb edittext filled milenge qki get api lgegi user ki
                     // edit employee id ki api lgegi
                     // progress dialog
                     Intent intent = new Intent(getApplicationContext(), CompanyDetailsActivity.class);

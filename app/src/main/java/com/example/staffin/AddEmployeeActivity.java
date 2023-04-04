@@ -14,6 +14,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.staffin.Interface.ApiInterface;
+import com.example.staffin.Response.AddEmployeeResponse;
 import com.example.staffin.Response.EmployeeResult;
 import com.example.staffin.Response.SingleEmployeeResponse;
 import com.example.staffin.Retrofit.RetrofitServices;
@@ -187,8 +188,8 @@ public class AddEmployeeActivity extends AppCompatActivity {
                         localAddress = binding.localAddEt.getText().toString();
                         permanentAddress = binding.permAddEt.getText().toString();
 
-                        progressDialog.show();
                         sendDetails(uripi, name, fName, dob, finalGender, number, email, localAddress, permanentAddress);
+
                     }
                 }
             }
@@ -251,8 +252,7 @@ public class AddEmployeeActivity extends AppCompatActivity {
     private void sendDetails(String profile_image, String xName, String xFather, String xDOB,
                              String xMobile, String xGender, String xMail, String xLAddress, String xPAddress) {
         PImg = new File(profile_image);
-        final ProgressDialog progressDialog = new ProgressDialog(AddEmployeeActivity.this);
-        progressDialog.setMessage("Loading...");
+
 
 
         RequestBody proImg = RequestBody.create(MediaType.parse("image/*"), PImg);
@@ -271,46 +271,45 @@ public class AddEmployeeActivity extends AppCompatActivity {
 
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
 
-        progressDialog.dismiss();
-        Intent intent = new Intent(getApplicationContext(), EmployeeIdActivity.class);
-        intent.putExtra("empId", empId);
-        intent.putExtra("Id", Id);
-        intent.putExtra("from", "add");
-        startActivity(intent);
+//        progressDialog.dismiss();
+//        Intent intent = new Intent(getApplicationContext(), EmployeeIdActivity.class);
+//        intent.putExtra("empId", empId);
+//        intent.putExtra("Id", Id);
+//        intent.putExtra("from", "add");
+//        startActivity(intent);
 
-        // $$$$$$$$$$$$$$$$$$
+        final ProgressDialog progressDialog = new ProgressDialog(AddEmployeeActivity.this);
+        progressDialog.setMessage("Loading...");
+        Call<AddEmployeeResponse> call = apiInterface.postAddEmployee(profile_img, fullname, father, dob, gender, mobile, mail, lAddress, pAddress);
+        call.enqueue(new Callback<AddEmployeeResponse>() {
+            @Override
+            public void onResponse(Call<AddEmployeeResponse> call, Response<AddEmployeeResponse> response) {
+                if (response.isSuccessful()) {
+                    int Id = getIntent().getIntExtra("id", 0);
 
-//        Call<AddEmployeeResponse> call = apiInterface.postAddEmployee(profile_img, fullname, father, dob, gender, mobile, mail, lAddress, pAddress);
-//        call.enqueue(new Callback<AddEmployeeResponse>() {
-//            @Override
-//            public void onResponse(Call<AddEmployeeResponse> call, Response<AddEmployeeResponse> response) {
-//                if (response.isSuccessful()) {
-//                    int Id = getIntent().getIntExtra("id", 0);
-//
-//                    progressDialog.dismiss();
-//                    String empID = response.body().getEmployeeID();
-//                    Intent intent = new Intent(getApplicationContext(), EmployeeIdActivity.class);
-//                    intent.putExtra("empId", empID);
-//                    intent.putExtra("Id", Id);
-//                    intent.putExtra("from", "add");
-//
-//                    startActivity(intent);
-//                } else {
-//                    Log.d("fkdjfnsdf", response.message());
-//                    progressDialog.dismiss();
-//                    Toast.makeText(AddEmployeeActivity.this, "Try again", Toast.LENGTH_SHORT).show();
-//                }
-//            }
-//
-//            @Override
-//            public void onFailure(Call<AddEmployeeResponse> call, Throwable t) {
-//                Log.d("Pdkjfnsdf", t.getMessage());
-//                progressDialog.dismiss();
-//                Toast.makeText(AddEmployeeActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
-//            }
-//        });
+                    progressDialog.dismiss();
+                    String empID = response.body().getEmployeeID();
+                    Intent intent = new Intent(getApplicationContext(), EmployeeIdActivity.class);
+                    intent.putExtra("empId", empID);
+                    intent.putExtra("Id", Id);
+                    intent.putExtra("from", "add");
 
-        // $$$$$$$$$$$$$
+                    startActivity(intent);
+                } else {
+                    Log.d("fkdjfnsdf", response.message());
+                    progressDialog.dismiss();
+                    Toast.makeText(AddEmployeeActivity.this, "Try again", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AddEmployeeResponse> call, Throwable t) {
+                Log.d("Pdkjfnsdf", t.getMessage());
+                progressDialog.dismiss();
+                Toast.makeText(AddEmployeeActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
+            }
+        });
+
     }
 
 }

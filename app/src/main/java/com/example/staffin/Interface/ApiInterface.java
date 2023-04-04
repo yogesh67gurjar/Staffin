@@ -79,7 +79,8 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("add-holiday")
     Call<HolidayResponse> postHoliday(@Field("date") String date,
-                                      @Field("occassion") String occassion);
+                                      @Field("occassion") String occassion,
+                                      @Field("holiday_description") String holiday_description);
 
     @FormUrlEncoded
     @POST("add-bank-details/{id}")
@@ -91,8 +92,13 @@ public interface ApiInterface {
                                                     @Field("branch") String branch);
 
 
+
     @GET("get-event-details")
     Call<EventResponse> getAllEvents();
+
+    //get all holidays
+    @GET("get-holiday")
+    Call<HolidayResponse> getAllHolidays();
 }
 
 
