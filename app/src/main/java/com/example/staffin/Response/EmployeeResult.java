@@ -34,13 +34,13 @@ public class EmployeeResult {
     private String dateOfBirth;
     @SerializedName("department_id")
     @Expose
-    private Object departmentId;
+    private String departmentId;
     @SerializedName("designation")
     @Expose
-    private Object designation;
+    private String designation;
     @SerializedName("joining_date")
     @Expose
-    private Object joiningDate;
+    private String joiningDate;
     @SerializedName("profile_image")
     @Expose
     private String profileImage;
@@ -55,22 +55,22 @@ public class EmployeeResult {
     private Integer annualLeave;
     @SerializedName("medical_leave")
     @Expose
-    private Object medicalLeave;
+    private String medicalLeave;
     @SerializedName("status")
     @Expose
     private String status;
     @SerializedName("last_login")
     @Expose
-    private Object lastLogin;
+    private String lastLogin;
     @SerializedName("remember_token")
     @Expose
-    private Object rememberToken;
+    private String rememberToken;
     @SerializedName("exit_date")
     @Expose
-    private Object exitDate;
+    private String exitDate;
     @SerializedName("reset_code")
     @Expose
-    private Object resetCode;
+    private String resetCode;
     @SerializedName("created_at")
     @Expose
     private String createdAt;
@@ -83,7 +83,6 @@ public class EmployeeResult {
     @SerializedName("work_duration")
     @Expose
     private String workDuration;
-
 
     public Integer getId() {
         return id;
@@ -157,27 +156,27 @@ public class EmployeeResult {
         this.dateOfBirth = dateOfBirth;
     }
 
-    public Object getDepartmentId() {
+    public String getDepartmentId() {
         return departmentId;
     }
 
-    public void setDepartmentId(Object departmentId) {
+    public void setDepartmentId(String departmentId) {
         this.departmentId = departmentId;
     }
 
-    public Object getDesignation() {
+    public String getDesignation() {
         return designation;
     }
 
-    public void setDesignation(Object designation) {
+    public void setDesignation(String designation) {
         this.designation = designation;
     }
 
-    public Object getJoiningDate() {
+    public String getJoiningDate() {
         return joiningDate;
     }
 
-    public void setJoiningDate(Object joiningDate) {
+    public void setJoiningDate(String joiningDate) {
         this.joiningDate = joiningDate;
     }
 
@@ -213,11 +212,11 @@ public class EmployeeResult {
         this.annualLeave = annualLeave;
     }
 
-    public Object getMedicalLeave() {
+    public String getMedicalLeave() {
         return medicalLeave;
     }
 
-    public void setMedicalLeave(Object medicalLeave) {
+    public void setMedicalLeave(String medicalLeave) {
         this.medicalLeave = medicalLeave;
     }
 
@@ -229,35 +228,35 @@ public class EmployeeResult {
         this.status = status;
     }
 
-    public Object getLastLogin() {
+    public String getLastLogin() {
         return lastLogin;
     }
 
-    public void setLastLogin(Object lastLogin) {
+    public void setLastLogin(String lastLogin) {
         this.lastLogin = lastLogin;
     }
 
-    public Object getRememberToken() {
+    public String getRememberToken() {
         return rememberToken;
     }
 
-    public void setRememberToken(Object rememberToken) {
+    public void setRememberToken(String rememberToken) {
         this.rememberToken = rememberToken;
     }
 
-    public Object getExitDate() {
+    public String getExitDate() {
         return exitDate;
     }
 
-    public void setExitDate(Object exitDate) {
+    public void setExitDate(String exitDate) {
         this.exitDate = exitDate;
     }
 
-    public Object getResetCode() {
+    public String getResetCode() {
         return resetCode;
     }
 
-    public void setResetCode(Object resetCode) {
+    public void setResetCode(String resetCode) {
         this.resetCode = resetCode;
     }
 
@@ -292,5 +291,4 @@ public class EmployeeResult {
     public void setWorkDuration(String workDuration) {
         this.workDuration = workDuration;
     }
-
 }

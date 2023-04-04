@@ -54,10 +54,10 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
 
         holder.txtName.setText(singleUnit.getFullName());
         holder.txtEmail.setText(singleUnit.getEmail());
-        holder.txtDOB.setText("Date of birth -" + "Null");//singleUnit.getDateOfBirth());
+        holder.txtDOB.setText("Dob -" + singleUnit.getDateOfBirth());//singleUnit.getDateOfBirth());
         holder.txtEmpId.setText("Emp.ID -" + singleUnit.getEmployeeID());
-        holder.txtDepartment.setText("Department - Null");
-        holder.txtDesignation.setText("Designation - Null");
+        holder.txtDepartment.setText("Department -" + singleUnit.getDepartmentId());
+        holder.txtDesignation.setText("Designation -" + singleUnit.getDesignation());
         holder.txtAtWork.setText("At work -" + singleUnit.getWorkDuration());
 
 
