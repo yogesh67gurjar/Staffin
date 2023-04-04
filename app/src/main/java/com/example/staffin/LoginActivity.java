@@ -100,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
                     if (isNetworkAvailable()) {
-                        ProgressDialog progressDialog=new ProgressDialog(LoginActivity.this);
+                        ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this);
                         progressDialog.setMessage("please wait...");
                         progressDialog.show();
                         Call<LoginResponse> call = apiInterface.postLoginResponse(number, password);
@@ -108,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                                 if (response.isSuccessful()) {
-                                    Toast.makeText(LoginActivity.this, "Welcome...", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(LoginActivity.this, "Login Successful", Toast.LENGTH_SHORT).show();
                                     startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                     editor.putString("mobile", number);
                                     editor.apply();
