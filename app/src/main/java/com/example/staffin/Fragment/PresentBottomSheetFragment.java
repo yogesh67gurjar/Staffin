@@ -17,7 +17,13 @@ import java.util.Calendar;
 public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
     FragmentPresentBottomSheetBinding binding;
 
-    boolean present, absent, doublePresent, halfDay, paidLeave, sickLeave, unpaidLeave, overTime;
+    boolean present;
+    boolean absent;
+    boolean doublePresent;
+    boolean halfDay;
+    boolean paidLeave;
+    boolean sickLeave;
+    boolean unpaidLeave;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
