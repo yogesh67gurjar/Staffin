@@ -58,7 +58,6 @@ public class TotalEmployeeActivity extends AppCompatActivity {
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
 
 
-
         final ProgressDialog progressDialog = new ProgressDialog(TotalEmployeeActivity.this);
         progressDialog.setMessage("Loading...");
 
@@ -83,28 +82,10 @@ public class TotalEmployeeActivity extends AppCompatActivity {
         binding.totalEmployeeRv.setLayoutManager(new LinearLayoutManager(this));
 
 
-
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
-        Call<TotalEmployeeResponse> call = apiInterface.getTotalEmployee();
-        call.enqueue(new Callback<TotalEmployeeResponse>() {
-            @Override
-            public void onResponse(Call<TotalEmployeeResponse> call, Response<TotalEmployeeResponse> response) {
-                if (response.isSuccessful()) {
-//                    progressDialog.dismiss();
-                    adapter = null;
-                    binding.fbShimmer.stopShimmer();
-                    binding.fbShimmer.setVisibility(View.GONE);
-                    binding.totalEmployeeRv.setVisibility(View.VISIBLE);
-                    employeeResultList = response.body().getEmployeeResult();
-                    adapter = new TotalEmployeeAdapter(TotalEmployeeActivity.this, employeeResultList);
-                    binding.totalEmployeeRv.setAdapter(adapter);
-
-                } else {
-                    Toast.makeText(TotalEmployeeActivity.this, "Find Some Error", Toast.LENGTH_SHORT).show();
 
 
-        if(isNetworkAvailable())
-        {
+        if (isNetworkAvailable()) {
             Call<TotalEmployeeResponse> call = apiInterface.getTotalEmployee();
             call.enqueue(new Callback<TotalEmployeeResponse>() {
                 @Override
@@ -128,13 +109,9 @@ public class TotalEmployeeActivity extends AppCompatActivity {
                     Toast.makeText(TotalEmployeeActivity.this, "Failure,Try Again", Toast.LENGTH_SHORT).show();
                 }
             });
+        } else {
+            Toast.makeText(TotalEmployeeActivity.this, "Internet Not Available", Toast.LENGTH_SHORT).show();
         }
-        else
-        {
-            Toast.makeText(this, "Internet Not Available", Toast.LENGTH_SHORT).show();
-        }
-
-
 
         binding.imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -148,7 +125,6 @@ public class TotalEmployeeActivity extends AppCompatActivity {
             addIntent.putExtra("from", "add");
             startActivity(addIntent);
         });
-
 
         binding.searchBar.addTextChangedListener(new TextWatcher() {
             @Override
@@ -172,6 +148,7 @@ public class TotalEmployeeActivity extends AppCompatActivity {
         });
     }
 
+
     void filter(String text) {
         List<EmployeeResult> filteredList = new ArrayList();
         for (EmployeeResult d : employeeResultList) {
@@ -183,20 +160,22 @@ public class TotalEmployeeActivity extends AppCompatActivity {
         adapter.filterList(filteredList);
     }
 
-    @Override public void onConfigurationChanged(@NotNull Configuration
-                                                         newConfig) {
+    @Override
+    public void onConfigurationChanged(@NotNull Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
 
         // Checks the orientation of the screen
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            startActivity(new Intent(getApplicationContext(),TotalEmployeeActivity.class));
+            startActivity(new Intent(getApplicationContext(), TotalEmployeeActivity.class));
             finish();
 //            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT){
-            startActivity(new Intent(getApplicationContext(),TotalEmployeeActivity.class));
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            startActivity(new Intent(getApplicationContext(), TotalEmployeeActivity.class));
             finish();
 //            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
-        } }
+        }
+    }
+
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager
