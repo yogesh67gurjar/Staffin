@@ -57,8 +57,8 @@ public interface ApiInterface {
     @GET("get-department")
     Call<DepartmentResponse> getDepartment();
 
-    @GET("get-designation")
-    Call<DesignationResponse> getDesignation();
+    @GET("get-designation/{id}")
+    Call<DesignationResponse> getDesignation(@Path("id")int id);
 
     @FormUrlEncoded
     @POST("add-company-details/{id}")
@@ -99,6 +99,9 @@ public interface ApiInterface {
     //get all holidays
     @GET("get-holiday")
     Call<HolidayResponse> getAllHolidays();
+
+
+
 }
 
 
