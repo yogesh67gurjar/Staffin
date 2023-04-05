@@ -46,7 +46,6 @@ public class EventActivity extends AppCompatActivity {
         binding = ActivityEventBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         clickListeners();
-        apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
 
 
         if (isNetworkAvailable()) {
@@ -90,6 +89,8 @@ public class EventActivity extends AppCompatActivity {
     }
 
     private void clickListeners() {
+        apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
+
         callGetAllEvents = apiInterface.getAllEvents();
 
         progress = new ProgressDialog(EventActivity.this);
