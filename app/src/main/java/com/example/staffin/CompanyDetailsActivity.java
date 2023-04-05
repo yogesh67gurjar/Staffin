@@ -2,6 +2,7 @@ package com.example.staffin;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -55,6 +57,11 @@ public class CompanyDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityCompanyDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        //progressBar
+        ProgressDialog progressDialog = new ProgressDialog(CompanyDetailsActivity.this);
+        progressDialog.setMessage("please wait...");
+        progressDialog.show();
+
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
         Id = getIntent().getIntExtra("Id", 0);
         empId = getIntent().getStringExtra("empId");
@@ -74,9 +81,11 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
                     assert response.body() != null;
                     List<Department> departments = response.body().getDepartment();
-                    String tamp = "Please select Department,,,";
+                    progressDialog.dismiss();
+                    String tamp = "";
                     for (int i = 0; i < departments.size(); i++) {
                         tamp = tamp.concat(response.body().getDepartment().get(i).getName() + ",,,");
+                        Log.i("sahgdusahdsa", response.body().getDepartment().get(i).getId().toString());
                     }
                     String[] strArray = tamp.split(",,,");
                     ArrayAdapter aa = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, strArray);
@@ -87,6 +96,54 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                             departmentSelected = strArray[position];
+                            progressDialog.show();
+                            int DepId = response.body().getDepartment().get(position).getId();
+
+                            Log.i("dusahdu", String.valueOf(DepId));
+                            //Designation Spinner Code
+                            Call<DesignationResponse> call1 = apiInterface.getDesignation(DepId);
+                            call1.enqueue(new Callback<DesignationResponse>() {
+                                @Override
+                                public void onResponse(Call<DesignationResponse> call, Response<DesignationResponse> response) {
+                                    if (response.isSuccessful()) {
+                                        progressDialog.dismiss();
+                                        List<DesignationDetail> designationDetails = response.body().getDesignationDetails();
+                                        String tamp = "";
+                                        for (int i = 0; i < designationDetails.size(); i++) {
+                                            tamp = tamp.concat(designationDetails.get(i).getDesignation() + ",,,");
+                                        }
+                                        String[] strArray = tamp.split(",,,");
+                                        ArrayAdapter aa = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, strArray);
+                                        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                        //Setting the ArrayAdapter data on the Spinner
+                                        binding.designationEt.setAdapter(aa);
+                                        binding.designationEt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                            @Override
+                                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                                designationSelected = strArray[position];
+                                            }
+
+                                            @Override
+                                            public void onNothingSelected(AdapterView<?> parent) {
+
+                                            }
+                                        });
+
+//                                        Log.i("departmentSelected",departmentSelected);
+//                                        Log.i("designationSelected",designationSelected);
+                                    } else {
+                                        progressDialog.dismiss();
+                                        Toast.makeText(CompanyDetailsActivity.this, "On Response Fail", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+
+                                @Override
+                                public void onFailure(Call<DesignationResponse> call, Throwable t) {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(CompanyDetailsActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+                                }
+                            });
+
 
                         }
 
@@ -97,53 +154,15 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                     });
 
 
-                    //Designation Spinner Code
-                    Call<DesignationResponse> call1 = apiInterface.getDesignation();
-                    call1.enqueue(new Callback<DesignationResponse>() {
-                        @Override
-                        public void onResponse(Call<DesignationResponse> call, Response<DesignationResponse> response) {
-                            if (response.isSuccessful()) {
-                                List<DesignationDetail> designationDetails = response.body().getDesignationDetails();
-                                String tamp = "Please select Designation,,,";
-                                for (int i = 0; i < designationDetails.size(); i++) {
-                                    tamp = tamp.concat(response.body().getDesignationDetails().get(i).getDesignation() + ",,,");
-                                }
-                                String[] strArray = tamp.split(",,,");
-                                ArrayAdapter aa = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, strArray);
-                                aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                                //Setting the ArrayAdapter data on the Spinner
-                                binding.designationEt.setAdapter(aa);
-                                binding.designationEt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                    @Override
-                                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                        designationSelected = strArray[position];
-                                    }
-
-                                    @Override
-                                    public void onNothingSelected(AdapterView<?> parent) {
-
-                                    }
-                                });
-
-
-                            } else {
-                                Toast.makeText(CompanyDetailsActivity.this, "On Response Fail", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<DesignationResponse> call, Throwable t) {
-                            Toast.makeText(CompanyDetailsActivity.this, "Failure", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
                 } else {
+                    progressDialog.dismiss();
                     Toast.makeText(CompanyDetailsActivity.this, "no Response", Toast.LENGTH_SHORT).show();
                 }
             }
 
             @Override
             public void onFailure(Call<DepartmentResponse> call, Throwable t) {
+                progressDialog.dismiss();
                 Toast.makeText(CompanyDetailsActivity.this, "Failure", Toast.LENGTH_SHORT).show();
             }
         });
@@ -255,22 +274,24 @@ public class CompanyDetailsActivity extends AppCompatActivity {
 //                RequestBody xfinalStatus = RequestBody.create(MediaType.parse("text/plain"), finalStatus);
 //                RequestBody xbasicSalary = RequestBody.create(MediaType.parse("text/plain"), basicSalary);
 //                RequestBody xhourlyRate = RequestBody.create(MediaType.parse("text/plain"), hourlyRate);
-//
+                    progressDialog.show();
 //
                     Call<CompanyDetailsResponse> call2 = apiInterface.postSingleCompanyDetailsEmployee(spinner, spinner2, annualLeave, medicalLeave, finalStatus, jdate, rdate, basicSalary, hourlyRate, Id);
                     call2.enqueue(new Callback<CompanyDetailsResponse>() {
                         @Override
                         public void onResponse(Call<CompanyDetailsResponse> call, Response<CompanyDetailsResponse> response) {
                             if (response.isSuccessful()) {
-
+                                progressDialog.dismiss();
                                 startActivity(intent);
                             } else {
+                                progressDialog.dismiss();
                                 Toast.makeText(CompanyDetailsActivity.this, "onResponse Fail", Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<CompanyDetailsResponse> call, Throwable t) {
+                            progressDialog.dismiss();
                             Toast.makeText(CompanyDetailsActivity.this, "OnFailure", Toast.LENGTH_SHORT).show();
                         }
                     });
@@ -314,6 +335,7 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                 datePickerDialog.show();
             }
         });
+
     }
 
     @Override

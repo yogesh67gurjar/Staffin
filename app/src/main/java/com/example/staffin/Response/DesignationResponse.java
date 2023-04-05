@@ -6,7 +6,6 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class DesignationResponse {
-
     @SerializedName("status")
     @Expose
     private Integer status;
@@ -40,5 +39,4 @@ public class DesignationResponse {
     public void setDesignationDetails(List<DesignationDetail> designationDetails) {
         this.designationDetails = designationDetails;
     }
-
 }

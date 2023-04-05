@@ -38,5 +38,4 @@ public class DesignationDetail {
     public void setDesignation(String designation) {
         this.designation = designation;
     }
-
 }
