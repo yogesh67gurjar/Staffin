@@ -2,8 +2,11 @@ package com.example.staffin;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -50,7 +53,7 @@ public class AddEmployeeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityAddEmployeeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        clickListeners();
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
         final ProgressDialog progressDialog = new ProgressDialog(AddEmployeeActivity.this);
         progressDialog.setMessage("Loading...");
@@ -117,6 +120,10 @@ public class AddEmployeeActivity extends AppCompatActivity {
             binding.nextBtn.setText("Next");
         }
 
+
+    }
+
+    private void clickListeners() {
 
         binding.btnHome.setOnClickListener(v -> {
             finish();
@@ -218,7 +225,6 @@ public class AddEmployeeActivity extends AppCompatActivity {
                 Intent imgIntent1 = new Intent(Intent.ACTION_PICK);
                 imgIntent1.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(imgIntent1, 101);
-
             }
         });
     }
@@ -254,7 +260,6 @@ public class AddEmployeeActivity extends AppCompatActivity {
         PImg = new File(profile_image);
 
 
-
         RequestBody proImg = RequestBody.create(MediaType.parse("image/*"), PImg);
         MultipartBody.Part profile_img = MultipartBody.Part.createFormData("profile_image", PImg.getName(), proImg);
 
@@ -280,36 +285,49 @@ public class AddEmployeeActivity extends AppCompatActivity {
 
         final ProgressDialog progressDialog = new ProgressDialog(AddEmployeeActivity.this);
         progressDialog.setMessage("Loading...");
-        Call<AddEmployeeResponse> call = apiInterface.postAddEmployee(profile_img, fullname, father, dob, gender, mobile, mail, lAddress, pAddress);
-        call.enqueue(new Callback<AddEmployeeResponse>() {
-            @Override
-            public void onResponse(Call<AddEmployeeResponse> call, Response<AddEmployeeResponse> response) {
-                if (response.isSuccessful()) {
-                    int Id = getIntent().getIntExtra("id", 0);
 
-                    progressDialog.dismiss();
-                    String empID = response.body().getEmployeeID();
-                    Intent intent = new Intent(getApplicationContext(), EmployeeIdActivity.class);
-                    intent.putExtra("empId", empID);
-                    intent.putExtra("Id", Id);
-                    intent.putExtra("from", "add");
+        Call<AddEmployeeResponse> callPostAddEmployee = apiInterface.postAddEmployee(profile_img, fullname, father, dob, gender, mobile, mail, lAddress, pAddress);
 
-                    startActivity(intent);
-                } else {
-                    Log.d("fkdjfnsdf", response.message());
-                    progressDialog.dismiss();
-                    Toast.makeText(AddEmployeeActivity.this, "Try again", Toast.LENGTH_SHORT).show();
+        if (isNetworkAvailable()) {
+            progressDialog.show();
+            callPostAddEmployee.enqueue(new Callback<AddEmployeeResponse>() {
+                @Override
+                public void onResponse(Call<AddEmployeeResponse> call, Response<AddEmployeeResponse> response) {
+                    if (response.isSuccessful()) {
+                        int Id = getIntent().getIntExtra("id", 0);
+
+                        progressDialog.dismiss();
+                        String empID = response.body().getEmployeeID();
+                        Intent intent = new Intent(getApplicationContext(), EmployeeIdActivity.class);
+                        intent.putExtra("empId", empID);
+                        intent.putExtra("Id", Id);
+                        intent.putExtra("from", "add");
+
+                        startActivity(intent);
+                    } else {
+                        Log.d("fkdjfnsdf", response.message());
+                        progressDialog.dismiss();
+                        Toast.makeText(AddEmployeeActivity.this, "Try again", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<AddEmployeeResponse> call, Throwable t) {
-                Log.d("Pdkjfnsdf", t.getMessage());
-                progressDialog.dismiss();
-                Toast.makeText(AddEmployeeActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<AddEmployeeResponse> call, Throwable t) {
+                    Log.d("Pdkjfnsdf", t.getMessage());
+                    progressDialog.dismiss();
+                    Toast.makeText(AddEmployeeActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(this, "Internet Not Available", Toast.LENGTH_SHORT).show();
+        }
+    }
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
 }

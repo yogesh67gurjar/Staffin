@@ -14,6 +14,7 @@ import com.example.staffin.Response.HolidayResponse;
 import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.ActivityHolidayBinding;
 
+import java.util.Arrays;
 import java.util.Calendar;
 
 import retrofit2.Call;
@@ -32,7 +33,6 @@ public class HolidayActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
         clickListeners();
-
     }
 
     private void clickListeners() {
@@ -52,11 +52,23 @@ public class HolidayActivity extends AppCompatActivity {
             } else {
                 String date = binding.jDateEt.getText().toString();
                 Log.i("Date Kya hai", date);
+                String[] dateSplit = date.split("-");
+                for (int i = 0; i < dateSplit.length / 2; i++) {
+                    String datex = dateSplit[dateSplit.length - 1 - i];
+                    String yearx = dateSplit[i];
+                    dateSplit[i] = datex;
+                    dateSplit[dateSplit.length - 1 - i] = yearx;
+                }
+                StringBuilder finalDate = new StringBuilder();
+                for (String da : dateSplit) {
+                    finalDate.append(da).append("-");
+                }
+                Log.i("rev date Kya hai", Arrays.toString(dateSplit));
                 String occasion = binding.occasionEt.getText().toString();
                 Log.i("occasion Kya hai", occasion);
                 String desc = binding.holidayDesEt.getText().toString();
                 Log.i("desc Kya hai", desc);
-                Call<HolidayResponse> callPostHoliday = apiInterface.postHoliday(date, occasion, desc);
+                Call<HolidayResponse> callPostHoliday = apiInterface.postHoliday(String.valueOf(finalDate), occasion, desc);
                 ProgressDialog dialog = new ProgressDialog(HolidayActivity.this);
                 dialog.setMessage("Loading....");
                 dialog.show();

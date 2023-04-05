@@ -155,6 +155,7 @@ public class CalendarSettingActivity extends AppCompatActivity {
         binding.compactcalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
+
             }
 
             @Override
@@ -213,22 +214,31 @@ public class CalendarSettingActivity extends AppCompatActivity {
         CompactCalendarView compactCalendarView = findViewById(R.id.compactcalendar_view);
         compactCalendarView.setLocale(TimeZone.getDefault(), Locale.ENGLISH);
         compactCalendarView.setUseThreeLetterAbbreviation(true);
-
+        int count = 0;
         long milliTime;
 
-        for(AllHolidays singleUnit:allHolidays)
-        {
-            String dateInParts[]=singleUnit.getDate().split("-");
-            Calendar calendar=Calendar.getInstance();
+        for (AllHolidays singleUnit : allHolidays) {
+            String[] dateInParts = singleUnit.getDate().split("-");
+            Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.YEAR, Integer.parseInt(dateInParts[0]));
-            calendar.set(Calendar.MONTH, Integer.parseInt(dateInParts[1])-1);
+            calendar.set(Calendar.MONTH, Integer.parseInt(dateInParts[1]) - 1);
             calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateInParts[2]));
             milliTime = calendar.getTimeInMillis();
-            Event ev1 = new Event(getResources().getColor(R.color.txtRed), milliTime, singleUnit.getHoliday_description());
-            binding.compactcalendarView.addEvent(ev1);
+            Event e;
+            if (count % 3 == 0) {
+                e = new Event(getResources().getColor(R.color.mainColor), milliTime, singleUnit.getHoliday_description());
+            } else if (count % 5 == 0) {
+                e = new Event(getResources().getColor(R.color.yellow), milliTime, singleUnit.getHoliday_description());
+
+            } else if (count % 2 == 0) {
+                e = new Event(getResources().getColor(R.color.pink), milliTime, singleUnit.getHoliday_description());
+
+            } else {
+                e = new Event(getResources().getColor(R.color.green), milliTime, singleUnit.getHoliday_description());
+            }
+            count++;
+            binding.compactcalendarView.addEvent(e);
         }
-
-
 
 
 //        Calendar calendar1 = Calendar.getInstance();

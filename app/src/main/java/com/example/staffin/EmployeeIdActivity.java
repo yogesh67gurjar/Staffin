@@ -1,6 +1,9 @@
 package com.example.staffin;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.widget.Toast;
@@ -53,44 +56,55 @@ public class EmployeeIdActivity extends AppCompatActivity {
                 binding.passwordEt.setError("Enter Your Password");
                 binding.passwordEt.requestFocus();
             } else {
-                if (from.equalsIgnoreCase("add")) {
-                    String password = binding.passwordEt.getText().toString();
+                if (isNetworkAvailable()) {
+                    if (from.equalsIgnoreCase("add")) {
+                        String password = binding.passwordEt.getText().toString();
+                        Call<AddPasswordForEmployee> callPostSinglePasswordEmployee = apiInterface.postSinglePasswordEmployee(password, empId);
+                        callPostSinglePasswordEmployee.enqueue(new Callback<AddPasswordForEmployee>() {
+                            @Override
+                            public void onResponse(Call<AddPasswordForEmployee> call, Response<AddPasswordForEmployee> response) {
+                                if (response.isSuccessful()) {
+                                    Intent intent = new Intent(getApplicationContext(), CompanyDetailsActivity.class);
+                                    intent.putExtra("empId", empId);
+                                    intent.putExtra("Id", Id);
+                                    intent.putExtra("from", "add");
+                                    startActivity(intent);
 
-
-                    Call<AddPasswordForEmployee> call = apiInterface.postSinglePasswordEmployee(password, empId);
-                    call.enqueue(new Callback<AddPasswordForEmployee>() {
-                        @Override
-                        public void onResponse(Call<AddPasswordForEmployee> call, Response<AddPasswordForEmployee> response) {
-                            if (response.isSuccessful()) {
-                                Intent intent = new Intent(getApplicationContext(), CompanyDetailsActivity.class);
-                                intent.putExtra("empId", empId);
-                                intent.putExtra("Id", Id);
-                                intent.putExtra("from", "add");
-                                startActivity(intent);
-
-                            } else {
-                                Toast.makeText(EmployeeIdActivity.this, "OnResponse Fail", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    Toast.makeText(EmployeeIdActivity.this, "OnResponse Fail", Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onFailure(Call<AddPasswordForEmployee> call, Throwable t) {
-                            Toast.makeText(EmployeeIdActivity.this, "Failure", Toast.LENGTH_SHORT).show();
-                        }
-                    });
+                            @Override
+                            public void onFailure(Call<AddPasswordForEmployee> call, Throwable t) {
+                                Toast.makeText(EmployeeIdActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+                            }
+                        });
 
+
+                    } else {
+                        // yha pe already sb edittext filled milenge qki get api lgegi user ki
+                        // edit employee id ki api lgegi
+                        // progress dialog
+                        Intent intent = new Intent(getApplicationContext(), CompanyDetailsActivity.class);
+                        intent.putExtra("empId", empId);
+                        intent.putExtra("Id", Id);
+                        intent.putExtra("from", "edit");
+                        startActivity(intent);
+                    }
                 } else {
-                    // yha pe already sb edittext filled milenge qki get api lgegi user ki
-                    // edit employee id ki api lgegi
-                    // progress dialog
-                    Intent intent = new Intent(getApplicationContext(), CompanyDetailsActivity.class);
-                    intent.putExtra("empId", empId);
-                    intent.putExtra("Id", Id);
-                    intent.putExtra("from", "edit");
-                    startActivity(intent);
+                    Toast.makeText(this, "Internet Not Available", Toast.LENGTH_SHORT).show();
                 }
+
             }
         });
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     @Override
