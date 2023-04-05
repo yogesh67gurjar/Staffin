@@ -1,5 +1,6 @@
 package com.example.staffin;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -25,6 +26,7 @@ public class EmployeeIdActivity extends AppCompatActivity {
     String from;
     String empId;
     int Id;
+    ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,29 +34,24 @@ public class EmployeeIdActivity extends AppCompatActivity {
         binding = ActivityEmployeeIdBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         clickListeners();
+
+        if (from.equalsIgnoreCase("edit")) {
+            // progress
+            // id bhi aaegi
+            // get kr lo password
+            // password me settext password kr do
+        }
+    }
+
+    private void clickListeners() {
+        progress = new ProgressDialog(EmployeeIdActivity.this);
+        progress.setMessage("please wait...");
         from = getIntent().getStringExtra("from");
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
         empId = getIntent().getStringExtra("empId");
         Id = getIntent().getIntExtra("Id", 0);
-
         binding.userIdEt.setText(empId);
 
-
-        if (from.equalsIgnoreCase("edit")) {
-            // progress
-
-            // id bhi aaegi
-            // password me settext password
-        }
-        else
-        {
-            // id ni aegi
-        }
-
-
-    }
-
-    private void clickListeners() {
         binding.btnBack.setOnClickListener(v -> {
             onBackPressed();
         });
@@ -95,8 +92,8 @@ public class EmployeeIdActivity extends AppCompatActivity {
 
 
                     } else {
-                        // yha pe already sb edittext filled milenge qki get api lgegi user ki
-                        // edit employee id ki api lgegi
+                        // yha pe already sb edittext filled milenge qki get api lgegi user ki jisse empId and pw milega and wo apn already settext kr chuke he
+                        // edit employee id password ki api lgegi
                         // progress dialog
                         Intent intent = new Intent(getApplicationContext(), CompanyDetailsActivity.class);
                         intent.putExtra("empId", empId);

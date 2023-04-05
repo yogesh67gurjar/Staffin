@@ -17,7 +17,6 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.staffin.Interface.ApiInterface;
 import com.example.staffin.Response.AddEmployeeDetails;
 import com.example.staffin.Response.AddEmployeeResponse;
@@ -40,7 +39,7 @@ public class AddEmployeeActivity extends AppCompatActivity {
     ActivityAddEmployeeBinding binding;
     ApiInterface apiInterface;
 
-    static Boolean dpImageBoolean = false;
+    Boolean dpImageBoolean = false;
     String from = "";
     int Id = 0;
     String empId = "";
@@ -62,33 +61,29 @@ public class AddEmployeeActivity extends AppCompatActivity {
         progressDialog.setMessage("Loading...");
 
 
-        from = getIntent().getStringExtra("from");
-
         if (from.equalsIgnoreCase("edit")) {
             binding.textView.setText("Edit Employee");
             binding.nextBtn.setText("Next");
             progressDialog.show();
             Id = getIntent().getIntExtra("Id", 0);
             empId = getIntent().getStringExtra("empId");
-
             if (Id == 0) {
                 Toast.makeText(this, "Some Error", Toast.LENGTH_SHORT).show();
             } else {
+                if (isNetworkAvailable()) {
 
-                Call<SingleEmployeeResponse> call = apiInterface.getSingleEmployee(Id);
-                call.enqueue(new Callback<SingleEmployeeResponse>() {
-                    @Override
-                    public void onResponse(Call<SingleEmployeeResponse> call, Response<SingleEmployeeResponse> response) {
-                        if (response.isSuccessful()) {
-                            progressDialog.dismiss();
-                            EmployeeResult user = response.body().getEmployeeResult().get(0);
-                            Glide.with(getApplicationContext()).load(user.getProfileImage()).placeholder(R.drawable.img_dp).into(binding.dpImg);
 
-                            binding.employeeIdEt.setText(user.getFullName());
+                    Call<SingleEmployeeResponse> callGetSingleEmployee = apiInterface.getSingleEmployee(Id);
+                    callGetSingleEmployee.enqueue(new Callback<SingleEmployeeResponse>() {
+                        @Override
+                        public void onResponse(Call<SingleEmployeeResponse> call, Response<SingleEmployeeResponse> response) {
+                            if (response.isSuccessful()) {
+                                progressDialog.dismiss();
+                                EmployeeResult user = response.body().getEmployeeResult().get(0);
+                                Glide.with(getApplicationContext()).load(user.getProfileImage()).placeholder(R.drawable.img_dp).into(binding.dpImg);
+                                binding.employeeIdEt.setText(user.getFullName());
                                 binding.departmentEt.setText(user.getFatherName());
                                 binding.dobEt.setText(user.getDateOfBirth());
-
-
                                 if (user.getGender().equalsIgnoreCase("male")) {
                                     binding.rbMale.setChecked(true);
                                 } else if (user.getGender().equalsIgnoreCase("female")) {
@@ -100,21 +95,23 @@ public class AddEmployeeActivity extends AppCompatActivity {
                                 binding.emailEt.setText(user.getEmail());
                                 binding.localAddEt.setText(user.getLocalAddress());
                                 binding.permAddEt.setText(user.getLocalAddress());
-                        } else {
-                            progressDialog.dismiss();
-                            Log.d("dkfnsdf", response.message());
-                            Toast.makeText(AddEmployeeActivity.this, "Try Again", Toast.LENGTH_SHORT).show();
+                            } else {
+                                progressDialog.dismiss();
+                                Log.d("dkfnsdf", response.message());
+                                Toast.makeText(AddEmployeeActivity.this, "Try Again", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<SingleEmployeeResponse> call, Throwable t) {
-                        Log.d("nsdfsdf", t.getMessage());
-                        progressDialog.dismiss();
-                        Toast.makeText(AddEmployeeActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
-                    }
-                });
-
+                        @Override
+                        public void onFailure(Call<SingleEmployeeResponse> call, Throwable t) {
+                            Log.d("nsdfsdf", t.getMessage());
+                            progressDialog.dismiss();
+                            Toast.makeText(AddEmployeeActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                } else {
+                    Toast.makeText(this, "Internet Not Available", Toast.LENGTH_SHORT).show();
+                }
             }
 
 
@@ -122,11 +119,10 @@ public class AddEmployeeActivity extends AppCompatActivity {
             binding.textView.setText("Add Employee");
             binding.nextBtn.setText("Next");
         }
-
-
     }
 
     private void clickListeners() {
+        from = getIntent().getStringExtra("from");
 
         binding.btnHome.setOnClickListener(v -> {
             finish();
@@ -171,6 +167,7 @@ public class AddEmployeeActivity extends AppCompatActivity {
                         intent.putExtra("from", "edit");
                         intent.putExtra("Id", Id);
                         intent.putExtra("empId", empId);
+
                         // patch api and uske response se apn intent se aage jaenge
                         // progress bhi usi k according
                         startActivity(intent);
@@ -239,7 +236,6 @@ public class AddEmployeeActivity extends AppCompatActivity {
             profileImage = data.getData();
             uripi = getRealPathFromURI(profileImage);
             dpImageBoolean = true;
-
         }
     }
 
@@ -275,7 +271,6 @@ public class AddEmployeeActivity extends AppCompatActivity {
         RequestBody lAddress = RequestBody.create(MediaType.parse("text/plain"), xLAddress);
         RequestBody pAddress = RequestBody.create(MediaType.parse("text/plain"), xPAddress);
 
-
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
 
 //        progressDialog.dismiss();
@@ -299,11 +294,10 @@ public class AddEmployeeActivity extends AppCompatActivity {
                         AddEmployeeDetails resp = response.body().getEmployeeID().get(0);
 
 
-
                         int Id = resp.getId();
 
                         progressDialog.dismiss();
-                        String empID =  resp.getEmployeeID();
+                        String empID = resp.getEmployeeID();
                         Intent intent = new Intent(getApplicationContext(), EmployeeIdActivity.class);
                         intent.putExtra("empId", empID);
                         intent.putExtra("Id", Id);

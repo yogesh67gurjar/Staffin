@@ -1,5 +1,6 @@
 package com.example.staffin;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -27,6 +28,7 @@ public class BankDetailsActivity extends AppCompatActivity {
     int Id;
     String empId;
     ApiInterface apiInterface;
+    ProgressDialog progress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +59,8 @@ public class BankDetailsActivity extends AppCompatActivity {
     }
 
     private void clickListeners() {
+        progress = new ProgressDialog(BankDetailsActivity.this);
+        progress.setMessage("please wait....");
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
         binding.btnBack.setOnClickListener(v -> {
             onBackPressed();
@@ -79,19 +83,19 @@ public class BankDetailsActivity extends AppCompatActivity {
                 binding.bankEt.requestFocus();
             } else {
                 if (isNetworkAvailable()) {
-
-
                     if (from.equalsIgnoreCase("add")) {
-
-                        Call<BankDetailsResponse> callPostSingleBankDetails = apiInterface.postSingleBankDetails(Id, empId, binding.holderEt.getText().toString(), binding.accNoEt.getText().toString(), binding.bankEt.getText().toString(), branch);
+                        progress.show();
+                        Call<BankDetailsResponse> callPostSingleBankDetails = apiInterface.postSingleBankDetails(Id, binding.holderEt.getText().toString(), binding.accNoEt.getText().toString(), binding.bankEt.getText().toString(), branch);
                         callPostSingleBankDetails.enqueue(new Callback<BankDetailsResponse>() {
                             @Override
                             public void onResponse(Call<BankDetailsResponse> call, Response<BankDetailsResponse> response) {
                                 if (response.isSuccessful()) {
                                     Toast.makeText(BankDetailsActivity.this, "New Employee Added...", Toast.LENGTH_SHORT).show();
+                                    progress.dismiss();
                                     startActivity(new Intent(getApplicationContext(), MainActivity.class));
                                     finish();
                                 } else {
+                                    progress.dismiss();
                                     Log.d("nfsdf", response.message());
                                     Toast.makeText(BankDetailsActivity.this, "error", Toast.LENGTH_SHORT).show();
                                 }
@@ -100,6 +104,7 @@ public class BankDetailsActivity extends AppCompatActivity {
                             @Override
                             public void onFailure(Call<BankDetailsResponse> call, Throwable t) {
                                 Log.d("jnkdfn", t.getMessage());
+                                progress.dismiss();
                                 Toast.makeText(BankDetailsActivity.this, "some failure occured", Toast.LENGTH_SHORT).show();
                             }
                         });

@@ -76,7 +76,7 @@ public class CompanyDetailsActivity extends AppCompatActivity {
 
         from = getIntent().getStringExtra("from");
 
-//        Department Spinner Code
+//        Department and Designation Spinner Code
         Call<DepartmentResponse> callGetDepartment = apiInterface.getDepartment();
         if (isNetworkAvailable()) {
             callGetDepartment.enqueue(new Callback<DepartmentResponse>() {
@@ -167,12 +167,6 @@ public class CompanyDetailsActivity extends AppCompatActivity {
         }
 
 
-//        if (from.equalsIgnoreCase("add")) {
-//        } else {
-//            binding.designationEt.setSelection(5);
-//            binding.departmentEt.setSelection(5);
-//        }
-
     }
 
     private void clickListeners() {
@@ -207,24 +201,13 @@ public class CompanyDetailsActivity extends AppCompatActivity {
             intent.putExtra("empId", empId);
             if (from.equalsIgnoreCase("edit")) {
                 intent.putExtra("from", "edit");
-                // edit wali api
+                // update wali api
 
                 // edit wala flow
 
             } else {
                 intent.putExtra("from", "add");
-
-                if (binding.employeeIdEt.getText().toString().isEmpty()) {
-                    binding.employeeIdEt.setError("Enter Id");
-                    binding.employeeIdEt.requestFocus();
-                }
-//            else if (DepId==100012) {
-//                Toast.makeText(this, "Please select Department", Toast.LENGTH_SHORT).show();
-//            }
-//            else if (binding.designationEt.getSelectedItem() != "Please select Designation") {
-//                Toast.makeText(this, "Please select Department", Toast.LENGTH_SHORT).show();
-//            }
-                else if (binding.annualLeaveEt.getText().toString().isEmpty()) {
+                if (binding.annualLeaveEt.getText().toString().isEmpty()) {
                     binding.annualLeaveEt.setError("Enter Annual Leaves");
                     binding.annualLeaveEt.requestFocus();
                 } else if (binding.medicalLeaveEt.getText().toString().isEmpty()) {
@@ -248,9 +231,11 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                     binding.hourlyEt.requestFocus();
                 } else {
 //
-                    String employeeId = binding.employeeIdEt.getText().toString();
-                    String spinner = binding.departmentEt.getSelectedItem().toString();
-                    String spinner2 = binding.designationEt.getSelectedItem().toString();
+//                    String employeeId = binding.employeeIdEt.getText().toString();
+//                    String spinner = binding.departmentEt.getSelectedItem().toString();
+//                    String spinner2 = binding.designationEt.getSelectedItem().toString();
+
+
                     String annualLeave = binding.annualLeaveEt.getText().toString();
                     String medicalLeave = binding.medicalLeaveEt.getText().toString();
                     String jdate = binding.jDateEt.getText().toString();
@@ -271,7 +256,6 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                     String desigIdStr = String.valueOf(desigId);
                     String basicSalary = binding.basicEt.getText().toString();
                     String hourlyRate = binding.hourlyEt.getText().toString();
-//                    Log.d("ID",Id.ge);
                     Call<CompanyDetailsResponse> callPostSingleCompanyDetailsEmployee = apiInterface.postSingleCompanyDetail(Id, depIdStr, desigIdStr, annualLeave, medicalLeave, finalStatus, jdate, rdate, basicSalary, hourlyRate);
                     if (isNetworkAvailable()) {
                         progressDialog.show();

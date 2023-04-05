@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,21 +20,35 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.staffin.AddEmployeeActivity;
+import com.example.staffin.Interface.ApiInterface;
 import com.example.staffin.R;
 import com.example.staffin.Response.EmployeeResult;
+import com.example.staffin.Response.LoginResponse;
+import com.example.staffin.Retrofit.RetrofitServices;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdapter.MyViewHolder> {
     Context context;
     List<EmployeeResult> employeeResultList;
     Dialog adDialog;
 
+    ApiInterface apiInterface;
+
 
     public TotalEmployeeAdapter(Context context, List<EmployeeResult> employeeResultList) {
         this.context = context;
         this.employeeResultList = employeeResultList;
         adDialog = new Dialog(this.context);
+        apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
+
+
+
+
     }
 
     public void filterList(List<EmployeeResult> filterlist) {
@@ -76,7 +91,7 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showPopup();
+                showPopup(singleUnit.getId(), holder.getAdapterPosition());
             }
         });
 
@@ -87,7 +102,7 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
         return employeeResultList.size();
     }
 
-    public void showPopup() {
+    public void showPopup(int Id, int position) {
         adDialog.setContentView(R.layout.remove_employee_popup);
         adDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         adDialog.show();
@@ -96,14 +111,28 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
         AppCompatButton noBtn = adDialog.findViewById(R.id.noBtn);
 
         yesBtn.setOnClickListener(v -> {
-            Toast.makeText(context, "Employee Removed Successfully", Toast.LENGTH_SHORT).show();
-//            Toast toast = Toast.makeText(context.getApplicationContext(), "Employee Removed Successfully", Toast.LENGTH_SHORT);
-//            View view1 = toast.getView();
-//            view1.setBackgroundResource(R.drawable.bg_red);
-//            view1.setPadding(70, 30, 70, 30);
-//            toast.show();
+            Call<LoginResponse> callDeleteEmployeeById = apiInterface.deleteEmployeeById(Id);
+            callDeleteEmployeeById.enqueue(new Callback<LoginResponse>() {
+                @Override
+                public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                    if (response.isSuccessful()) {
+                        Toast.makeText(context, "Employee Removed Successfully", Toast.LENGTH_SHORT).show();
+                        adDialog.dismiss();
+                        employeeResultList.remove(position);
+                        notifyDataSetChanged();
+                    } else {
+                        Log.d("kdfnsd", response.message());
+                        Toast.makeText(context, "some error occured", Toast.LENGTH_SHORT).show();
+                    }
+                }
 
-            adDialog.dismiss();
+                @Override
+                public void onFailure(Call<LoginResponse> call, Throwable t) {
+                    Toast.makeText(context, "some failure occured", Toast.LENGTH_SHORT).show();
+                    Log.d("dkfsdn", t.getMessage());
+                }
+            });
+
 
         });
         noBtn.setOnClickListener(v -> adDialog.dismiss());

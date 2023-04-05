@@ -43,6 +43,10 @@ public interface ApiInterface {
                                               @Part("parmanent_address") RequestBody parmanent_address
     );
 
+    @GET("delete-employee/{id}")
+    Call<LoginResponse> deleteEmployeeById(@Path("id") int id);
+
+
     @GET("get-all-employee-details")
     Call<TotalEmployeeResponse> getTotalEmployee();
 
@@ -94,9 +98,8 @@ public interface ApiInterface {
                                       @Field("holiday_description") String holiday_description);
 
     @FormUrlEncoded
-    @POST("add-bank-details/{id}")
-    Call<BankDetailsResponse> postSingleBankDetails(@Path("id") int id,
-                                                    @Field("employee_id") String employee_id,
+    @POST("add-bank-details")
+    Call<BankDetailsResponse> postSingleBankDetails(@Field("employee_id") int employee_id,
                                                     @Field("account_name") String account_name,
                                                     @Field("account_number") String account_number,
                                                     @Field("bank") String bank,
