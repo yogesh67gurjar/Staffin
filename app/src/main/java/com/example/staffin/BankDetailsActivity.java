@@ -1,14 +1,24 @@
 package com.example.staffin;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.staffin.Interface.ApiInterface;
+import com.example.staffin.Response.BankDetailsResponse;
+import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.ActivityBankDetailsBinding;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class BankDetailsActivity extends AppCompatActivity {
     ActivityBankDetailsBinding binding;
@@ -23,6 +33,7 @@ public class BankDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityBankDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        clickListeners();
         from = getIntent().getStringExtra("from");
         empId = getIntent().getStringExtra("empId");
         Id = getIntent().getIntExtra("Id", 0);
@@ -42,46 +53,68 @@ public class BankDetailsActivity extends AppCompatActivity {
 //            });
 //        }
 
+
+    }
+
+    private void clickListeners() {
+        apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
         binding.btnBack.setOnClickListener(v -> {
             onBackPressed();
         });
 
         binding.nextBtn.setOnClickListener(v -> {
+            String branch = null;
+            if (!binding.ifscEt.getText().toString().trim().isEmpty()) {
+                branch = binding.ifscEt.getText().toString();
+            }
+
             if (binding.holderEt.getText().toString().isEmpty()) {
                 binding.holderEt.setError("Enter Holder Name");
                 binding.holderEt.requestFocus();
             } else if (binding.accNoEt.getText().toString().trim().isEmpty()) {
                 binding.accNoEt.setError("Enter Account Number");
                 binding.accNoEt.requestFocus();
-//            } else if (binding.ifscEt.getText().toString().trim().isEmpty()) {
-//                binding.ifscEt.setError("Enter IFSC Code");
-//                binding.ifscEt.requestFocus();
             } else if (binding.bankEt.getText().toString().trim().isEmpty()) {
                 binding.bankEt.setError("Enter Bank Name");
                 binding.bankEt.requestFocus();
             } else {
+                if (isNetworkAvailable()) {
 
-                if (from.equalsIgnoreCase("add")) {
 
-//                    Call<BankDetailsResponse> call=apiInterface.postSingleBankDetails(Id,)
-//                    Call<BankDetailsResponse> postSingleBankDetails(@Path("id") int id,
-//                    @Field("employee_id") String employee_id,
-//                    @Field("account_name") String account_name,
-//                    @Field("account_number") String account_number,
-//                    @Field("bank") String bank,
-//                    @Field("branch") String branch);
+                    if (from.equalsIgnoreCase("add")) {
 
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                    finish();
-                    Toast.makeText(this, "New Employee Added...", Toast.LENGTH_SHORT).show();
+                        Call<BankDetailsResponse> callPostSingleBankDetails = apiInterface.postSingleBankDetails(Id, empId, binding.holderEt.getText().toString(), binding.accNoEt.getText().toString(), binding.bankEt.getText().toString(), branch);
+                        callPostSingleBankDetails.enqueue(new Callback<BankDetailsResponse>() {
+                            @Override
+                            public void onResponse(Call<BankDetailsResponse> call, Response<BankDetailsResponse> response) {
+                                if (response.isSuccessful()) {
+                                    Toast.makeText(BankDetailsActivity.this, "New Employee Added...", Toast.LENGTH_SHORT).show();
+                                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                    finish();
+                                } else {
+                                    Log.d("nfsdf", response.message());
+                                    Toast.makeText(BankDetailsActivity.this, "error", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<BankDetailsResponse> call, Throwable t) {
+                                Log.d("jnkdfn", t.getMessage());
+                                Toast.makeText(BankDetailsActivity.this, "some failure occured", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
+
+                    } else {
+                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                        finish();
+                        Toast.makeText(this, "Employee Details Updated...", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                    finish();
-                    Toast.makeText(this, "Employee Details Updated...", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Internet Not Available", Toast.LENGTH_SHORT).show();
                 }
             }
         });
-
     }
 
     @Override
@@ -96,5 +129,12 @@ public class BankDetailsActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         Toast.makeText(this, "Can't Go Back", Toast.LENGTH_SHORT).show();
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

@@ -9,6 +9,8 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -49,6 +51,7 @@ public class CompanyDetailsActivity extends AppCompatActivity {
     String Status, finalStatus;
     String from;
     int Id;
+    int desigId = 100012, DepId = 100012;
     String empId;
 
 
@@ -57,13 +60,13 @@ public class CompanyDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityCompanyDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        clickListeners();
         //progressBar
         ProgressDialog progressDialog = new ProgressDialog(CompanyDetailsActivity.this);
         progressDialog.setMessage("please wait...");
         progressDialog.show();
 
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
-        Id = getIntent().getIntExtra("Id", 0);
         empId = getIntent().getStringExtra("empId");
 
         binding.employeeIdEt.setText(empId);
@@ -74,110 +77,108 @@ public class CompanyDetailsActivity extends AppCompatActivity {
         from = getIntent().getStringExtra("from");
 
 //        Department Spinner Code
-        Call<DepartmentResponse> call = apiInterface.getDepartment();
-        call.enqueue(new Callback<DepartmentResponse>() {
-            @Override
-            public void onResponse(Call<DepartmentResponse> call, Response<DepartmentResponse> response) {
-                if (response.isSuccessful()) {
-                    assert response.body() != null;
-                    List<Department> departments = response.body().getDepartment();
-                    progressDialog.dismiss();
-                    String tamp = "";
-                    for (int i = 0; i < departments.size(); i++) {
-                        tamp = tamp.concat(response.body().getDepartment().get(i).getName() + ",,,");
-                        Log.i("sahgdusahdsa", response.body().getDepartment().get(i).getId().toString());
-                    }
-                    String[] strArray = tamp.split(",,,");
-                    ArrayAdapter aa = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, strArray);
-                    aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                    //Setting the ArrayAdapter data on the Spinner
-                    binding.departmentEt.setAdapter(aa);
-                    binding.departmentEt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                        @Override
-                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            departmentSelected = strArray[position];
-                            progressDialog.show();
-                            int DepId = response.body().getDepartment().get(position).getId();
-
-                            Log.i("dusahdu", String.valueOf(DepId));
-                            //Designation Spinner Code
-                            Call<DesignationResponse> call1 = apiInterface.getDesignation(DepId);
-                            call1.enqueue(new Callback<DesignationResponse>() {
-                                @Override
-                                public void onResponse(Call<DesignationResponse> call, Response<DesignationResponse> response) {
-                                    if (response.isSuccessful()) {
-                                        progressDialog.dismiss();
-                                        List<DesignationDetail> designationDetails = response.body().getDesignationDetails();
-                                        String tamp = "";
-                                        for (int i = 0; i < designationDetails.size(); i++) {
-                                            tamp = tamp.concat(designationDetails.get(i).getDesignation() + ",,,");
-                                        }
-                                        String[] strArray = tamp.split(",,,");
-                                        ArrayAdapter aa = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, strArray);
-                                        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                                        //Setting the ArrayAdapter data on the Spinner
-                                        binding.designationEt.setAdapter(aa);
-                                        binding.designationEt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                                            @Override
-                                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                                designationSelected = strArray[position];
+        Call<DepartmentResponse> callGetDepartment = apiInterface.getDepartment();
+        if (isNetworkAvailable()) {
+            callGetDepartment.enqueue(new Callback<DepartmentResponse>() {
+                @Override
+                public void onResponse(Call<DepartmentResponse> call, Response<DepartmentResponse> response) {
+                    if (response.isSuccessful()) {
+                        assert response.body() != null;
+                        List<Department> departments = response.body().getDepartment();
+                        progressDialog.dismiss();
+                        String tamp = "";
+                        for (int i = 0; i < departments.size(); i++) {
+                            tamp = tamp.concat(response.body().getDepartment().get(i).getName() + ",,,");
+                            Log.i("sahgdusahdsa", response.body().getDepartment().get(i).getId().toString());
+                        }
+                        String[] strArray = tamp.split(",,,");
+                        ArrayAdapter aa = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, strArray);
+                        aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        //Setting the ArrayAdapter data on the Spinner
+                        binding.departmentEt.setAdapter(aa);
+                        binding.departmentEt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                            @Override
+                            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                departmentSelected = strArray[position];
+                                progressDialog.show();
+                                DepId = response.body().getDepartment().get(position).getId();
+                                Log.i("dusahdu", String.valueOf(DepId));
+                                //Designation Spinner Code
+                                Call<DesignationResponse> call1 = apiInterface.getDesignation(DepId);
+                                call1.enqueue(new Callback<DesignationResponse>() {
+                                    @Override
+                                    public void onResponse(Call<DesignationResponse> call, Response<DesignationResponse> response) {
+                                        if (response.isSuccessful()) {
+                                            progressDialog.dismiss();
+                                            List<DesignationDetail> designationDetails = response.body().getDesignationDetails();
+                                            String tamp = "";
+                                            for (int i = 0; i < designationDetails.size(); i++) {
+                                                tamp = tamp.concat(designationDetails.get(i).getDesignation() + ",,,");
                                             }
+                                            String[] strArray = tamp.split(",,,");
+                                            ArrayAdapter aa = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, strArray);
+                                            aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                                            //Setting the ArrayAdapter data on the Spinner
+                                            binding.designationEt.setAdapter(aa);
+                                            binding.designationEt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                                                @Override
+                                                public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                                                    designationSelected = strArray[position];
+                                                    desigId = response.body().getDesignationDetails().get(position).getId();
+                                                    Log.i("dusahdu", String.valueOf(desigId));
+                                                }
 
-                                            @Override
-                                            public void onNothingSelected(AdapterView<?> parent) {
-
-                                            }
-                                        });
-
+                                                @Override
+                                                public void onNothingSelected(AdapterView<?> parent) {
+                                                }
+                                            });
 //                                        Log.i("departmentSelected",departmentSelected);
 //                                        Log.i("designationSelected",designationSelected);
-                                    } else {
-                                        progressDialog.dismiss();
-                                        Toast.makeText(CompanyDetailsActivity.this, "On Response Fail", Toast.LENGTH_SHORT).show();
+                                        } else {
+                                            progressDialog.dismiss();
+                                            Toast.makeText(CompanyDetailsActivity.this, "On Response Fail", Toast.LENGTH_SHORT).show();
+                                        }
                                     }
-                                }
 
-                                @Override
-                                public void onFailure(Call<DesignationResponse> call, Throwable t) {
-                                    progressDialog.dismiss();
-                                    Toast.makeText(CompanyDetailsActivity.this, "Failure", Toast.LENGTH_SHORT).show();
-                                }
-                            });
+                                    @Override
+                                    public void onFailure(Call<DesignationResponse> call, Throwable t) {
+                                        progressDialog.dismiss();
+                                        Toast.makeText(CompanyDetailsActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                            }
 
-
-                        }
-
-                        @Override
-                        public void onNothingSelected(AdapterView<?> parent) {
-
-                        }
-                    });
-
-
-                } else {
-                    progressDialog.dismiss();
-                    Toast.makeText(CompanyDetailsActivity.this, "no Response", Toast.LENGTH_SHORT).show();
+                            @Override
+                            public void onNothingSelected(AdapterView<?> parent) {
+                            }
+                        });
+                    } else {
+                        progressDialog.dismiss();
+                        Toast.makeText(CompanyDetailsActivity.this, "no Response", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<DepartmentResponse> call, Throwable t) {
-                progressDialog.dismiss();
-                Toast.makeText(CompanyDetailsActivity.this, "Failure", Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<DepartmentResponse> call, Throwable t) {
+                    progressDialog.dismiss();
+                    Toast.makeText(CompanyDetailsActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
 
 //        if (from.equalsIgnoreCase("add")) {
-//
 //        } else {
 //            binding.designationEt.setSelection(5);
 //            binding.departmentEt.setSelection(5);
 //        }
 
+    }
 
-//
+    private void clickListeners() {
 
+        ProgressDialog progressDialog = new ProgressDialog(CompanyDetailsActivity.this);
+        progressDialog.setMessage("Please Wait.....");
         binding.btnBack.setOnClickListener(v -> {
             onBackPressed();
         });
@@ -199,6 +200,7 @@ public class CompanyDetailsActivity extends AppCompatActivity {
 
         });
         binding.btnNext.setOnClickListener(v -> {
+            Id = getIntent().getIntExtra("Id", 0);
 
             Intent intent = new Intent(getApplicationContext(), BankDetailsActivity.class);
             intent.putExtra("Id", Id);
@@ -206,6 +208,7 @@ public class CompanyDetailsActivity extends AppCompatActivity {
             if (from.equalsIgnoreCase("edit")) {
                 intent.putExtra("from", "edit");
                 // edit wali api
+
                 // edit wala flow
 
             } else {
@@ -215,9 +218,10 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                     binding.employeeIdEt.setError("Enter Id");
                     binding.employeeIdEt.requestFocus();
                 }
-//            else if (binding.departmentEt.getSelectedItem() != "Please select Department") {
+//            else if (DepId==100012) {
 //                Toast.makeText(this, "Please select Department", Toast.LENGTH_SHORT).show();
-//            } else if (binding.designationEt.getSelectedItem() != "Please select Designation") {
+//            }
+//            else if (binding.designationEt.getSelectedItem() != "Please select Designation") {
 //                Toast.makeText(this, "Please select Department", Toast.LENGTH_SHORT).show();
 //            }
                 else if (binding.annualLeaveEt.getText().toString().isEmpty()) {
@@ -250,7 +254,10 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                     String annualLeave = binding.annualLeaveEt.getText().toString();
                     String medicalLeave = binding.medicalLeaveEt.getText().toString();
                     String jdate = binding.jDateEt.getText().toString();
-                    String rdate = binding.rDateEt.getText().toString();
+                    String rdate = null;
+                    if (!binding.rDateEt.getText().toString().isEmpty()) {
+                        rdate = binding.rDateEt.getText().toString();
+                    }
                     Status = "";
                     if (binding.rbActive.isChecked()) {
                         binding.rbActive.getText().toString();
@@ -260,42 +267,38 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                         Status = "InActive";
                     }
                     finalStatus = Status;
+                    String depIdStr = String.valueOf(DepId);
+                    String desigIdStr = String.valueOf(desigId);
                     String basicSalary = binding.basicEt.getText().toString();
                     String hourlyRate = binding.hourlyEt.getText().toString();
-
-//
-////                RequestBody xemployeeId = RequestBody.create(MediaType.parse("text/plain"), employeeId);
-//                RequestBody xspinner = RequestBody.create(MediaType.parse("text/plain"), spinner);
-//                RequestBody xspinner2 = RequestBody.create(MediaType.parse("text/plain"), spinner2);
-//                RequestBody xannualLeave = RequestBody.create(MediaType.parse("text/plain"), annualLeave);
-//                RequestBody xmedicalLeave = RequestBody.create(MediaType.parse("text/plain"), medicalLeave);
-//                RequestBody xjdate = RequestBody.create(MediaType.parse("text/plain"), jdate);
-//                RequestBody xrdate = RequestBody.create(MediaType.parse("text/plain"), rdate);
-//                RequestBody xfinalStatus = RequestBody.create(MediaType.parse("text/plain"), finalStatus);
-//                RequestBody xbasicSalary = RequestBody.create(MediaType.parse("text/plain"), basicSalary);
-//                RequestBody xhourlyRate = RequestBody.create(MediaType.parse("text/plain"), hourlyRate);
-                    progressDialog.show();
-//
-                    Call<CompanyDetailsResponse> call2 = apiInterface.postSingleCompanyDetailsEmployee(spinner, spinner2, annualLeave, medicalLeave, finalStatus, jdate, rdate, basicSalary, hourlyRate, Id);
-                    call2.enqueue(new Callback<CompanyDetailsResponse>() {
-                        @Override
-                        public void onResponse(Call<CompanyDetailsResponse> call, Response<CompanyDetailsResponse> response) {
-                            if (response.isSuccessful()) {
-                                progressDialog.dismiss();
-                                startActivity(intent);
-                            } else {
-                                progressDialog.dismiss();
-                                Toast.makeText(CompanyDetailsActivity.this, "onResponse Fail", Toast.LENGTH_SHORT).show();
+//                    Log.d("ID",Id.ge);
+                    Call<CompanyDetailsResponse> callPostSingleCompanyDetailsEmployee = apiInterface.postSingleCompanyDetail(Id, depIdStr, desigIdStr, annualLeave, medicalLeave, finalStatus, jdate, rdate, basicSalary, hourlyRate);
+                    if (isNetworkAvailable()) {
+                        progressDialog.show();
+                        callPostSingleCompanyDetailsEmployee.enqueue(new Callback<CompanyDetailsResponse>() {
+                            @Override
+                            public void onResponse(Call<CompanyDetailsResponse> call, Response<CompanyDetailsResponse> response) {
+                                if (response.isSuccessful()) {
+                                    progressDialog.dismiss();
+                                    startActivity(intent);
+                                } else {
+                                    Log.d("jkbfjksdf", response.message());
+                                    progressDialog.dismiss();
+                                    Toast.makeText(CompanyDetailsActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+                                }
                             }
-                        }
 
-                        @Override
-                        public void onFailure(Call<CompanyDetailsResponse> call, Throwable t) {
-                            progressDialog.dismiss();
-                            Toast.makeText(CompanyDetailsActivity.this, "OnFailure", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
+                            @Override
+                            public void onFailure(Call<CompanyDetailsResponse> call, Throwable t) {
+                                progressDialog.dismiss();
+                                Log.d("sdknf", t.getMessage());
+                                Toast.makeText(CompanyDetailsActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(CompanyDetailsActivity.this, "some error occured", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    } else {
+                        Toast.makeText(this, "Internet Not Available", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -484,4 +487,10 @@ public class CompanyDetailsActivity extends AppCompatActivity {
         }
     }
 
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 }

@@ -63,7 +63,7 @@
         android:layout_marginHorizontal="15dp"
         android:layout_marginTop="7dp"
         android:background="@drawable/edittext_layout"
-        android:hint="Enter Your Mobile Number"
+        android:hint="Enter Holder Name"
         android:inputType="textPersonName"
         android:paddingStart="20dp"
         android:textColor="@color/black"

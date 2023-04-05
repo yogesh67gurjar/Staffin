@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.staffin.Interface.ApiInterface;
+import com.example.staffin.Response.AddEmployeeDetails;
 import com.example.staffin.Response.AddEmployeeResponse;
 import com.example.staffin.Response.EmployeeResult;
 import com.example.staffin.Response.SingleEmployeeResponse;
@@ -174,7 +175,6 @@ public class AddEmployeeActivity extends AppCompatActivity {
                     } else {
 //                        startActivity(new Intent(AddEmployeeActivity.this, EmployeeIdActivity.class));
 
-
                         name = binding.employeeIdEt.getText().toString();
                         fName = binding.departmentEt.getText().toString();
                         dob = binding.dobEt.getText().toString();
@@ -294,10 +294,14 @@ public class AddEmployeeActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<AddEmployeeResponse> call, Response<AddEmployeeResponse> response) {
                     if (response.isSuccessful()) {
-                        int Id = getIntent().getIntExtra("id", 0);
+                        AddEmployeeDetails resp = response.body().getEmployeeID().get(0);
+
+
+
+                        int Id = resp.getId();
 
                         progressDialog.dismiss();
-                        String empID = response.body().getEmployeeID();
+                        String empID =  resp.getEmployeeID();
                         Intent intent = new Intent(getApplicationContext(), EmployeeIdActivity.class);
                         intent.putExtra("empId", empID);
                         intent.putExtra("Id", Id);

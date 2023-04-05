@@ -1,22 +1,15 @@
 package com.example.staffin.Response;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
 public class CompanyDetailsResponse {
 
-    @SerializedName("status")
-    @Expose
-    private Integer status;
-    @SerializedName("message")
-    @Expose
+    private int status;
     private String message;
 
-    public Integer getStatus() {
+    public int getStatus() {
         return status;
     }
 
-    public void setStatus(Integer status) {
+    public void setStatus(int status) {
         this.status = status;
     }
 
@@ -27,5 +20,4 @@ public class CompanyDetailsResponse {
     public void setMessage(String message) {
         this.message = message;
     }
-
 }

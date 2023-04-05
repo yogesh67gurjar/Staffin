@@ -31,18 +31,30 @@ public class EmployeeIdActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityEmployeeIdBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        clickListeners();
         from = getIntent().getStringExtra("from");
-
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
         empId = getIntent().getStringExtra("empId");
         Id = getIntent().getIntExtra("Id", 0);
+
         binding.userIdEt.setText(empId);
+
 
         if (from.equalsIgnoreCase("edit")) {
             // progress
+
+            // id bhi aaegi
             // password me settext password
         }
+        else
+        {
+            // id ni aegi
+        }
 
+
+    }
+
+    private void clickListeners() {
         binding.btnBack.setOnClickListener(v -> {
             onBackPressed();
         });

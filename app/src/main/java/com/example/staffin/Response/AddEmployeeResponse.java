@@ -1,10 +1,16 @@
 package com.example.staffin.Response;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.List;
+
 public class AddEmployeeResponse {
 
     private int status;
     private String message;
-    private String employeeID;
+
+    @SerializedName("employeeID")
+    private List<AddEmployeeDetails> employeeID;
 
     public int getStatus() {
         return status;
@@ -22,11 +28,11 @@ public class AddEmployeeResponse {
         this.message = message;
     }
 
-    public String getEmployeeID() {
+    public List<AddEmployeeDetails> getEmployeeID() {
         return employeeID;
     }
 
-    public void setEmployeeID(String employeeID) {
+    public void setEmployeeID(List<AddEmployeeDetails> employeeID) {
         this.employeeID = employeeID;
     }
 }

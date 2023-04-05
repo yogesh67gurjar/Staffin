@@ -58,23 +58,34 @@ public interface ApiInterface {
     Call<DepartmentResponse> getDepartment();
 
     @GET("get-designation/{id}")
-    Call<DesignationResponse> getDesignation(@Path("id")int id);
+    Call<DesignationResponse> getDesignation(@Path("id") int id);
+
+//    @FormUrlEncoded
+//    @POST("add-company-details/{id}")
+//    Call<CompanyDetailsResponse> postSingleCompanyDetailsEmployee(
+//            @Path("id") int id,
+//            @Field("department") String department,
+//            @Field("designation") String designation,
+//            @Field("annual_leave") String annual_leave,
+//            @Field("medical_leave") String medical_leave,
+//            @Field("status") String status,
+//            @Field("joining_date") String joining_date,
+//            @Field("exit_date") String exit_date,
+//            @Field("basic") String basic,
+//            @Field("hourly") String hourly);
 
     @FormUrlEncoded
     @POST("add-company-details/{id}")
-    Call<CompanyDetailsResponse> postSingleCompanyDetailsEmployee(
-
-            @Field("department") String department,
-            @Field("designation") String designation,
-            @Field("annual_leave") String annual_leave,
-            @Field("medical_leave") String medical_leave,
-            @Field("status") String status,
-            @Field("joining_date") String joining_date,
-            @Field("exit_date") String exit_date,
-            @Field("basic") String basic,
-            @Field("hourly") String hourly,
-            @Path("id") int id);
-
+    Call<CompanyDetailsResponse> postSingleCompanyDetail(@Path("id") int id,
+                                                         @Field("department") String department,
+                                                         @Field("designation") String designation,
+                                                         @Field("annual_leave") String annual_leave,
+                                                         @Field("medical_leave") String medical_leave,
+                                                         @Field("status") String status,
+                                                         @Field("joining_date") String joining_date,
+                                                         @Field("exit_date") String exit_date,
+                                                         @Field("basic") String basic,
+                                                         @Field("hourly") String hourly);
 
     @FormUrlEncoded
     @POST("add-holiday")
@@ -92,14 +103,12 @@ public interface ApiInterface {
                                                     @Field("branch") String branch);
 
 
-
     @GET("get-event-details")
     Call<EventResponse> getAllEvents();
 
     //get all holidays
     @GET("get-holiday")
     Call<HolidayResponse> getAllHolidays();
-
 
 
 }
