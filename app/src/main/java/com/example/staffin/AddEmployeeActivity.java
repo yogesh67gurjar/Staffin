@@ -16,6 +16,8 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.example.staffin.Interface.ApiInterface;
 import com.example.staffin.Response.AddEmployeeDetails;
 import com.example.staffin.Response.AddEmployeeResponse;
@@ -80,24 +82,24 @@ public class AddEmployeeActivity extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             progressDialog.dismiss();
                             EmployeeResult user = response.body().getEmployeeResult().get(0);
-//                            Glide.with(getApplicationContext()).load(user.getProfileImage()).placeholder(R.drawable.img_add_employee).into(binding.dpImg);
+                            Glide.with(getApplicationContext()).load(user.getProfileImage()).placeholder(R.drawable.img_dp).into(binding.dpImg);
 
                             binding.employeeIdEt.setText(user.getFullName());
-                            binding.departmentEt.setText(user.getFatherName());
-                            binding.dobEt.setText(user.getDateOfBirth());
+                                binding.departmentEt.setText(user.getFatherName());
+                                binding.dobEt.setText(user.getDateOfBirth());
 
 
-                            if (user.getGender().equalsIgnoreCase("male")) {
-                                binding.rbMale.setChecked(true);
-                            } else if (user.getGender().equalsIgnoreCase("female")) {
-                                binding.rbFemale.setChecked(true);
-                            } else {
-                                binding.rbOther.setChecked(true);
-                            }
-                            binding.mobileEt.setText(user.getMobileNumber());
-                            binding.emailEt.setText(user.getEmail());
-                            binding.localAddEt.setText(user.getLocalAddress());
-                            binding.permAddEt.setText(user.getLocalAddress());
+                                if (user.getGender().equalsIgnoreCase("male")) {
+                                    binding.rbMale.setChecked(true);
+                                } else if (user.getGender().equalsIgnoreCase("female")) {
+                                    binding.rbFemale.setChecked(true);
+                                } else {
+                                    binding.rbOther.setChecked(true);
+                                }
+                                binding.mobileEt.setText(user.getMobileNumber());
+                                binding.emailEt.setText(user.getEmail());
+                                binding.localAddEt.setText(user.getLocalAddress());
+                                binding.permAddEt.setText(user.getLocalAddress());
                         } else {
                             progressDialog.dismiss();
                             Log.d("dkfnsdf", response.message());
