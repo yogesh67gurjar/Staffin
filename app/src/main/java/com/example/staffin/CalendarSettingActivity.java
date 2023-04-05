@@ -7,6 +7,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -55,6 +56,8 @@ public class CalendarSettingActivity extends AppCompatActivity {
                 @Override
                 public void onResponse(Call<HolidayResponse> call, Response<HolidayResponse> response) {
                     if (response.isSuccessful()) {
+                        binding.holidayRecyclerView.setVisibility(View.VISIBLE);
+                        binding.notFoundLayout.setVisibility(View.INVISIBLE);
                         HolidayResponse holidaysResp = response.body();
                         List<AllHolidays> holidays = holidaysResp.getHoliday_list();
 
@@ -65,6 +68,8 @@ public class CalendarSettingActivity extends AppCompatActivity {
                     } else {
                         dialog.dismiss();
                         Log.d("kfndkfjn", response.message());
+                        binding.holidayRecyclerView.setVisibility(View.INVISIBLE);
+                        binding.notFoundLayout.setVisibility(View.VISIBLE);
                         Toast.makeText(CalendarSettingActivity.this, "unable to get information", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -73,6 +78,8 @@ public class CalendarSettingActivity extends AppCompatActivity {
                 public void onFailure(Call<HolidayResponse> call, Throwable t) {
                     Log.d("kfndkfjn", t.getMessage());
                     dialog.dismiss();
+                    binding.holidayRecyclerView.setVisibility(View.INVISIBLE);
+                    binding.notFoundLayout.setVisibility(View.VISIBLE);
                     Toast.makeText(CalendarSettingActivity.this, "some failure orrured", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -150,7 +157,6 @@ public class CalendarSettingActivity extends AppCompatActivity {
                 finish();
             }
         });
-
 
         binding.compactcalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
