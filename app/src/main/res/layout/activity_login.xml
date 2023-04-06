@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/orange_bg"
     tools:context=".LoginActivity">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/mainCl"
         android:layout_width="match_parent"
@@ -17,18 +18,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-<!--        <com.tuyenmonkey.mkloader.MKLoader-->
-<!--            android:id="@+id/progress"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            app:mk_color="@color/mainColor"-->
-<!--            app:mk_type="Worm"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent"-->
-<!--            app:layout_constraintEnd_toEndOf="parent"-->
-<!--            app:layout_constraintStart_toStartOf="parent"-->
-<!--            app:layout_constraintTop_toTopOf="parent" />-->
-<!--        &lt;!&ndash;        app:mk_type="<loading_type>" (Optional. Default is ClassicSpinner)&ndash;&gt;-->
-<!--        &lt;!&ndash;        app:mk_color="<color>" (Optional. Default is #ffffff)&ndash;&gt;-->
+        <!--        <com.tuyenmonkey.mkloader.MKLoader-->
+        <!--            android:id="@+id/progress"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            app:mk_color="@color/mainColor"-->
+        <!--            app:mk_type="Worm"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent" />-->
+        <!--        &lt;!&ndash;        app:mk_type="<loading_type>" (Optional. Default is ClassicSpinner)&ndash;&gt;-->
+        <!--        &lt;!&ndash;        app:mk_color="<color>" (Optional. Default is #ffffff)&ndash;&gt;-->
 
 
         <TextView
