@@ -41,7 +41,6 @@
             android:textColor="@color/black"
             app:layout_constraintTop_toBottomOf="@id/tv1" />
 
-
 <!--        android:autofillHints="smsOTPCode"-->
 <!--        android:importantForAutofill="yes"-->
 

@@ -32,7 +32,9 @@ public class PayrollActivity extends AppCompatActivity {
         binding.shimmerViewContainer.stopShimmer();
         binding.shimmerViewContainer.setVisibility(View.GONE);
         binding.PayRollRv.setVisibility(View.VISIBLE);
-
+        binding.btnExpanses.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), ExpansesActivity.class));
+        });
         binding.btnHome.setOnClickListener(v -> {
             finish();
         });
@@ -40,13 +42,6 @@ public class PayrollActivity extends AppCompatActivity {
         binding.nextBtn.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), InsidePayrollActivity.class));
         });
-
-        binding.btnCalendar.setOnClickListener(v -> {
-
-            startActivity(new Intent(getApplicationContext(), CalendarSettingActivity.class));
-
-        });
-
 
     }
 }

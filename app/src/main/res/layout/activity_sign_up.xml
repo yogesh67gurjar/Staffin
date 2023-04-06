@@ -85,6 +85,29 @@
                 android:maxLength="13" />
         </com.google.android.material.textfield.TextInputLayout>
 
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/emailTf"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="15dp"
+            android:layout_marginTop="10dp"
+            android:textColorHint="@color/txtGray"
+            android:hint="Email"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/phoneTf">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/emailEt"
+                android:layout_width="match_parent"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"
+                android:inputType="textEmailAddress" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/passwordTf"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -96,7 +119,7 @@
             android:textColorHint="@color/txtGray"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/phoneTf"
+            app:layout_constraintTop_toBottomOf="@id/emailTf"
             app:passwordToggleDrawable="@drawable/login_password_hide_show"
             app:passwordToggleEnabled="true">
 

@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/ScreenBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".MainActivity">
 
     <ImageButton
@@ -21,7 +21,7 @@
 
     <TextView
         android:id="@+id/textView"
-        style="@style/textColor"
+        android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Home"
@@ -80,9 +80,9 @@
                     app:cardElevation="8dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        style="@style/cardBackground"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:background="@color/white">
 
 
                         <ImageView
@@ -101,7 +101,7 @@
 
                         <TextView
                             android:id="@+id/main_tv1"
-                            style="@style/textColor"
+                            android:textColor="@color/black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
@@ -129,9 +129,9 @@
                     app:cardElevation="8dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        style="@style/cardBackground"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:background="@color/white">
 
 
                         <ImageView
@@ -150,7 +150,7 @@
 
                         <TextView
                             android:id="@+id/main_tv2"
-                            style="@style/textColor"
+                            android:textColor="@color/black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
@@ -189,9 +189,9 @@
                     app:cardElevation="8dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        style="@style/cardBackground"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:background="@color/white">
 
 
                         <ImageView
@@ -210,7 +210,7 @@
 
                         <TextView
                             android:id="@+id/main_tv3"
-                            style="@style/textColor"
+                            android:textColor="@color/black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
@@ -238,9 +238,9 @@
                     app:cardElevation="8dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        style="@style/cardBackground"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:background="@color/white">
 
 
                         <ImageView
@@ -259,7 +259,7 @@
 
                         <TextView
                             android:id="@+id/main_tv4"
-                            style="@style/textColor"
+                            android:textColor="@color/black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
@@ -296,9 +296,9 @@
                     app:cardElevation="8dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        style="@style/cardBackground"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:background="@color/white">
 
 
                         <ImageView
@@ -317,7 +317,7 @@
 
                         <TextView
                             android:id="@+id/main_tv5"
-                            style="@style/textColor"
+                            android:textColor="@color/black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
@@ -345,9 +345,9 @@
                     app:cardElevation="8dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        style="@style/cardBackground"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:background="@color/white">
 
 
                         <ImageView
@@ -366,7 +366,7 @@
 
                         <TextView
                             android:id="@+id/txtLogout"
-                            style="@style/textColor"
+                            android:textColor="@color/black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
@@ -404,9 +404,9 @@
                     app:cardElevation="8dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        style="@style/cardBackground"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:background="@color/white">
 
 
                         <ImageView
@@ -436,9 +436,9 @@
                     app:cardElevation="8dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
-                        style="@style/cardBackground"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="match_parent"
+                        android:background="@color/white">
 
 
                         <ImageView
@@ -457,7 +457,7 @@
 
                         <TextView
                             android:id="@+id/txtLogout8"
-                            style="@style/textColor"
+                            android:textColor="@color/black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"

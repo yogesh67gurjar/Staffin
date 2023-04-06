@@ -102,15 +102,23 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/employeeIdEt" />
 
-            <Spinner
-                android:id="@+id/departmentEt"
+            <LinearLayout
+                android:id="@+id/firstLL"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
                 android:layout_marginHorizontal="15dp"
                 android:layout_marginTop="7dp"
+                android:background="@drawable/edittext_layout"
+                android:orientation="vertical"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/departmentTv" />
+                app:layout_constraintTop_toBottomOf="@id/departmentTv">
+
+                <Spinner
+                    android:id="@+id/departmentEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp" />
+            </LinearLayout>
 
 
             <TextView
@@ -123,17 +131,25 @@
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/departmentEt" />
+                app:layout_constraintTop_toBottomOf="@+id/firstLL" />
 
-            <Spinner
-                android:id="@+id/designationEt"
+            <LinearLayout
+                android:id="@+id/secondLL"
                 android:layout_width="match_parent"
                 android:layout_height="42dp"
                 android:layout_marginHorizontal="15dp"
                 android:layout_marginTop="7dp"
+                android:background="@drawable/edittext_layout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/designationTv" />
+                app:layout_constraintTop_toBottomOf="@id/designationTv">
+                <Spinner
+                    android:id="@+id/designationEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"/>
+            </LinearLayout>
+
+
 
             <TextView
                 android:id="@+id/annualLeaveTv"
@@ -144,7 +160,7 @@
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/annualLeaveEt"
-                app:layout_constraintTop_toBottomOf="@+id/designationEt" />
+                app:layout_constraintTop_toBottomOf="@+id/secondLL" />
 
             <TextView
                 android:id="@+id/medicalLeaveTv"
@@ -155,7 +171,7 @@
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="@+id/medicalLeaveEt"
-                app:layout_constraintTop_toBottomOf="@+id/designationEt" />
+                app:layout_constraintTop_toBottomOf="@+id/secondLL" />
 
             <EditText
                 android:id="@+id/annualLeaveEt"
@@ -208,13 +224,13 @@
 
             <TextView
                 android:id="@+id/rDateTv"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="15dp"
                 android:text="Date Of Relieving"
                 android:textColor="@color/black"
                 android:textStyle="bold"
+                android:visibility="gone"
                 app:layout_constraintStart_toStartOf="@+id/rDateEt"
                 app:layout_constraintTop_toBottomOf="@+id/annualLeaveEt" />
 
@@ -247,7 +263,6 @@
                 android:layout_marginTop="7dp"
                 android:background="@drawable/edittext_layout"
                 android:clickable="true"
-                android:visibility="gone"
                 android:drawableEnd="@drawable/ic_calendar"
                 android:gravity="center_vertical"
                 android:hint="DD/MM/YYYY"
@@ -256,6 +271,7 @@
                 android:textColor="@color/black"
                 android:textColorHint="#80282729"
                 android:textSize="14sp"
+                android:visibility="gone"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/jDateEt"
@@ -343,8 +359,8 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:background="@color/white"
-                    android:layout_height="match_parent">
+                    android:layout_height="match_parent"
+                    android:background="@color/white">
 
                     <TextView
                         android:id="@+id/tv"
