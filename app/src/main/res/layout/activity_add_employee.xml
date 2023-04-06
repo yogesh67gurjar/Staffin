@@ -2,9 +2,10 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    style="@style/ScreenBackground"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".AddEmployeeActivity">
 
     <ImageButton
@@ -21,10 +22,10 @@
 
     <TextView
         android:id="@+id/textView"
-        style="@style/textColor"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add Employee"
+        android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/btnHome"
@@ -84,12 +85,12 @@
 
             <TextView
                 android:id="@+id/fullNameTv"
-                style="@style/textColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="60dp"
                 android:text="Full Name"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/dpImg" />
@@ -107,7 +108,7 @@
                 android:hint="Enter Your Name"
                 android:inputType="textPersonName"
                 android:paddingStart="20dp"
-                style="@style/textColor"
+                android:textColor="@color/black"
                 android:textColorHint="#80282729"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -116,12 +117,12 @@
 
             <TextView
                 android:id="@+id/departmentTv"
-                style="@style/textColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
                 android:text="Father's Name"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/employeeIdEt" />
@@ -138,7 +139,7 @@
                 android:hint="Enter Your Father's Name"
                 android:inputType="textPersonName"
                 android:paddingStart="20dp"
-                style="@style/textColor"
+                android:textColor="@color/black"
                 android:textColorHint="#80282729"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -147,12 +148,12 @@
 
             <TextView
                 android:id="@+id/designationTv"
-                style="@style/textColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
                 android:text="Birth Date"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/departmentEt" />
@@ -174,7 +175,7 @@
                 android:inputType="date"
                 android:paddingStart="20dp"
                 android:paddingEnd="20dp"
-                style="@style/textColor"
+                android:textColor="@color/black"
                 android:textColorHint="#80282729"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -182,12 +183,12 @@
 
             <TextView
                 android:id="@+id/genderTv"
-                style="@style/textColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
                 android:text="Gender"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/dobEt" />
@@ -211,37 +212,35 @@
 
                     <RadioButton
                         android:id="@+id/rb_male"
-                        style="@style/textColor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
                         android:layout_weight="1"
                         android:buttonTint="@color/mainColor"
                         android:text="Male"
+                        android:textColor="@color/black"
                         android:textSize="15sp" />
 
 
                     <RadioButton
                         android:id="@+id/rb_female"
-                        style="@style/textColor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="10dp"
-
                         android:layout_weight="1"
                         android:buttonTint="@color/mainColor"
                         android:text="Female"
+                        android:textColor="@color/black"
                         android:textSize="15sp" />
 
                     <RadioButton
                         android:id="@+id/rb_other"
-                        style="@style/textColor"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-
                         android:buttonTint="@color/mainColor"
                         android:text="Other"
+                        android:textColor="@color/black"
                         android:textSize="15sp" />
 
                 </RadioGroup>
@@ -251,12 +250,12 @@
 
             <TextView
                 android:id="@+id/mobileTv"
-                style="@style/textColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
                 android:text="Mobile Number"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/genderLl" />
@@ -274,7 +273,7 @@
                 android:inputType="phone"
                 android:maxLength="13"
                 android:paddingStart="20dp"
-                style="@style/textColor"
+                android:textColor="@color/black"
                 android:textColorHint="#80282729"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -283,12 +282,12 @@
 
             <TextView
                 android:id="@+id/emailTv"
-                style="@style/textColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
                 android:text="Email Address"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/mobileEt" />
@@ -305,7 +304,7 @@
                 android:hint="Enter Your Email Address"
                 android:inputType="textEmailAddress"
                 android:paddingStart="20dp"
-                style="@style/textColor"
+                android:textColor="@color/black"
                 android:textColorHint="#80282729"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -314,19 +313,19 @@
 
             <TextView
                 android:id="@+id/localAddTv"
-                style="@style/textColor"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
                 android:text="Local Address"
+                android:textColor="@color/black"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/emailEt" />
 
             <EditText
                 android:id="@+id/localAddEt"
-                android:layout_width="match_parent"
+                android:textColor="@color/black"                android:layout_width="match_parent"
                 android:layout_height="42dp"
                 android:layout_marginHorizontal="15dp"
                 android:layout_marginTop="7dp"
@@ -336,7 +335,6 @@
                 android:hint="Enter Your Local Address"
                 android:inputType="textPostalAddress"
                 android:paddingStart="20dp"
-                style="@style/textColor"
                 android:textColorHint="#80282729"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -345,8 +343,7 @@
 
             <TextView
                 android:id="@+id/permAddTv"
-                style="@style/textColor"
-                android:layout_width="wrap_content"
+                android:textColor="@color/black"                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
@@ -357,7 +354,7 @@
 
             <EditText
                 android:id="@+id/permAddEt"
-                android:layout_width="match_parent"
+                android:textColor="@color/black"                android:layout_width="match_parent"
                 android:layout_height="42dp"
                 android:layout_marginHorizontal="15dp"
                 android:layout_marginTop="7dp"
@@ -367,7 +364,6 @@
                 android:hint="Enter Your Permanent Address"
                 android:inputType="textPostalAddress"
                 android:paddingStart="20dp"
-                style="@style/textColor"
                 android:textColorHint="#80282729"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
