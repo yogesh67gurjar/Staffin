@@ -7,7 +7,6 @@
     android:background="@color/white"
     tools:context=".CreateEventActivity">
 
-
     <ImageButton
         android:id="@+id/btnBack"
         android:layout_width="36dp"
@@ -60,6 +59,10 @@
             android:id="@+id/mainConstraint"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/bg_top_round_white"
+            android:fillViewport="true"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -78,7 +81,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-                    android:layout_marginTop="20dp"
+                    android:layout_marginTop="5dp"
                     android:text="Title"
                     android:textColor="@color/black"
                     android:textStyle="bold"
@@ -94,7 +97,7 @@
                     android:background="@drawable/bg_back_btn"
                     android:drawableLeft="@drawable/ic_profile"
                     android:drawablePadding="20dp"
-                    android:hint="Name Of Event"
+                    android:hint="Enter Event Title"
                     android:inputType="textPersonName"
                     android:paddingStart="20dp"
                     android:textColor="@color/black"
@@ -129,7 +132,6 @@
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:background="@color/white"
                         android:layout_height="match_parent">
 
 
@@ -145,7 +147,7 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <androidx.constraintlayout.widget.ConstraintLayout
+                        <LinearLayout
                             android:id="@+id/product_images"
                             android:layout_width="match_parent"
                             android:layout_height="80dp"
@@ -153,6 +155,8 @@
                             android:layout_marginTop="10dp"
                             android:layout_marginBottom="10dp"
                             android:background="@color/white"
+                            android:gravity="center"
+                            android:orientation="horizontal"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -162,11 +166,8 @@
                                 android:id="@+id/img1"
                                 android:layout_width="68dp"
                                 android:layout_height="68dp"
-                                android:layout_marginStart="5dp"
-                                android:background="@color/white"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toStartOf="parent"
-                                app:layout_constraintTop_toTopOf="parent">
+                                android:layout_margin="5dp"
+                                android:background="@color/white">
 
                                 <ImageView
                                     android:id="@+id/first"
@@ -194,10 +195,7 @@
                                 android:id="@+id/img2"
                                 android:layout_width="68dp"
                                 android:layout_height="68dp"
-                                android:layout_marginStart="5dp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toEndOf="@id/img1"
-                                app:layout_constraintTop_toTopOf="parent">
+                                android:layout_margin="5dp">
 
                                 <ImageView
                                     android:id="@+id/second"
@@ -225,10 +223,7 @@
                                 android:id="@+id/img3"
                                 android:layout_width="68dp"
                                 android:layout_height="68dp"
-                                android:layout_marginStart="5dp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toEndOf="@id/img2"
-                                app:layout_constraintTop_toTopOf="parent">
+                                android:layout_margin="5dp">
 
                                 <ImageView
                                     android:id="@+id/third"
@@ -256,10 +251,7 @@
                                 android:id="@+id/img4"
                                 android:layout_width="68dp"
                                 android:layout_height="68dp"
-                                android:layout_marginStart="5dp"
-                                app:layout_constraintBottom_toBottomOf="parent"
-                                app:layout_constraintStart_toEndOf="@id/img3"
-                                app:layout_constraintTop_toTopOf="parent">
+                                android:layout_margin="5dp">
 
                                 <ImageView
                                     android:id="@+id/fourth"
@@ -283,7 +275,7 @@
 
                             </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        </androidx.constraintlayout.widget.ConstraintLayout>
+                        </LinearLayout>
 
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -312,7 +304,7 @@
                     android:drawableLeft="@drawable/ic_location"
                     android:drawablePadding="20dp"
                     android:hint="Location Of Event"
-                    android:inputType="textPersonName"
+                    android:inputType="textPostalAddress"
                     android:paddingStart="20dp"
                     android:textColor="@color/black"
                     android:textColorHint="#80282729"
@@ -388,7 +380,7 @@
                     android:drawableEnd="@drawable/ic_calendar"
                     android:drawablePadding="20dp"
                     android:hint="Enter Date"
-                    android:inputType="date"
+                    android:inputType="textPersonName"
                     android:paddingStart="20dp"
                     android:paddingEnd="10dp"
                     android:textColor="@color/black"
@@ -411,23 +403,41 @@
 
                 <HorizontalScrollView
                     android:id="@+id/scrollH"
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="15dp"
                     android:layout_marginTop="7dp"
                     android:background="@drawable/bg_back_btn"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    android:fillViewport="true"
+                    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                    app:layout_constraintEnd_toStartOf="@+id/addMemberBtn"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/addMemberTv">
 
                     <LinearLayout
                         android:id="@+id/dynamicLl"
+
                         android:layout_width="match_parent"
-                        android:layout_height="100dp"
+                        android:layout_height="wrap_content"
                         android:orientation="horizontal"
+                        android:layout_marginVertical="10dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent" />
                 </HorizontalScrollView>
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/addMemberBtn"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_marginEnd="15dp"
+                    android:background="@drawable/bg_blue_corner"
+                    android:text="+"
+                    android:textColor="@color/mainColor"
+                    android:textAlignment="center"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="@id/scrollH"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/scrollH" />
 
                 <androidx.appcompat.widget.AppCompatButton
                     android:id="@+id/createBtn"
@@ -451,30 +461,5 @@
         </androidx.core.widget.NestedScrollView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-<!--    <ImageButton-->
-<!--        android:id="@+id/backBtn"-->
-<!--        android:layout_width="36dp"-->
-<!--        android:layout_height="36dp"-->
-<!--        android:layout_marginStart="18dp"-->
-<!--        android:background="@drawable/bg_back_btn"-->
-<!--        android:src="@drawable/back_arrow"-->
-<!--        app:layout_constraintBottom_toTopOf="@id/firstConstraint"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
-
-<!--    <TextView-->
-<!--        android:id="@+id/firstTxt"-->
-<!--        android:layout_width="wrap_content"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:text="Create An Event"-->
-<!--        android:textColor="@color/black"-->
-<!--        android:textSize="20sp"-->
-<!--        android:textStyle="bold"-->
-<!--        app:layout_constraintBottom_toTopOf="@+id/firstConstraint"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent" />-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
