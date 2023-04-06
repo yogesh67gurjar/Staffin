@@ -30,6 +30,8 @@ import com.example.staffin.Response.Department;
 import com.example.staffin.Response.DepartmentResponse;
 import com.example.staffin.Response.DesignationDetail;
 import com.example.staffin.Response.DesignationResponse;
+import com.example.staffin.Response.EmployeeResult;
+import com.example.staffin.Response.SingleEmployeeResponse;
 import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.ActivityCompanyDetailsBinding;
 
@@ -63,10 +65,19 @@ public class CompanyDetailsActivity extends AppCompatActivity {
         clickListeners();
         //progressBar
 
+
+    }
+
+    private void clickListeners() {
+
+        progressDialog = new ProgressDialog(CompanyDetailsActivity.this);
+        progressDialog.setMessage("Please Wait.....");
+
         progressDialog.show();
 
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
         empId = getIntent().getStringExtra("empId");
+        Id = getIntent().getIntExtra("Id", 0);
 
         binding.employeeIdEt.setText(empId);
         adDialog = new Dialog(CompanyDetailsActivity.this);
@@ -165,21 +176,36 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                 }
             });
 
-
             if (from.equalsIgnoreCase("edit")) {
+                Call<SingleEmployeeResponse> callGetSingleEmployee = apiInterface.getSingleEmployee(Id);
+                callGetSingleEmployee.enqueue(new Callback<SingleEmployeeResponse>() {
+                    @Override
+                    public void onResponse(Call<SingleEmployeeResponse> call, Response<SingleEmployeeResponse> response) {
+                        if (response.isSuccessful()) {
+                            EmployeeResult result = response.body().getEmployeeResult().get(0);
+                            int depPos=0;
+                            int desigPos=0;
 
+
+                        } else {
+                            Toast.makeText(CompanyDetailsActivity.this, "Some error occured", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<SingleEmployeeResponse> call, Throwable t) {
+                        Toast.makeText(CompanyDetailsActivity.this, "some failure occured", Toast.LENGTH_SHORT).show();
+                        Log.d("kgndf", t.getMessage());
+                    }
+                });
             } else {
 
             }
+        } else {
+            Toast.makeText(this, "Internet Not Available", Toast.LENGTH_SHORT).show();
         }
 
 
-    }
-
-    private void clickListeners() {
-
-        progressDialog = new ProgressDialog(CompanyDetailsActivity.this);
-        progressDialog.setMessage("Please Wait.....");
         binding.btnBack.setOnClickListener(v -> {
             onBackPressed();
         });
@@ -201,7 +227,6 @@ public class CompanyDetailsActivity extends AppCompatActivity {
 
         });
         binding.btnNext.setOnClickListener(v -> {
-            Id = getIntent().getIntExtra("Id", 0);
 
             Intent intent = new Intent(getApplicationContext(), BankDetailsActivity.class);
             intent.putExtra("Id", Id);

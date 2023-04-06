@@ -69,15 +69,7 @@ public class EmployeeIdActivity extends AppCompatActivity {
             } else {
                 if (isNetworkAvailable()) {
                     progress.show();
-                    if (from.equalsIgnoreCase("add")) {
-
-                        apiCall();
-
-
-                    } else {
-
-                        apiCall();
-                    }
+                    apiCall();
                 } else {
                     Toast.makeText(this, "Internet Not Available", Toast.LENGTH_SHORT).show();
                 }
