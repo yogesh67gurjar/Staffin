@@ -18,8 +18,8 @@ public class PaySlipActivity extends AppCompatActivity {
         binding.btnHome.setOnClickListener(v -> {
             finish();
         });
-        binding.nextBtn.setOnClickListener(v ->{
-            startActivity(new Intent(getApplicationContext(),PayrollActivity.class));
+        binding.btnShare.setOnClickListener(v -> {
+            finish();
         });
     }
 }

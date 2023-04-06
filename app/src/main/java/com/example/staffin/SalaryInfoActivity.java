@@ -20,7 +20,7 @@ public class SalaryInfoActivity extends AppCompatActivity {
         });
 
         binding.nextBtn.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(), PaySlipActivity.class));
+            finish();
         });
     }
 }
