@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/white"
     android:layout_height="match_parent"
+    android:background="@color/white"
     tools:context=".HolidayActivity">
 
     <ImageButton
@@ -135,8 +135,9 @@
             android:layout_marginTop="15dp"
             android:background="@drawable/edittext_layout"
             android:gravity="start"
-            android:textColor="@color/black"
             android:inputType="textMultiLine"
+            android:paddingHorizontal="10dp"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/desTv" />
