@@ -56,7 +56,6 @@ public class AddEmployeeActivity extends AppCompatActivity {
         binding = ActivityAddEmployeeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         clickListeners();
-        apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
         final ProgressDialog progressDialog = new ProgressDialog(AddEmployeeActivity.this);
         progressDialog.setMessage("Loading...");
 
@@ -68,10 +67,9 @@ public class AddEmployeeActivity extends AppCompatActivity {
             Id = getIntent().getIntExtra("Id", 0);
             empId = getIntent().getStringExtra("empId");
             if (Id == 0) {
-                Toast.makeText(this, "Some Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Some Error while fetching Id", Toast.LENGTH_SHORT).show();
             } else {
                 if (isNetworkAvailable()) {
-
 
                     Call<SingleEmployeeResponse> callGetSingleEmployee = apiInterface.getSingleEmployee(Id);
                     callGetSingleEmployee.enqueue(new Callback<SingleEmployeeResponse>() {
@@ -123,6 +121,7 @@ public class AddEmployeeActivity extends AppCompatActivity {
 
     private void clickListeners() {
         from = getIntent().getStringExtra("from");
+        apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
 
         binding.btnHome.setOnClickListener(v -> {
             finish();
@@ -162,40 +161,30 @@ public class AddEmployeeActivity extends AppCompatActivity {
                     binding.permAddEt.requestFocus();
                 } else {
 
-                    if (from.equalsIgnoreCase("edit")) {
-                        Intent intent = new Intent(AddEmployeeActivity.this, EmployeeIdActivity.class);
-                        intent.putExtra("from", "edit");
-                        intent.putExtra("Id", Id);
-                        intent.putExtra("empId", empId);
-
-                        // patch api and uske response se apn intent se aage jaenge
-                        // progress bhi usi k according
-                        startActivity(intent);
+                    name = binding.employeeIdEt.getText().toString();
+                    fName = binding.departmentEt.getText().toString();
+                    dob = binding.dobEt.getText().toString();
+                    gender = "";
+                    if (binding.rbMale.isChecked()) {
+                        binding.rbMale.getText().toString();
+                        gender = "Male";
+                    } else if (binding.rbFemale.isChecked()) {
+                        binding.rbFemale.getText().toString();
+                        gender = "Female";
                     } else {
-//                        startActivity(new Intent(AddEmployeeActivity.this, EmployeeIdActivity.class));
+                        binding.rbOther.getText().toString();
+                        gender = "Other";
+                    }
+                    finalGender = gender;
+                    number = binding.mobileEt.getText().toString();
+                    email = binding.emailEt.getText().toString();
+                    localAddress = binding.localAddEt.getText().toString();
+                    permanentAddress = binding.permAddEt.getText().toString();
 
-                        name = binding.employeeIdEt.getText().toString();
-                        fName = binding.departmentEt.getText().toString();
-                        dob = binding.dobEt.getText().toString();
-                        gender = "";
-                        if (binding.rbMale.isChecked()) {
-                            binding.rbMale.getText().toString();
-                            gender = "Male";
-                        } else if (binding.rbFemale.isChecked()) {
-                            binding.rbFemale.getText().toString();
-                            gender = "Female";
-                        } else {
-                            binding.rbOther.getText().toString();
-                            gender = "Other";
-                        }
-                        finalGender = gender;
-                        number = binding.mobileEt.getText().toString();
-                        email = binding.emailEt.getText().toString();
-                        localAddress = binding.localAddEt.getText().toString();
-                        permanentAddress = binding.permAddEt.getText().toString();
-
+                    if (from.equalsIgnoreCase("edit")) {
+                        updateDetails(Id, uripi, name, fName, dob, finalGender, number, email, localAddress, permanentAddress);
+                    } else {
                         sendDetails(uripi, name, fName, dob, finalGender, number, email, localAddress, permanentAddress);
-
                     }
                 }
             }
@@ -228,6 +217,7 @@ public class AddEmployeeActivity extends AppCompatActivity {
         });
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -253,15 +243,65 @@ public class AddEmployeeActivity extends AppCompatActivity {
         return result;
     }
 
-    private void sendDetails(String profile_image, String xName, String xFather, String xDOB,
-                             String xMobile, String xGender, String xMail, String xLAddress, String xPAddress) {
-        PImg = new File(profile_image);
-
+    private void updateDetails(int id, String uripi, String name, String fName, String xdob, String finalGender, String number, String email, String localAddress, String permanentAddress) {
+        PImg = new File(uripi);
 
         RequestBody proImg = RequestBody.create(MediaType.parse("image/*"), PImg);
         MultipartBody.Part profile_img = MultipartBody.Part.createFormData("profile_image", PImg.getName(), proImg);
 
+        RequestBody fullname = RequestBody.create(MediaType.parse("text/plain"), name);
+        RequestBody father = RequestBody.create(MediaType.parse("text/plain"), fName);
+        RequestBody dob = RequestBody.create(MediaType.parse("text/plain"), xdob);
+        RequestBody mobile = RequestBody.create(MediaType.parse("text/plain"), number);
+        RequestBody gender = RequestBody.create(MediaType.parse("text/plain"), finalGender);
+        RequestBody mail = RequestBody.create(MediaType.parse("text/plain"), email);
+        RequestBody lAddress = RequestBody.create(MediaType.parse("text/plain"), localAddress);
+        RequestBody pAddress = RequestBody.create(MediaType.parse("text/plain"), permanentAddress);
 
+        final ProgressDialog progressDialog = new ProgressDialog(AddEmployeeActivity.this);
+        progressDialog.setMessage("Loading...");
+
+        Call<AddEmployeeResponse> callUpdateEmployee = apiInterface.postUpdateEmployee(id, profile_img, fullname, father, dob, mobile, gender, mail, lAddress, pAddress);
+
+        if (isNetworkAvailable()) {
+            progressDialog.show();
+            callUpdateEmployee.enqueue(new Callback<AddEmployeeResponse>() {
+                @Override
+                public void onResponse(Call<AddEmployeeResponse> call, Response<AddEmployeeResponse> response) {
+                    if (response.isSuccessful()) {
+
+                        progressDialog.dismiss();
+                        Intent intent = new Intent(getApplicationContext(), EmployeeIdActivity.class);
+                        intent.putExtra("empId", empId);
+                        intent.putExtra("Id", Id);
+                        intent.putExtra("from", "edit");
+
+                        startActivity(intent);
+                    } else {
+                        Log.d("fkdjfnsdf", response.message());
+                        progressDialog.dismiss();
+                        Toast.makeText(AddEmployeeActivity.this, "Try again", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<AddEmployeeResponse> call, Throwable t) {
+                    Log.d("Pdkjfnsdf", t.getMessage());
+                    progressDialog.dismiss();
+                    Toast.makeText(AddEmployeeActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            Toast.makeText(this, "Internet Not Available", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private void sendDetails(String profile_image, String xName, String xFather, String xDOB,
+                             String xMobile, String xGender, String xMail, String xLAddress, String xPAddress) {
+        PImg = new File(profile_image);
+        RequestBody proImg = RequestBody.create(MediaType.parse("image/*"), PImg);
+        MultipartBody.Part profile_img = MultipartBody.Part.createFormData("profile_image", PImg.getName(), proImg);
         RequestBody fullname = RequestBody.create(MediaType.parse("text/plain"), xName);
         RequestBody father = RequestBody.create(MediaType.parse("text/plain"), xFather);
         RequestBody dob = RequestBody.create(MediaType.parse("text/plain"), xDOB);
@@ -270,15 +310,6 @@ public class AddEmployeeActivity extends AppCompatActivity {
         RequestBody mail = RequestBody.create(MediaType.parse("text/plain"), xMail);
         RequestBody lAddress = RequestBody.create(MediaType.parse("text/plain"), xLAddress);
         RequestBody pAddress = RequestBody.create(MediaType.parse("text/plain"), xPAddress);
-
-        apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
-
-//        progressDialog.dismiss();
-//        Intent intent = new Intent(getApplicationContext(), EmployeeIdActivity.class);
-//        intent.putExtra("empId", empId);
-//        intent.putExtra("Id", Id);
-//        intent.putExtra("from", "add");
-//        startActivity(intent);
 
         final ProgressDialog progressDialog = new ProgressDialog(AddEmployeeActivity.this);
         progressDialog.setMessage("Loading...");

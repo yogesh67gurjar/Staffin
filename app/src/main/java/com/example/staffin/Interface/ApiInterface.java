@@ -43,6 +43,22 @@ public interface ApiInterface {
                                               @Part("parmanent_address") RequestBody parmanent_address
     );
 
+    @Multipart
+    @POST("employee-update/{id}")
+    Call<AddEmployeeResponse> postUpdateEmployee(
+            @Path("id") int id,
+            @Part MultipartBody.Part profile_image,
+            @Part("name") RequestBody name,
+            @Part("father_name") RequestBody father_name,
+            @Part("date_of_birth") RequestBody date_of_birth,
+            @Part("mobile") RequestBody mobile,
+            @Part("gender") RequestBody gender,
+            @Part("email") RequestBody email,
+            @Part("local_address") RequestBody local_address,
+            @Part("parmanent_address") RequestBody parmanent_address
+    );
+
+
     @GET("delete-employee/{id}")
     Call<LoginResponse> deleteEmployeeById(@Path("id") int id);
 

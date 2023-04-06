@@ -53,7 +53,7 @@ public class CompanyDetailsActivity extends AppCompatActivity {
     int Id;
     int desigId = 100012, DepId = 100012;
     String empId;
-
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +62,7 @@ public class CompanyDetailsActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         clickListeners();
         //progressBar
-        ProgressDialog progressDialog = new ProgressDialog(CompanyDetailsActivity.this);
-        progressDialog.setMessage("please wait...");
+
         progressDialog.show();
 
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
@@ -79,6 +78,7 @@ public class CompanyDetailsActivity extends AppCompatActivity {
 //        Department and Designation Spinner Code
         Call<DepartmentResponse> callGetDepartment = apiInterface.getDepartment();
         if (isNetworkAvailable()) {
+
             callGetDepartment.enqueue(new Callback<DepartmentResponse>() {
                 @Override
                 public void onResponse(Call<DepartmentResponse> call, Response<DepartmentResponse> response) {
@@ -164,6 +164,13 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                     Toast.makeText(CompanyDetailsActivity.this, "Failure", Toast.LENGTH_SHORT).show();
                 }
             });
+
+
+            if (from.equalsIgnoreCase("edit")) {
+
+            } else {
+
+            }
         }
 
 
@@ -171,7 +178,7 @@ public class CompanyDetailsActivity extends AppCompatActivity {
 
     private void clickListeners() {
 
-        ProgressDialog progressDialog = new ProgressDialog(CompanyDetailsActivity.this);
+        progressDialog = new ProgressDialog(CompanyDetailsActivity.this);
         progressDialog.setMessage("Please Wait.....");
         binding.btnBack.setOnClickListener(v -> {
             onBackPressed();

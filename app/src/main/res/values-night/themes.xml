@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.Staffin" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
@@ -14,8 +14,16 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="ScreenBackground"><item name="android:background">@color/black</item></style>
-    <style name="cardBackground"><item name="android:background">@color/txtGray</item></style>
-    <style name="textColor"><item name="android:textColor">@color/white</item></style>
+    <style name="ScreenBackground">
+        <item name="android:background">@color/black</item>
+    </style>
+
+    <style name="cardBackground">
+        <item name="android:background">@color/txtGray</item>
+    </style>
+
+    <style name="textColor">
+        <item name="android:textColor">@color/white</item>
+    </style>
 
 </resources>

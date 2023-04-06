@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
@@ -36,10 +37,11 @@ public class EmployeeIdActivity extends AppCompatActivity {
         clickListeners();
 
         if (from.equalsIgnoreCase("edit")) {
-            // progress
-            // id bhi aaegi
-            // get kr lo password
-            // password me settext password kr do
+
+            progress.show();
+            binding.passwordEt.setHint("enter new password");
+            progress.dismiss();
+
         }
     }
 
@@ -66,45 +68,55 @@ public class EmployeeIdActivity extends AppCompatActivity {
                 binding.passwordEt.requestFocus();
             } else {
                 if (isNetworkAvailable()) {
+                    progress.show();
                     if (from.equalsIgnoreCase("add")) {
-                        String password = binding.passwordEt.getText().toString();
-                        Call<AddPasswordForEmployee> callPostSinglePasswordEmployee = apiInterface.postSinglePasswordEmployee(password, empId);
-                        callPostSinglePasswordEmployee.enqueue(new Callback<AddPasswordForEmployee>() {
-                            @Override
-                            public void onResponse(Call<AddPasswordForEmployee> call, Response<AddPasswordForEmployee> response) {
-                                if (response.isSuccessful()) {
-                                    Intent intent = new Intent(getApplicationContext(), CompanyDetailsActivity.class);
-                                    intent.putExtra("empId", empId);
-                                    intent.putExtra("Id", Id);
-                                    intent.putExtra("from", "add");
-                                    startActivity(intent);
 
-                                } else {
-                                    Toast.makeText(EmployeeIdActivity.this, "OnResponse Fail", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<AddPasswordForEmployee> call, Throwable t) {
-                                Toast.makeText(EmployeeIdActivity.this, "Failure", Toast.LENGTH_SHORT).show();
-                            }
-                        });
+                        apiCall();
 
 
                     } else {
-                        // yha pe already sb edittext filled milenge qki get api lgegi user ki jisse empId and pw milega and wo apn already settext kr chuke he
-                        // edit employee id password ki api lgegi
-                        // progress dialog
-                        Intent intent = new Intent(getApplicationContext(), CompanyDetailsActivity.class);
-                        intent.putExtra("empId", empId);
-                        intent.putExtra("Id", Id);
-                        intent.putExtra("from", "edit");
-                        startActivity(intent);
+
+                        apiCall();
                     }
                 } else {
                     Toast.makeText(this, "Internet Not Available", Toast.LENGTH_SHORT).show();
                 }
 
+            }
+        });
+    }
+
+    private void apiCall() {
+        String password;
+        password = binding.passwordEt.getText().toString();
+        Call<AddPasswordForEmployee> callPostSinglePasswordEmployee = apiInterface.postSinglePasswordEmployee(password, empId);
+        progress.show();
+        callPostSinglePasswordEmployee.enqueue(new Callback<AddPasswordForEmployee>() {
+            @Override
+            public void onResponse(Call<AddPasswordForEmployee> call, Response<AddPasswordForEmployee> response) {
+                if (response.isSuccessful()) {
+                    Intent intent = new Intent(getApplicationContext(), CompanyDetailsActivity.class);
+                    intent.putExtra("empId", empId);
+                    intent.putExtra("Id", Id);
+                    if (from.equalsIgnoreCase("edit")) {
+                        intent.putExtra("from", "edit");
+                    } else {
+                        intent.putExtra("from", "add");
+                    }
+                    progress.dismiss();
+                    startActivity(intent);
+                } else {
+                    Log.d("kfnsdf", response.message());
+                    progress.dismiss();
+                    Toast.makeText(EmployeeIdActivity.this, "OnResponse Fail", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<AddPasswordForEmployee> call, Throwable t) {
+                Log.d("diukfnsdf", t.getMessage());
+                progress.dismiss();
+                Toast.makeText(EmployeeIdActivity.this, "Failure", Toast.LENGTH_SHORT).show();
             }
         });
     }
