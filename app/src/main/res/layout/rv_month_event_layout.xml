@@ -32,31 +32,31 @@
         tools:listitem="@layout/rv_event_layout" />
 
 
-<!--    <com.facebook.shimmer.ShimmerFrameLayout-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="match_parent"-->
-<!--        android:layout_marginTop="10dp"-->
-<!--        android:layout_marginHorizontal="10dp"-->
-<!--        app:layout_constraintBottom_toBottomOf="parent"-->
-<!--        app:layout_constraintEnd_toEndOf="parent"-->
-<!--        -->
-<!--        app:layout_constraintStart_toStartOf="parent"-->
-<!--        app:layout_constraintTop_toTopOf="parent">-->
+    <!--    <com.facebook.shimmer.ShimmerFrameLayout-->
+    <!--        android:layout_width="match_parent"-->
+    <!--        android:layout_height="match_parent"-->
+    <!--        android:layout_marginTop="10dp"-->
+    <!--        android:layout_marginHorizontal="10dp"-->
+    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
+    <!--        app:layout_constraintEnd_toEndOf="parent"-->
+    <!--        -->
+    <!--        app:layout_constraintStart_toStartOf="parent"-->
+    <!--        app:layout_constraintTop_toTopOf="parent">-->
 
-<!--        <LinearLayout-->
-<!--            android:orientation="horizontal"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content">-->
+    <!--        <LinearLayout-->
+    <!--            android:orientation="horizontal"-->
+    <!--            android:layout_width="match_parent"-->
+    <!--            android:layout_height="wrap_content">-->
 
-<!--            <include layout="@layout/shimmer_events"/>-->
-<!--            <include layout="@layout/shimmer_events"/>-->
-<!--            <include layout="@layout/shimmer_events"/>-->
+    <!--            <include layout="@layout/shimmer_events"/>-->
+    <!--            <include layout="@layout/shimmer_events"/>-->
+    <!--            <include layout="@layout/shimmer_events"/>-->
 
-<!--        </LinearLayout>-->
-<!--        -->
+    <!--        </LinearLayout>-->
+    <!--        -->
 
-<!--        -->
+    <!--        -->
 
-<!--    </com.facebook.shimmer.ShimmerFrameLayout>-->
+    <!--    </com.facebook.shimmer.ShimmerFrameLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
