@@ -3,8 +3,7 @@ package com.example.staffin.Response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class EmployeeResult {
-
+public class AttendanceFulFaal {
     @SerializedName("id")
     @Expose
     private Integer id;
@@ -84,7 +83,28 @@ public class EmployeeResult {
     @Expose
     private String workDuration;
 
+    @SerializedName("clock_in")
+    @Expose
+    private String clockIn;
+    @SerializedName("clock_out")
+    @Expose
+    private String clockOut;
 
+    public String getClockIn() {
+        return clockIn;
+    }
+
+    public void setClockIn(String clockIn) {
+        this.clockIn = clockIn;
+    }
+
+    public String getClockOut() {
+        return clockOut;
+    }
+
+    public void setClockOut(String clockOut) {
+        this.clockOut = clockOut;
+    }
 
     public Integer getId() {
         return id;
@@ -292,5 +312,22 @@ public class EmployeeResult {
 
     public void setWorkDuration(String workDuration) {
         this.workDuration = workDuration;
+    }
+
+
+    public AttendanceFulFaal(Integer id, String employeeID, String fullName, String email, String mobileNumber, String dateOfBirth, String departmentId, String designation, String profileImage, String status, String workDuration, String clockIn, String clockOut) {
+        this.id = id;
+        this.employeeID = employeeID;
+        this.fullName = fullName;
+        this.email = email;
+        this.mobileNumber = mobileNumber;
+        this.dateOfBirth = dateOfBirth;
+        this.departmentId = departmentId;
+        this.designation = designation;
+        this.profileImage = profileImage;
+        this.status = status;
+        this.workDuration = workDuration;
+        this.clockIn = clockIn;
+        this.clockOut = clockOut;
     }
 }

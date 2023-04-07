@@ -95,6 +95,7 @@ public class EventActivity extends AppCompatActivity {
 
         progress = new ProgressDialog(EventActivity.this);
         progress.setMessage("Please Wait....");
+
         binding.EventMonthRv.setLayoutManager(new LinearLayoutManager(this));
 
         binding.btnAddEvent.setOnClickListener(v -> {

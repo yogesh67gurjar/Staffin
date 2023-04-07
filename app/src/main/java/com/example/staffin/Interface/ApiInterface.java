@@ -2,6 +2,7 @@ package com.example.staffin.Interface;
 
 import com.example.staffin.Response.AddEmployeeResponse;
 import com.example.staffin.Response.AddPasswordForEmployee;
+import com.example.staffin.Response.AttendanceResponse;
 import com.example.staffin.Response.BankDetailsResponse;
 import com.example.staffin.Response.CompanyDetailsResponse;
 import com.example.staffin.Response.DepartmentResponse;
@@ -65,6 +66,9 @@ public interface ApiInterface {
 
     @GET("get-all-employee-details")
     Call<TotalEmployeeResponse> getTotalEmployee();
+
+    @GET("employee-attendance-list/{id}")
+    Call<AttendanceResponse> getAttendanceById(@Path("id")int id);
 
     @GET("get-employee-details/{id}")
     Call<SingleEmployeeResponse> getSingleEmployee(@Path("id") int id);

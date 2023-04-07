@@ -23,10 +23,58 @@ public class MonthAdapter extends RecyclerView.Adapter<MonthAdapter.MyViewHolder
     Context context;
     //    List<MyMonth> my;
     List<AllEvents> allEvents;
+    List<String> allMonthJoRkhneHe;
 
     public MonthAdapter(Context context, List<AllEvents> allEvents) {
         this.context = context;
         this.allEvents = allEvents;
+        allMonthJoRkhneHe = new ArrayList<>();
+
+        List<String> months = new ArrayList<>();
+        for (AllEvents a : allEvents) {
+            months.add(a.getDate().split("-")[1]);
+        }
+
+        for (String s : months) {
+            switch (s) {
+                case "01":
+                    allMonthJoRkhneHe.add("January");
+                    break;
+                case "02":
+                    allMonthJoRkhneHe.add("February");
+                    break;
+                case "03":
+                    allMonthJoRkhneHe.add("March");
+                    break;
+                case "04":
+                    allMonthJoRkhneHe.add("April");
+                    break;
+                case "05":
+                    allMonthJoRkhneHe.add("May");
+                    break;
+                case "06":
+                    allMonthJoRkhneHe.add("June");
+                    break;
+                case "07":
+                    allMonthJoRkhneHe.add("July");
+                    break;
+                case "08":
+                    allMonthJoRkhneHe.add("August");
+                    break;
+                case "09":
+                    allMonthJoRkhneHe.add("September");
+                    break;
+                case "10":
+                    allMonthJoRkhneHe.add("October");
+                    break;
+                case "11":
+                    allMonthJoRkhneHe.add("November");
+                    break;
+                case "12":
+                    allMonthJoRkhneHe.add("december");
+                    break;
+            }
+        }
     }
 
     //    List<String> months;
@@ -111,13 +159,13 @@ public class MonthAdapter extends RecyclerView.Adapter<MonthAdapter.MyViewHolder
                 break;
         }
 
-//        holder.monthTv.setText((CharSequence) allEvents.get(position));
-        holder.monthTv.setText(month);
+//        holder.monthTv.setText(String.valueOf( allEvents.get(position)));
+        holder.monthTv.setText(allMonthJoRkhneHe.get(position));
     }
 
     @Override
     public int getItemCount() {
-        return allEvents.size();
+        return allMonthJoRkhneHe.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
