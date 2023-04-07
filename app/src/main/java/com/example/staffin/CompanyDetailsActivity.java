@@ -278,10 +278,10 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                     Status = "";
                     if (binding.rbActive.isChecked()) {
                         binding.rbActive.getText().toString();
-                        Status = "Active";
+                        Status = "active";
                     } else {
                         binding.rbInactive.getText().toString();
-                        Status = "InActive";
+                        Status = "inActive";
                     }
                     finalStatus = Status;
                     String depIdStr = String.valueOf(DepId);
