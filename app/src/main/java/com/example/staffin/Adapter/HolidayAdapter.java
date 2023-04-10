@@ -40,7 +40,48 @@ public class HolidayAdapter extends RecyclerView.Adapter<HolidayAdapter.HolidayV
         holder.titleTv.setText(singleUnit.getOccassion());
         String[] tempDate = singleUnit.getDate().split("-");
         holder.dateTv.setText(tempDate[2]);
-        holder.dayTv.setText(singleUnit.getHoliday_day());
+        String din = tempDate[1];
+
+        switch (din) {
+            case "01":
+                holder.dayTv.setText("Jan");
+                break;
+            case "02":
+                holder.dayTv.setText("Feb");
+                break;
+            case "03":
+                holder.dayTv.setText("Mar");
+                break;
+            case "04":
+                holder.dayTv.setText("Apr");
+                break;
+            case "05":
+                holder.dayTv.setText("May");
+                break;
+            case "06":
+                holder.dayTv.setText("Jun");
+                break;
+            case "07":
+                holder.dayTv.setText("July");
+                break;
+            case "08":
+                holder.dayTv.setText("Aug");
+                break;
+            case "09":
+                holder.dayTv.setText("Sep");
+                break;
+            case "10":
+                holder.dayTv.setText("Oct");
+                break;
+            case "11":
+                holder.dayTv.setText("Nov");
+                break;
+            case "12":
+                holder.dayTv.setText("Dec");
+                break;
+
+        }
+//        holder.dayTv.setText(singleUnit.getHoliday_day());
         holder.descriptionTv.setText(singleUnit.getHoliday_description());
         if (position % 3 == 0) {
             holder.ll2.setBackgroundResource(R.color.mainColor);

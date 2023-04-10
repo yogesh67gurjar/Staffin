@@ -81,7 +81,10 @@ public class AddEmployeeActivity extends AppCompatActivity {
                                 Glide.with(getApplicationContext()).load(user.getProfileImage()).placeholder(R.drawable.img_dp).into(binding.dpImg);
                                 binding.employeeIdEt.setText(user.getFullName());
                                 binding.departmentEt.setText(user.getFatherName());
-                                binding.dobEt.setText(user.getDateOfBirth());
+
+                                String[] DOB = user.getDateOfBirth().split("T");
+                                binding.dobEt.setText(DOB[0]);
+
                                 if (user.getGender().equalsIgnoreCase("male")) {
                                     binding.rbMale.setChecked(true);
                                 } else if (user.getGender().equalsIgnoreCase("female")) {

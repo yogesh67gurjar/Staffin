@@ -53,6 +53,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
 
     }
+
     private void clickListeners() {
         map = new HashMap<>();
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
@@ -80,7 +81,9 @@ public class CreateEventActivity extends AppCompatActivity {
 
                         selectedEmployees = new boolean[response.body().getEmployeeResult().size()];
 
-
+                        binding.btnBack.setOnClickListener(view -> {
+                            finish();
+                        });
                         binding.addMemberBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -141,7 +144,6 @@ public class CreateEventActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Internet Not Available", Toast.LENGTH_SHORT).show();
         }
-
 
 
         TextWatcher mTextEditorWatcher = new TextWatcher() {
@@ -274,6 +276,7 @@ public class CreateEventActivity extends AppCompatActivity {
             datePickerDialog.show();
         });
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

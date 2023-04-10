@@ -7,6 +7,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -15,17 +17,22 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.staffin.R;
+import com.example.staffin.Response.EmployeeLeaveResult;
+
+import java.util.List;
 
 public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.MyViewHolder> {
     Context context;
+    List<EmployeeLeaveResult> leaveResultList;
     Dialog adDialog;
 
-    public LeaveAdapter(Context context) {
+    public LeaveAdapter(Context context, List<EmployeeLeaveResult> leaveResultList) {
         this.context = context;
+        this.leaveResultList = leaveResultList;
         adDialog = new Dialog(this.context);
 
-
     }
+
 
     @NonNull
     @Override
@@ -37,6 +44,10 @@ public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull LeaveAdapter.MyViewHolder holder, int position) {
+
+        EmployeeLeaveResult singleUnit = leaveResultList.get(position);
+        holder.txtEmpId.setText(singleUnit.getEmployeeId().toString());
+        holder.txtReason.setText(singleUnit.getReason());
         holder.leaveCard.setOnClickListener(v -> {
             showPopup();
         });
@@ -44,7 +55,7 @@ public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.MyViewHolder
 
     @Override
     public int getItemCount() {
-        return 10;
+        return leaveResultList.size();
     }
 
     public void showPopup() {
@@ -76,10 +87,15 @@ public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.MyViewHolder
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout leaveCard;
+        TextView txtEmpId, txtReason;
+        ImageView userDp;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             leaveCard = itemView.findViewById(R.id.leaveCard);
+            txtEmpId = itemView.findViewById(R.id.txtempId);
+            txtReason = itemView.findViewById(R.id.txtReason);
+            userDp = itemView.findViewById(R.id.imgUser);
         }
     }
 }

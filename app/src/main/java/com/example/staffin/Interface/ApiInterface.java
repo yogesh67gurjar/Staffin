@@ -9,6 +9,7 @@ import com.example.staffin.Response.DepartmentResponse;
 import com.example.staffin.Response.DesignationResponse;
 import com.example.staffin.Response.EventResponse;
 import com.example.staffin.Response.HolidayResponse;
+import com.example.staffin.Response.LeaveResponse;
 import com.example.staffin.Response.LoginResponse;
 import com.example.staffin.Response.SingleEmployeeResponse;
 import com.example.staffin.Response.TotalEmployeeResponse;
@@ -68,7 +69,7 @@ public interface ApiInterface {
     Call<TotalEmployeeResponse> getTotalEmployee();
 
     @GET("employee-attendance-list/{id}")
-    Call<AttendanceResponse> getAttendanceById(@Path("id")int id);
+    Call<AttendanceResponse> getAttendanceById(@Path("id") int id);
 
     @GET("get-employee-details/{id}")
     Call<SingleEmployeeResponse> getSingleEmployee(@Path("id") int id);
@@ -132,6 +133,10 @@ public interface ApiInterface {
     //get all holidays
     @GET("get-holiday")
     Call<HolidayResponse> getAllHolidays();
+
+    //Get All Employee Leave
+    @GET("get-all-employee-leave-apply")
+    Call<LeaveResponse> getAllEmployeeLeave();
 
 
 }

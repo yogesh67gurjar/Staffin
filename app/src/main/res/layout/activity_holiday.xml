@@ -104,7 +104,7 @@
             android:clickable="true"
             android:drawableEnd="@drawable/ic_calendar"
             android:gravity="center_vertical"
-            android:hint="DD/MM/YYYY"
+            android:hint="YYYY/MM/DD"
             android:inputType="date"
             android:paddingHorizontal="8dp"
             android:textColor="@color/black"

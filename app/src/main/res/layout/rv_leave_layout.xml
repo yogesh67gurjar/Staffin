@@ -17,38 +17,50 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <TextView
-        android:id="@+id/textView6"
+        android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:text="Robert Fox"
+        android:layout_marginStart="5dp"
+        android:text="EMP ID:-"
         android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/imgUser"
-        app:layout_constraintTop_toTopOf="@id/imgUser" />
+        app:layout_constraintTop_toTopOf="@+id/imgUser" />
 
+    <TextView
+        android:id="@+id/txtempId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Robert Fox"
+        android:layout_marginStart="5dp"
+        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/textView2"
+        app:layout_constraintTop_toTopOf="@id/imgUser" />
 
     <TextView
         android:id="@+id/txtStartDate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="Emp Id:-"
+        android:text="Reason:-"
         android:textColor="@color/txtGray"
         android:textSize="12sp"
         android:textStyle="normal"
-        app:layout_constraintStart_toStartOf="@+id/textView6"
-        app:layout_constraintTop_toBottomOf="@+id/textView6" />
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toBottomOf="@+id/txtempId" />
 
 
     <TextView
-        android:id="@+id/txtEndDate"
+        android:id="@+id/txtReason"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
-        android:text="EMP13923892"
+        android:text="Holi Hai"
         android:textColor="@color/txtGray"
         android:textSize="12sp"
         android:textStyle="normal"

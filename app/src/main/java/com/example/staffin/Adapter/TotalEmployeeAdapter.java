@@ -68,12 +68,16 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
     public void onBindViewHolder(@NonNull TotalEmployeeAdapter.MyViewHolder holder, int position) {
         EmployeeResult singleUnit = employeeResultList.get(position);
 
-        Glide.with(context.getApplicationContext()).load(singleUnit.getProfileImage()).placeholder(R.drawable.img_dp).into(holder.userImage);
+//        Glide.with(context.getApplicationContext()).load(singleUnit.getProfileImage()).placeholder(R.drawable.img_dp).into(holder.userImage);
+        Glide.with(context).load(singleUnit.getProfileImage()).placeholder(R.drawable.img_dp).into(holder.userImage);
 
 
         holder.txtName.setText(singleUnit.getFullName());
         holder.txtEmail.setText(singleUnit.getEmail());
-        holder.txtDOB.setText("Dob -" + singleUnit.getDateOfBirth());//singleUnit.getDateOfBirth());
+
+        String[] DOB =singleUnit.getDateOfBirth().split("T");
+        holder.txtDOB.setText("Dob -" + DOB[0]);//singleUnit.getDateOfBirth());
+
         holder.txtEmpId.setText("Emp.ID -" + singleUnit.getEmployeeID());
         holder.txtDepartment.setText("Department -" + singleUnit.getDepartmentId());
         holder.txtDesignation.setText("Designation -" + singleUnit.getDesignation());
@@ -155,7 +159,7 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
             txtDepartment = itemView.findViewById(R.id.txtDepartment);
             txtDesignation = itemView.findViewById(R.id.txtDesignation);
             txtAtWork = itemView.findViewById(R.id.txtAtWork);
-            userImage = itemView.findViewById(R.id.userImage);
+            userImage = itemView.findViewById(R.id.userImages);
         }
     }
 }
