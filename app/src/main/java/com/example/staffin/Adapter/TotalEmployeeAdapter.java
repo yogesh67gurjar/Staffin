@@ -47,8 +47,6 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
 
 
-
-
     }
 
     public void filterList(List<EmployeeResult> filterlist) {
@@ -75,12 +73,12 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
         holder.txtName.setText(singleUnit.getFullName());
         holder.txtEmail.setText(singleUnit.getEmail());
 
-        String[] DOB =singleUnit.getDateOfBirth().split("T");
+        String[] DOB = singleUnit.getDateOfBirth().split("T");
         holder.txtDOB.setText("Dob -" + DOB[0]);//singleUnit.getDateOfBirth());
 
         holder.txtEmpId.setText("Emp.ID -" + singleUnit.getEmployeeID());
-        holder.txtDepartment.setText("Department -" + singleUnit.getDepartmentId());
-        holder.txtDesignation.setText("Designation -" + singleUnit.getDesignation());
+        holder.txtDepartment.setText("Department -" + singleUnit.getDepartmentId().get(0).getName());
+        holder.txtDesignation.setText("Designation -" + singleUnit.getDesignation().get(0).getDesignation());
         holder.txtAtWork.setText("At work -" + singleUnit.getWorkDuration());
 
 

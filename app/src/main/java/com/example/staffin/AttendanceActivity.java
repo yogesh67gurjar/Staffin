@@ -72,13 +72,13 @@ public class AttendanceActivity extends AppCompatActivity {
                             public void onResponse(Call<AttendanceResponse> call, Response<AttendanceResponse> response) {
                                 if (response.isSuccessful()) {
 //                                    Toast.makeText(AttendanceActivity.this, "SDFSDFSDFSDF", Toast.LENGTH_SHORT).show();
-                                    attendanceFulFaalList.add(new AttendanceFulFaal(e.getId(), e.getEmployeeID(), e.getFullName(), e.getEmail(), e.getMobileNumber(), e.getDateOfBirth(), e.getDepartmentId(), e.getDesignation(), e.getProfileImage(), "response.body().getTodayAttendanceList().getStatus()", e.getWorkDuration(), "response.body().getTodayAttendanceList().getClockIn()", "response.body().getTodayAttendanceList().getClockOut()"));
+//                                    attendanceFulFaalList.add(new AttendanceFulFaal(e.getId(), e.getEmployeeID(), e.getFullName(), e.getEmail(), e.getMobileNumber(), e.getDateOfBirth(), e.getDepartmentId(), e.getDesignation(), e.getProfileImage(), "response.body().getTodayAttendanceList().getStatus()", e.getWorkDuration(), "response.body().getTodayAttendanceList().getClockIn()", "response.body().getTodayAttendanceList().getClockOut()"));
                                     if (response.body().getMessage().equalsIgnoreCase("success")) {
                                         Log.d("SUCCESS", response.body().getMessage());
-                                        attendanceFulFaalList.add(new AttendanceFulFaal(e.getId(), e.getEmployeeID(), e.getFullName(), e.getEmail(), e.getMobileNumber(), e.getDateOfBirth(), e.getDepartmentId(), e.getDesignation(), e.getProfileImage(), response.body().getTodayAttendanceList().getStatus(), e.getWorkDuration(), response.body().getTodayAttendanceList().getClockIn(), response.body().getTodayAttendanceList().getClockOut()));
+//                                        attendanceFulFaalList.add(new AttendanceFulFaal(e.getId(), e.getEmployeeID(), e.getFullName(), e.getEmail(), e.getMobileNumber(), e.getDateOfBirth(), e.getDepartmentId(), e.getDesignation(), e.getProfileImage(), response.body().getTodayAttendanceList().getStatus(), e.getWorkDuration(), response.body().getTodayAttendanceList().getClockIn(), response.body().getTodayAttendanceList().getClockOut()));
                                     } else {
                                         Log.d("ABSENT", response.body().getMessage());
-                                        attendanceFulFaalList.add(new AttendanceFulFaal(e.getId(), e.getEmployeeID(), e.getFullName(), e.getEmail(), e.getMobileNumber(), e.getDateOfBirth(), e.getDepartmentId(), e.getDesignation(), e.getProfileImage(), "absent", e.getWorkDuration(), "punch in", "punch out"));
+//                                        attendanceFulFaalList.add(new AttendanceFulFaal(e.getId(), e.getEmployeeID(), e.getFullName(), e.getEmail(), e.getMobileNumber(), e.getDateOfBirth(), e.getDepartmentId(), e.getDesignation(), e.getProfileImage(), "absent", e.getWorkDuration(), "punch in", "punch out"));
                                     }
                                 } else {
                                     Toast.makeText(AttendanceActivity.this, "some error occured", Toast.LENGTH_SHORT).show();

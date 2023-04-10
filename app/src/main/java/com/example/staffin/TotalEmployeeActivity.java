@@ -106,6 +106,7 @@ public class TotalEmployeeActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<TotalEmployeeResponse> call, Throwable t) {
+                    Log.d("sdfjksfjksdf", t.getMessage());
                     Toast.makeText(TotalEmployeeActivity.this, "Failure,Try Again", Toast.LENGTH_SHORT).show();
                 }
             });

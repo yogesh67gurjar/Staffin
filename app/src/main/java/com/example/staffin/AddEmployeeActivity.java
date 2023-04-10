@@ -1,20 +1,26 @@
 package com.example.staffin;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.bumptech.glide.Glide;
 import com.example.staffin.Interface.ApiInterface;
@@ -36,6 +42,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class AddEmployeeActivity extends AppCompatActivity {
+
+    private static final int REQUEST_STORAGE_PERMISSION = 200;
     ActivityAddEmployeeBinding binding;
     ApiInterface apiInterface;
 
@@ -59,6 +67,12 @@ public class AddEmployeeActivity extends AppCompatActivity {
         final ProgressDialog progressDialog = new ProgressDialog(AddEmployeeActivity.this);
         progressDialog.setMessage("Loading...");
 
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
+            // Permission already granted, access the storage here
+        } else {
+            // Permission not granted, request it
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, REQUEST_STORAGE_PERMISSION);
+        }
 
         if (from.equalsIgnoreCase("edit")) {
             binding.textView.setText("Edit Employee");
@@ -232,6 +246,21 @@ public class AddEmployeeActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_STORAGE_PERMISSION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Log.d("PERMS1", "GRANTEd");
+            } else {
+                Log.d("PERMS1", "Denied");
+
+                // Permission denied, handle the case where the user denies the permission
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
     private String getRealPathFromURI(Uri contentURI) {
         String result;
         Cursor cursor = getContentResolver().query(contentURI, null, null, null, null);
@@ -302,9 +331,18 @@ public class AddEmployeeActivity extends AppCompatActivity {
 
     private void sendDetails(String profile_image, String xName, String xFather, String xDOB,
                              String xMobile, String xGender, String xMail, String xLAddress, String xPAddress) {
+
         PImg = new File(profile_image);
+        Log.d("fdlskfsdf", PImg.toString());
         RequestBody proImg = RequestBody.create(MediaType.parse("image/*"), PImg);
         MultipartBody.Part profile_img = MultipartBody.Part.createFormData("profile_image", PImg.getName(), proImg);
+
+        Log.d("1", PImg.toString());
+        Log.d("2", profile_image);
+        Log.d("3", proImg.toString());
+        Log.d("4", profile_img.toString());
+
+
         RequestBody fullname = RequestBody.create(MediaType.parse("text/plain"), xName);
         RequestBody father = RequestBody.create(MediaType.parse("text/plain"), xFather);
         RequestBody dob = RequestBody.create(MediaType.parse("text/plain"), xDOB);
@@ -317,6 +355,16 @@ public class AddEmployeeActivity extends AppCompatActivity {
         final ProgressDialog progressDialog = new ProgressDialog(AddEmployeeActivity.this);
         progressDialog.setMessage("Loading...");
 
+
+        Log.d("2222", profile_img.body().toString());
+        Log.d("1111", profile_img.toString());
+        Log.d("1111", fullname.toString());
+        Log.d("1111", dob.toString());
+        Log.d("1111", gender.toString());
+        Log.d("1111", mobile.toString());
+        Log.d("1111", mail.toString());
+        Log.d("1111", lAddress.toString());
+        Log.d("1111", pAddress.toString());
         Call<AddEmployeeResponse> callPostAddEmployee = apiInterface.postAddEmployee(profile_img, fullname, father, dob, gender, mobile, mail, lAddress, pAddress);
 
         if (isNetworkAvailable()) {
