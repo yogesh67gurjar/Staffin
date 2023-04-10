@@ -21,10 +21,10 @@
 
     <TextView
         android:id="@+id/textView"
-        android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Home"
+        android:textColor="@color/black"
         android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/imageButton2"
@@ -66,7 +66,7 @@
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingHorizontal="20dp"
-                android:paddingVertical="5dp"
+                android:paddingVertical="10dp"
                 android:weightSum="2">
 
 
@@ -101,12 +101,12 @@
 
                         <TextView
                             android:id="@+id/main_tv1"
-                            android:textColor="@color/black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="@string/main_tv1"
                             android:textAlignment="center"
+                            android:textColor="@color/black"
                             android:textSize="15sp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -150,12 +150,12 @@
 
                         <TextView
                             android:id="@+id/main_tv2"
-                            android:textColor="@color/black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="@string/main_tv2"
                             android:textAlignment="center"
+                            android:textColor="@color/black"
                             android:textSize="15sp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -174,24 +174,22 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
+                android:paddingBottom="20dp"
                 android:paddingHorizontal="20dp"
-                android:paddingVertical="5dp"
                 android:weightSum="2">
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card3"
-
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
                     app:cardCornerRadius="15dp"
-                    app:cardElevation="8dp">
+                    app:cardElevation="5dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/white">
+                        android:layout_height="match_parent">
 
 
                         <ImageView
@@ -210,12 +208,12 @@
 
                         <TextView
                             android:id="@+id/main_tv3"
-                            android:textColor="@color/black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="@string/main_tv3"
                             android:textAlignment="center"
+                            android:textColor="@color/black"
                             android:textSize="15sp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -229,18 +227,16 @@
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/card4"
-
                     android:layout_width="match_parent"
                     android:layout_height="160dp"
                     android:layout_margin="10dp"
                     android:layout_weight="1"
                     app:cardCornerRadius="15dp"
-                    app:cardElevation="8dp">
+                    app:cardElevation="5dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:background="@color/white">
+                        android:layout_height="match_parent">
 
 
                         <ImageView
@@ -259,12 +255,12 @@
 
                         <TextView
                             android:id="@+id/main_tv4"
-                            android:textColor="@color/black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="@string/main_tv4"
                             android:textAlignment="center"
+                            android:textColor="@color/black"
                             android:textSize="15sp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -283,7 +279,7 @@
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingHorizontal="20dp"
-                android:paddingVertical="5dp"
+                android:paddingBottom="20dp"
                 android:weightSum="2">
 
                 <androidx.cardview.widget.CardView
@@ -293,7 +289,7 @@
                     android:layout_margin="10dp"
                     android:layout_weight="1"
                     app:cardCornerRadius="15dp"
-                    app:cardElevation="8dp">
+                    app:cardElevation="5dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -317,12 +313,12 @@
 
                         <TextView
                             android:id="@+id/main_tv5"
-                            android:textColor="@color/black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="@string/main_tv5"
                             android:textAlignment="center"
+                            android:textColor="@color/black"
                             android:textSize="15sp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -342,7 +338,7 @@
                     android:layout_margin="10dp"
                     android:layout_weight="1"
                     app:cardCornerRadius="15dp"
-                    app:cardElevation="8dp">
+                    app:cardElevation="5dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -366,12 +362,12 @@
 
                         <TextView
                             android:id="@+id/txtLogout"
-                            android:textColor="@color/black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="Leave"
                             android:textAlignment="center"
+                            android:textColor="@color/black"
                             android:textSize="15sp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"
@@ -391,7 +387,7 @@
                 android:gravity="center"
                 android:orientation="horizontal"
                 android:paddingHorizontal="20dp"
-                android:paddingVertical="5dp"
+                android:paddingBottom="20dp"
                 android:weightSum="2">
 
                 <androidx.cardview.widget.CardView
@@ -401,7 +397,7 @@
                     android:layout_margin="10dp"
                     android:layout_weight="1"
                     app:cardCornerRadius="15dp"
-                    app:cardElevation="8dp">
+                    app:cardElevation="5dp">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -457,12 +453,12 @@
 
                         <TextView
                             android:id="@+id/txtLogout8"
-                            android:textColor="@color/black"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="4dp"
                             android:text="Logout"
                             android:textAlignment="center"
+                            android:textColor="@color/black"
                             android:textSize="15sp"
                             android:textStyle="bold"
                             app:layout_constraintBottom_toBottomOf="parent"

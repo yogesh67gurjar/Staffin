@@ -35,6 +35,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
 
+
+
         sharedPreferences = getSharedPreferences("staffin", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
 
