@@ -1,5 +1,7 @@
 package com.example.staffin.Interface;
 
+import android.icu.text.SymbolTable;
+
 import com.example.staffin.Response.AddEmployeeResponse;
 import com.example.staffin.Response.AddPasswordForEmployee;
 import com.example.staffin.Response.AttendanceResponse;
@@ -11,6 +13,7 @@ import com.example.staffin.Response.EventResponse;
 import com.example.staffin.Response.HolidayResponse;
 import com.example.staffin.Response.LeaveResponse;
 import com.example.staffin.Response.LoginResponse;
+import com.example.staffin.Response.OverTimeResponse;
 import com.example.staffin.Response.SingleEmployeeResponse;
 import com.example.staffin.Response.TotalEmployeeResponse;
 
@@ -137,6 +140,17 @@ public interface ApiInterface {
     //Get All Employee Leave
     @GET("get-all-employee-leave-apply")
     Call<LeaveResponse> getAllEmployeeLeave();
+
+    //Post Over Time employee
+    @FormUrlEncoded
+    @POST("employee-over-time/{id}")
+    Call<OverTimeResponse> postOverTime(@Path("id") int id,
+                                        @Field("first_over_time_start") String first_over_time_start,
+                                        @Field("first_over_time_end") String first_over_time_end,
+                                        @Field("first_over_time_amount") String first_over_time_amount,
+                                        @Field("second_over_time_start") String second_over_time_start,
+                                        @Field("second_over_time_end") String second_over_time_end,
+                                        @Field("second_over_time_amount") String second_over_time_amount);
 
 
 }

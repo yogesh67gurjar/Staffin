@@ -31,6 +31,7 @@ import com.example.staffin.Response.DepartmentResponse;
 import com.example.staffin.Response.DesignationDetail;
 import com.example.staffin.Response.DesignationResponse;
 import com.example.staffin.Response.EmployeeResult;
+import com.example.staffin.Response.OverTimeResponse;
 import com.example.staffin.Response.SingleEmployeeResponse;
 import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.ActivityCompanyDetailsBinding;
@@ -56,6 +57,8 @@ public class CompanyDetailsActivity extends AppCompatActivity {
     int desigId = 100012, DepId = 100012;
     String empId;
     ProgressDialog progressDialog;
+
+    String fotStart, fotEnd, fotAmount, sotStart, sotEnd, sotAmount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -183,8 +186,8 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                     public void onResponse(Call<SingleEmployeeResponse> call, Response<SingleEmployeeResponse> response) {
                         if (response.isSuccessful()) {
                             EmployeeResult result = response.body().getEmployeeResult().get(0);
-                            int depPos=0;
-                            int desigPos=0;
+                            int depPos = 0;
+                            int desigPos = 0;
 
 
                         } else {
@@ -412,14 +415,45 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                     Toast.makeText(CompanyDetailsActivity.this, "Enter Amount For 2nd Overtime", Toast.LENGTH_SHORT).show();
                 } else {
 
-                    editor.putString("firstOt", firstAmountEt.getText().toString());
-                    editor.putString("secondOt", secondAmountEt.getText().toString());
-                    editor.putString("firstTv", firstTv.getText().toString());
-                    editor.putString("secondTv", secondTv.getText().toString());
-                    editor.putString("thirdTv", thirdTv.getText().toString());
-                    editor.putString("fourthTv", fourthTv.getText().toString());
-                    editor.apply();
-                    adDialog.dismiss();
+                    fotStart = firstTv.getText().toString();
+                    fotEnd = secondTv.getText().toString();
+                    fotAmount = firstAmountEt.getText().toString();
+                    sotStart = thirdTv.getText().toString();
+                    sotEnd = fourthTv.getText().toString();
+                    sotAmount = secondAmountEt.getText().toString();
+
+                    progressDialog.show();
+                    Call<OverTimeResponse> overTimeResponseCall = apiInterface.postOverTime(Id, fotStart, fotEnd, fotAmount, sotStart, sotEnd, sotAmount);
+                    overTimeResponseCall.enqueue(new Callback<OverTimeResponse>() {
+                        @Override
+                        public void onResponse(Call<OverTimeResponse> call, Response<OverTimeResponse> response) {
+                            if (response.isSuccessful()) {
+                                progressDialog.dismiss();
+                                editor.putString("firstOt", firstAmountEt.getText().toString());
+                                editor.putString("secondOt", secondAmountEt.getText().toString());
+                                editor.putString("firstTv", firstTv.getText().toString());
+                                editor.putString("secondTv", secondTv.getText().toString());
+                                editor.putString("thirdTv", thirdTv.getText().toString());
+                                editor.putString("fourthTv", fourthTv.getText().toString());
+                                Log.e("dfiudsghf", response.message());
+                                editor.apply();
+                                adDialog.dismiss();
+
+                            } else {
+                                progressDialog.dismiss();
+                                Log.e("sfhuidshf", response.message());
+                                Toast.makeText(CompanyDetailsActivity.this, "On Response Fail", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<OverTimeResponse> call, Throwable t) {
+                            progressDialog.dismiss();
+                            Log.e("fdjhufiudhf", t.getMessage());
+                            Toast.makeText(CompanyDetailsActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                 }
 
 
