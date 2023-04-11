@@ -63,34 +63,34 @@ public class EmployeeResult {
     private String status;
     @SerializedName("last_login")
     @Expose
-    private Object lastLogin;
+    private String lastLogin;
     @SerializedName("remember_token")
     @Expose
-    private Object rememberToken;
+    private String rememberToken;
     @SerializedName("exit_date")
     @Expose
-    private Object exitDate;
+    private String exitDate;
     @SerializedName("first_over_time_start")
     @Expose
-    private Object firstOverTimeStart;
+    private String firstOverTimeStart;
     @SerializedName("first_over_time_end")
     @Expose
-    private Object firstOverTimeEnd;
+    private String firstOverTimeEnd;
     @SerializedName("first_over_time_amount")
     @Expose
-    private Object firstOverTimeAmount;
+    private String firstOverTimeAmount;
     @SerializedName("second_over_time_start")
     @Expose
-    private Object secondOverTimeStart;
+    private String secondOverTimeStart;
     @SerializedName("second_over_time_end")
     @Expose
-    private Object secondOverTimeEnd;
+    private String secondOverTimeEnd;
     @SerializedName("second_over_time_amount")
     @Expose
-    private Object secondOverTimeAmount;
+    private String secondOverTimeAmount;
     @SerializedName("reset_code")
     @Expose
-    private Object resetCode;
+    private String resetCode;
     @SerializedName("created_at")
     @Expose
     private String createdAt;
@@ -248,83 +248,83 @@ public class EmployeeResult {
         this.status = status;
     }
 
-    public Object getLastLogin() {
+    public String getLastLogin() {
         return lastLogin;
     }
 
-    public void setLastLogin(Object lastLogin) {
+    public void setLastLogin(String lastLogin) {
         this.lastLogin = lastLogin;
     }
 
-    public Object getRememberToken() {
+    public String getRememberToken() {
         return rememberToken;
     }
 
-    public void setRememberToken(Object rememberToken) {
+    public void setRememberToken(String rememberToken) {
         this.rememberToken = rememberToken;
     }
 
-    public Object getExitDate() {
+    public String getExitDate() {
         return exitDate;
     }
 
-    public void setExitDate(Object exitDate) {
+    public void setExitDate(String exitDate) {
         this.exitDate = exitDate;
     }
 
-    public Object getFirstOverTimeStart() {
+    public String getFirstOverTimeStart() {
         return firstOverTimeStart;
     }
 
-    public void setFirstOverTimeStart(Object firstOverTimeStart) {
+    public void setFirstOverTimeStart(String firstOverTimeStart) {
         this.firstOverTimeStart = firstOverTimeStart;
     }
 
-    public Object getFirstOverTimeEnd() {
+    public String getFirstOverTimeEnd() {
         return firstOverTimeEnd;
     }
 
-    public void setFirstOverTimeEnd(Object firstOverTimeEnd) {
+    public void setFirstOverTimeEnd(String firstOverTimeEnd) {
         this.firstOverTimeEnd = firstOverTimeEnd;
     }
 
-    public Object getFirstOverTimeAmount() {
+    public String getFirstOverTimeAmount() {
         return firstOverTimeAmount;
     }
 
-    public void setFirstOverTimeAmount(Object firstOverTimeAmount) {
+    public void setFirstOverTimeAmount(String firstOverTimeAmount) {
         this.firstOverTimeAmount = firstOverTimeAmount;
     }
 
-    public Object getSecondOverTimeStart() {
+    public String getSecondOverTimeStart() {
         return secondOverTimeStart;
     }
 
-    public void setSecondOverTimeStart(Object secondOverTimeStart) {
+    public void setSecondOverTimeStart(String secondOverTimeStart) {
         this.secondOverTimeStart = secondOverTimeStart;
     }
 
-    public Object getSecondOverTimeEnd() {
+    public String getSecondOverTimeEnd() {
         return secondOverTimeEnd;
     }
 
-    public void setSecondOverTimeEnd(Object secondOverTimeEnd) {
+    public void setSecondOverTimeEnd(String secondOverTimeEnd) {
         this.secondOverTimeEnd = secondOverTimeEnd;
     }
 
-    public Object getSecondOverTimeAmount() {
+    public String getSecondOverTimeAmount() {
         return secondOverTimeAmount;
     }
 
-    public void setSecondOverTimeAmount(Object secondOverTimeAmount) {
+    public void setSecondOverTimeAmount(String secondOverTimeAmount) {
         this.secondOverTimeAmount = secondOverTimeAmount;
     }
 
-    public Object getResetCode() {
+    public String getResetCode() {
         return resetCode;
     }
 
-    public void setResetCode(Object resetCode) {
+    public void setResetCode(String resetCode) {
         this.resetCode = resetCode;
     }
 

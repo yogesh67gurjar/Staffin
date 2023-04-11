@@ -3,18 +3,16 @@ package com.example.staffin.Response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.List;
-
-public class OverTimeResponse {
+public class CompanyResponseById {
     @SerializedName("status")
     @Expose
     private Integer status;
     @SerializedName("message")
     @Expose
     private String message;
-    @SerializedName("over_time")
+    @SerializedName("company_details")
     @Expose
-    private List<String> overTime;
+    private CompanyDetails companyDetails;
 
     public Integer getStatus() {
         return status;
@@ -32,13 +30,12 @@ public class OverTimeResponse {
         this.message = message;
     }
 
-    public List<String> getOverTime() {
-        return overTime;
+    public CompanyDetails getCompanyDetails() {
+        return companyDetails;
     }
 
-    public void setOverTime(List<String> overTime) {
-        this.overTime = overTime;
+    public void setCompanyDetails(CompanyDetails companyDetails) {
+        this.companyDetails = companyDetails;
     }
-
 
 }

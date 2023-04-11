@@ -25,12 +25,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
 
 import com.example.staffin.Interface.ApiInterface;
+import com.example.staffin.Response.CompanyDetails;
 import com.example.staffin.Response.CompanyDetailsResponse;
+import com.example.staffin.Response.CompanyResponseById;
 import com.example.staffin.Response.Department;
 import com.example.staffin.Response.DepartmentResponse;
 import com.example.staffin.Response.DesignationDetail;
 import com.example.staffin.Response.DesignationResponse;
 import com.example.staffin.Response.EmployeeResult;
+import com.example.staffin.Response.LoginResponse;
 import com.example.staffin.Response.OverTimeResponse;
 import com.example.staffin.Response.SingleEmployeeResponse;
 import com.example.staffin.Retrofit.RetrofitServices;
@@ -42,6 +45,7 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Path;
 
 public class CompanyDetailsActivity extends AppCompatActivity {
     ActivityCompanyDetailsBinding binding;
@@ -57,8 +61,9 @@ public class CompanyDetailsActivity extends AppCompatActivity {
     int desigId = 100012, DepId = 100012;
     String empId;
     ProgressDialog progressDialog;
-
+    String departmentEdit, designationEdit;
     String fotStart, fotEnd, fotAmount, sotStart, sotEnd, sotAmount;
+    String[] strArray1, strArray2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,15 +110,15 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                             tamp = tamp.concat(response.body().getDepartment().get(i).getName() + ",,,");
                             Log.i("sahgdusahdsa", response.body().getDepartment().get(i).getId().toString());
                         }
-                        String[] strArray = tamp.split(",,,");
-                        ArrayAdapter aa = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, strArray);
+                        strArray1 = tamp.split(",,,");
+                        ArrayAdapter aa = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, strArray1);
                         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         //Setting the ArrayAdapter data on the Spinner
                         binding.departmentEt.setAdapter(aa);
                         binding.departmentEt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                             @Override
                             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                departmentSelected = strArray[position];
+                                departmentSelected = strArray1[position];
                                 progressDialog.show();
                                 DepId = response.body().getDepartment().get(position).getId();
                                 Log.i("dusahdu", String.valueOf(DepId));
@@ -129,15 +134,15 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                                             for (int i = 0; i < designationDetails.size(); i++) {
                                                 tamp = tamp.concat(designationDetails.get(i).getDesignation() + ",,,");
                                             }
-                                            String[] strArray = tamp.split(",,,");
-                                            ArrayAdapter aa = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, strArray);
+                                            strArray2 = tamp.split(",,,");
+                                            ArrayAdapter aa = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, strArray2);
                                             aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                                             //Setting the ArrayAdapter data on the Spinner
                                             binding.designationEt.setAdapter(aa);
                                             binding.designationEt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                                 @Override
                                                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                                                    designationSelected = strArray[position];
+                                                    designationSelected = strArray2[position];
                                                     desigId = response.body().getDesignationDetails().get(position).getId();
                                                     Log.i("dusahdu", String.valueOf(desigId));
                                                 }
@@ -146,6 +151,89 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                                                 public void onNothingSelected(AdapterView<?> parent) {
                                                 }
                                             });
+
+
+                                            // get all data of user
+                                            if (from.equalsIgnoreCase("edit")) {
+                                                Call<CompanyResponseById> callGetCompanyDetailsById = apiInterface.getCompanyDetailsById(Id);
+                                                callGetCompanyDetailsById.enqueue(new Callback<CompanyResponseById>() {
+                                                    @Override
+                                                    public void onResponse(Call<CompanyResponseById> call, Response<CompanyResponseById> response) {
+                                                        if (response.isSuccessful()) {
+                                                            CompanyDetails result = response.body().getCompanyDetails();
+                                                            departmentEdit = result.getDepartment().get(0).getName();
+                                                            designationEdit = result.getDesignation().get(0).getDesignation();
+                                                            binding.annualLeaveEt.setText(result.getAnnualLeave().toString());
+                                                            binding.medicalLeaveEt.setText(result.getMedicalLeave());
+                                                            if (result.getStatus().equalsIgnoreCase("active")) {
+                                                                binding.rbActive.setChecked(true);
+                                                            } else {
+                                                                binding.rbInactive.setChecked(true);
+                                                                binding.rDateEt.setText("");
+                                                            }
+                                                            binding.jDateEt.setText(result.getJoiningDate().split("T")[0]);
+                                                            binding.basicEt.setText(String.valueOf(result.getBasic().get(0).getSalary()));
+                                                            binding.hourlyEt.setText(String.valueOf(result.getHourlyRate().get(0).getSalary()));
+                                                            binding.rDateEt.setText(result.getExit_date().split("T")[0]);
+
+                                                            for (int i = 0; i < strArray1.length; i++) {
+                                                                if (departmentEdit.equalsIgnoreCase(strArray1[i])) {
+                                                                    binding.departmentEt.setSelection(i);
+                                                                }
+
+//                                                                if (designationEdit.equalsIgnoreCase(strArray2[i])) {
+//                                                                    binding.designationEt.setSelection(i);
+//                                                                }
+                                                            }
+
+                                                        } else {
+                                                            Toast.makeText(CompanyDetailsActivity.this, "Some error occured", Toast.LENGTH_SHORT).show();
+                                                        }
+                                                    }
+
+                                                    @Override
+                                                    public void onFailure(Call<CompanyResponseById> call, Throwable t) {
+                                                        Toast.makeText(CompanyDetailsActivity.this, "some failure occured", Toast.LENGTH_SHORT).show();
+                                                        Log.d("kgndf", t.getMessage());
+                                                    }
+                                                });
+//                                                Call<SingleEmployeeResponse> callGetSingleEmployee = apiInterface.getSingleEmployee(Id);
+//                                                callGetSingleEmployee.enqueue(new Callback<SingleEmployeeResponse>() {
+//                                                    @Override
+//                                                    public void onResponse(Call<SingleEmployeeResponse> call, Response<SingleEmployeeResponse> response) {
+//                                                        if (response.isSuccessful()) {
+//                                                            EmployeeResult result = response.body().getEmployeeResult().get(0);
+//                                                            departmentEdit = result.getDepartmentId().get(0).getName();
+//                                                            designationEdit = result.getDesignation().get(0).getDesignation();
+//                                                            binding.annualLeaveEt.setText(result.getAnnualLeave().toString());
+//                                                            binding.medicalLeaveEt.setText(result.getMedicalLeave().toString());
+//
+//                                                            for (int i = 0; i < strArray1.length; i++) {
+//                                                                if (departmentEdit.equalsIgnoreCase(strArray1[i])) {
+//                                                                    binding.departmentEt.setSelection(i);
+//                                                                }
+//
+////                                                                if (designationEdit.equalsIgnoreCase(strArray2[i])) {
+////                                                                    binding.designationEt.setSelection(i);
+////                                                                }
+//                                                            }
+//
+//
+//
+//                                                        } else {
+//                                                            Toast.makeText(CompanyDetailsActivity.this, "Some error occured", Toast.LENGTH_SHORT).show();
+//                                                        }
+//                                                    }
+//
+//                                                    @Override
+//                                                    public void onFailure(Call<SingleEmployeeResponse> call, Throwable t) {
+//                                                        Toast.makeText(CompanyDetailsActivity.this, "some failure occured", Toast.LENGTH_SHORT).show();
+//                                                        Log.d("kgndf", t.getMessage());
+//                                                    }
+//                                                });
+                                            } else {
+
+                                            }
 //                                        Log.i("departmentSelected",departmentSelected);
 //                                        Log.i("designationSelected",designationSelected);
                                         } else {
@@ -179,31 +267,7 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                 }
             });
 
-            if (from.equalsIgnoreCase("edit")) {
-                Call<SingleEmployeeResponse> callGetSingleEmployee = apiInterface.getSingleEmployee(Id);
-                callGetSingleEmployee.enqueue(new Callback<SingleEmployeeResponse>() {
-                    @Override
-                    public void onResponse(Call<SingleEmployeeResponse> call, Response<SingleEmployeeResponse> response) {
-                        if (response.isSuccessful()) {
-                            EmployeeResult result = response.body().getEmployeeResult().get(0);
-                            int depPos = 0;
-                            int desigPos = 0;
 
-
-                        } else {
-                            Toast.makeText(CompanyDetailsActivity.this, "Some error occured", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<SingleEmployeeResponse> call, Throwable t) {
-                        Toast.makeText(CompanyDetailsActivity.this, "some failure occured", Toast.LENGTH_SHORT).show();
-                        Log.d("kgndf", t.getMessage());
-                    }
-                });
-            } else {
-
-            }
         } else {
             Toast.makeText(this, "Internet Not Available", Toast.LENGTH_SHORT).show();
         }
@@ -237,6 +301,30 @@ public class CompanyDetailsActivity extends AppCompatActivity {
             if (from.equalsIgnoreCase("edit")) {
                 intent.putExtra("from", "edit");
                 // update wali api
+
+                Call<LoginResponse> callUpdateCompanyDetailsById = apiInterface.updateCompanyDetailsById(Id);
+                progressDialog.show();
+                callUpdateCompanyDetailsById.enqueue(new Callback<LoginResponse>() {
+                    @Override
+                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                        if (response.isSuccessful()) {
+                            progressDialog.dismiss();
+                            startActivity(intent);
+                        } else {
+                            Log.d("jkbfjksdf", response.message());
+                            progressDialog.dismiss();
+                            Toast.makeText(CompanyDetailsActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<LoginResponse> call, Throwable t) {
+                        progressDialog.dismiss();
+                        Log.d("sdknf", t.getMessage());
+                        Toast.makeText(CompanyDetailsActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CompanyDetailsActivity.this, "some error occured", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
                 // edit wala flow
 
@@ -396,6 +484,39 @@ public class CompanyDetailsActivity extends AppCompatActivity {
             secondTv.setText(sharedPreferences.getAll().get("secondTv").toString());
             thirdTv.setText(sharedPreferences.getAll().get("thirdTv").toString());
             fourthTv.setText(sharedPreferences.getAll().get("fourthTv").toString());
+        } else if (from.equalsIgnoreCase("edit")) {
+            final ProgressDialog progressDialog = new ProgressDialog(CompanyDetailsActivity.this);
+            progressDialog.setMessage("Loading...");
+            progressDialog.show();
+
+            Call<OverTimeResponse> overTimeResponseCall = apiInterface.getOverTime(Id);
+            overTimeResponseCall.enqueue(new Callback<OverTimeResponse>() {
+                @Override
+                public void onResponse(Call<OverTimeResponse> call, Response<OverTimeResponse> response) {
+                    if (response.isSuccessful()) {
+                        progressDialog.dismiss();
+                        List<String> time = response.body().getOverTime();
+                        Log.e("sfdfdf", time.toString());
+                        firstTv.setText(time.get(0));
+                        secondTv.setText(time.get(1));
+                        firstAmountEt.setText(time.get(2));
+                        thirdTv.setText(time.get(3));
+                        fourthTv.setText(time.get(4));
+                        secondAmountEt.setText(time.get(5));
+                    } else {
+                        progressDialog.dismiss();
+                        Log.e("diufhyeiufhiu", response.message());
+                        Toast.makeText(CompanyDetailsActivity.this, "On Response Fail", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<OverTimeResponse> call, Throwable t) {
+                    progressDialog.dismiss();
+                    Log.e("fdiufgidsu", t.getMessage());
+                    Toast.makeText(CompanyDetailsActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         submitBtn.setOnClickListener(new View.OnClickListener() {
