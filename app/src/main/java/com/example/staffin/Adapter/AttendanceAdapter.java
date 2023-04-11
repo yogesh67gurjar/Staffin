@@ -20,22 +20,26 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.staffin.InsideAttendanceActivity;
 import com.example.staffin.R;
 import com.example.staffin.Response.Attendance;
+import com.example.staffin.Response.TodayAttendance;
 
 import java.util.List;
 
 public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.MyViewHolder> {
     Context context;
-    List<Attendance> attendanceList;
+    List<TodayAttendance> attendanceList;
     String issueSelected;
     String[] shift = {"Attendance", "Present", "Absent"};
+    Intent intent;
 
-    public AttendanceAdapter(Context context, List<Attendance> attendanceList) {
+
+    public AttendanceAdapter(Context context, List<TodayAttendance> attendanceList) {
 
         this.context = context;
         this.attendanceList = attendanceList;
+        intent = new Intent(context, InsideAttendanceActivity.class);
     }
 
-    public void filterList(List<Attendance> filterlist) {
+    public void filterList(List<TodayAttendance> filterlist) {
         attendanceList = filterlist;
         notifyDataSetChanged();
     }
@@ -50,17 +54,38 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
 
     @Override
     public void onBindViewHolder(@NonNull AttendanceAdapter.MyViewHolder holder, int position) {
-        Attendance singleUnit = attendanceList.get(position);
-        holder.txtName.setText(singleUnit.getName());
+        TodayAttendance singleUnit = attendanceList.get(position);
+        holder.txtName.setText(singleUnit.getFullName());
         holder.txtMail.setText(singleUnit.getEmail());
-        holder.empIdTv.setText("Emp. ID - " + singleUnit.getEmpId());
-        holder.dobTv.setText("Date Of Birth - " + singleUnit.getDob());
+        holder.empIdTv.setText("Emp. ID - " + singleUnit.getEmployeeID());
+        holder.dobTv.setText("Date Of Birth - " + singleUnit.getDateOfBirth().split("T")[0]);
 
         Log.d("STATUS", singleUnit.getStatus());
 
+        if (singleUnit.getAttendanceData().size() < 1) {
+            holder.spinnerConstraint.setBackgroundResource(R.drawable.bg_red);
+            holder.statusTv.setText("Absent");
+            holder.statusTv.setTextColor(Color.WHITE);
+            holder.statusTv.setBackgroundResource(R.drawable.bg_red);
+            intent.putExtra("status", "Absent");
+
+        } else {
+            holder.spinnerConstraint.setBackgroundResource(R.drawable.bg_green);
+            holder.statusTv.setText("Present");
+            holder.statusTv.setTextColor(Color.WHITE);
+            holder.statusTv.setBackgroundResource(R.drawable.bg_green);
+            intent.putExtra("status", "Present");
+
+            holder.txtPunchIn.setText(singleUnit.getAttendanceData().get(0).getClockIn().split("T")[1].split("\\.")[0]);
+            if (!(singleUnit.getAttendanceData().get(0).getClockOut() == null)) {
+                holder.txtPunchOut.setText(singleUnit.getAttendanceData().get(0).getClockOut().split("T")[1].split("\\.")[0]);
+            }
+
+        }
+
 
         holder.btnWhatsApp.setOnClickListener(v -> {
-            String phone = singleUnit.getPhone();
+            String phone = singleUnit.getMobileNumber();
             if (!iswhatsAppInstall()) {
                 Intent i = new Intent(Intent.ACTION_VIEW, Uri.parse("https://api.whatsapp.com/send?phone=" + phone));
                 context.startActivity(i);
@@ -71,32 +96,18 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
         });
         holder.btnCall.setOnClickListener(v -> {
 //            Toast.makeText(context, "Open Call", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(Intent.ACTION_DIAL);
-            String phoneCall = singleUnit.getPhone();
-            intent.setData(Uri.parse("tel:" + phoneCall));
-            context.startActivity(intent);
+            Intent intentCall = new Intent(Intent.ACTION_DIAL);
+            String phoneCall = singleUnit.getMobileNumber();
+            intentCall.setData(Uri.parse("tel:" + phoneCall));
+            context.startActivity(intentCall);
         });
         holder.MainCard.setOnClickListener(v -> {
-            Intent intent = new Intent(context, InsideAttendanceActivity.class);
-            intent.putExtra("name", singleUnit.getName());
-            intent.putExtra("status", singleUnit.getStatus());
-            intent.putExtra("empId", singleUnit.getEmpId());
-            intent.putExtra("dpImg", singleUnit.getDpImg());
+            intent.putExtra("name", singleUnit.getFullName());
+            intent.putExtra("empId", singleUnit.getEmployeeID());
+            intent.putExtra("dpImg", singleUnit.getProfileImage());
 
             context.startActivity(intent);
         });
-
-        if (singleUnit.getStatus().equalsIgnoreCase("absent")) {
-            holder.spinnerConstraint.setBackgroundResource(R.drawable.bg_red);
-            holder.statusTv.setText("Absent");
-            holder.statusTv.setTextColor(Color.WHITE);
-            holder.statusTv.setBackgroundResource(R.drawable.bg_red);
-        } else if (singleUnit.getStatus().equalsIgnoreCase("present")) {
-            holder.spinnerConstraint.setBackgroundResource(R.drawable.bg_green);
-            holder.statusTv.setText("Present");
-            holder.statusTv.setTextColor(Color.WHITE);
-            holder.statusTv.setBackgroundResource(R.drawable.bg_green);
-        }
 
 
 //        holder.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -137,7 +148,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
         ConstraintLayout MainCard, spinnerConstraint;
         ImageButton btnWhatsApp, btnCall;
         TextView txtMail, txtName, empIdTv, dobTv;
-        TextView statusTv;
+        TextView statusTv, txtPunchIn, txtPunchOut;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -150,6 +161,8 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
             statusTv = itemView.findViewById(R.id.statusTv);
             spinnerConstraint = itemView.findViewById(R.id.spinnerConstraint);
             dobTv = itemView.findViewById(R.id.dobTv);
+            txtPunchIn = itemView.findViewById(R.id.txtPunchIn);
+            txtPunchOut = itemView.findViewById(R.id.tctPunchOut);
         }
     }
 
