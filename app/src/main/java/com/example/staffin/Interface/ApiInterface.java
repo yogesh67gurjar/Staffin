@@ -8,6 +8,7 @@ import com.example.staffin.Response.AttendanceResponse;
 import com.example.staffin.Response.BankDetailsResponse;
 import com.example.staffin.Response.BankDetailsResponseById;
 import com.example.staffin.Response.CompanyDetailsResponse;
+import com.example.staffin.Response.CompanyResponseById;
 import com.example.staffin.Response.DepartmentResponse;
 import com.example.staffin.Response.DesignationResponse;
 import com.example.staffin.Response.EventResponse;
@@ -77,6 +78,9 @@ public interface ApiInterface {
 
     @GET("get-employee-details/{id}")
     Call<SingleEmployeeResponse> getSingleEmployee(@Path("id") int id);
+
+    @GET("get-company/{id}")
+    Call<CompanyResponseById> getCompanyDetailsById(@Path("id") int id);
 
     @FormUrlEncoded
     @POST("employee-add-password/{employeeID}")
@@ -154,8 +158,16 @@ public interface ApiInterface {
                                         @Field("second_over_time_amount") String second_over_time_amount);
 
 
+
     @GET("get-bank-details/{id}")
     Call<BankDetailsResponseById> getBankDetailsById(@Path("id") int id);
+
+    @GET("get-over-time/{id}")
+    Call<OverTimeResponse> getOverTime(@Path("id") int id);
+
+    @GET("update-company-details/{id}")
+    Call<LoginResponse> updateCompanyDetailsById(@Path("id") int id);
+
 
 }
 
