@@ -13,7 +13,9 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.staffin.Interface.ApiInterface;
+import com.example.staffin.Response.BankDetail;
 import com.example.staffin.Response.BankDetailsResponse;
+import com.example.staffin.Response.BankDetailsResponseById;
 import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.ActivityBankDetailsBinding;
 
@@ -35,25 +37,44 @@ public class BankDetailsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityBankDetailsBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
         clickListeners();
         from = getIntent().getStringExtra("from");
         empId = getIntent().getStringExtra("empId");
         Id = getIntent().getIntExtra("Id", 0);
 
-//        if (from.equalsIgnoreCase("edit")) {
-//            Call<SingleEmployeeResponse> call = apiInterface.getSingleEmployee(Id);
-//            call.enqueue(new Callback<SingleEmployeeResponse>() {
-//                @Override
-//                public void onResponse(Call<SingleEmployeeResponse> call, Response<SingleEmployeeResponse> response) {
-//
-//                }
-//
-//                @Override
-//                public void onFailure(Call<SingleEmployeeResponse> call, Throwable t) {
-//
-//                }
-//            });
-//        }
+
+        if (from.equalsIgnoreCase("edit")) {
+
+            Call<BankDetailsResponseById> bankDetailsResponseByIdCall = apiInterface.getBankDetailsById(Id);
+            bankDetailsResponseByIdCall.enqueue(new Callback<BankDetailsResponseById>() {
+                @Override
+                public void onResponse(Call<BankDetailsResponseById> call, Response<BankDetailsResponseById> response) {
+                    if (response.isSuccessful()) {
+                        progress.dismiss();
+                        BankDetail singleUnit = response.body().getBankDetails().get(0);
+                        binding.holderEt.setText(singleUnit.getAccountName());
+                        binding.accNoEt.setText(singleUnit.getAccountNumber());
+                        binding.ifscEt.setText(singleUnit.getBranch());
+                        binding.bankEt.setText(singleUnit.getBank());
+                    } else {
+                        progress.dismiss();
+                        Log.d("nfsdf", response.message());
+                        Toast.makeText(BankDetailsActivity.this, "error", Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<BankDetailsResponseById> call, Throwable t) {
+                    Log.d("jnkdfn", t.getMessage());
+                    progress.dismiss();
+                    Toast.makeText(BankDetailsActivity.this, "some failure occured", Toast.LENGTH_SHORT).show();
+
+                }
+            });
+
+        }
 
 
     }
