@@ -6,6 +6,7 @@ import com.example.staffin.Response.AddEmployeeResponse;
 import com.example.staffin.Response.AddPasswordForEmployee;
 import com.example.staffin.Response.AttendanceResponse;
 import com.example.staffin.Response.BankDetailsResponse;
+import com.example.staffin.Response.BankDetailsResponseById;
 import com.example.staffin.Response.CompanyDetailsResponse;
 import com.example.staffin.Response.CompanyResponseById;
 import com.example.staffin.Response.DepartmentResponse;
@@ -157,11 +158,16 @@ public interface ApiInterface {
                                         @Field("second_over_time_amount") String second_over_time_amount);
 
 
+
+    @GET("get-bank-details/{id}")
+    Call<BankDetailsResponseById> getBankDetailsById(@Path("id") int id);
+
     @GET("get-over-time/{id}")
     Call<OverTimeResponse> getOverTime(@Path("id") int id);
 
     @GET("update-company-details/{id}")
     Call<LoginResponse> updateCompanyDetailsById(@Path("id") int id);
+
 
 }
 
