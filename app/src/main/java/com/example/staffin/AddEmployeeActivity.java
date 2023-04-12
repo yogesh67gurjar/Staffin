@@ -54,8 +54,7 @@ public class AddEmployeeActivity extends AppCompatActivity {
     int Id = 0;
     String empId = "";
 
-    Uri profileImage, editProfileImage;
- 
+    Uri profileImage;
     String uripi = " ";
     File PImg;
     String name, fName, dob, gender, email, localAddress, permanentAddress, finalGender, number;
@@ -282,11 +281,6 @@ public class AddEmployeeActivity extends AppCompatActivity {
     }
 
     private void updateDetails(int id, String uripi, String name, String fName, String xdob, String finalGender, String number, String email, String localAddress, String permanentAddress) {
-        PImg = new File(uripi);
-        Log.d("fdlskfsdf", PImg.toString());
-        RequestBody proImg = RequestBody.create(MediaType.parse("image/*"), PImg);
-        MultipartBody.Part profile_image = MultipartBody.Part.createFormData("profile_image", PImg.getName(), proImg);
-
         RequestBody fullname = RequestBody.create(MediaType.parse("text/plain"), name);
         RequestBody father = RequestBody.create(MediaType.parse("text/plain"), fName);
         RequestBody dob = RequestBody.create(MediaType.parse("text/plain"), xdob);
@@ -299,12 +293,8 @@ public class AddEmployeeActivity extends AppCompatActivity {
         final ProgressDialog progressDialog = new ProgressDialog(AddEmployeeActivity.this);
         progressDialog.setMessage("Loading...");
 
-
-        Call<AddEmployeeResponse> callUpdateEmployee = apiInterface.postUpdateEmployee(id, profile_image, fullname, father, dob, mobile, gender, mail, lAddress, pAddress);
-
         if (dpImageBoolean) {
             PImg = new File(uripi);
-
 
             RequestBody proImg = RequestBody.create(MediaType.parse("image/*"), PImg);
             MultipartBody.Part profile_img = MultipartBody.Part.createFormData("profile_image", PImg.getName(), proImg);
