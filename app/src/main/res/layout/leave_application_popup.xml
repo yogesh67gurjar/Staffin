@@ -28,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv2"
+            android:id="@+id/txtReason"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
@@ -52,32 +52,31 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv2" />
+            app:layout_constraintTop_toBottomOf="@+id/txtReason" />
 
         <TextView
-            android:id="@+id/reasonTv"
+            android:id="@+id/txtSDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
-            android:text="Start Date"
             android:textColor="@color/black"
             android:textSize="13sp"
-            app:layout_constraintEnd_toStartOf="@+id/txtEndDate"
+            android:textAlignment="center"
+            app:layout_constraintEnd_toStartOf="@+id/txtEDate"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/txtLeaveType" />
 
         <TextView
-            android:id="@+id/txtEndDate"
+            android:id="@+id/txtEDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="End Date"
             android:textColor="@color/black"
             android:textSize="13sp"
             android:layout_marginTop="3dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/reasonTv"
+            app:layout_constraintStart_toEndOf="@+id/txtSDate"
             app:layout_constraintTop_toBottomOf="@+id/txtLeaveType" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -97,7 +96,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toEndOf="@+id/yesBtn"
-            app:layout_constraintTop_toBottomOf="@+id/reasonTv" />
+            app:layout_constraintTop_toBottomOf="@+id/txtSDate" />
 
 
         <androidx.appcompat.widget.AppCompatButton
@@ -116,7 +115,7 @@
             app:layout_constraintEnd_toStartOf="@+id/noBtn"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reasonTv" />
+            app:layout_constraintTop_toBottomOf="@+id/txtSDate" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

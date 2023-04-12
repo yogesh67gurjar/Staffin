@@ -19,6 +19,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
@@ -84,21 +85,36 @@
                         android:layout_height="match_parent"
                         android:background="@color/white">
 
-
-
-                        <ImageView
+                        <com.airbnb.lottie.LottieAnimationView
                             android:id="@+id/imageView1"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
                             android:background="@drawable/main_image_bg_stroke"
-                            android:padding="3dp"
-                            android:src="@drawable/ic_total_employee"
+                            android:padding="5dp"
                             app:layout_constraintBottom_toTopOf="@+id/main_tv1"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_chainStyle="packed" />
+                            app:layout_constraintVertical_chainStyle="packed"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"
+                            app:lottie_rawRes="@raw/employeelottie" />
+
+
+                        <!--                        <ImageView-->
+                        <!--                            android:id="@+id/imageView1"-->
+                        <!--                            android:layout_width="80dp"-->
+                        <!--                            android:layout_height="80dp"-->
+                        <!--                            android:background="@drawable/main_image_bg_stroke"-->
+                        <!--                            android:padding="3dp"-->
+                        <!--                            android:src="@drawable/ic_total_employee"-->
+                        <!--                            app:layout_constraintBottom_toTopOf="@+id/main_tv1"-->
+                        <!--                            app:layout_constraintEnd_toEndOf="parent"-->
+                        <!--                            app:layout_constraintHorizontal_bias="0.5"-->
+                        <!--                            app:layout_constraintStart_toStartOf="parent"-->
+                        <!--                            app:layout_constraintTop_toTopOf="parent"-->
+                        <!--                            app:layout_constraintVertical_chainStyle="packed" />-->
 
                         <TextView
                             android:id="@+id/main_tv1"
@@ -134,20 +150,35 @@
                         android:layout_height="match_parent"
                         android:background="@color/white">
 
-
-                        <ImageView
+                        <com.airbnb.lottie.LottieAnimationView
                             android:id="@+id/imageView2"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
                             android:background="@drawable/main_image_bg_stroke"
-                            android:padding="3dp"
-                            android:src="@drawable/ic_employee_attendance"
+                            android:padding="5dp"
                             app:layout_constraintBottom_toTopOf="@+id/main_tv2"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_chainStyle="packed" />
+                            app:layout_constraintVertical_chainStyle="packed"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"
+                            app:lottie_rawRes="@raw/attendancelottie" />
+
+                        <!--                        <ImageView-->
+                        <!--                            android:id="@+id/imageView2"-->
+                        <!--                            android:layout_width="80dp"-->
+                        <!--                            android:layout_height="80dp"-->
+                        <!--                            android:background="@drawable/main_image_bg_stroke"-->
+                        <!--                            android:padding="3dp"-->
+                        <!--                            android:src="@drawable/ic_employee_attendance"-->
+                        <!--                            app:layout_constraintBottom_toTopOf="@+id/main_tv2"-->
+                        <!--                            app:layout_constraintEnd_toEndOf="parent"-->
+                        <!--                            app:layout_constraintHorizontal_bias="0.5"-->
+                        <!--                            app:layout_constraintStart_toStartOf="parent"-->
+                        <!--                            app:layout_constraintTop_toTopOf="parent"-->
+                        <!--                            app:layout_constraintVertical_chainStyle="packed" />-->
 
                         <TextView
                             android:id="@+id/main_tv2"
@@ -175,8 +206,8 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingBottom="20dp"
                 android:paddingHorizontal="20dp"
+                android:paddingBottom="20dp"
                 android:weightSum="2">
 
                 <androidx.cardview.widget.CardView
@@ -192,20 +223,36 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
-
-                        <ImageView
+                        <com.airbnb.lottie.LottieAnimationView
                             android:id="@+id/imageView3"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
                             android:background="@drawable/main_image_bg_stroke"
-                            android:padding="3dp"
-                            android:src="@drawable/ic_events"
+                            android:padding="5dp"
                             app:layout_constraintBottom_toTopOf="@+id/main_tv3"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_chainStyle="packed" />
+                            app:layout_constraintVertical_chainStyle="packed"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"
+                            app:lottie_rawRes="@raw/eventlottie" />
+
+
+                        <!--                        <ImageView-->
+                        <!--                            android:id="@+id/imageView3"-->
+                        <!--                            android:layout_width="80dp"-->
+                        <!--                            android:layout_height="80dp"-->
+                        <!--                            android:background="@drawable/main_image_bg_stroke"-->
+                        <!--                            android:padding="3dp"-->
+                        <!--                            android:src="@drawable/ic_events"-->
+                        <!--                            app:layout_constraintBottom_toTopOf="@+id/main_tv3"-->
+                        <!--                            app:layout_constraintEnd_toEndOf="parent"-->
+                        <!--                            app:layout_constraintHorizontal_bias="0.5"-->
+                        <!--                            app:layout_constraintStart_toStartOf="parent"-->
+                        <!--                            app:layout_constraintTop_toTopOf="parent"-->
+                        <!--                            app:layout_constraintVertical_chainStyle="packed" />-->
 
                         <TextView
                             android:id="@+id/main_tv3"
@@ -240,19 +287,35 @@
                         android:layout_height="match_parent">
 
 
-                        <ImageView
+                        <com.airbnb.lottie.LottieAnimationView
                             android:id="@+id/imageView4"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
                             android:background="@drawable/main_image_bg_stroke"
-                            android:padding="3dp"
-                            android:src="@drawable/ic_payroll"
+                            android:padding="5dp"
                             app:layout_constraintBottom_toTopOf="@+id/main_tv4"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_chainStyle="packed" />
+                            app:layout_constraintVertical_chainStyle="packed"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"
+                            app:lottie_rawRes="@raw/payrolllottie" />
+
+<!--                        <ImageView-->
+<!--                            android:id="@+id/imageView4"-->
+<!--                            android:layout_width="80dp"-->
+<!--                            android:layout_height="80dp"-->
+<!--                            android:background="@drawable/main_image_bg_stroke"-->
+<!--                            android:padding="3dp"-->
+<!--                            android:src="@drawable/ic_payroll"-->
+<!--                            app:layout_constraintBottom_toTopOf="@+id/main_tv4"-->
+<!--                            app:layout_constraintEnd_toEndOf="parent"-->
+<!--                            app:layout_constraintHorizontal_bias="0.5"-->
+<!--                            app:layout_constraintStart_toStartOf="parent"-->
+<!--                            app:layout_constraintTop_toTopOf="parent"-->
+<!--                            app:layout_constraintVertical_chainStyle="packed" />-->
 
                         <TextView
                             android:id="@+id/main_tv4"
@@ -297,20 +360,34 @@
                         android:layout_height="match_parent"
                         android:background="@color/white">
 
-
-                        <ImageView
+                        <com.airbnb.lottie.LottieAnimationView
                             android:id="@+id/imageView5"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
                             android:background="@drawable/main_image_bg_stroke"
-                            android:padding="3dp"
-                            android:src="@drawable/ic_calendar_settings"
+                            android:padding="5dp"
                             app:layout_constraintBottom_toTopOf="@+id/main_tv5"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_chainStyle="packed" />
+                            app:layout_constraintVertical_chainStyle="packed"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"
+                            app:lottie_rawRes="@raw/calenderlottie" />
+                        <!--                        <ImageView-->
+                        <!--                            android:id="@+id/imageView5"-->
+                        <!--                            android:layout_width="80dp"-->
+                        <!--                            android:layout_height="80dp"-->
+                        <!--                            android:background="@drawable/main_image_bg_stroke"-->
+                        <!--                            android:padding="3dp"-->
+                        <!--                            android:src="@drawable/ic_calendar_settings"-->
+                        <!--                            app:layout_constraintBottom_toTopOf="@+id/main_tv5"-->
+                        <!--                            app:layout_constraintEnd_toEndOf="parent"-->
+                        <!--                            app:layout_constraintHorizontal_bias="0.5"-->
+                        <!--                            app:layout_constraintStart_toStartOf="parent"-->
+                        <!--                            app:layout_constraintTop_toTopOf="parent"-->
+                        <!--                            app:layout_constraintVertical_chainStyle="packed" />-->
 
                         <TextView
                             android:id="@+id/main_tv5"
@@ -347,19 +424,36 @@
                         android:background="@color/white">
 
 
-                        <ImageView
+                        <com.airbnb.lottie.LottieAnimationView
                             android:id="@+id/imgLogout"
                             android:layout_width="80dp"
                             android:layout_height="80dp"
                             android:background="@drawable/main_image_bg_stroke"
-                            android:padding="5dp"
-                            android:src="@drawable/ic_leave"
+                            android:padding="0dp"
                             app:layout_constraintBottom_toTopOf="@+id/txtLogout"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintHorizontal_bias="0.5"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintVertical_chainStyle="packed" />
+                            app:layout_constraintVertical_chainStyle="packed"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"
+                            app:lottie_rawRes="@raw/leavelottie" />
+
+
+                        <!--                        <ImageView-->
+                        <!--                            android:id="@+id/imgLogout"-->
+                        <!--                            android:layout_width="80dp"-->
+                        <!--                            android:layout_height="80dp"-->
+                        <!--                            android:background="@drawable/main_image_bg_stroke"-->
+                        <!--                            android:padding="5dp"-->
+                        <!--                            android:src="@drawable/ic_leave"-->
+                        <!--                            app:layout_constraintBottom_toTopOf="@+id/txtLogout"-->
+                        <!--                            app:layout_constraintEnd_toEndOf="parent"-->
+                        <!--                            app:layout_constraintHorizontal_bias="0.5"-->
+                        <!--                            app:layout_constraintStart_toStartOf="parent"-->
+                        <!--                            app:layout_constraintTop_toTopOf="parent"-->
+                        <!--                            app:layout_constraintVertical_chainStyle="packed" />-->
 
                         <TextView
                             android:id="@+id/txtLogout"
@@ -411,12 +505,22 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="3dp"
-                            android:src="@drawable/ic_logout"
+                            android:src="@drawable/ic_logoutt"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent"
                             app:layout_constraintVertical_chainStyle="packed" />
+
+                        <com.airbnb.lottie.LottieAnimationView
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            app:layout_constraintBottom_toBottomOf="@+id/imageView8"
+                            app:layout_constraintStart_toEndOf="@+id/imageView8"
+                            app:layout_constraintTop_toTopOf="@+id/imageView8"
+                            app:lottie_autoPlay="true"
+                            app:lottie_loop="true"
+                            app:lottie_rawRes="@raw/logoutlottie" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
