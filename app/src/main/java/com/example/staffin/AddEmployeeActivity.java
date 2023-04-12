@@ -40,6 +40,8 @@ import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Field;
+import retrofit2.http.Path;
 
 public class AddEmployeeActivity extends AppCompatActivity {
 
@@ -53,10 +55,21 @@ public class AddEmployeeActivity extends AppCompatActivity {
     String empId = "";
 
     Uri profileImage, editProfileImage;
-    String uripi;
+ 
+    String uripi = " ";
     File PImg;
     String name, fName, dob, gender, email, localAddress, permanentAddress, finalGender, number;
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK && requestCode == 101) {
+            binding.dpImg.setImageURI(data.getData());
+            profileImage = data.getData();
+            uripi = getRealPathFromURI(profileImage);
+            dpImageBoolean = true;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,9 +160,7 @@ public class AddEmployeeActivity extends AppCompatActivity {
         binding.nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!dpImageBoolean) {
-                    Toast.makeText(getApplicationContext(), "Please Upload your Profile Image", Toast.LENGTH_SHORT).show();
-                } else if (binding.employeeIdEt.getText().toString().isEmpty()) {
+                if (binding.employeeIdEt.getText().toString().isEmpty()) {
                     binding.employeeIdEt.setError("Enter Your Name");
                     binding.employeeIdEt.requestFocus();
                 } else if (binding.departmentEt.getText().toString().isEmpty()) {
@@ -201,7 +212,13 @@ public class AddEmployeeActivity extends AppCompatActivity {
                     if (from.equalsIgnoreCase("edit")) {
                         updateDetails(Id, uripi, name, fName, dob, finalGender, number, email, localAddress, permanentAddress);
                     } else {
-                        sendDetails(uripi, name, fName, dob, finalGender, number, email, localAddress, permanentAddress);
+                        if (!dpImageBoolean) {
+                            Toast.makeText(getApplicationContext(), "Please Upload your Profile Image", Toast.LENGTH_SHORT).show();
+                        }
+                        else
+                        {
+                            sendDetails(uripi, name, fName, dob, finalGender, number, email, localAddress, permanentAddress);
+                        }
                     }
                 }
             }
@@ -234,17 +251,6 @@ public class AddEmployeeActivity extends AppCompatActivity {
         });
     }
 
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK && requestCode == 101) {
-            binding.dpImg.setImageURI(data.getData());
-            profileImage = data.getData();
-            uripi = getRealPathFromURI(profileImage);
-            dpImageBoolean = true;
-        }
-    }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -293,38 +299,83 @@ public class AddEmployeeActivity extends AppCompatActivity {
         final ProgressDialog progressDialog = new ProgressDialog(AddEmployeeActivity.this);
         progressDialog.setMessage("Loading...");
 
+
         Call<AddEmployeeResponse> callUpdateEmployee = apiInterface.postUpdateEmployee(id, profile_image, fullname, father, dob, mobile, gender, mail, lAddress, pAddress);
 
-        if (isNetworkAvailable()) {
-            progressDialog.show();
-            callUpdateEmployee.enqueue(new Callback<AddEmployeeResponse>() {
-                @Override
-                public void onResponse(Call<AddEmployeeResponse> call, Response<AddEmployeeResponse> response) {
-                    if (response.isSuccessful()) {
+        if (dpImageBoolean) {
+            PImg = new File(uripi);
 
-                        progressDialog.dismiss();
-                        Intent intent = new Intent(getApplicationContext(), EmployeeIdActivity.class);
-                        intent.putExtra("empId", empId);
-                        intent.putExtra("Id", Id);
-                        intent.putExtra("from", "edit");
 
-                        startActivity(intent);
-                    } else {
-                        Log.d("fkdjfnsdf", response.message());
-                        progressDialog.dismiss();
-                        Toast.makeText(AddEmployeeActivity.this, "Try again", Toast.LENGTH_SHORT).show();
+            RequestBody proImg = RequestBody.create(MediaType.parse("image/*"), PImg);
+            MultipartBody.Part profile_img = MultipartBody.Part.createFormData("profile_image", PImg.getName(), proImg);
+
+            Call<AddEmployeeResponse> callUpdateEmployee = apiInterface.postUpdateEmployee(id, profile_img, fullname, father, dob, mobile, gender, mail, lAddress, pAddress);
+            if (isNetworkAvailable()) {
+                progressDialog.show();
+                callUpdateEmployee.enqueue(new Callback<AddEmployeeResponse>() {
+                    @Override
+                    public void onResponse(Call<AddEmployeeResponse> call, Response<AddEmployeeResponse> response) {
+                        if (response.isSuccessful()) {
+
+                            progressDialog.dismiss();
+                            Intent intent = new Intent(getApplicationContext(), EmployeeIdActivity.class);
+                            intent.putExtra("empId", empId);
+                            intent.putExtra("Id", Id);
+                            intent.putExtra("from", "edit");
+
+                            startActivity(intent);
+                        } else {
+                            Log.d("fkdjfnsdf", response.message());
+                            progressDialog.dismiss();
+                            Toast.makeText(AddEmployeeActivity.this, "Try again", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }
 
-                @Override
-                public void onFailure(Call<AddEmployeeResponse> call, Throwable t) {
-                    Log.d("Pdkjfnsdf", t.getMessage());
-                    progressDialog.dismiss();
-                    Toast.makeText(AddEmployeeActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
-                }
-            });
+                    @Override
+                    public void onFailure(Call<AddEmployeeResponse> call, Throwable t) {
+                        Log.d("Pdkjfnsdf", t.getMessage());
+                        progressDialog.dismiss();
+                        Toast.makeText(AddEmployeeActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                Toast.makeText(this, "Internet Not Available", Toast.LENGTH_SHORT).show();
+            }
+//           image le k api chlegi
         } else {
-            Toast.makeText(this, "Internet Not Available", Toast.LENGTH_SHORT).show();
+
+            Call<AddEmployeeResponse> callPostUpdateEmployeeWithoutImage = apiInterface.postUpdateEmployeeWithoutImage(id, name, fName, xdob, number, finalGender, email, localAddress, permanentAddress);
+            if (isNetworkAvailable()) {
+                progressDialog.show();
+                callPostUpdateEmployeeWithoutImage.enqueue(new Callback<AddEmployeeResponse>() {
+                    @Override
+                    public void onResponse(Call<AddEmployeeResponse> call, Response<AddEmployeeResponse> response) {
+                        if (response.isSuccessful()) {
+                            progressDialog.dismiss();
+                            Intent intent = new Intent(getApplicationContext(), EmployeeIdActivity.class);
+                            intent.putExtra("empId", empId);
+                            intent.putExtra("Id", Id);
+                            intent.putExtra("from", "edit");
+
+                            startActivity(intent);
+                        } else {
+                            Log.d("fkgfdgddjfnsdf", response.message());
+                            progressDialog.dismiss();
+                            Toast.makeText(AddEmployeeActivity.this, "Try again", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<AddEmployeeResponse> call, Throwable t) {
+                        Log.d("dfgdfgd", t.getMessage());
+                        progressDialog.dismiss();
+                        Toast.makeText(AddEmployeeActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
+                    }
+                });
+            } else {
+                Toast.makeText(this, "Internet Not Available", Toast.LENGTH_SHORT).show();
+            }
+//           image k bina api chlegi
         }
 
     }
