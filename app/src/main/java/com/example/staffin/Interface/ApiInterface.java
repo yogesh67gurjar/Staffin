@@ -9,6 +9,7 @@ import com.example.staffin.Response.BankDetailsResponse;
 import com.example.staffin.Response.BankDetailsResponseById;
 import com.example.staffin.Response.CompanyDetailsResponse;
 import com.example.staffin.Response.CompanyResponseById;
+import com.example.staffin.Response.DailyAttendance;
 import com.example.staffin.Response.DepartmentResponse;
 import com.example.staffin.Response.DesignationResponse;
 import com.example.staffin.Response.EventResponse;
@@ -158,17 +159,25 @@ public interface ApiInterface {
                                         @Field("second_over_time_amount") String second_over_time_amount);
 
 
-
     @GET("get-bank-details/{id}")
     Call<BankDetailsResponseById> getBankDetailsById(@Path("id") int id);
 
     @GET("get-over-time/{id}")
     Call<OverTimeResponse> getOverTime(@Path("id") int id);
 
-    @GET("update-company-details/{id}")
-    Call<LoginResponse> updateCompanyDetailsById(@Path("id") int id);
+    @FormUrlEncoded
+    @POST("update-company-details/{id}")
+    Call<LoginResponse> updateCompanyDetailsById(@Path("id") int id,
+                                                 @Field("department") int department,
+                                                 @Field("designation") int designation,
+                                                 @Field("annual_leave") int annual_leave,
+                                                 @Field("medical_leave") int medical_leave,
+                                                 @Field("status") String status,
+                                                 @Field("joining_date") String joining_date,
+                                                 @Field("exit_date") String exit_date);
 
-
+    @GET("test")
+    Call<DailyAttendance> getAllEmployeeDailyAttendance();
 }
 
 

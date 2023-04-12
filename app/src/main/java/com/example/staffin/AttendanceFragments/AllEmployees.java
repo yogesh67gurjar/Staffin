@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.staffin.Adapter.AttendanceAdapter;
 import com.example.staffin.Response.Attendance;
+import com.example.staffin.Response.TodayAttendance;
 import com.example.staffin.databinding.FragmentAllEmployeesBinding;
 
 import java.util.ArrayList;
@@ -21,16 +22,19 @@ public class AllEmployees extends Fragment {
 
     AttendanceAdapter adapter;
     FragmentAllEmployeesBinding binding;
-    List<Attendance> attendanceList;
+//    List<Attendance> attendanceList;
+    List<TodayAttendance> todayAttendances;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentAllEmployeesBinding.inflate(inflater, container, false);
-        attendanceList = new ArrayList<>();
-        attendanceList = (List<Attendance>) getArguments().getSerializable("allEmployees");
+//        attendanceList = new ArrayList<>();
+        todayAttendances=new ArrayList<>();
+        todayAttendances=(List<TodayAttendance>) getArguments().getSerializable("allEmployees");
+//        attendanceList = (List<Attendance>) getArguments().getSerializable("allEmployees");
         binding.attendanceRv.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new AttendanceAdapter(getContext(), attendanceList);
+        adapter = new AttendanceAdapter(getContext(), todayAttendances);
         binding.attendanceRv.setAdapter(adapter);
 
         binding.searchBar.addTextChangedListener(new TextWatcher() {
@@ -48,9 +52,9 @@ public class AllEmployees extends Fragment {
     }
 
     void filter(String text) {
-        List<Attendance> filteredList = new ArrayList();
-        for (Attendance a : attendanceList) {
-            if (a.getName().toLowerCase().contains(text.toLowerCase())) {
+        List<TodayAttendance> filteredList = new ArrayList();
+        for (TodayAttendance a : todayAttendances) {
+            if (a.getFullName().toLowerCase().contains(text.toLowerCase())) {
                 filteredList.add(a);
             }
         }

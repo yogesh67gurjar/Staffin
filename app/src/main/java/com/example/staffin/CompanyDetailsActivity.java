@@ -298,33 +298,35 @@ public class CompanyDetailsActivity extends AppCompatActivity {
             Intent intent = new Intent(getApplicationContext(), BankDetailsActivity.class);
             intent.putExtra("Id", Id);
             intent.putExtra("empId", empId);
+
+
             if (from.equalsIgnoreCase("edit")) {
                 intent.putExtra("from", "edit");
                 // update wali api
 
-                Call<LoginResponse> callUpdateCompanyDetailsById = apiInterface.updateCompanyDetailsById(Id);
-                progressDialog.show();
-                callUpdateCompanyDetailsById.enqueue(new Callback<LoginResponse>() {
-                    @Override
-                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                        if (response.isSuccessful()) {
-                            progressDialog.dismiss();
-                            startActivity(intent);
-                        } else {
-                            Log.d("jkbfjksdf", response.message());
-                            progressDialog.dismiss();
-                            Toast.makeText(CompanyDetailsActivity.this, "Failure", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<LoginResponse> call, Throwable t) {
-                        progressDialog.dismiss();
-                        Log.d("sdknf", t.getMessage());
-                        Toast.makeText(CompanyDetailsActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                        Toast.makeText(CompanyDetailsActivity.this, "some error occured", Toast.LENGTH_SHORT).show();
-                    }
-                });
+//                Call<LoginResponse> callUpdateCompanyDetailsById = apiInterface.updateCompanyDetailsById(Id);
+//                progressDialog.show();
+//                callUpdateCompanyDetailsById.enqueue(new Callback<LoginResponse>() {
+//                    @Override
+//                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+//                        if (response.isSuccessful()) {
+//                            progressDialog.dismiss();
+//                            startActivity(intent);
+//                        } else {
+//                            Log.d("jkbfjksdf", response.message());
+//                            progressDialog.dismiss();
+//                            Toast.makeText(CompanyDetailsActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<LoginResponse> call, Throwable t) {
+//                        progressDialog.dismiss();
+//                        Log.d("sdknf", t.getMessage());
+//                        Toast.makeText(CompanyDetailsActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(CompanyDetailsActivity.this, "some error occured", Toast.LENGTH_SHORT).show();
+//                    }
+//                });
 
                 // edit wala flow
 
