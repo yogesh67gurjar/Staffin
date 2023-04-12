@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="wrap_content"
+    android:layout_width="250dp"
     android:layout_height="wrap_content"
     android:background="@drawable/bg_blue_corner">
 
@@ -13,47 +13,54 @@
         android:text="First Overtime"
         android:textColor="@color/black"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/firstTv"
+        app:layout_constraintStart_toStartOf="@+id/firstLL"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/firstTv"
-        android:layout_width="96dp"
+    <LinearLayout
+        android:id="@+id/firstLL"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
-        android:layout_marginTop="3dp"
-        android:background="@drawable/bg_blue_corner"
-        android:clickable="true"
-        android:drawableEnd="@drawable/ic_clock"
-        android:drawablePadding="15dp"
-        android:hint="from"
-        android:padding="5dp"
-        android:textColor="@color/black"
-        android:textColorHint="@color/txtGray"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/secondTv"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/firstOtTv" />
-
-    <TextView
-        android:id="@+id/secondTv"
-        android:layout_width="96dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="12dp"
-        android:background="@drawable/bg_blue_corner"
-        android:clickable="true"
-        android:drawableEnd="@drawable/ic_clock"
-        android:drawablePadding="15dp"
-        android:hint="to"
-        android:padding="5dp"
-        android:textColor="@color/black"
-        android:textColorHint="@color/txtGray"
-        android:textStyle="bold"
+        android:orientation="horizontal"
+        android:weightSum="2"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/firstTv"
-        app:layout_constraintTop_toTopOf="@+id/firstTv" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/firstOtTv">
+
+        <TextView
+            android:id="@+id/firstTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="6dp"
+            android:background="@drawable/bg_blue_corner"
+            android:clickable="true"
+            android:drawableEnd="@drawable/ic_clock"
+            android:drawablePadding="15dp"
+            android:hint="from"
+            android:padding="5dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/txtGray"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/secondTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_blue_corner"
+            android:clickable="true"
+            android:drawableEnd="@drawable/ic_clock"
+            android:drawablePadding="15dp"
+            android:hint="to"
+            android:padding="5dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/txtGray"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
 
     <EditText
         android:id="@+id/firstAmountEt"
@@ -66,10 +73,9 @@
         android:padding="5dp"
         android:textColor="@color/black"
         android:textColorHint="@color/txtGray"
-        app:layout_constraintEnd_toEndOf="@id/secondTv"
-        app:layout_constraintStart_toStartOf="@id/firstTv"
-
-        app:layout_constraintTop_toBottomOf="@id/firstTv" />
+        app:layout_constraintEnd_toEndOf="@id/firstLL"
+        app:layout_constraintStart_toStartOf="@id/firstLL"
+        app:layout_constraintTop_toBottomOf="@id/firstLL" />
 
     <TextView
         android:id="@+id/secondOtTv"
@@ -82,45 +88,52 @@
         app:layout_constraintStart_toStartOf="@+id/firstAmountEt"
         app:layout_constraintTop_toBottomOf="@id/firstAmountEt" />
 
-    <TextView
-        android:id="@+id/thirdTv"
-        android:layout_width="96dp"
+    <LinearLayout
+        android:id="@+id/secondLL"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="12dp"
-        android:layout_marginTop="3dp"
-        android:background="@drawable/bg_blue_corner"
-        android:clickable="true"
-        android:drawableEnd="@drawable/ic_clock"
-        android:drawablePadding="15dp"
-        android:hint="from"
-        android:padding="5dp"
-        android:textColor="@color/black"
-        android:textColorHint="@color/txtGray"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/fourthTv"
-        app:layout_constraintHorizontal_bias="0.5"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_chainStyle="spread"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/secondOtTv" />
+        app:layout_constraintTop_toBottomOf="@+id/secondOtTv">
 
-    <TextView
-        android:id="@+id/fourthTv"
-        android:layout_width="96dp"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="12dp"
-        android:background="@drawable/bg_blue_corner"
-        android:clickable="true"
-        android:drawableEnd="@drawable/ic_clock"
-        android:drawablePadding="15dp"
-        android:hint="to"
-        android:padding="5dp"
-        android:textColor="@color/black"
-        android:textColorHint="@color/txtGray"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/thirdTv"
-        app:layout_constraintTop_toTopOf="@+id/thirdTv" />
+        <TextView
+            android:id="@+id/thirdTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="6dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_blue_corner"
+            android:clickable="true"
+            android:drawableEnd="@drawable/ic_clock"
+            android:drawablePadding="15dp"
+            android:hint="from"
+            android:padding="5dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/txtGray"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/fourthTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:layout_weight="1"
+            android:background="@drawable/bg_blue_corner"
+            android:clickable="true"
+            android:drawableEnd="@drawable/ic_clock"
+            android:drawablePadding="15dp"
+            android:hint="to"
+            android:padding="5dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/txtGray"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
 
     <EditText
         android:id="@+id/secondAmountEt"
@@ -133,9 +146,9 @@
         android:padding="5dp"
         android:textColor="@color/black"
         android:textColorHint="@color/txtGray"
-        app:layout_constraintEnd_toEndOf="@id/fourthTv"
-        app:layout_constraintStart_toStartOf="@id/thirdTv"
-        app:layout_constraintTop_toBottomOf="@id/thirdTv" />
+        app:layout_constraintEnd_toEndOf="@id/secondLL"
+        app:layout_constraintStart_toStartOf="@id/secondLL"
+        app:layout_constraintTop_toBottomOf="@id/secondLL" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/submitBtn"
