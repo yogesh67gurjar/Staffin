@@ -39,7 +39,7 @@ public class EmployeeIdActivity extends AppCompatActivity {
         if (from.equalsIgnoreCase("edit")) {
 
             progress.show();
-            binding.passwordEt.setHint("enter new password");
+            binding.passwordEt.setHint("enter password");
             progress.dismiss();
 
         }
@@ -53,6 +53,7 @@ public class EmployeeIdActivity extends AppCompatActivity {
         empId = getIntent().getStringExtra("empId");
         Id = getIntent().getIntExtra("Id", 0);
         binding.userIdEt.setText(empId);
+
 
         binding.btnBack.setOnClickListener(v -> {
             onBackPressed();

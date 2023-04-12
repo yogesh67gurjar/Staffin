@@ -4,6 +4,8 @@ import android.icu.text.SymbolTable;
 
 import com.example.staffin.Response.AddEmployeeResponse;
 import com.example.staffin.Response.AddPasswordForEmployee;
+import com.example.staffin.Response.AllEvents;
+import com.example.staffin.Response.AllEventsByYear;
 import com.example.staffin.Response.AttendanceResponse;
 import com.example.staffin.Response.BankDetailsResponse;
 import com.example.staffin.Response.BankDetailsResponseById;
@@ -67,6 +69,20 @@ public interface ApiInterface {
             @Part("email") RequestBody email,
             @Part("local_address") RequestBody local_address,
             @Part("parmanent_address") RequestBody parmanent_address
+    );
+
+    @FormUrlEncoded
+    @POST("employee-update/{id}")
+    Call<AddEmployeeResponse> postUpdateEmployeeWithoutImage(
+            @Path("id") int id,
+            @Field("name") String name,
+            @Field("father_name") String father_name,
+            @Field("date_of_birth") String date_of_birth,
+            @Field("mobile") String mobile,
+            @Field("gender") String gender,
+            @Field("email") String email,
+            @Field("local_address") String local_address,
+            @Field("parmanent_address") String parmanent_address
     );
 
     @FormUrlEncoded
@@ -142,6 +158,14 @@ public interface ApiInterface {
                                                     @Field("bank") String bank,
                                                     @Field("branch") String branch);
 
+    @FormUrlEncoded
+    @POST("update-bank-details/{id}")
+    Call<BankDetailsResponse> updateBankDetailsById(@Path("id") int id,
+                                                    @Field("account_name") String account_name,
+                                                    @Field("account_number") String account_number,
+                                                    @Field("bank") String bank,
+                                                    @Field("branch") String branch);
+
 
     @GET("get-event-details")
     Call<EventResponse> getAllEvents();
@@ -175,13 +199,15 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("update-company-details/{id}")
     Call<LoginResponse> updateCompanyDetailsById(@Path("id") int id,
-                                                 @Field("department") int department,
-                                                 @Field("designation") int designation,
-                                                 @Field("annual_leave") int annual_leave,
-                                                 @Field("medical_leave") int medical_leave,
+                                                 @Field("department") String department,
+                                                 @Field("designation") String designation,
+                                                 @Field("annual_leave") String annual_leave,
+                                                 @Field("medical_leave") String medical_leave,
                                                  @Field("status") String status,
                                                  @Field("joining_date") String joining_date,
-                                                 @Field("exit_date") String exit_date);
+                                                 @Field("exit_date") String exit_date,
+                                                 @Field("basic") String basic,
+                                                 @Field("hourly") String hourly);
 
     @GET("test")
     Call<DailyAttendance> getAllEmployeeDailyAttendance();
@@ -189,6 +215,9 @@ public interface ApiInterface {
     @POST("approve-leave/{id}?status=")
     Call<LeaveAcceptRejectResponse> acceptRejectLeave(@Path("id") int id,
                                                       @Query("status") String status);
+
+    @GET("get-event-details/{year}")
+    Call<AllEventsByYear> getAllEvents(@Path("year") int year);
 }
 
 

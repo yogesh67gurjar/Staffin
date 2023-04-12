@@ -22,6 +22,8 @@ import com.example.staffin.databinding.ActivityBankDetailsBinding;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Field;
+import retrofit2.http.Path;
 
 public class BankDetailsActivity extends AppCompatActivity {
     ActivityBankDetailsBinding binding;
@@ -88,7 +90,7 @@ public class BankDetailsActivity extends AppCompatActivity {
         });
 
         binding.nextBtn.setOnClickListener(v -> {
-            String branch = null;
+            String branch = " ";
             if (!binding.ifscEt.getText().toString().trim().isEmpty()) {
                 branch = binding.ifscEt.getText().toString();
             }
@@ -132,9 +134,31 @@ public class BankDetailsActivity extends AppCompatActivity {
 
 
                     } else {
-                        startActivity(new Intent(getApplicationContext(), MainActivity.class));
-                        finish();
-                        Toast.makeText(this, "Employee Details Updated...", Toast.LENGTH_SHORT).show();
+
+                        Call<BankDetailsResponse> callUpdateBankDetailsById=apiInterface.updateBankDetailsById(Id,binding.holderEt.getText().toString(),binding.accNoEt.getText().toString(),binding.bankEt.getText().toString(),branch);
+                        callUpdateBankDetailsById.enqueue(new Callback<BankDetailsResponse>() {
+                            @Override
+                            public void onResponse(Call<BankDetailsResponse> call, Response<BankDetailsResponse> response) {
+                                if (response.isSuccessful()) {
+                                    Toast.makeText(BankDetailsActivity.this, "Employee Updated Successfully...", Toast.LENGTH_SHORT).show();
+                                    progress.dismiss();
+                                    startActivity(new Intent(getApplicationContext(), MainActivity.class));
+                                    finish();
+                                } else {
+                                    progress.dismiss();
+                                    Log.d("nfsdf", response.message());
+                                    Toast.makeText(BankDetailsActivity.this, "error", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<BankDetailsResponse> call, Throwable t) {
+                                Log.d("jnkdfn", t.getMessage());
+                                progress.dismiss();
+                                Toast.makeText(BankDetailsActivity.this, "some failure occured", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+
                     }
                 } else {
                     Toast.makeText(this, "Internet Not Available", Toast.LENGTH_SHORT).show();

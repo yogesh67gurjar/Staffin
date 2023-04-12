@@ -174,8 +174,9 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                                                             binding.jDateEt.setText(result.getJoiningDate().split("T")[0]);
                                                             binding.basicEt.setText(String.valueOf(result.getBasic().get(0).getSalary()));
                                                             binding.hourlyEt.setText(String.valueOf(result.getHourlyRate().get(0).getSalary()));
-                                                            binding.rDateEt.setText(result.getExit_date().split("T")[0]);
-
+                                                            if (result.getStatus().equalsIgnoreCase("inactive")) {
+                                                                binding.rDateEt.setText(result.getExit_date().split("T")[0]);
+                                                            }
                                                             for (int i = 0; i < strArray1.length; i++) {
                                                                 if (departmentEdit.equalsIgnoreCase(strArray1[i])) {
                                                                     binding.departmentEt.setSelection(i);
@@ -197,42 +198,6 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                                                         Log.d("kgndf", t.getMessage());
                                                     }
                                                 });
-//                                                Call<SingleEmployeeResponse> callGetSingleEmployee = apiInterface.getSingleEmployee(Id);
-//                                                callGetSingleEmployee.enqueue(new Callback<SingleEmployeeResponse>() {
-//                                                    @Override
-//                                                    public void onResponse(Call<SingleEmployeeResponse> call, Response<SingleEmployeeResponse> response) {
-//                                                        if (response.isSuccessful()) {
-//                                                            EmployeeResult result = response.body().getEmployeeResult().get(0);
-//                                                            departmentEdit = result.getDepartmentId().get(0).getName();
-//                                                            designationEdit = result.getDesignation().get(0).getDesignation();
-//                                                            binding.annualLeaveEt.setText(result.getAnnualLeave().toString());
-//                                                            binding.medicalLeaveEt.setText(result.getMedicalLeave().toString());
-//
-//                                                            for (int i = 0; i < strArray1.length; i++) {
-//                                                                if (departmentEdit.equalsIgnoreCase(strArray1[i])) {
-//                                                                    binding.departmentEt.setSelection(i);
-//                                                                }
-//
-////                                                                if (designationEdit.equalsIgnoreCase(strArray2[i])) {
-////                                                                    binding.designationEt.setSelection(i);
-////                                                                }
-//                                                            }
-//
-//
-//
-//                                                        } else {
-//                                                            Toast.makeText(CompanyDetailsActivity.this, "Some error occured", Toast.LENGTH_SHORT).show();
-//                                                        }
-//                                                    }
-//
-//                                                    @Override
-//                                                    public void onFailure(Call<SingleEmployeeResponse> call, Throwable t) {
-//                                                        Toast.makeText(CompanyDetailsActivity.this, "some failure occured", Toast.LENGTH_SHORT).show();
-//                                                        Log.d("kgndf", t.getMessage());
-//                                                    }
-//                                                });
-                                            } else {
-
                                             }
 //                                        Log.i("departmentSelected",departmentSelected);
 //                                        Log.i("designationSelected",designationSelected);
@@ -299,88 +264,82 @@ public class CompanyDetailsActivity extends AppCompatActivity {
             intent.putExtra("Id", Id);
             intent.putExtra("empId", empId);
 
-
-            if (from.equalsIgnoreCase("edit")) {
-                intent.putExtra("from", "edit");
-                // update wali api
-
-//                Call<LoginResponse> callUpdateCompanyDetailsById = apiInterface.updateCompanyDetailsById(Id);
-//                progressDialog.show();
-//                callUpdateCompanyDetailsById.enqueue(new Callback<LoginResponse>() {
-//                    @Override
-//                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-//                        if (response.isSuccessful()) {
-//                            progressDialog.dismiss();
-//                            startActivity(intent);
-//                        } else {
-//                            Log.d("jkbfjksdf", response.message());
-//                            progressDialog.dismiss();
-//                            Toast.makeText(CompanyDetailsActivity.this, "Failure", Toast.LENGTH_SHORT).show();
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<LoginResponse> call, Throwable t) {
-//                        progressDialog.dismiss();
-//                        Log.d("sdknf", t.getMessage());
-//                        Toast.makeText(CompanyDetailsActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-//                        Toast.makeText(CompanyDetailsActivity.this, "some error occured", Toast.LENGTH_SHORT).show();
-//                    }
-//                });
-
-                // edit wala flow
-
-            } else {
-                intent.putExtra("from", "add");
-                if (binding.annualLeaveEt.getText().toString().isEmpty()) {
-                    binding.annualLeaveEt.setError("Enter Annual Leaves");
-                    binding.annualLeaveEt.requestFocus();
-                } else if (binding.medicalLeaveEt.getText().toString().isEmpty()) {
-                    binding.medicalLeaveEt.setError("Enter Medical Leaves");
-                    binding.medicalLeaveEt.requestFocus();
-                } else if (binding.jDateEt.getText().toString().isEmpty()) {
-                    Toast.makeText(this, "Enter Joining Date", Toast.LENGTH_SHORT).show();
+            if (binding.annualLeaveEt.getText().toString().isEmpty()) {
+                binding.annualLeaveEt.setError("Enter Annual Leaves");
+                binding.annualLeaveEt.requestFocus();
+            } else if (binding.medicalLeaveEt.getText().toString().isEmpty()) {
+                binding.medicalLeaveEt.setError("Enter Medical Leaves");
+                binding.medicalLeaveEt.requestFocus();
+            } else if (binding.jDateEt.getText().toString().isEmpty()) {
+                Toast.makeText(this, "Enter Joining Date", Toast.LENGTH_SHORT).show();
 //            } else if (binding.rDateEt.getText().toString().isEmpty()) {
 //                Toast.makeText(this, "Enter Relieving Date", Toast.LENGTH_SHORT).show();
-                } else if (!binding.rbActive.isChecked() && !binding.rbInactive.isChecked()) {
-                    Toast.makeText(this, "Please Select Status", Toast.LENGTH_SHORT).show();
+            } else if (!binding.rbActive.isChecked() && !binding.rbInactive.isChecked()) {
+                Toast.makeText(this, "Please Select Status", Toast.LENGTH_SHORT).show();
 //            }else  if (binding.rbActive.isChecked() && binding.jDateEt.getText().toString().isEmpty()) {
 //                Toast.makeText(this, "Enter Joining Date", Toast.LENGTH_SHORT).show();
-                } else if (binding.rbInactive.isChecked() && binding.rDateEt.getText().toString().isEmpty()) {
-                    Toast.makeText(this, "Enter Relieving Date", Toast.LENGTH_SHORT).show();
-                } else if (binding.basicEt.getText().toString().isEmpty()) {
-                    binding.basicEt.setError("Enter Basic Salary");
-                    binding.basicEt.requestFocus();
-                } else if (binding.hourlyEt.getText().toString().isEmpty()) {
-                    binding.hourlyEt.setError("Enter Hourly Rate");
-                    binding.hourlyEt.requestFocus();
+            } else if (binding.rbInactive.isChecked() && binding.rDateEt.getText().toString().isEmpty()) {
+                Toast.makeText(this, "Enter Relieving Date", Toast.LENGTH_SHORT).show();
+            } else if (binding.basicEt.getText().toString().isEmpty()) {
+                binding.basicEt.setError("Enter Basic Salary");
+                binding.basicEt.requestFocus();
+            } else if (binding.hourlyEt.getText().toString().isEmpty()) {
+                binding.hourlyEt.setError("Enter Hourly Rate");
+                binding.hourlyEt.requestFocus();
+            } else {
+                String annualLeave = binding.annualLeaveEt.getText().toString();
+                String medicalLeave = binding.medicalLeaveEt.getText().toString();
+                String jdate = binding.jDateEt.getText().toString();
+                String rdate = null;
+                if (!binding.rDateEt.getText().toString().isEmpty()) {
+                    rdate = binding.rDateEt.getText().toString();
+                }
+                Status = "";
+                if (binding.rbActive.isChecked()) {
+                    binding.rbActive.getText().toString();
+                    Status = "active";
                 } else {
-//
-//                    String employeeId = binding.employeeIdEt.getText().toString();
-//                    String spinner = binding.departmentEt.getSelectedItem().toString();
-//                    String spinner2 = binding.designationEt.getSelectedItem().toString();
+                    binding.rbInactive.getText().toString();
+                    Status = "inActive";
+                }
+                finalStatus = Status;
+                String depIdStr = String.valueOf(DepId);
+                String desigIdStr = String.valueOf(desigId);
+                String basicSalary = binding.basicEt.getText().toString();
+                String hourlyRate = binding.hourlyEt.getText().toString();
 
+                if (from.equalsIgnoreCase("edit")) {
+                    intent.putExtra("from", "edit");
 
-                    String annualLeave = binding.annualLeaveEt.getText().toString();
-                    String medicalLeave = binding.medicalLeaveEt.getText().toString();
-                    String jdate = binding.jDateEt.getText().toString();
-                    String rdate = null;
-                    if (!binding.rDateEt.getText().toString().isEmpty()) {
-                        rdate = binding.rDateEt.getText().toString();
+//                  Id, depIdStr, desigIdStr, annualLeave, medicalLeave, finalStatus, jdate, rdate, basicSalary, hourlyRate
+
+                Call<LoginResponse> callUpdateCompanyDetailsById = apiInterface.updateCompanyDetailsById(Id,depIdStr,desigIdStr,annualLeave,medicalLeave,finalStatus,jdate,rdate,basicSalary,hourlyRate);
+                progressDialog.show();
+                callUpdateCompanyDetailsById.enqueue(new Callback<LoginResponse>() {
+                    @Override
+                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                        if (response.isSuccessful()) {
+                            progressDialog.dismiss();
+                            startActivity(intent);
+                        } else {
+                            Log.d("jkbfjksdf", response.message());
+                            progressDialog.dismiss();
+                            Toast.makeText(CompanyDetailsActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+                        }
                     }
-                    Status = "";
-                    if (binding.rbActive.isChecked()) {
-                        binding.rbActive.getText().toString();
-                        Status = "active";
-                    } else {
-                        binding.rbInactive.getText().toString();
-                        Status = "inActive";
+
+                    @Override
+                    public void onFailure(Call<LoginResponse> call, Throwable t) {
+                        progressDialog.dismiss();
+                        Log.d("sdknf", t.getMessage());
+                        Toast.makeText(CompanyDetailsActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CompanyDetailsActivity.this, "some error occured", Toast.LENGTH_SHORT).show();
                     }
-                    finalStatus = Status;
-                    String depIdStr = String.valueOf(DepId);
-                    String desigIdStr = String.valueOf(desigId);
-                    String basicSalary = binding.basicEt.getText().toString();
-                    String hourlyRate = binding.hourlyEt.getText().toString();
+                });
+
+                } else {
+                    intent.putExtra("from", "add");
+
                     Call<CompanyDetailsResponse> callPostSingleCompanyDetailsEmployee = apiInterface.postSingleCompanyDetail(Id, depIdStr, desigIdStr, annualLeave, medicalLeave, finalStatus, jdate, rdate, basicSalary, hourlyRate);
                     if (isNetworkAvailable()) {
                         progressDialog.show();
@@ -408,8 +367,11 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                     } else {
                         Toast.makeText(this, "Internet Not Available", Toast.LENGTH_SHORT).show();
                     }
+
                 }
+
             }
+
         });
 
         binding.jDateEt.setOnClickListener(new View.OnClickListener() {
