@@ -173,7 +173,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <ImageView
-        android:id="@+id/userImage"
+        android:id="@+id/userImage_att"
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:layout_marginStart="20dp"

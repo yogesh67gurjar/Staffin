@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.staffin.Adapter.LeaveAdapter;
@@ -34,6 +35,8 @@ public class LeaveActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityLeaveBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        binding.leaveRV.setVisibility(View.GONE);
+        binding.nothingTv.setVisibility(View.VISIBLE);
         final ProgressDialog progressDialog = new ProgressDialog(LeaveActivity.this);
         progressDialog.setMessage("Loading...");
         progressDialog.show();
@@ -46,9 +49,19 @@ public class LeaveActivity extends AppCompatActivity {
                     progressDialog.dismiss();
                     employeeLeaveResult = response.body().getEmployeeLeaveResult();
                     binding.leaveRV.setLayoutManager(new LinearLayoutManager(LeaveActivity.this));
-                    adapter = new LeaveAdapter(LeaveActivity.this, employeeLeaveResult);
-                    binding.leaveRV.setAdapter(adapter);
+                    if (employeeLeaveResult.size() < 1) {
+                        binding.leaveRV.setVisibility(View.GONE);
+                        binding.nothingTv.setVisibility(View.VISIBLE);
+                    } else {
+                        adapter = new LeaveAdapter(LeaveActivity.this, employeeLeaveResult);
+                        binding.leaveRV.setAdapter(adapter);
+                        binding.nothingTv.setVisibility(View.GONE);
+                        binding.leaveRV.setVisibility(View.VISIBLE);
+                    }
+
                 } else {
+                    binding.leaveRV.setVisibility(View.GONE);
+                    binding.nothingTv.setVisibility(View.VISIBLE);
                     progressDialog.dismiss();
                     Toast.makeText(LeaveActivity.this, "Some Error Occured", Toast.LENGTH_SHORT).show();
                 }
@@ -57,6 +70,8 @@ public class LeaveActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<LeaveResponse> call, Throwable t) {
                 progressDialog.dismiss();
+                binding.leaveRV.setVisibility(View.GONE);
+                binding.nothingTv.setVisibility(View.VISIBLE);
                 Toast.makeText(LeaveActivity.this, "Failure,Try Again", Toast.LENGTH_SHORT).show();
 
             }

@@ -1,13 +1,18 @@
 package com.example.staffin.Adapter;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,23 +21,30 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.staffin.Interface.ApiInterface;
 import com.example.staffin.R;
 import com.example.staffin.Response.EmployeeLeaveResult;
+import com.example.staffin.Response.LeaveAcceptRejectResponse;
+import com.example.staffin.Retrofit.RetrofitServices;
 
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.MyViewHolder> {
     Context context;
     List<EmployeeLeaveResult> leaveResultList;
     Dialog adDialog;
+    ApiInterface apiInterface;
 
     public LeaveAdapter(Context context, List<EmployeeLeaveResult> leaveResultList) {
         this.context = context;
         this.leaveResultList = leaveResultList;
         adDialog = new Dialog(this.context);
-
+        apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
     }
-
 
     @NonNull
     @Override
@@ -48,8 +60,9 @@ public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.MyViewHolder
         EmployeeLeaveResult singleUnit = leaveResultList.get(position);
         holder.txtEmpId.setText(singleUnit.getEmployeeId().toString());
         holder.txtReason.setText(singleUnit.getReason());
+
         holder.leaveCard.setOnClickListener(v -> {
-            showPopup();
+            showPopup(singleUnit.getId(), position);
         });
     }
 
@@ -58,7 +71,7 @@ public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.MyViewHolder
         return leaveResultList.size();
     }
 
-    public void showPopup() {
+    public void showPopup(int recordId, int position) {
         adDialog.setContentView(R.layout.leave_application_popup);
         adDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         adDialog.setCancelable(false);
@@ -68,21 +81,59 @@ public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.MyViewHolder
         AppCompatButton noBtn = adDialog.findViewById(R.id.noBtn);
 
         yesBtn.setOnClickListener(v -> {
-            Toast.makeText(context, "Leave Application Accepted", Toast.LENGTH_SHORT).show();
 //            Toast toast = Toast.makeText(context.getApplicationContext(), "Employee Removed Successfully", Toast.LENGTH_SHORT);
 //            View view1 = toast.getView();
 //            view1.setBackgroundResource(R.drawable.bg_red);
 //            view1.setPadding(70, 30, 70, 30);
 //            toast.show();
-            adDialog.dismiss();
+            callAcceptRejectApi(recordId, "approved", position);
+
 
         });
         noBtn.setOnClickListener(v -> {
-            adDialog.dismiss();
-            Toast.makeText(context, "Leave Application Rejected", Toast.LENGTH_SHORT).show();
-
+            callAcceptRejectApi(recordId, "rejected", position);
         });
 //        adDialog.setOnCancelListener(dialog -> adDialog.dismiss());
+    }
+
+    private void callAcceptRejectApi(int recordId, String status, int position) {
+        ProgressDialog progress = new ProgressDialog(context);
+        progress.setMessage("please wait");
+        progress.show();
+        Call<LeaveAcceptRejectResponse> callAcceptRejectLeave = apiInterface.acceptRejectLeave(recordId, status);
+        callAcceptRejectLeave.enqueue(new Callback<>() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void onResponse(Call<LeaveAcceptRejectResponse> call, Response<LeaveAcceptRejectResponse> response) {
+                if (response.isSuccessful()) {
+                    if (status.equalsIgnoreCase("approved")) {
+                        Toast.makeText(context, "Leave Application Accepted", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(context, "Leave Application Rejected", Toast.LENGTH_SHORT).show();
+                    }
+                    progress.dismiss();
+                    leaveResultList.remove(position);
+                    notifyDataSetChanged();
+                    adDialog.dismiss();
+                } else {
+                    adDialog.dismiss();
+                    progress.dismiss();
+                    leaveResultList.remove(position);
+                    notifyDataSetChanged();
+                    Log.d("kfsdf", response.message());
+                    Toast.makeText(context, "some error occured", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LeaveAcceptRejectResponse> call, Throwable t) {
+                Log.d("dfksdf", t.getMessage());
+                progress.dismiss();
+                Toast.makeText(context, "failure", Toast.LENGTH_SHORT).show();
+                adDialog.dismiss();
+            }
+        });
+
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -99,3 +150,13 @@ public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.MyViewHolder
         }
     }
 }
+
+
+
+
+
+
+
+
+
+

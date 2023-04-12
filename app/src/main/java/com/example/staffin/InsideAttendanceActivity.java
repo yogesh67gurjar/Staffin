@@ -17,6 +17,9 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.staffin.Fragment.PresentBottomSheetFragment;
+import com.example.staffin.Interface.ApiInterface;
+import com.example.staffin.Response.GetMonthlyAttendance;
+import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.ActivityInsideAttendanceBinding;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
@@ -30,14 +33,18 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import retrofit2.Call;
+import retrofit2.http.Field;
+
 public class InsideAttendanceActivity extends AppCompatActivity {
     ActivityInsideAttendanceBinding binding;
     String name, status, empId, dpImg;
     DownloadManager manager;
     private Rect textSizeRect;
     private int heightPerDay;
-
-
+    ProgressDialog progressDialog;
+    ApiInterface apiInterface;
+    int month, year;
     private SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MMMM- yyyy", Locale.getDefault());
 
     @Override
@@ -45,13 +52,36 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityInsideAttendanceBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
+        progressDialog = new ProgressDialog(InsideAttendanceActivity.this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
+
+        name = getIntent().getStringExtra("name");
+        status = getIntent().getStringExtra("status");
+        empId = getIntent().getStringExtra("empId");
+        dpImg = getIntent().getStringExtra("dpImg");
+        binding.nameTv.setText(name);
+        binding.empId.setText("Emp. ID - " + empId);
+        if (status.equalsIgnoreCase("absent")) {
+            binding.indicator.setBackgroundResource(R.drawable.bg_red);
+            binding.indicator.setText("Absent");
+            binding.indicator.setTextColor(Color.WHITE);
+        } else {
+            binding.indicator.setBackgroundResource(R.drawable.bg_green);
+            binding.indicator.setText("Present");
+            binding.indicator.setTextColor(Color.WHITE);
+        }
+
+
         Date date = new Date();
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
-        int month = cal.get(Calendar.MONTH);
+        month = cal.get(Calendar.MONTH);
 //                int day = cal.get(Calendar.DATE);
         month += 1;
-        int year = cal.get(Calendar.YEAR);
+        year = cal.get(Calendar.YEAR);
         switch (month) {
             case 1:
                 binding.monthTv.setText("January  " + year);
@@ -91,78 +121,11 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                 break;
         }
 
+        Call<GetMonthlyAttendance> callGetMonthlyAttendanceByEid = apiInterface.getMonthlyAttendanceByEid(month, year, Integer.parseInt(empId));
+        //////////////////////////
+
         binding.compactcalendarView.setUseThreeLetterAbbreviation(true);
 
-        final ProgressDialog progressDialog = new ProgressDialog(InsideAttendanceActivity.this);
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
-
-        name = getIntent().getStringExtra("name");
-        status = getIntent().getStringExtra("status");
-        empId = getIntent().getStringExtra("empId");
-        dpImg = getIntent().getStringExtra("dpImg");
-        binding.nameTv.setText(name);
-        binding.empId.setText("Emp. ID - " + empId);
-        if (status.equalsIgnoreCase("absent")) {
-            binding.indicator.setBackgroundResource(R.drawable.bg_red);
-            binding.indicator.setText("Absent");
-            binding.indicator.setTextColor(Color.WHITE);
-        } else {
-            binding.indicator.setBackgroundResource(R.drawable.bg_green);
-            binding.indicator.setText("Present");
-            binding.indicator.setTextColor(Color.WHITE);
-        }
-
-//        binding.Calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-//
-//            @Override
-//            public void onSelectedDayChange(CalendarView view, int year, int month,
-//                                            int dayOfMonth) {
-//
-//                Bundle bundle = new Bundle();
-//                month += 1;
-//                bundle.putString("Date", String.valueOf(dayOfMonth) + "-" + month + "-" + year);
-//                PresentBottomSheetFragment presentBottomSheetFragment = new PresentBottomSheetFragment();
-//                presentBottomSheetFragment.setArguments(bundle);
-//                presentBottomSheetFragment.show(getSupportFragmentManager(), presentBottomSheetFragment.getTag());
-//
-////                binding.Calendar.setFocusedMonthDateColor(Color.BLACK);
-//
-//            }
-//        });
-
-// binding.Calendar.setOnDateChangeListener(new CalendarView.OnDateChangeListener() {
-//     @Override
-//     public void onSelectedDayChange(@NonNull CalendarView view, int year, int month, int dayOfMonth) {
-//         Bundle bundle = new Bundle();
-//
-//         Log.d("DATE", String.valueOf(dayOfMonth) + month + year);
-//         initializeCalendar(dayOfMonth,month,year);
-//
-//         PresentBottomSheetFragment presentBottomSheetFragment = new PresentBottomSheetFragment();
-//         presentBottomSheetFragment.setArguments(bundle);
-//         presentBottomSheetFragment.show(getSupportFragmentManager(), presentBottomSheetFragment.getTag());
-//     }
-// });
-//        binding.calendarView.setOnDayClickListener(new OnDayClickListener() {
-//            @Override
-//            public void onDayClick(@NonNull EventDay eventDay) {
-//                Bundle bundle = new Bundle();
-//                Log.d("DATE", eventDay.getCalendar().getTime().toString());
-//                Calendar cal = Calendar.getInstance();
-//                cal.setTime(eventDay.getCalendar().getTime());
-//                int year = cal.get(Calendar.YEAR);
-//                int month = cal.get(Calendar.MONTH);
-//                int day = cal.get(Calendar.DATE);
-//                month += 1;
-//                Log.d("DATE", String.valueOf(day) + month + year);
-//                initializeCalendar(day, month, year);
-//
-//                PresentBottomSheetFragment presentBottomSheetFragment = new PresentBottomSheetFragment();
-//                presentBottomSheetFragment.setArguments(bundle);
-//                presentBottomSheetFragment.show(getSupportFragmentManager(), presentBottomSheetFragment.getTag());
-//            }
-//        });
 
         binding.btnBack.setOnClickListener(v -> {
             finish();
@@ -297,7 +260,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         calendar1.set(Calendar.DAY_OF_MONTH, 1);
         milliTime = calendar1.getTimeInMillis();
         Event ev1 = new Event(getResources().getColor(R.color.calRed), milliTime, "Teachers' Professional Day");
-       
+
         binding.compactcalendarView.addEvent(ev1);
 
         Calendar calendar2 = Calendar.getInstance();

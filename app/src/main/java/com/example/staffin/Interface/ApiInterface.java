@@ -13,7 +13,9 @@ import com.example.staffin.Response.DailyAttendance;
 import com.example.staffin.Response.DepartmentResponse;
 import com.example.staffin.Response.DesignationResponse;
 import com.example.staffin.Response.EventResponse;
+import com.example.staffin.Response.GetMonthlyAttendance;
 import com.example.staffin.Response.HolidayResponse;
+import com.example.staffin.Response.LeaveAcceptRejectResponse;
 import com.example.staffin.Response.LeaveResponse;
 import com.example.staffin.Response.LoginResponse;
 import com.example.staffin.Response.OverTimeResponse;
@@ -30,6 +32,7 @@ import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface ApiInterface {
 
@@ -66,10 +69,14 @@ public interface ApiInterface {
             @Part("parmanent_address") RequestBody parmanent_address
     );
 
+    @FormUrlEncoded
+    @POST("get-attendance")
+    Call<GetMonthlyAttendance> getMonthlyAttendanceByEid(@Field("month") int month,
+                                                         @Field("year") int year,
+                                                         @Field("employeeID") int employeeID);
 
     @GET("delete-employee/{id}")
     Call<LoginResponse> deleteEmployeeById(@Path("id") int id);
-
 
     @GET("get-all-employee-details")
     Call<TotalEmployeeResponse> getTotalEmployee();
@@ -178,6 +185,10 @@ public interface ApiInterface {
 
     @GET("test")
     Call<DailyAttendance> getAllEmployeeDailyAttendance();
+
+    @POST("approve-leave/{id}?status=")
+    Call<LeaveAcceptRejectResponse> acceptRejectLeave(@Path("id") int id,
+                                                      @Query("status") String status);
 }
 
 

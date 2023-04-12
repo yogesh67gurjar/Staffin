@@ -55,7 +55,7 @@
             app:layout_constraintTop_toBottomOf="@+id/tv2" />
 
         <TextView
-            android:id="@+id/txtStartDate"
+            android:id="@+id/reasonTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="3dp"
@@ -77,7 +77,7 @@
             android:layout_marginTop="3dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/txtStartDate"
+            app:layout_constraintStart_toEndOf="@+id/reasonTv"
             app:layout_constraintTop_toBottomOf="@+id/txtLeaveType" />
 
         <androidx.appcompat.widget.AppCompatButton
@@ -97,7 +97,7 @@
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintHorizontal_chainStyle="spread"
             app:layout_constraintStart_toEndOf="@+id/yesBtn"
-            app:layout_constraintTop_toBottomOf="@+id/txtStartDate" />
+            app:layout_constraintTop_toBottomOf="@+id/reasonTv" />
 
 
         <androidx.appcompat.widget.AppCompatButton
@@ -116,7 +116,7 @@
             app:layout_constraintEnd_toStartOf="@+id/noBtn"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/txtStartDate" />
+            app:layout_constraintTop_toBottomOf="@+id/reasonTv" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

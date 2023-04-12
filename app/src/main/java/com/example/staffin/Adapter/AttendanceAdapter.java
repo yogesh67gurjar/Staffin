@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.staffin.InsideAttendanceActivity;
 import com.example.staffin.R;
 import com.example.staffin.Response.Attendance;
@@ -59,7 +61,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
         holder.txtMail.setText(singleUnit.getEmail());
         holder.empIdTv.setText("Emp. ID - " + singleUnit.getEmployeeID());
         holder.dobTv.setText("Date Of Birth - " + singleUnit.getDateOfBirth().split("T")[0]);
-
+        Glide.with(context).load(singleUnit.getProfileImageUrl()).placeholder(R.drawable.img_dp).into(holder.userImage);
         Log.d("STATUS", singleUnit.getStatus());
 
         if (singleUnit.getAttendanceData().size() < 1) {
@@ -102,13 +104,10 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
         holder.MainCard.setOnClickListener(v -> {
             intent.putExtra("name", singleUnit.getFullName());
             intent.putExtra("empId", singleUnit.getEmployeeID());
-            intent.putExtra("dpImg", singleUnit.getProfileImage());
-            if(singleUnit.getAttendanceData().size() < 1)
-            {
+            intent.putExtra("dpImg", singleUnit.getProfileImageUrl());
+            if (singleUnit.getAttendanceData().size() < 1) {
                 intent.putExtra("status", "Absent");
-            }
-            else
-            {
+            } else {
                 intent.putExtra("status", "Present");
             }
             context.startActivity(intent);
@@ -154,9 +153,11 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
         ImageButton btnWhatsApp, btnCall;
         TextView txtMail, txtName, empIdTv, dobTv;
         TextView statusTv, txtPunchIn, txtPunchOut;
+        ImageView userImage;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            userImage = itemView.findViewById(R.id.userImage_att);
             empIdTv = itemView.findViewById(R.id.empIdTv);
             txtName = itemView.findViewById(R.id.nameTv);
             MainCard = itemView.findViewById(R.id.MainCard);
