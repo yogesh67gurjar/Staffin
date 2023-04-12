@@ -67,7 +67,8 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
         EmployeeResult singleUnit = employeeResultList.get(position);
 
 //        Glide.with(context.getApplicationContext()).load(singleUnit.getProfileImage()).placeholder(R.drawable.img_dp).into(holder.userImage);
-        Glide.with(context).load(singleUnit.getProfileImage()).placeholder(R.drawable.img_dp).into(holder.userImage);
+        Log.e("image aa rahi hai",singleUnit.getProfileImage());
+        Glide.with(context.getApplicationContext()).load(singleUnit.getProfileImage()).placeholder(R.drawable.img_dp).into(holder.userImage);
 
 
         holder.txtName.setText(singleUnit.getFullName());
@@ -157,7 +158,7 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
             txtDepartment = itemView.findViewById(R.id.txtDepartment);
             txtDesignation = itemView.findViewById(R.id.txtDesignation);
             txtAtWork = itemView.findViewById(R.id.txtAtWork);
-            userImage = itemView.findViewById(R.id.userImages);
+            userImage = itemView.findViewById(R.id.userImage_total);
         }
     }
 }
