@@ -62,7 +62,7 @@ public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.MyViewHolder
         holder.txtReason.setText(singleUnit.getReason());
 
         holder.leaveCard.setOnClickListener(v -> {
-            showPopup(singleUnit.getId(), position);
+            showPopup(singleUnit, position);
         });
     }
 
@@ -71,27 +71,42 @@ public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.MyViewHolder
         return leaveResultList.size();
     }
 
-    public void showPopup(int recordId, int position) {
+    public void showPopup(EmployeeLeaveResult singleUnit, int position) {
         adDialog.setContentView(R.layout.leave_application_popup);
         adDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         adDialog.setCancelable(false);
         adDialog.show();
+        TextView txtReason, txtLeaveType, txtSDate, txtEDate;
 
         AppCompatButton yesBtn = adDialog.findViewById(R.id.yesBtn);
         AppCompatButton noBtn = adDialog.findViewById(R.id.noBtn);
+        txtReason = adDialog.findViewById(R.id.txtReason);
+        txtLeaveType = adDialog.findViewById(R.id.txtLeaveType);
+        txtSDate = adDialog.findViewById(R.id.txtSDate);
+        txtEDate = adDialog.findViewById(R.id.txtEDate);
 
+        txtReason.setText(singleUnit.getReason());
+        txtLeaveType.setText("Type:-" + singleUnit.getLeaveType());
+        txtSDate.setText("From:-" + singleUnit.getStartDate());
+        if (singleUnit.getEndDate() == null) {
+            txtEDate.setVisibility(View.GONE);
+        } else {
+
+            txtEDate.setVisibility(View.VISIBLE);
+            txtEDate.setText("To:-" + (CharSequence) singleUnit.getEndDate());
+        }
         yesBtn.setOnClickListener(v -> {
 //            Toast toast = Toast.makeText(context.getApplicationContext(), "Employee Removed Successfully", Toast.LENGTH_SHORT);
 //            View view1 = toast.getView();
 //            view1.setBackgroundResource(R.drawable.bg_red);
 //            view1.setPadding(70, 30, 70, 30);
 //            toast.show();
-            callAcceptRejectApi(recordId, "approved", position);
+            callAcceptRejectApi(singleUnit.getId(), "approved", position);
 
 
         });
         noBtn.setOnClickListener(v -> {
-            callAcceptRejectApi(recordId, "rejected", position);
+            callAcceptRejectApi(singleUnit.getId(), "rejected", position);
         });
 //        adDialog.setOnCancelListener(dialog -> adDialog.dismiss());
     }
