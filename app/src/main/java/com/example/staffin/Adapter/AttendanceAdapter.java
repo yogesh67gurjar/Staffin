@@ -67,14 +67,12 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
             holder.statusTv.setText("Absent");
             holder.statusTv.setTextColor(Color.WHITE);
             holder.statusTv.setBackgroundResource(R.drawable.bg_red);
-            intent.putExtra("status", "Absent");
 
         } else {
             holder.spinnerConstraint.setBackgroundResource(R.drawable.bg_green);
             holder.statusTv.setText("Present");
             holder.statusTv.setTextColor(Color.WHITE);
             holder.statusTv.setBackgroundResource(R.drawable.bg_green);
-            intent.putExtra("status", "Present");
 
             holder.txtPunchIn.setText(singleUnit.getAttendanceData().get(0).getClockIn().split("T")[1].split("\\.")[0]);
             if (!(singleUnit.getAttendanceData().get(0).getClockOut() == null)) {
@@ -105,7 +103,14 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
             intent.putExtra("name", singleUnit.getFullName());
             intent.putExtra("empId", singleUnit.getEmployeeID());
             intent.putExtra("dpImg", singleUnit.getProfileImage());
-
+            if(singleUnit.getAttendanceData().size() < 1)
+            {
+                intent.putExtra("status", "Absent");
+            }
+            else
+            {
+                intent.putExtra("status", "Present");
+            }
             context.startActivity(intent);
         });
 
