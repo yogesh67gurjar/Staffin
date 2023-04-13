@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,6 +18,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
@@ -64,12 +67,24 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
 
     @Override
     public void onBindViewHolder(@NonNull TotalEmployeeAdapter.MyViewHolder holder, int position) {
+        Animation animationLeft = AnimationUtils.loadAnimation(holder.mainConstraint.getContext(), android.R.anim.slide_in_left);
+        holder.mainConstraint.startAnimation(animationLeft);
+        holder.userImage.startAnimation(animationLeft);
+        holder.txtName.startAnimation(animationLeft);
+        holder.txtEmail.startAnimation(animationLeft);
+        holder.txtDepartment.startAnimation(animationLeft);
+        holder.txtDOB.startAnimation(animationLeft);
+        holder.txtAtWork.startAnimation(animationLeft);
+        holder.btnEdit.startAnimation(animationLeft);
+        holder.btnDelete.startAnimation(animationLeft);
+        holder.txtEmpId.startAnimation(animationLeft);
+        holder.txtDesignation.startAnimation(animationLeft);
+
         EmployeeResult singleUnit = employeeResultList.get(position);
 
 //        Glide.with(context.getApplicationContext()).load(singleUnit.getProfileImage()).placeholder(R.drawable.img_dp).into(holder.userImage);
-        Log.e("image aa rahi hai",singleUnit.getProfileImage());
+        Log.e("image aa rahi hai", singleUnit.getProfileImage());
         Glide.with(context.getApplicationContext()).load(singleUnit.getProfileImage()).placeholder(R.drawable.img_dp).into(holder.userImage);
-
 
         holder.txtName.setText(singleUnit.getFullName());
         holder.txtEmail.setText(singleUnit.getEmail());
@@ -146,6 +161,7 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
         ImageButton btnEdit, btnDelete;
         TextView txtName, txtEmail, txtDOB, txtEmpId, txtDepartment, txtDesignation, txtAtWork;
         ImageView userImage;
+        ConstraintLayout mainConstraint;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -159,6 +175,7 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
             txtDesignation = itemView.findViewById(R.id.txtDesignation);
             txtAtWork = itemView.findViewById(R.id.txtAtWork);
             userImage = itemView.findViewById(R.id.userImage_total);
+            mainConstraint = itemView.findViewById(R.id.mainConstraint);
         }
     }
 }

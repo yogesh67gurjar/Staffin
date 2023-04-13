@@ -5,9 +5,13 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.staffin.PaySlipActivity;
@@ -33,6 +37,12 @@ public class PayRollAdapter extends RecyclerView.Adapter<PayRollAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(@NonNull PayRollAdapter.MyViewHolder holder, int position) {
+
+        Animation animationLeft = AnimationUtils.loadAnimation(holder.firstConstraint.getContext(), android.R.anim.slide_in_left);
+        holder.firstConstraint.startAnimation(animationLeft);
+        holder.imgUser.startAnimation(animationLeft);
+
+
         holder.viewIcon.setOnClickListener(v -> {
             context.startActivity(new Intent(context.getApplicationContext(), PaySlipActivity.class));
         });
@@ -52,11 +62,15 @@ public class PayRollAdapter extends RecyclerView.Adapter<PayRollAdapter.MyViewHo
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageButton editIcon, viewIcon;
+        ConstraintLayout firstConstraint;
+        ImageView imgUser;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            firstConstraint = itemView.findViewById(R.id.firstConstraint);
             editIcon = itemView.findViewById(R.id.editIcon);
             viewIcon = itemView.findViewById(R.id.viewIcon);
+            imgUser = itemView.findViewById(R.id.imgUser);
         }
     }
 }

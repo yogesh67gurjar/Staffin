@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -35,6 +37,15 @@ public class HolidayAdapter extends RecyclerView.Adapter<HolidayAdapter.HolidayV
 
     @Override
     public void onBindViewHolder(@NonNull HolidayAdapter.HolidayViewHolder holder, int position) {
+
+        Animation animationLeft = AnimationUtils.loadAnimation(holder.card2.getContext(), android.R.anim.slide_in_left);
+        holder.card1.startAnimation(animationLeft);
+        holder.card2.startAnimation(animationLeft);
+        holder.titleTv.startAnimation(animationLeft);
+        holder.dateTv.startAnimation(animationLeft);
+        holder.dayTv.startAnimation(animationLeft);
+        holder.descriptionTv.startAnimation(animationLeft);
+
 
         AllHolidays singleUnit = holidays.get(position);
         holder.titleTv.setText(singleUnit.getOccassion());
@@ -100,12 +111,13 @@ public class HolidayAdapter extends RecyclerView.Adapter<HolidayAdapter.HolidayV
     }
 
     public class HolidayViewHolder extends RecyclerView.ViewHolder {
-        CardView card2;
+        CardView card1, card2;
         LinearLayout ll2;
         TextView dateTv, dayTv, titleTv, descriptionTv;
 
         public HolidayViewHolder(@NonNull View itemView) {
             super(itemView);
+            card1 = itemView.findViewById(R.id.card1);
             card2 = itemView.findViewById(R.id.card2);
             ll2 = itemView.findViewById(R.id.ll2);
             dateTv = itemView.findViewById(R.id.dateTv);
