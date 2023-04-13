@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -16,13 +14,10 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.staffin.Adapter.MonthAdapter;
 import com.example.staffin.Interface.ApiInterface;
-import com.example.staffin.Response.AllEvents;
 import com.example.staffin.Response.EventResponse;
+import com.example.staffin.Response.EventsByYearResponse;
 import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.ActivityEventBinding;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,10 +30,9 @@ public class EventActivity extends AppCompatActivity {
     //    List<MyMonth> monthsList;
     MonthAdapter adapter;
     //    List<MembersOfEvent> membersOnly;
-    List<AllEvents> allEventsList;
+    EventsByYearResponse.EventDetails eventDetails;
     ApiInterface apiInterface;
     ProgressDialog progress;
-    Call<EventResponse> callGetAllEvents;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,17 +40,18 @@ public class EventActivity extends AppCompatActivity {
         binding = ActivityEventBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         clickListeners();
-
+        apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
 
         if (isNetworkAvailable()) {
             progress.show();
-            callGetAllEvents.enqueue(new Callback<EventResponse>() {
+            Call<EventsByYearResponse> callGetEventsByYear = apiInterface.getEventsByYear(2023);
+            callGetEventsByYear.enqueue(new Callback<EventsByYearResponse>() {
                 @Override
-                public void onResponse(Call<EventResponse> call, Response<EventResponse> response) {
+                public void onResponse(Call<EventsByYearResponse> call, Response<EventsByYearResponse> response) {
                     if (response.isSuccessful()) {
                         progress.dismiss();
-                        allEventsList = response.body().getAllEvents();
-                        adapter = new MonthAdapter(EventActivity.this, allEventsList);
+                        eventDetails = response.body().getEventDetails();
+                        adapter = new MonthAdapter(EventActivity.this, eventDetails);
                         binding.EventMonthRv.setAdapter(adapter);
 
                     } else {
@@ -67,7 +62,7 @@ public class EventActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onFailure(Call<EventResponse> call, Throwable t) {
+                public void onFailure(Call<EventsByYearResponse> call, Throwable t) {
                     Toast.makeText(EventActivity.this, "Failure,Try Again", Toast.LENGTH_SHORT).show();
                     progress.dismiss();
                     Log.d("kdnf", t.getMessage());
@@ -75,7 +70,9 @@ public class EventActivity extends AppCompatActivity {
             });
         } else {
             Toast.makeText(this, "Internet Not Available", Toast.LENGTH_SHORT).show();
+
         }
+
 
 
 //        monthsList = new ArrayList<>();
@@ -89,9 +86,7 @@ public class EventActivity extends AppCompatActivity {
     }
 
     private void clickListeners() {
-        apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
 
-        callGetAllEvents = apiInterface.getAllEvents();
 
         progress = new ProgressDialog(EventActivity.this);
         progress.setMessage("Please Wait....");
@@ -103,20 +98,20 @@ public class EventActivity extends AppCompatActivity {
         });
 
 
-        binding.searchBar.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                filter(s.toString());
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-            }
-        });
+//        binding.searchBar.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                filter(s.toString());
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//            }
+//        });
 
 
 //        adapter = new MonthAdapter(monthsList, EventActivity.this);
@@ -131,17 +126,17 @@ public class EventActivity extends AppCompatActivity {
         });
     }
 
-    void filter(String text) {
-        List<AllEvents> myMonths = new ArrayList<>();
-
-        for (AllEvents a : allEventsList) {
-            if (a.getTitleName().toLowerCase().contains(text.toLowerCase())) {
-                myMonths.add(a);
-            }
-        }
-        //update recyclerview
-        adapter.filterList(myMonths);
-    }
+//    void filter(String text) {
+//        List<AllEvents> myMonths = new ArrayList<>();
+//
+//        for (AllEvents a : allEventsList) {
+//            if (a.getTitleName().toLowerCase().contains(text.toLowerCase())) {
+//                myMonths.add(a);
+//            }
+//        }
+//        //update recyclerview
+//        adapter.filterList(myMonths);
+//    }
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager

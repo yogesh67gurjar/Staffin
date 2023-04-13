@@ -15,6 +15,7 @@ import com.example.staffin.Response.DailyAttendance;
 import com.example.staffin.Response.DepartmentResponse;
 import com.example.staffin.Response.DesignationResponse;
 import com.example.staffin.Response.EventResponse;
+import com.example.staffin.Response.EventsByYearResponse;
 import com.example.staffin.Response.GetMonthlyAttendance;
 import com.example.staffin.Response.HolidayResponse;
 import com.example.staffin.Response.LeaveAcceptRejectResponse;
@@ -218,6 +219,9 @@ public interface ApiInterface {
 
     @GET("get-event-details/{year}")
     Call<AllEventsByYear> getAllEvents(@Path("year") int year);
+
+    @GET("get-event-details/{year}")
+    Call<EventsByYearResponse> getEventsByYear(@Path("year") int year);
 }
 
 

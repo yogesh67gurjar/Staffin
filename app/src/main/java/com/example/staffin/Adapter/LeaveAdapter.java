@@ -121,9 +121,9 @@ public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.MyViewHolder
             @Override
             public void onResponse(Call<LeaveAcceptRejectResponse> call, Response<LeaveAcceptRejectResponse> response) {
                 if (response.isSuccessful()) {
-                    if (status.equalsIgnoreCase("approved")) {
+                    if (status.equalsIgnoreCase("approved") && response.body().getEmployeeResult().getApplicationStatus().equalsIgnoreCase("approved")) {
                         Toast.makeText(context, "Leave Application Accepted", Toast.LENGTH_SHORT).show();
-                    } else {
+                    } else if(status.equalsIgnoreCase("rejected") && response.body().getEmployeeResult().getApplicationStatus().equalsIgnoreCase("rejected")) {
                         Toast.makeText(context, "Leave Application Rejected", Toast.LENGTH_SHORT).show();
                     }
                     progress.dismiss();
