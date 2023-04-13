@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -56,6 +58,8 @@ public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull LeaveAdapter.MyViewHolder holder, int position) {
+//        Animation animationLeft = AnimationUtils.loadAnimation(holder.card2.getContext(), android.R.anim.slide_in_left);
+
 
         EmployeeLeaveResult singleUnit = leaveResultList.get(position);
         holder.txtEmpId.setText(singleUnit.getEmployeeId().toString());

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/mainConstraint"
     android:background="@color/white">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -187,6 +188,7 @@
         <ImageView
             android:id="@+id/userImage_total"
             android:layout_width="72dp"
+            android:scaleType="centerCrop"
             android:layout_height="72dp"
             android:src="@drawable/image_employee"/>
 
