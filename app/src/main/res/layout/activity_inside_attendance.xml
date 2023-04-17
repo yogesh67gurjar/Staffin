@@ -138,6 +138,7 @@
                     android:weightSum="2">
 
                     <TextView
+                        android:id="@+id/presentCount"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -172,6 +173,7 @@
                     android:weightSum="2">
 
                     <TextView
+                        android:id="@+id/absentCount"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -205,6 +207,7 @@
                     android:weightSum="2">
 
                     <TextView
+                        android:id="@+id/halfDayCount"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -239,6 +242,7 @@
                     android:weightSum="2">
 
                     <TextView
+                        android:id="@+id/paidLeaveCount"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -272,6 +276,7 @@
                     android:weightSum="2">
 
                     <TextView
+                        android:id="@+id/lateCount"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -307,7 +312,7 @@
                 android:layout_marginBottom="10dp"
                 android:paddingBottom="10dp"
                 app:cardCornerRadius="10dp"
-                app:cardElevation="10dp"
+                app:cardElevation="3dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -350,7 +355,7 @@
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         app:compactCalendarBackgroundColor="#FFFFFF"
-                        app:compactCalendarCurrentDayBackgroundColor="@color/bluetext"
+                        app:compactCalendarCurrentDayBackgroundColor="#CECEE2"
                         app:compactCalendarCurrentSelectedDayBackgroundColor="@color/txtGray"
                         app:compactCalendarCurrentSelectedDayTextColor="@color/white"
                         app:compactCalendarDisplayOtherMonthDays="false"

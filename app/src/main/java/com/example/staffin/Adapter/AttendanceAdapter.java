@@ -105,6 +105,7 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
             intent.putExtra("name", singleUnit.getFullName());
             intent.putExtra("empId", singleUnit.getEmployeeID());
             intent.putExtra("dpImg", singleUnit.getProfileImageUrl());
+            intent.putExtra("Id", singleUnit.getId());
             if (singleUnit.getAttendanceData().size() < 1) {
                 intent.putExtra("status", "Absent");
             } else {

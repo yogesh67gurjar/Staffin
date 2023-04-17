@@ -22,13 +22,13 @@
     <color name="background">#dddddd</color>
 
 
-    <color name="calBlue">#664766F9</color>
-    <color name="calYellow">#66FE9B28</color>
-    <color name="calGreen">#6634CB5F</color>
-    <color name="calRed">#66FC5454</color>
-    <color name="calGray">#665E5E5E</color>
-    <color name="calPurple">#66AC6CFE</color>
-    <color name="calOrange">#66FD7D06</color>
+    <color name="calBlue">#B3264BFD</color>
+    <color name="calYellow">#80FE9B28</color>
+    <color name="calGreen">#8034CB5F</color>
+    <color name="calRed">#80FC5454</color>
+    <color name="calGray">#805E5E5E</color>
+    <color name="calPurple">#80AC6CFE</color>
+    <color name="calOrange">#80FD7D06</color>
 
     <color name="background1">#5E5E5E</color>
 

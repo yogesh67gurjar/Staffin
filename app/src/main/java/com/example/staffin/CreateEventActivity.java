@@ -20,6 +20,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.staffin.Interface.ApiInterface;
+import com.example.staffin.Response.AddEventResponse;
 import com.example.staffin.Response.TotalEmployeeResponse;
 import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.ActivityCreateEventBinding;
@@ -33,6 +34,8 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Field;
+import retrofit2.http.Part;
 
 public class CreateEventActivity extends AppCompatActivity {
     ActivityCreateEventBinding binding;
@@ -141,6 +144,22 @@ public class CreateEventActivity extends AppCompatActivity {
                 }
             });
 
+//            Call<AddEventResponse> addEventFunc(
+//                    @Part MultipartBody.Part image,
+//                    @Part MultipartBody.Part image1,
+//                    @Part MultipartBody.Part image2,
+//                    @Part MultipartBody.Part image3,
+//                    @Part("title_name") RequestBody title_name,
+//                    @Part("location") RequestBody location,
+//                    @Part("description") RequestBody description,
+//                    @Part("date") RequestBody date,
+//                    @Field("add_member[]") List<Integer> add_member
+//    );
+
+
+
+
+
         } else {
             Toast.makeText(this, "Internet Not Available", Toast.LENGTH_SHORT).show();
         }
@@ -189,6 +208,8 @@ public class CreateEventActivity extends AppCompatActivity {
                     Toast.makeText(CreateEventActivity.this, "add atlease 1 member for the event", Toast.LENGTH_SHORT).show();
                 } else {
                     finish();
+
+                    ////////////////////////ddd/////////dddd///////////ddd/////////ddd////////
                     Toast.makeText(CreateEventActivity.this, "Event Added Successfully", Toast.LENGTH_SHORT).show();
                 }
             }

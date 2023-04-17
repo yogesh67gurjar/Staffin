@@ -235,10 +235,8 @@ public class CalendarSettingActivity extends AppCompatActivity {
                 e = new Event(getResources().getColor(R.color.mainColor), milliTime, singleUnit.getHoliday_description());
             } else if (count % 5 == 0) {
                 e = new Event(getResources().getColor(R.color.yellow), milliTime, singleUnit.getHoliday_description());
-
             } else if (count % 2 == 0) {
                 e = new Event(getResources().getColor(R.color.pink), milliTime, singleUnit.getHoliday_description());
-
             } else {
                 e = new Event(getResources().getColor(R.color.green), milliTime, singleUnit.getHoliday_description());
             }

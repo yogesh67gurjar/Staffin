@@ -22,7 +22,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/txtPresent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -35,7 +35,7 @@
         app:layout_constraintStart_toStartOf="@+id/txt1"
         app:layout_constraintTop_toBottomOf="@+id/txt1" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/txtDoublePresent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -50,7 +50,7 @@
         app:layout_constraintTop_toTopOf="@+id/txtPresent" />
 
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/txtAbsent"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
         app:layout_constraintStart_toStartOf="@+id/txt1"
         app:layout_constraintTop_toBottomOf="@+id/txtPresent" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/txtHalfDay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -125,7 +125,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txtOverTime" />
 
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/txtPaidLeave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -138,7 +138,7 @@
         app:layout_constraintStart_toStartOf="@+id/txt1"
         app:layout_constraintTop_toBottomOf="@+id/txt3" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/txtSickLeave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -152,7 +152,7 @@
         app:layout_constraintStart_toEndOf="@+id/txtPaidLeave"
         app:layout_constraintTop_toTopOf="@+id/txtPaidLeave" />
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/txtUnPaidLeave"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

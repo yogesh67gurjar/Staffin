@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.staffin.R;
@@ -134,6 +135,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
             holder.txtDate.setText(singleUnit.getDate());
             holder.txtEventName.setText(singleUnit.getTitleName());
         }
+
+
     }
 
     @Override
@@ -143,9 +146,11 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView txtDate, txtEventName;
+        ConstraintLayout cardEvent;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
+            cardEvent = itemView.findViewById(R.id.cardEvent);
             txtDate = itemView.findViewById(R.id.txtDate);
             txtEventName = itemView.findViewById(R.id.txtEventName);
         }

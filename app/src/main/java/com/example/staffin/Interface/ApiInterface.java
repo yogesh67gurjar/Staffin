@@ -3,6 +3,7 @@ package com.example.staffin.Interface;
 import android.icu.text.SymbolTable;
 
 import com.example.staffin.Response.AddEmployeeResponse;
+import com.example.staffin.Response.AddEventResponse;
 import com.example.staffin.Response.AddPasswordForEmployee;
 import com.example.staffin.Response.AllEvents;
 import com.example.staffin.Response.AllEventsByYear;
@@ -22,8 +23,11 @@ import com.example.staffin.Response.LeaveAcceptRejectResponse;
 import com.example.staffin.Response.LeaveResponse;
 import com.example.staffin.Response.LoginResponse;
 import com.example.staffin.Response.OverTimeResponse;
+import com.example.staffin.Response.SignupResponse;
 import com.example.staffin.Response.SingleEmployeeResponse;
 import com.example.staffin.Response.TotalEmployeeResponse;
+
+import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -38,6 +42,14 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiInterface {
+
+    @FormUrlEncoded
+    @POST("add-manager")
+    Call<SignupResponse> postSignupResponse(@Field("name") String name,
+                                            @Field("email") String email,
+                                            @Field("mobile") String mobile,
+                                            @Field("password") String password);
+
 
     @FormUrlEncoded
     @POST("admin-login")
@@ -222,6 +234,21 @@ public interface ApiInterface {
 
     @GET("get-event-details/{year}")
     Call<EventsByYearResponse> getEventsByYear(@Path("year") int year);
+
+    @Multipart
+    @POST("add-event")
+    Call<AddEventResponse> addEventFunc(
+            @Part MultipartBody.Part image,
+            @Part MultipartBody.Part image1,
+            @Part MultipartBody.Part image2,
+            @Part MultipartBody.Part image3,
+            @Part("title_name") RequestBody title_name,
+            @Part("location") RequestBody location,
+            @Part("description") RequestBody description,
+            @Part("date") RequestBody date,
+            @Field("add_member[]") List<Integer> add_member
+    );
+
 }
 
 

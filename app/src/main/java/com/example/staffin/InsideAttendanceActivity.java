@@ -11,15 +11,20 @@ import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.CalendarContract;
+import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.staffin.Fragment.PresentBottomSheetFragment;
 import com.example.staffin.Interface.ApiInterface;
+import com.example.staffin.Response.AllHolidays;
 import com.example.staffin.Response.GetMonthlyAttendance;
 import com.example.staffin.Retrofit.RetrofitServices;
+
 import com.example.staffin.databinding.ActivityInsideAttendanceBinding;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
@@ -29,22 +34,37 @@ import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Dictionary;
+import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.http.Field;
 
 public class InsideAttendanceActivity extends AppCompatActivity {
     ActivityInsideAttendanceBinding binding;
     String name, status, empId, dpImg;
+    int Id;
     DownloadManager manager;
     private Rect textSizeRect;
     private int heightPerDay;
+    String key;
     ProgressDialog progressDialog;
     ApiInterface apiInterface;
     int month, year;
+    HashMap<String, Boolean> mapPresent;
+    HashMap<String, Boolean> mapAbsent;
+    HashMap<String, Boolean> mapPaidLeave;
+    HashMap<String, Boolean> mapHalfDay;
+    HashMap<String, Boolean> mapLateComing;
+    HashMap<String, Boolean> mapHoliday;
+    String zeroMonth = "";
+    String zeroDate = "";
     private SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MMMM- yyyy", Locale.getDefault());
 
     @Override
@@ -52,6 +72,12 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityInsideAttendanceBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        mapPresent = new HashMap<>();
+        mapAbsent = new HashMap<>();
+        mapPaidLeave = new HashMap<>();
+        mapHalfDay = new HashMap<>();
+        mapLateComing = new HashMap<>();
+        mapHoliday = new HashMap<>();
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
         progressDialog = new ProgressDialog(InsideAttendanceActivity.this);
         progressDialog.setMessage("Loading...");
@@ -62,6 +88,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         status = getIntent().getStringExtra("status");
         empId = getIntent().getStringExtra("empId");
         dpImg = getIntent().getStringExtra("dpImg");
+        Id = getIntent().getIntExtra("Id", 0);
         binding.nameTv.setText(name);
         binding.empId.setText("Emp. ID - " + empId);
         if (status.equalsIgnoreCase("absent")) {
@@ -121,11 +148,36 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                 break;
         }
 
-        Call<GetMonthlyAttendance> callGetMonthlyAttendanceByEid = apiInterface.getMonthlyAttendanceByEid(month, year, Integer.parseInt(empId));
+        Call<GetMonthlyAttendance> callGetMonthlyAttendanceByEid = apiInterface.getMonthlyAttendanceByEid(month, year, Id);
+        progressDialog.show();
+        callGetMonthlyAttendanceByEid.enqueue(new Callback<>() {
+            @Override
+            public void onResponse(Call<GetMonthlyAttendance> call, Response<GetMonthlyAttendance> response) {
+                if (response.isSuccessful()) {
+                    progressDialog.dismiss();
+                    binding.presentCount.setText(response.body().getPresentDay().toString());
+                    binding.absentCount.setText(response.body().getAbsent().toString());
+                    binding.paidLeaveCount.setText(response.body().getPaidLeaveCount().toString());
+                    binding.lateCount.setText(response.body().getLateComing().toString());
+                    binding.halfDayCount.setText(response.body().getHalfday().toString());
+                    initializeCalendar(response.body().getPresentDate(), response.body().getAbsentDate(), response.body().getPaidLeaveDate(), response.body().getLateComingDate(), response.body().getHalfdayDate(), response.body().getHolidayDate());
+                } else {
+                    Log.d("kfndkfjn", response.message());
+                    progressDialog.dismiss();
+                    Toast.makeText(InsideAttendanceActivity.this, "some error orrured", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<GetMonthlyAttendance> call, Throwable t) {
+                Log.d("kfndkfjn", t.getMessage());
+                progressDialog.dismiss();
+                Toast.makeText(InsideAttendanceActivity.this, "some failure orrured", Toast.LENGTH_SHORT).show();
+            }
+        });
         //////////////////////////
 
         binding.compactcalendarView.setUseThreeLetterAbbreviation(true);
-
 
         binding.btnBack.setOnClickListener(v -> {
             finish();
@@ -134,12 +186,143 @@ public class InsideAttendanceActivity extends AppCompatActivity {
             initDownload();
 
         });
-        initializeCalendar();
+
 
         progressDialog.dismiss();
 
 
         binding.compactcalendarView.shouldScrollMonth(false);
+
+    }
+
+    private String makeStringMonth(int month) {
+        switch (month) {
+            case 1:
+                return "January";
+            case 2:
+                return "February";
+            case 3:
+                return "March";
+            case 4:
+                return "April";
+            case 5:
+                return "May";
+            case 6:
+                return "June";
+            case 7:
+                return "July";
+            case 8:
+                return "August";
+            case 9:
+                return "September";
+            case 10:
+                return "October";
+            case 11:
+                return "November";
+            case 12:
+                return "December";
+            default:
+                return "Not Available";
+        }
+    }
+
+    private void initializeCalendar(List<GetMonthlyAttendance.PresentDate> presentDates, List<GetMonthlyAttendance.AbsentDate> absentDates, List<GetMonthlyAttendance.PaidLeaveDate> paidLeaveDates, List<GetMonthlyAttendance.LateComingDate> lateComingDates, List<GetMonthlyAttendance.HalfDayDate> halfDayDates, List<GetMonthlyAttendance.HolidayDate> holidayDates) {
+        CompactCalendarView compactCalendarView = findViewById(R.id.compactcalendar_view);
+        compactCalendarView.setLocale(TimeZone.getDefault(), Locale.ENGLISH);
+        compactCalendarView.setUseThreeLetterAbbreviation(true);
+        progressDialog.show();
+        long milliTime;
+
+        for (GetMonthlyAttendance.PresentDate singleUnit : presentDates) {
+            String[] dateInParts = singleUnit.getDate().split("-");
+            Log.d("DATEOFPRESENT", singleUnit.getDate());
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, Integer.parseInt(dateInParts[0]));
+            calendar.set(Calendar.MONTH, Integer.parseInt(dateInParts[1]) - 1);
+            calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateInParts[2]));
+            milliTime = calendar.getTimeInMillis();
+            Event e;
+            Log.d("PRESENT_IN_MAP", singleUnit.getDate());
+            mapPresent.put(singleUnit.getDate(), true);
+            e = new Event(getResources().getColor(R.color.calGreen), milliTime, "present");
+            binding.compactcalendarView.addEvent(e);
+        }
+
+//        for (GetMonthlyAttendance.HolidayDate singleUnit : holidayDates) {
+//            String[] dateInParts = singleUnit.getDate().split("-");
+//            Calendar calendar = Calendar.getInstance();
+//            calendar.set(Calendar.YEAR, Integer.parseInt(dateInParts[0]));
+//            calendar.set(Calendar.MONTH, Integer.parseInt(dateInParts[1]) - 1);
+//            calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateInParts[2]));
+//            milliTime = calendar.getTimeInMillis();
+//            Event e;
+//            e = new Event(getResources().getColor(R.color.green), milliTime, "present");
+//            binding.compactcalendarView.addEvent(e);
+//        }
+
+        for (GetMonthlyAttendance.AbsentDate singleUnit : absentDates) {
+            Log.d("DATEOFABSENT", singleUnit.getDate());
+            String[] dateInParts = singleUnit.getDate().split("-");
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, Integer.parseInt(dateInParts[0]));
+            calendar.set(Calendar.MONTH, Integer.parseInt(dateInParts[1]) - 1);
+            calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateInParts[2]));
+            milliTime = calendar.getTimeInMillis();
+            Event e;
+            Log.d("ABSENT_IN_MAP", singleUnit.getDate());
+            mapAbsent.put(singleUnit.getDate(), true);
+            e = new Event(getResources().getColor(R.color.calRed), milliTime, "present");
+            binding.compactcalendarView.addEvent(e);
+        }
+
+        for (GetMonthlyAttendance.PaidLeaveDate singleUnit : paidLeaveDates) {
+            Log.d("DATEOFPL", singleUnit.getDate());
+
+            String[] dateInParts = singleUnit.getDate().split("-");
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, Integer.parseInt(dateInParts[0]));
+            calendar.set(Calendar.MONTH, Integer.parseInt(dateInParts[1]) - 1);
+            calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateInParts[2]));
+            milliTime = calendar.getTimeInMillis();
+            Event e;
+            Log.d("PAIDLEAVE_IN_MAP", singleUnit.getDate());
+            mapPaidLeave.put(singleUnit.getDate(), true);
+            e = new Event(getResources().getColor(R.color.calPurple), milliTime, "present");
+            binding.compactcalendarView.addEvent(e);
+        }
+
+        for (GetMonthlyAttendance.LateComingDate singleUnit : lateComingDates) {
+            Log.d("DATEOFLATE", singleUnit.getDate());
+
+            String[] dateInParts = singleUnit.getDate().split("-");
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, Integer.parseInt(dateInParts[0]));
+            calendar.set(Calendar.MONTH, Integer.parseInt(dateInParts[1]) - 1);
+            calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateInParts[2]));
+            milliTime = calendar.getTimeInMillis();
+            Event e;
+            Log.d("LATE_IN_MAP", singleUnit.getDate());
+            mapLateComing.put(singleUnit.getDate(), true);
+            e = new Event(getResources().getColor(R.color.calBlue), milliTime, "present");
+            binding.compactcalendarView.addEvent(e);
+        }
+
+        for (GetMonthlyAttendance.HalfDayDate singleUnit : halfDayDates) {
+            Log.d("DATEOFHALF", singleUnit.getDate());
+
+            String[] dateInParts = singleUnit.getDate().split("-");
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, Integer.parseInt(dateInParts[0]));
+            calendar.set(Calendar.MONTH, Integer.parseInt(dateInParts[1]) - 1);
+            calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateInParts[2]));
+            milliTime = calendar.getTimeInMillis();
+            Event e;
+            Log.d("HALFDAY_IN_MAP", singleUnit.getDate());
+            mapHalfDay.put(singleUnit.getDate(), true);
+            e = new Event(getResources().getColor(R.color.calOrange), milliTime, "present");
+            binding.compactcalendarView.addEvent(e);
+        }
+
         binding.compactcalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
             @Override
             public void onDayClick(Date dateClicked) {
@@ -152,12 +335,85 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                 int month = cal.get(Calendar.MONTH);
                 int day = cal.get(Calendar.DATE);
                 month += 1;
-                Log.d("DATE", String.valueOf(day) + month + year);
                 String monthName = makeStringMonth(month);
+
+                zeroMonth = "0" + month;
+                zeroDate = "0" + day;
+                if (month < 10 && day < 10) {
+                    Log.d("CASE", "date and month dono chote he 10 se");
+
+                    key = year + "-" + zeroMonth + "-" + zeroDate;
+                    Log.d("KEY", key);
+                    if (mapPresent.containsKey(key)) {
+                        bundle.putString("color", "green");
+                    } else if (mapAbsent.containsKey(key)) {
+                        bundle.putString("color", "red");
+                    } else if (mapHalfDay.containsKey(key)) {
+                        bundle.putString("color", "orange");
+                    } else if (mapPaidLeave.containsKey(key)) {
+                        bundle.putString("color", "purple");
+                    } else if (mapLateComing.containsKey(key)) {
+                        bundle.putString("color", "blue");
+                    } else {
+                        bundle.putString("color", "black");
+                    }
+                } else if (month > 10 && day > 10) {
+                    Log.d("CASE", "date and month dono bde he 10 se");
+                    key = year + "-" + month + "-" + day;
+                    Log.d("KEY", key);
+                    if (mapPresent.containsKey(key)) {
+                        bundle.putString("color", "green");
+                    } else if (mapAbsent.containsKey(key)) {
+                        bundle.putString("color", "red");
+                    } else if (mapHalfDay.containsKey(key)) {
+                        bundle.putString("color", "orange");
+                    } else if (mapPaidLeave.containsKey(key)) {
+                        bundle.putString("color", "purple");
+                    } else if (mapLateComing.containsKey(key)) {
+                        bundle.putString("color", "blue");
+                    } else {
+                        bundle.putString("color", "black");
+                    }
+                } else if (month < 10 && day > 10) {
+                    Log.d("CASE", "month chota he 10 se");
+                    key = year + "-" + zeroMonth + "-" + day;
+                    Log.d("KEY", key);
+                    if (mapPresent.containsKey(key)) {
+                        bundle.putString("color", "green");
+                    } else if (mapAbsent.containsKey(key)) {
+                        bundle.putString("color", "red");
+                    } else if (mapHalfDay.containsKey(key)) {
+                        bundle.putString("color", "orange");
+                    } else if (mapPaidLeave.containsKey(key)) {
+                        bundle.putString("color", "purple");
+                    } else if (mapLateComing.containsKey(key)) {
+                        bundle.putString("color", "blue");
+                    } else {
+                        bundle.putString("color", "black");
+                    }
+                } else if (month > 10 && day < 10) {
+                    Log.d("CASE", "month chota he 10 se");
+                    key = year + "-" + month + "-" + zeroDate;
+                    Log.d("KEY", key);
+                    if (mapPresent.containsKey(key)) {
+                        bundle.putString("color", "green");
+                    } else if (mapAbsent.containsKey(key)) {
+                        bundle.putString("color", "red");
+                    } else if (mapHalfDay.containsKey(key)) {
+                        bundle.putString("color", "orange");
+                    } else if (mapPaidLeave.containsKey(key)) {
+                        bundle.putString("color", "purple");
+                    } else if (mapLateComing.containsKey(key)) {
+                        bundle.putString("color", "blue");
+                    } else {
+                        bundle.putString("color", "black");
+                    }
+                }
                 bundle.putString("Date", day + "-" + monthName + "-" + year);
                 bundle.putInt("tareekh", day);
                 bundle.putString("mahina", monthName);
                 bundle.putInt("saal", year);
+
 
                 PresentBottomSheetFragment presentBottomSheetFragment = new PresentBottomSheetFragment();
                 presentBottomSheetFragment.setArguments(bundle);
@@ -215,475 +471,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    private String makeStringMonth(int month) {
-        switch (month) {
-            case 1:
-                return "January";
-            case 2:
-                return "February";
-            case 3:
-                return "March";
-            case 4:
-                return "April";
-            case 5:
-                return "May";
-            case 6:
-                return "June";
-            case 7:
-                return "July";
-            case 8:
-                return "August";
-            case 9:
-                return "September";
-            case 10:
-                return "October";
-            case 11:
-                return "November";
-            case 12:
-                return "December";
-            default:
-                return "Not Available";
-        }
-    }
-
-    private void initializeCalendar() {
-        long milliTime;
-        CompactCalendarView compactCalendarView = (CompactCalendarView) findViewById(R.id.compactcalendar_view);
-        compactCalendarView.setLocale(TimeZone.getDefault(), Locale.ENGLISH);
-        compactCalendarView.setUseThreeLetterAbbreviation(true);
-
-        Calendar calendar1 = Calendar.getInstance();
-        calendar1.set(Calendar.YEAR, 2023);
-        calendar1.set(Calendar.MONTH, 2);
-        calendar1.set(Calendar.DAY_OF_MONTH, 1);
-        milliTime = calendar1.getTimeInMillis();
-        Event ev1 = new Event(getResources().getColor(R.color.calRed), milliTime, "Teachers' Professional Day");
-
-        binding.compactcalendarView.addEvent(ev1);
-
-        Calendar calendar2 = Calendar.getInstance();
-        calendar2.set(Calendar.YEAR, 2023);
-        calendar2.set(Calendar.MONTH, 2);
-        calendar2.set(Calendar.DAY_OF_MONTH, 2);
-        milliTime = calendar2.getTimeInMillis();
-        Event ev2 = new Event(getResources().getColor(R.color.calBlue), milliTime, "Teachers' Professional Day");
-        binding.compactcalendarView.addEvent(ev2);
-
-        Calendar calendar3 = Calendar.getInstance();
-        calendar3.set(Calendar.YEAR, 2023);
-        calendar3.set(Calendar.MONTH, 2);
-        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-        milliTime = calendar3.getTimeInMillis();
-        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-        binding.compactcalendarView.addEvent(ev3);
-
-        Calendar calendar4 = Calendar.getInstance();
-        calendar4.set(Calendar.YEAR, 2023);
-        calendar4.set(Calendar.MONTH, 2);
-        calendar4.set(Calendar.DAY_OF_MONTH, 4);
-        milliTime = calendar4.getTimeInMillis();
-        Event ev4 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-        binding.compactcalendarView.addEvent(ev4);
-
-        Calendar calendar5 = Calendar.getInstance();
-        calendar5.set(Calendar.YEAR, 2023);
-        calendar5.set(Calendar.MONTH, 2);
-        calendar5.set(Calendar.DAY_OF_MONTH, 5);
-        milliTime = calendar5.getTimeInMillis();
-        Event ev5 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-        binding.compactcalendarView.addEvent(ev5);
-
-        Calendar calendar6 = Calendar.getInstance();
-        calendar6.set(Calendar.YEAR, 2023);
-        calendar6.set(Calendar.MONTH, 2);
-        calendar6.set(Calendar.DAY_OF_MONTH, 6);
-        milliTime = calendar6.getTimeInMillis();
-        Event ev6 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-        binding.compactcalendarView.addEvent(ev6);
-
-
-        Calendar calendar7 = Calendar.getInstance();
-        calendar7.set(Calendar.YEAR, 2023);
-        calendar7.set(Calendar.MONTH, 2);
-        calendar7.set(Calendar.DAY_OF_MONTH, 7);
-        milliTime = calendar7.getTimeInMillis();
-        Event ev7 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-        binding.compactcalendarView.addEvent(ev7);
-
-        Calendar calendar8 = Calendar.getInstance();
-        calendar8.set(Calendar.YEAR, 2023);
-        calendar8.set(Calendar.MONTH, 2);
-        calendar8.set(Calendar.DAY_OF_MONTH, 8);
-        milliTime = calendar8.getTimeInMillis();
-        Event ev8 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-        binding.compactcalendarView.addEvent(ev8);
-
-        Calendar calendar9 = Calendar.getInstance();
-        calendar9.set(Calendar.YEAR, 2023);
-        calendar9.set(Calendar.MONTH, 2);
-        calendar9.set(Calendar.DAY_OF_MONTH, 9);
-        milliTime = calendar9.getTimeInMillis();
-        Event ev9 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-        binding.compactcalendarView.addEvent(ev9);
-
-        Calendar calendar10 = Calendar.getInstance();
-        calendar10.set(Calendar.YEAR, 2023);
-        calendar10.set(Calendar.MONTH, 2);
-        calendar10.set(Calendar.DAY_OF_MONTH, 10);
-        milliTime = calendar10.getTimeInMillis();
-        Event ev10 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-        binding.compactcalendarView.addEvent(ev10);
-
-        Calendar calendar11 = Calendar.getInstance();
-        calendar11.set(Calendar.YEAR, 2023);
-        calendar11.set(Calendar.MONTH, 2);
-        calendar11.set(Calendar.DAY_OF_MONTH, 11);
-        milliTime = calendar11.getTimeInMillis();
-        Event ev11 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-        binding.compactcalendarView.addEvent(ev11);
-
-        Calendar calendar12 = Calendar.getInstance();
-        calendar12.set(Calendar.YEAR, 2023);
-        calendar12.set(Calendar.MONTH, 2);
-        calendar12.set(Calendar.DAY_OF_MONTH, 12);
-        milliTime = calendar12.getTimeInMillis();
-        Event ev12 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-        binding.compactcalendarView.addEvent(ev12);
-
-        Calendar calendar13 = Calendar.getInstance();
-        calendar13.set(Calendar.YEAR, 2023);
-        calendar13.set(Calendar.MONTH, 2);
-        calendar13.set(Calendar.DAY_OF_MONTH, 13);
-        milliTime = calendar13.getTimeInMillis();
-        Event ev13 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-        binding.compactcalendarView.addEvent(ev13);
-
-        Calendar calendar14 = Calendar.getInstance();
-        calendar14.set(Calendar.YEAR, 2023);
-        calendar14.set(Calendar.MONTH, 2);
-        calendar14.set(Calendar.DAY_OF_MONTH, 14);
-        milliTime = calendar14.getTimeInMillis();
-        Event ev14 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-        binding.compactcalendarView.addEvent(ev14);
-
-        Calendar calendar15 = Calendar.getInstance();
-        calendar15.set(Calendar.YEAR, 2023);
-        calendar15.set(Calendar.MONTH, 2);
-        calendar15.set(Calendar.DAY_OF_MONTH, 15);
-        milliTime = calendar15.getTimeInMillis();
-        Event ev15 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-        binding.compactcalendarView.addEvent(ev15);
-
-        Calendar calendar16 = Calendar.getInstance();
-        calendar16.set(Calendar.YEAR, 2023);
-        calendar16.set(Calendar.MONTH, 2);
-        calendar16.set(Calendar.DAY_OF_MONTH, 16);
-        milliTime = calendar16.getTimeInMillis();
-        Event ev16 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-        binding.compactcalendarView.addEvent(ev16);
-
-        Calendar calendar17 = Calendar.getInstance();
-        calendar17.set(Calendar.YEAR, 2023);
-        calendar17.set(Calendar.MONTH, 2);
-        calendar17.set(Calendar.DAY_OF_MONTH, 17);
-        milliTime = calendar17.getTimeInMillis();
-        Event ev17 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-        binding.compactcalendarView.addEvent(ev17);
-
-        Calendar calendar24 = Calendar.getInstance();
-        calendar24.set(Calendar.YEAR, 2023);
-        calendar24.set(Calendar.MONTH, 2);
-        calendar24.set(Calendar.DAY_OF_MONTH, 24);
-        milliTime = calendar24.getTimeInMillis();
-        Event ev24 = new Event(getResources().getColor(R.color.calYellow), milliTime, "Teachers' Professional Day");
-        binding.compactcalendarView.addEvent(ev24);
-
-        Calendar calendar26 = Calendar.getInstance();
-        calendar26.set(Calendar.YEAR, 2023);
-        calendar26.set(Calendar.MONTH, 2);
-        calendar26.set(Calendar.DAY_OF_MONTH, 26);
-        milliTime = calendar26.getTimeInMillis();
-        Event ev26 = new Event(getResources().getColor(R.color.calBlue), milliTime, "Teachers' Professional Day");
-        binding.compactcalendarView.addEvent(ev26);
-
-
-        Calendar calendar30 = Calendar.getInstance();
-        calendar30.set(Calendar.YEAR, 2023);
-        calendar30.set(Calendar.MONTH, 2);
-        calendar30.set(Calendar.DAY_OF_MONTH, 30);
-        milliTime = calendar30.getTimeInMillis();
-        Event ev30 = new Event(getResources().getColor(R.color.txtOrange), milliTime, "Teachers' Professional Day");
-        binding.compactcalendarView.addEvent(ev30);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-//        Calendar calendar3 = Calendar.getInstance();
-//        calendar3.set(Calendar.YEAR, 2023);
-//        calendar3.set(Calendar.MONTH, 2);
-//        calendar3.set(Calendar.DAY_OF_MONTH, 3);
-//        milliTime = calendar3.getTimeInMillis();
-//        Event ev3 = new Event(getResources().getColor(R.color.calGreen), milliTime, "Teachers' Professional Day");
-//        binding.compactcalendarView.addEvent(ev3);
-
-
+        progressDialog.dismiss();
     }
 
     private void initDownload() {

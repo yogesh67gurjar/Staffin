@@ -11,7 +11,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.staffin.Adapter.AttendanceAdapter;
-import com.example.staffin.Response.Attendance;
 import com.example.staffin.Response.TodayAttendance;
 import com.example.staffin.databinding.FragmentPresentBinding;
 
@@ -32,6 +31,13 @@ public class Present extends Fragment {
         attendanceList = (List<TodayAttendance>) getArguments().getSerializable("present");
         binding.attendanceRv.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new AttendanceAdapter(getContext(), attendanceList);
+        if (attendanceList.size() > 0) {
+            binding.attendanceRv.setVisibility(View.VISIBLE);
+            binding.nothingFound.setVisibility(View.GONE);
+        } else {
+            binding.attendanceRv.setVisibility(View.GONE);
+            binding.nothingFound.setVisibility(View.VISIBLE);
+        }
         binding.attendanceRv.setAdapter(adapter);
 
         binding.searchBar.addTextChangedListener(new TextWatcher() {
@@ -52,7 +58,7 @@ public class Present extends Fragment {
     }
 
     void filter(String text) {
-        List<TodayAttendance> filteredList = new ArrayList();
+        List<TodayAttendance> filteredList = new ArrayList<>();
         for (TodayAttendance a : attendanceList) {
             if (a.getFullName().toLowerCase().contains(text.toLowerCase())) {
                 filteredList.add(a);
