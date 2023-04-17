@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="7dp"
+    android:id="@+id/mainConstraint"
     android:background="@drawable/bg_back_btn"
     android:padding="10dp">
 
@@ -40,6 +41,7 @@
         app:layout_constraintTop_toBottomOf="@+id/txtItemName" />
 
     <ImageButton
+        android:id="@+id/btnDownload"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="@drawable/bg_back_btn"
