@@ -7,7 +7,6 @@
     android:layout_margin="5dp"
     android:background="@color/white">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         style="@style/ScreenBackground"
         android:layout_width="match_parent"
@@ -35,10 +34,10 @@
 
         <TextView
             android:id="@+id/txtEmail"
-            android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="techcameron123@"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="normal"
             app:layout_constraintStart_toStartOf="@+id/nameTv"
@@ -76,33 +75,33 @@
             app:layout_constraintTop_toBottomOf="@+id/txtEmail">
 
             <LinearLayout
-                android:gravity="center"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="5dp"
+                android:gravity="center"
                 android:orientation="horizontal"
                 android:weightSum="2">
 
                 <TextView
-                    android:gravity="start"
                     android:id="@+id/dobTv"
-                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:gravity="start"
                     android:text="Dath of birth - 30/05/1995"
+                    android:textColor="@color/black"
                     android:textSize="12sp"
                     android:textStyle="normal" />
 
                 <TextView
-                    android:gravity="end"
                     android:id="@+id/empIdTv"
-                    android:textColor="@color/black"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:gravity="end"
                     android:text="Emp. ID - TPIT000148"
+                    android:textColor="@color/black"
                     android:textSize="12sp"
                     android:textStyle="normal" />
             </LinearLayout>
@@ -110,7 +109,6 @@
 
         <TextView
             android:id="@+id/txtPunchIn"
-            android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -120,6 +118,7 @@
             android:paddingHorizontal="15dp"
             android:paddingVertical="10dp"
             android:text="Punch in"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toStartOf="@+id/tctPunchOut"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -127,7 +126,6 @@
 
         <TextView
             android:id="@+id/tctPunchOut"
-            android:textColor="@color/black"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
@@ -137,6 +135,7 @@
             android:paddingHorizontal="15dp"
             android:paddingVertical="10dp"
             android:text="Punch out"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/txtPunchIn"
@@ -161,8 +160,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:gravity="center"
-                android:textColor="@color/white"
                 android:textAlignment="center"
+                android:textColor="@color/white"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -172,12 +171,20 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/userImage_att"
+
+    <androidx.cardview.widget.CardView
         android:layout_width="72dp"
         android:layout_height="72dp"
         android:layout_marginStart="20dp"
-        android:src="@drawable/image_employee"
+        app:cardCornerRadius="12dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:id="@+id/userImage_att"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:src="@drawable/image_employee" />
+    </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -58,8 +58,14 @@ public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull LeaveAdapter.MyViewHolder holder, int position) {
-//        Animation animationLeft = AnimationUtils.loadAnimation(holder.card2.getContext(), android.R.anim.slide_in_left);
-
+        Animation animationLeft = AnimationUtils.loadAnimation(holder.leaveCard.getContext(), android.R.anim.slide_in_left);
+        holder.leaveCard.startAnimation(animationLeft);
+        holder.userDp.startAnimation(animationLeft);
+        holder.txtStartEmpId.startAnimation(animationLeft);
+        holder.txtPending.startAnimation(animationLeft);
+        holder.txtEmpId.startAnimation(animationLeft);
+        holder.txtStartReason.startAnimation(animationLeft);
+        holder.txtReason.startAnimation(animationLeft);
 
         EmployeeLeaveResult singleUnit = leaveResultList.get(position);
         holder.txtEmpId.setText(singleUnit.getEmployeeId().toString());
@@ -127,7 +133,7 @@ public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.MyViewHolder
                 if (response.isSuccessful()) {
                     if (status.equalsIgnoreCase("approved") && response.body().getEmployeeResult().getApplicationStatus().equalsIgnoreCase("approved")) {
                         Toast.makeText(context, "Leave Application Accepted", Toast.LENGTH_SHORT).show();
-                    } else if(status.equalsIgnoreCase("rejected") && response.body().getEmployeeResult().getApplicationStatus().equalsIgnoreCase("rejected")) {
+                    } else if (status.equalsIgnoreCase("rejected") && response.body().getEmployeeResult().getApplicationStatus().equalsIgnoreCase("rejected")) {
                         Toast.makeText(context, "Leave Application Rejected", Toast.LENGTH_SHORT).show();
                     }
                     progress.dismiss();
@@ -157,7 +163,7 @@ public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.MyViewHolder
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout leaveCard;
-        TextView txtEmpId, txtReason;
+        TextView txtEmpId, txtReason, txtStartEmpId, txtStartReason, txtPending;
         ImageView userDp;
 
         public MyViewHolder(@NonNull View itemView) {
@@ -166,6 +172,10 @@ public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.MyViewHolder
             txtEmpId = itemView.findViewById(R.id.txtempId);
             txtReason = itemView.findViewById(R.id.txtReason);
             userDp = itemView.findViewById(R.id.imgUser);
+            txtStartEmpId = itemView.findViewById(R.id.textView2);
+            txtStartReason = itemView.findViewById(R.id.txtStartDate);
+            txtPending = itemView.findViewById(R.id.pending);
+
         }
     }
 }
