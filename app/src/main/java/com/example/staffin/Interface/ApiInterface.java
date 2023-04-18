@@ -42,7 +42,6 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ApiInterface {
-
     @FormUrlEncoded
     @POST("add-manager")
     Call<SignupResponse> postSignupResponse(@Field("name") String name,
@@ -235,9 +234,10 @@ public interface ApiInterface {
     @GET("get-event-details/{year}")
     Call<EventsByYearResponse> getEventsByYear(@Path("year") int year);
 
+
     @Multipart
     @POST("add-event")
-    Call<AddEventResponse> addEventFunc(
+    Call<LoginResponse> addEventFunc(
             @Part MultipartBody.Part image,
             @Part MultipartBody.Part image1,
             @Part MultipartBody.Part image2,
@@ -246,9 +246,16 @@ public interface ApiInterface {
             @Part("location") RequestBody location,
             @Part("description") RequestBody description,
             @Part("date") RequestBody date,
-            @Field("add_member[]") List<Integer> add_member
+            @Part("add_member") RequestBody add_member
     );
 
+    @FormUrlEncoded
+    @POST("update-attendance")
+    Call<LoginResponse> updateAttendanceById(@Field("employeeID") int employeeID,
+                                             @Field("date") String date,
+                                             @Field("status") String status,
+                                             @Field("leaveType") String leaveType,
+                                             @Field("overtime") String overtime);
 }
 
 

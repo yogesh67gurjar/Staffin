@@ -1,18 +1,29 @@
 package com.example.staffin.Fragment;
 
+import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.example.staffin.InsideAttendanceActivity;
+import com.example.staffin.Interface.ApiInterface;
 import com.example.staffin.R;
+import com.example.staffin.Response.LoginResponse;
+import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.FragmentPresentBottomSheetBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.Calendar;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.http.Field;
 
 
 public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
@@ -25,14 +36,21 @@ public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
     boolean paidLeave;
     boolean sickLeave;
     boolean unpaidLeave;
+    ApiInterface apiInterface;
+    String date;
+    String color;
+    int monthNo;
+    int Id;
+    ProgressDialog progressDialog;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = FragmentPresentBottomSheetBinding.inflate(inflater, container, false);
         present = absent = doublePresent = halfDay = paidLeave = sickLeave = unpaidLeave = false;
-
-
+        apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
+        progressDialog = new ProgressDialog(getActivity());
+        progressDialog.setMessage("please wait...");
         binding.txtPresent.setOnClickListener(v -> {
             presentFunc();
         });
@@ -144,8 +162,10 @@ public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
         });
 
 
-        String date = this.getArguments().getString("Date");
-        String color = this.getArguments().getString("color");
+        date = this.getArguments().getString("Date");
+        color = this.getArguments().getString("color");
+        monthNo = this.getArguments().getInt("monthNumber");
+        Id = this.getArguments().getInt("Id");
         switch (color) {
             case "green":
             case "blue":
@@ -192,8 +212,50 @@ public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
             public void onClick(View v) {
                 if (present || absent || doublePresent || halfDay || paidLeave || unpaidLeave || sickLeave) {
                     getActivity().finish();
-                    Toast.makeText(getActivity(), "Changes Saved", Toast.LENGTH_SHORT).show();
-                    PresentBottomSheetFragment.this.dismiss();
+
+                    String status = "";
+                    String leaveType = "";
+                    if (present) {
+                        status = "present";
+                    } else if (absent) {
+                        status = "absent";
+                    } else if (doublePresent) {
+                        status = "double_present";
+                    } else if (halfDay) {
+                        status = "halfday";
+                    }
+                    if (paidLeave) {
+                        leaveType = "paid_leave";
+                    } else if (unpaidLeave) {
+                        leaveType = "unpaid_leave";
+                    } else if (sickLeave) {
+                        leaveType = "sick_leave";
+                    }
+
+                    progressDialog.show();
+                    Call<LoginResponse> calUpdateAttendanceById = apiInterface.updateAttendanceById(Id, date.split("-")[2] + "-" + monthNo + "-" + date.split("-")[0], status, leaveType, binding.txtOverTime.getText().toString());
+                    calUpdateAttendanceById.enqueue(new Callback<LoginResponse>() {
+                        @Override
+                        public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                            if (response.isSuccessful()) {
+                                progressDialog.dismiss();
+                                Toast.makeText(getActivity(), "Changes saved successfully", Toast.LENGTH_SHORT).show();
+                                PresentBottomSheetFragment.this.dismiss();
+                            } else {
+                                Log.d("kfndkfjn", response.message());
+                                progressDialog.dismiss();
+                                Toast.makeText(getActivity(), "some error orrured", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<LoginResponse> call, Throwable t) {
+                            Log.d("gfdfgsd", t.getMessage());
+                            progressDialog.dismiss();
+                            Toast.makeText(getActivity(), "failure", Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                 } else {
                     Toast.makeText(getContext(), "Please Select Any Status Of Attendance", Toast.LENGTH_SHORT).show();
                 }

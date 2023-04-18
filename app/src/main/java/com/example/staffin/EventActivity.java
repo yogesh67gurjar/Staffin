@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -18,6 +20,9 @@ import com.example.staffin.Response.EventResponse;
 import com.example.staffin.Response.EventsByYearResponse;
 import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.ActivityEventBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -39,9 +44,9 @@ public class EventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityEventBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        clickListeners();
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
-
+        progress = new ProgressDialog(EventActivity.this);
+        progress.setMessage("Please Wait....");
         if (isNetworkAvailable()) {
             progress.show();
             Call<EventsByYearResponse> callGetEventsByYear = apiInterface.getEventsByYear(2023);
@@ -53,6 +58,8 @@ public class EventActivity extends AppCompatActivity {
                         eventDetails = response.body().getEventDetails();
                         adapter = new MonthAdapter(EventActivity.this, eventDetails);
                         binding.EventMonthRv.setAdapter(adapter);
+                        clickListeners();
+
 
                     } else {
                         Toast.makeText(EventActivity.this, "Find Some Error", Toast.LENGTH_SHORT).show();
@@ -88,8 +95,7 @@ public class EventActivity extends AppCompatActivity {
     private void clickListeners() {
 
 
-        progress = new ProgressDialog(EventActivity.this);
-        progress.setMessage("Please Wait....");
+
 
         binding.EventMonthRv.setLayoutManager(new LinearLayoutManager(this));
 
@@ -113,9 +119,8 @@ public class EventActivity extends AppCompatActivity {
 //            }
 //        });
 
-
-//        adapter = new MonthAdapter(monthsList, EventActivity.this);
-//        binding.EventMonthRv.setAdapter(adapter);
+        adapter = new MonthAdapter(EventActivity.this,eventDetails);
+        binding.EventMonthRv.setAdapter(adapter);
 
         binding.btnCalendar.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), CalendarSettingActivity.class));
@@ -125,18 +130,56 @@ public class EventActivity extends AppCompatActivity {
             finish();
         });
     }
-
-//    void filter(String text) {
-//        List<AllEvents> myMonths = new ArrayList<>();
 //
-//        for (AllEvents a : allEventsList) {
-//            if (a.getTitleName().toLowerCase().contains(text.toLowerCase())) {
-//                myMonths.add(a);
+//    void filterJan(String text) {
+//        List<EventsByYearResponse.EventDetails.January>jan=eventDetails.getJanuary();
+//        List<EventsByYearResponse.EventDetails.February> februaryList=eventDetails.getFebruary();
+//        List<EventsByYearResponse.EventDetails.March> marchList = eventDetails.getMarch();
+//        List<EventsByYearResponse.EventDetails.April> aprilList = eventDetails.getApril();
+//        List<EventsByYearResponse.EventDetails.May> mayList = eventDetails.getMay();
+//        List<EventsByYearResponse.EventDetails.June> juneList = eventDetails.getJune();
+//        List<EventsByYearResponse.EventDetails.July> julyList = eventDetails.getJuly();
+//        List<EventsByYearResponse.EventDetails.August> augustList = eventDetails.getAugust();
+//        List<EventsByYearResponse.EventDetails.September> septemberList =eventDetails.getSeptember();
+//        List<EventsByYearResponse.EventDetails.October> octoberList = eventDetails.getOctober();
+//        List<EventsByYearResponse.EventDetails.November> novemberList = eventDetails.getNovember();
+//        List<EventsByYearResponse.EventDetails.December> decemberList = eventDetails.getDecember();
+//        List<EventsByYearResponse.EventDetails.January> jantemp=new ArrayList<>();
+//        for(EventsByYearResponse.EventDetails.January j:eventDetails.getJanuary())
+//        {
+//            if (j.getTitleName().toLowerCase().contains(text.toLowerCase())) {
+//                jantemp.add(j);
 //            }
 //        }
+//
 //        //update recyclerview
-//        adapter.filterList(myMonths);
+//        adapter.filterList(jantemp);
 //    }
+//    void filterFeb(String text) {
+//        List<EventsByYearResponse.EventDetails.January>jan=eventDetails.getJanuary();
+//        List<EventsByYearResponse.EventDetails.February> februaryList=eventDetails.getFebruary();
+//        List<EventsByYearResponse.EventDetails.March> marchList = eventDetails.getMarch();
+//        List<EventsByYearResponse.EventDetails.April> aprilList = eventDetails.getApril();
+//        List<EventsByYearResponse.EventDetails.May> mayList = eventDetails.getMay();
+//        List<EventsByYearResponse.EventDetails.June> juneList = eventDetails.getJune();
+//        List<EventsByYearResponse.EventDetails.July> julyList = eventDetails.getJuly();
+//        List<EventsByYearResponse.EventDetails.August> augustList = eventDetails.getAugust();
+//        List<EventsByYearResponse.EventDetails.September> septemberList =eventDetails.getSeptember();
+//        List<EventsByYearResponse.EventDetails.October> octoberList = eventDetails.getOctober();
+//        List<EventsByYearResponse.EventDetails.November> novemberList = eventDetails.getNovember();
+//        List<EventsByYearResponse.EventDetails.December> decemberList = eventDetails.getDecember();
+//        List<EventsByYearResponse.EventDetails.January> jantemp=new ArrayList<>();
+//        for(EventsByYearResponse.EventDetails.January j:eventDetails.getJanuary())
+//        {
+//            if (j.getTitleName().toLowerCase().contains(text.toLowerCase())) {
+//                jantemp.add(j);
+//            }
+//        }
+//
+//        //update recyclerview
+//        adapter.filterList(jantemp);
+//    }
+
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager

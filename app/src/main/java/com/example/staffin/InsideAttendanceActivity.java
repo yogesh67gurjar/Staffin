@@ -409,10 +409,12 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                         bundle.putString("color", "black");
                     }
                 }
+                bundle.putInt("monthNumber", month);
                 bundle.putString("Date", day + "-" + monthName + "-" + year);
                 bundle.putInt("tareekh", day);
                 bundle.putString("mahina", monthName);
                 bundle.putInt("saal", year);
+                bundle.putInt("Id",Id);
 
 
                 PresentBottomSheetFragment presentBottomSheetFragment = new PresentBottomSheetFragment();

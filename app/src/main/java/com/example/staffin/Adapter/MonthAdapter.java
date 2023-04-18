@@ -102,10 +102,10 @@ public class MonthAdapter extends RecyclerView.Adapter<MonthAdapter.MyViewHolder
 
     }
 
-    public void filterList(List<AllEvents> filterlist) {
-//        allEvents = filterlist;
-        notifyDataSetChanged();
-    }
+//    public void filterList(List<EventsByYearResponse.EventDetails.January> filterlist) {
+//        januaries = filterlist;
+//        notifyDataSetChanged();
+//    }
 
     @NonNull
     @Override
