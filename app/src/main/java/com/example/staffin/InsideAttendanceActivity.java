@@ -414,7 +414,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                 bundle.putInt("tareekh", day);
                 bundle.putString("mahina", monthName);
                 bundle.putInt("saal", year);
-                bundle.putInt("Id",Id);
+                bundle.putInt("Id", Id);
 
 
                 PresentBottomSheetFragment presentBottomSheetFragment = new PresentBottomSheetFragment();

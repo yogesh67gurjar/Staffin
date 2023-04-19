@@ -1,5 +1,6 @@
 package com.example.staffin.Fragment;
 
+import android.app.Application;
 import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.os.Bundle;
@@ -7,8 +8,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ProgressBar;
 import android.widget.Toast;
+
 
 import com.example.staffin.InsideAttendanceActivity;
 import com.example.staffin.Interface.ApiInterface;
@@ -23,7 +24,6 @@ import java.util.Calendar;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Field;
 
 
 public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
@@ -49,7 +49,7 @@ public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
         binding = FragmentPresentBottomSheetBinding.inflate(inflater, container, false);
         present = absent = doublePresent = halfDay = paidLeave = sickLeave = unpaidLeave = false;
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
-        progressDialog = new ProgressDialog(getActivity());
+        progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("please wait...");
         binding.txtPresent.setOnClickListener(v -> {
             presentFunc();
@@ -211,8 +211,6 @@ public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
             @Override
             public void onClick(View v) {
                 if (present || absent || doublePresent || halfDay || paidLeave || unpaidLeave || sickLeave) {
-                    getActivity().finish();
-
                     String status = "";
                     String leaveType = "";
                     if (present) {
@@ -232,27 +230,34 @@ public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
                         leaveType = "sick_leave";
                     }
 
-                    progressDialog.show();
                     Call<LoginResponse> calUpdateAttendanceById = apiInterface.updateAttendanceById(Id, date.split("-")[2] + "-" + monthNo + "-" + date.split("-")[0], status, leaveType, binding.txtOverTime.getText().toString());
+
                     calUpdateAttendanceById.enqueue(new Callback<LoginResponse>() {
                         @Override
                         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                             if (response.isSuccessful()) {
-                                progressDialog.dismiss();
+
+                                Log.d("API", response.message());
                                 Toast.makeText(getActivity(), "Changes saved successfully", Toast.LENGTH_SHORT).show();
                                 PresentBottomSheetFragment.this.dismiss();
+                                getActivity().finish();
+
                             } else {
-                                Log.d("kfndkfjn", response.message());
-                                progressDialog.dismiss();
-                                Toast.makeText(getActivity(), "some error orrured", Toast.LENGTH_SHORT).show();
+                                Log.d("APIkfndkfjn", response.message());
+
+                                Toast.makeText(getActivity(), "unable to change status", Toast.LENGTH_SHORT).show();
+                                getActivity().finish();
+
                             }
                         }
 
                         @Override
                         public void onFailure(Call<LoginResponse> call, Throwable t) {
-                            Log.d("gfdfgsd", t.getMessage());
-                            progressDialog.dismiss();
+                            Log.d("APIFaIL", t.getMessage());
+
                             Toast.makeText(getActivity(), "failure", Toast.LENGTH_SHORT).show();
+                            getActivity().finish();
+
                         }
                     });
 
