@@ -51,6 +51,7 @@ public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("please wait...");
+        progressDialog.setCancelable(false);
         binding.txtPresent.setOnClickListener(v -> {
             presentFunc();
         });
@@ -231,12 +232,12 @@ public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
                     }
 
                     Call<LoginResponse> calUpdateAttendanceById = apiInterface.updateAttendanceById(Id, date.split("-")[2] + "-" + monthNo + "-" + date.split("-")[0], status, leaveType, binding.txtOverTime.getText().toString());
-
+                    progressDialog.show();
                     calUpdateAttendanceById.enqueue(new Callback<LoginResponse>() {
                         @Override
                         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                             if (response.isSuccessful()) {
-
+                                progressDialog.dismiss();
                                 Log.d("API", response.message());
                                 Toast.makeText(getActivity(), "Changes saved successfully", Toast.LENGTH_SHORT).show();
                                 PresentBottomSheetFragment.this.dismiss();
@@ -244,7 +245,7 @@ public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
 
                             } else {
                                 Log.d("APIkfndkfjn", response.message());
-
+                                progressDialog.dismiss();
                                 Toast.makeText(getActivity(), "unable to change status", Toast.LENGTH_SHORT).show();
                                 getActivity().finish();
 
@@ -254,7 +255,7 @@ public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
                         @Override
                         public void onFailure(Call<LoginResponse> call, Throwable t) {
                             Log.d("APIFaIL", t.getMessage());
-
+                            progressDialog.dismiss();
                             Toast.makeText(getActivity(), "failure", Toast.LENGTH_SHORT).show();
                             getActivity().finish();
 

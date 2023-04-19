@@ -45,12 +45,12 @@
         app:layout_constraintTop_toTopOf="@+id/textView" />
 
     <ScrollView
-        android:orientation="vertical"
         android:id="@+id/scroll"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
         android:fillViewport="true"
+        android:orientation="vertical"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -151,18 +151,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/compactcalendar_view" />
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/holidayRecyclerView"
+            <FrameLayout
+                android:id="@+id/container"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginBottom="80dp"
-                android:nestedScrollingEnabled="false"
-                android:paddingHorizontal="15dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tv1"
-                tools:listitem="@layout/holiday_layout"/>
+                app:layout_constraintTop_toBottomOf="@id/tv1" />
+
             <TextView
                 android:id="@+id/not_found_layout"
                 android:layout_width="match_parent"

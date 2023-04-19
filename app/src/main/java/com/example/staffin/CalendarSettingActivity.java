@@ -16,12 +16,17 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.example.staffin.Adapter.HolidayAdapter;
 import com.example.staffin.Interface.ApiInterface;
 import com.example.staffin.Response.AllHolidays;
+import com.example.staffin.Response.CreatedHolidayResp;
 import com.example.staffin.Response.HolidayResponse;
+import com.example.staffin.Response.NationalCreatedMix;
+import com.example.staffin.Response.LoginResponse;
+import com.example.staffin.Response.NationalHolidayResp;
 import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.ActivityCalendarSettingBinding;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -31,56 +36,206 @@ import java.util.TimeZone;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Field;
+import retrofit2.http.FormUrlEncoded;
+import retrofit2.http.POST;
 
 public class CalendarSettingActivity extends AppCompatActivity {
     ActivityCalendarSettingBinding binding;
     static String from = "";
     ApiInterface apiInterface;
-
+    private static final String TAG = "CalendarSettingActivity";
+    ProgressDialog progressDialog;
+    List<NationalCreatedMix> nationalCreatedMixList;
+    List<NationalCreatedMix> nationalCreatedMixListMonthly;
+    List<NationalHolidayResp.Response.Holiday> nationalHolidaysYearly;
+    List<CreatedHolidayResp.Holiday> createdHolidays;
+    List<NationalHolidayResp.Response.Holiday> nationalHolidaysMonthly;
+    String[] dateInParts;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCalendarSettingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        nationalCreatedMixList = new ArrayList<>();
+        nationalHolidaysYearly = new ArrayList<>();
+        createdHolidays = new ArrayList<>();
+        nationalHolidaysMonthly = new ArrayList<>();
+        nationalCreatedMixListMonthly = new ArrayList<>();
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
+        progressDialog = new ProgressDialog(CalendarSettingActivity.this);
+        progressDialog.setMessage("please wait");
+        progressDialog.setCancelable(false);
         clickListeners();
-        monthSetByDefault();
 
         if (isNetworkAvailable()) {
-            ProgressDialog dialog = new ProgressDialog(CalendarSettingActivity.this);
-            dialog.setMessage("please wait.......");
-            dialog.show();
+            monthSetByDefault();
 
-            Call<HolidayResponse> callGetAllHolidays = apiInterface.getAllHolidays();
-            callGetAllHolidays.enqueue(new Callback<HolidayResponse>() {
+
+            binding.rightScroll.setOnClickListener(v -> {
+                binding.compactcalendarView.scrollRight();
+            });
+            binding.leftScroll.setOnClickListener(v -> {
+                binding.compactcalendarView.scrollLeft();
+            });
+
+            binding.compactcalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
                 @Override
-                public void onResponse(Call<HolidayResponse> call, Response<HolidayResponse> response) {
-                    if (response.isSuccessful()) {
-                        binding.holidayRecyclerView.setVisibility(View.VISIBLE);
-                        binding.notFoundLayout.setVisibility(View.INVISIBLE);
-                        HolidayResponse holidaysResp = response.body();
-                        List<AllHolidays> holidays = holidaysResp.getHoliday_list();
+                public void onDayClick(Date dateClicked) {
 
-                        binding.holidayRecyclerView.setLayoutManager(new LinearLayoutManager(CalendarSettingActivity.this));
-                        binding.holidayRecyclerView.setAdapter(new HolidayAdapter(CalendarSettingActivity.this, holidays));
-                        initializeCalendar(holidays);
-                        dialog.dismiss();
+                }
+
+                @Override
+                public void onMonthScroll(Date firstDayOfNewMonth) {
+                    Calendar cal = Calendar.getInstance();
+                    cal.setTime(firstDayOfNewMonth);
+                    int year = cal.get(Calendar.YEAR);
+                    int month = cal.get(Calendar.MONTH);
+//                int day = cal.get(Calendar.DATE);
+//                apiCallNationalAndCreatedHoliday(year);
+//                apiCallNationalAndCreatedHolidayMonthly(year, month);
+
+                    month += 1;
+                    Log.d("CLICKED", "Month was scrolled to: " + month);
+                    switch (month) {
+                        case 1:
+                            binding.monthTv.setText("January  " + year);
+                            break;
+                        case 2:
+                            binding.monthTv.setText("February  " + year);
+                            break;
+                        case 3:
+                            binding.monthTv.setText("March  " + year);
+                            break;
+                        case 4:
+                            binding.monthTv.setText("April  " + year);
+                            break;
+                        case 5:
+                            binding.monthTv.setText("May  " + year);
+                            break;
+                        case 6:
+                            binding.monthTv.setText("June  " + year);
+                            break;
+                        case 7:
+                            binding.monthTv.setText("July  " + year);
+                            break;
+                        case 8:
+                            binding.monthTv.setText("August  " + year);
+                            break;
+                        case 9:
+                            binding.monthTv.setText("September  " + year);
+                            break;
+                        case 10:
+                            binding.monthTv.setText("October  " + year);
+                            break;
+                        case 11:
+                            binding.monthTv.setText("November  " + year);
+                            break;
+                        case 12:
+                            binding.monthTv.setText("December  " + year);
+                            break;
+                    }
+                }
+
+            });
+        } else {
+            Toast.makeText(this, "Internet Not Available", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private void apiCallNationalAndCreatedHoliday(int year, int month) {
+        if (isNetworkAvailable()) {
+            progressDialog.show();
+
+            Call<NationalHolidayResp> callGetNationalHoliday = apiInterface.getNationalHoliday("my", year);
+            callGetNationalHoliday.enqueue(new Callback<NationalHolidayResp>() {
+                @Override
+                public void onResponse(Call<NationalHolidayResp> call, Response<NationalHolidayResp> response) {
+                    if (response.isSuccessful()) {
+                        nationalHolidaysYearly = response.body().getResponse().getHolidays();
+
+                        Call<CreatedHolidayResp> callGetCreatedHolidays = apiInterface.getCreatedHolidays();
+                        callGetCreatedHolidays.enqueue(new Callback<CreatedHolidayResp>() {
+                            @Override
+                            public void onResponse(Call<CreatedHolidayResp> call, Response<CreatedHolidayResp> response) {
+                                if (response.isSuccessful()) {
+                                    createdHolidays = response.body().getHolidayList();
+
+                                    Call<NationalHolidayResp> callGetNationalHolidayMonthly = apiInterface.getNationalHolidayMonthly("my", month, year);
+                                    callGetNationalHolidayMonthly.enqueue(new Callback<NationalHolidayResp>() {
+                                        @Override
+                                        public void onResponse(Call<NationalHolidayResp> call, Response<NationalHolidayResp> response) {
+                                            if (response.isSuccessful()) {
+                                                nationalHolidaysMonthly = response.body().getResponse().getHolidays();
+
+                                                for (NationalHolidayResp.Response.Holiday N : nationalHolidaysYearly) {
+                                                    nationalCreatedMixList.add(new NationalCreatedMix(N.getName(), N.getDate().getIso(), N.getDescription(), "national"));
+                                                }
+                                                for (CreatedHolidayResp.Holiday C : createdHolidays) {
+                                                    nationalCreatedMixList.add(new NationalCreatedMix(C.getOccassion(), C.getDate(), C.getHolidayDescription(), "created"));
+                                                }
+                                                for (NationalCreatedMix m : nationalCreatedMixList) {
+                                                    Log.d(TAG, "nationalCreatedMix: " + String.valueOf(m.getName()) + m.getDate());
+                                                }
+
+                                                for (CreatedHolidayResp.Holiday cc : createdHolidays) {
+                                                    nationalCreatedMixListMonthly.add(new NationalCreatedMix(cc.getOccassion(), cc.getDate(), cc.getHolidayDescription(), "created"));
+                                                }
+
+                                                for (NationalHolidayResp.Response.Holiday hh : nationalHolidaysMonthly) {
+                                                    nationalCreatedMixListMonthly.add(new NationalCreatedMix(hh.getName(), hh.getDate().getIso(), hh.getDescription(), "national"));
+                                                }
+
+                                                for (NationalCreatedMix mm : nationalCreatedMixListMonthly) {
+                                                    Log.d(TAG, "nationalCreatedMixMonthly" + mm.getName() + " " + mm.getDate());
+                                                }
+                                                progressDialog.dismiss();
+                                                initializeCalendar(nationalCreatedMixList);
+
+                                            } else {
+                                                progressDialog.dismiss();
+                                                Toast.makeText(CalendarSettingActivity.this, "Error Occured", Toast.LENGTH_SHORT).show();
+                                                Log.d(TAG, "onResponseElse11: " + response.message());
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<NationalHolidayResp> call, Throwable t) {
+                                            progressDialog.dismiss();
+
+                                            Log.d(TAG, "onFaidfsdfsdfsdflure: " + t.getMessage() + t.getCause().toString());
+                                            Toast.makeText(CalendarSettingActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                                } else {
+                                    progressDialog.dismiss();
+                                    Toast.makeText(CalendarSettingActivity.this, "Error Occured", Toast.LENGTH_SHORT).show();
+                                    Log.d(TAG, "onResponseElsdfsdfsdfse11: " + response.message());
+                                }
+
+                            }
+
+                            @Override
+                            public void onFailure(Call<CreatedHolidayResp> call, Throwable t) {
+                                progressDialog.dismiss();
+                                Log.d(TAG, "onFaifsdfsfsdfsdfaflure11: " + t.getMessage());
+                                Toast.makeText(CalendarSettingActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+                            }
+                        });
                     } else {
-                        dialog.dismiss();
-                        Log.d("kfndkfjn", response.message());
-                        binding.holidayRecyclerView.setVisibility(View.INVISIBLE);
-                        binding.notFoundLayout.setVisibility(View.VISIBLE);
-                        Toast.makeText(CalendarSettingActivity.this, "unable to get information", Toast.LENGTH_SHORT).show();
+                        progressDialog.dismiss();
+                        Toast.makeText(CalendarSettingActivity.this, "Error Occured", Toast.LENGTH_SHORT).show();
+                        Log.d(TAG, "onResponseElse11: " + response.message());
                     }
                 }
 
                 @Override
-                public void onFailure(Call<HolidayResponse> call, Throwable t) {
-                    Log.d("kfndkfjn", t.getMessage());
-                    dialog.dismiss();
-                    binding.holidayRecyclerView.setVisibility(View.INVISIBLE);
-                    binding.notFoundLayout.setVisibility(View.VISIBLE);
-                    Toast.makeText(CalendarSettingActivity.this, "some failure orrured", Toast.LENGTH_SHORT).show();
+                public void onFailure(Call<NationalHolidayResp> call, Throwable t) {
+                    progressDialog.dismiss();
+
+                    Log.d(TAG, "onFaidfsdfsdfsdflure: " + t.getMessage());
+                    Toast.makeText(CalendarSettingActivity.this, "Failure", Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
@@ -95,7 +250,12 @@ public class CalendarSettingActivity extends AppCompatActivity {
         int month = cal.get(Calendar.MONTH);
 //                int day = cal.get(Calendar.DATE);
         month += 1;
+
         int year = cal.get(Calendar.YEAR);
+
+        apiCallNationalAndCreatedHoliday(year, month);
+
+
         switch (month) {
             case 1:
                 binding.monthTv.setText("January  " + year);
@@ -136,19 +296,14 @@ public class CalendarSettingActivity extends AppCompatActivity {
         }
     }
 
+
     private void clickListeners() {
-        binding.rightScroll.setOnClickListener(v -> {
-            binding.compactcalendarView.scrollRight();
-        });
-        binding.leftScroll.setOnClickListener(v -> {
-            binding.compactcalendarView.scrollLeft();
-        });
+
         binding.loginBtn.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), HolidayActivity.class));
         });
 
         binding.btnBack.setOnClickListener(v -> {
-
             if (from.equalsIgnoreCase("mainactivity")) {
 //                startActivity(new Intent(getApplicationContext(), MainActivity.class));
                 from = "";
@@ -157,88 +312,37 @@ public class CalendarSettingActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-        binding.compactcalendarView.setListener(new CompactCalendarView.CompactCalendarViewListener() {
-            @Override
-            public void onDayClick(Date dateClicked) {
-
-            }
-
-            @Override
-            public void onMonthScroll(Date firstDayOfNewMonth) {
-                Calendar cal = Calendar.getInstance();
-                cal.setTime(firstDayOfNewMonth);
-                int year = cal.get(Calendar.YEAR);
-                int month = cal.get(Calendar.MONTH);
-//                int day = cal.get(Calendar.DATE);
-                month += 1;
-                Log.d("CLICKED", "Month was scrolled to: " + month);
-                switch (month) {
-                    case 1:
-                        binding.monthTv.setText("January  " + year);
-                        break;
-                    case 2:
-                        binding.monthTv.setText("February  " + year);
-                        break;
-                    case 3:
-                        binding.monthTv.setText("March  " + year);
-                        break;
-                    case 4:
-                        binding.monthTv.setText("April  " + year);
-                        break;
-                    case 5:
-                        binding.monthTv.setText("May  " + year);
-                        break;
-                    case 6:
-                        binding.monthTv.setText("June  " + year);
-                        break;
-                    case 7:
-                        binding.monthTv.setText("July  " + year);
-                        break;
-                    case 8:
-                        binding.monthTv.setText("August  " + year);
-                        break;
-                    case 9:
-                        binding.monthTv.setText("September  " + year);
-                        break;
-                    case 10:
-                        binding.monthTv.setText("October  " + year);
-                        break;
-                    case 11:
-                        binding.monthTv.setText("November  " + year);
-                        break;
-                    case 12:
-                        binding.monthTv.setText("December  " + year);
-                        break;
-                }
-            }
-
-        });
     }
 
-    private void initializeCalendar(List<AllHolidays> allHolidays) {
+    private void initializeCalendar(List<NationalCreatedMix> allHolidays) {
         CompactCalendarView compactCalendarView = findViewById(R.id.compactcalendar_view);
         compactCalendarView.setLocale(TimeZone.getDefault(), Locale.ENGLISH);
         compactCalendarView.setUseThreeLetterAbbreviation(true);
         int count = 0;
         long milliTime;
 
-        for (AllHolidays singleUnit : allHolidays) {
-            String[] dateInParts = singleUnit.getDate().split("-");
+        for (NationalCreatedMix singleUnit : allHolidays) {
+            Log.d("dsfsdfsdf", singleUnit.getDate());
+            Event e;
+            if (singleUnit.getDate().contains("T")) {
+                dateInParts = singleUnit.getDate().split("T")[0].split("-");
+            } else {
+                 dateInParts = singleUnit.getDate().split("-");
+            }
+
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.YEAR, Integer.parseInt(dateInParts[0]));
             calendar.set(Calendar.MONTH, Integer.parseInt(dateInParts[1]) - 1);
             calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateInParts[2]));
             milliTime = calendar.getTimeInMillis();
-            Event e;
             if (count % 3 == 0) {
-                e = new Event(getResources().getColor(R.color.mainColor), milliTime, singleUnit.getHoliday_description());
+                e = new Event(getResources().getColor(R.color.mainColor), milliTime, singleUnit.getDesc());
             } else if (count % 5 == 0) {
-                e = new Event(getResources().getColor(R.color.yellow), milliTime, singleUnit.getHoliday_description());
+                e = new Event(getResources().getColor(R.color.yellow), milliTime, singleUnit.getDesc());
             } else if (count % 2 == 0) {
-                e = new Event(getResources().getColor(R.color.pink), milliTime, singleUnit.getHoliday_description());
+                e = new Event(getResources().getColor(R.color.pink), milliTime, singleUnit.getDesc());
             } else {
-                e = new Event(getResources().getColor(R.color.green), milliTime, singleUnit.getHoliday_description());
+                e = new Event(getResources().getColor(R.color.green), milliTime, singleUnit.getDesc());
             }
             count++;
             binding.compactcalendarView.addEvent(e);

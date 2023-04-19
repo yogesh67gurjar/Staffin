@@ -12,6 +12,7 @@ import com.example.staffin.Response.BankDetailsResponse;
 import com.example.staffin.Response.BankDetailsResponseById;
 import com.example.staffin.Response.CompanyDetailsResponse;
 import com.example.staffin.Response.CompanyResponseById;
+import com.example.staffin.Response.CreatedHolidayResp;
 import com.example.staffin.Response.DailyAttendance;
 import com.example.staffin.Response.DepartmentResponse;
 import com.example.staffin.Response.DesignationResponse;
@@ -22,6 +23,7 @@ import com.example.staffin.Response.HolidayResponse;
 import com.example.staffin.Response.LeaveAcceptRejectResponse;
 import com.example.staffin.Response.LeaveResponse;
 import com.example.staffin.Response.LoginResponse;
+import com.example.staffin.Response.NationalHolidayResp;
 import com.example.staffin.Response.OverTimeResponse;
 import com.example.staffin.Response.SignupResponse;
 import com.example.staffin.Response.SingleEmployeeResponse;
@@ -184,7 +186,19 @@ public interface ApiInterface {
 
     //get all holidays
     @GET("get-holiday")
-    Call<HolidayResponse> getAllHolidays();
+    Call<CreatedHolidayResp> getCreatedHolidays();
+
+    @FormUrlEncoded
+    @POST("get-national-holiday")
+    Call<NationalHolidayResp> getNationalHolidayMonthly(@Field("country") String country,
+                                                        @Field("month") int month,
+                                                        @Field("year") int year);
+
+    @FormUrlEncoded
+    @POST("get-national-holiday")
+    Call<NationalHolidayResp> getNationalHoliday(@Field("country") String country,
+                                           @Field("year") int year);
+
 
     //Get All Employee Leave
     @GET("get-all-employee-leave-apply")
