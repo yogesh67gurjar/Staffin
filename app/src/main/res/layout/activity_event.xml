@@ -44,7 +44,7 @@
         app:layout_constraintTop_toTopOf="@+id/textView" />
 
     <EditText
-        android:id="@+id/searchBar"
+        android:id="@+id/searchbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="10dp"
@@ -70,7 +70,7 @@
         app:layout_constraintBottom_toTopOf="@+id/btnAddEvent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchBar"
+        app:layout_constraintTop_toBottomOf="@+id/searchbar"
         tools:listitem="@layout/rv_month_event_layout" />
 
     <androidx.appcompat.widget.AppCompatButton
