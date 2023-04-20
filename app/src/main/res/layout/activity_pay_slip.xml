@@ -44,7 +44,24 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/textView" />
 
+    <TextView
+        android:id="@+id/not_found_layout"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:gravity="center_vertical|center_horizontal"
+        android:text="No Data Available Right Now"
+        android:textAlignment="gravity"
+        android:textColor="@color/mainColor"
+        android:textSize="35dp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.core.widget.NestedScrollView
+        android:id="@+id/nestedScrollFirst"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
@@ -209,13 +226,13 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/basicAmount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
                             android:layout_marginEnd="10dp"
                             android:paddingVertical="10dp"
                             android:text="$300.00"
-
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:textStyle="normal" />
@@ -234,12 +251,13 @@
                             android:layout_weight="1"
 
                             android:paddingVertical="10dp"
-                            android:text="Overtime Salary"
+                            android:text="Hourly Payment"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/hourlyAmount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
@@ -271,6 +289,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/expenseAmount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
@@ -302,6 +321,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/bounceAmount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
@@ -332,6 +352,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/deductionAmount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"
@@ -367,6 +388,7 @@
                             android:textStyle="bold" />
 
                         <TextView
+                            android:id="@+id/netAmount"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="end"

@@ -25,6 +25,7 @@ import com.example.staffin.Response.LeaveResponse;
 import com.example.staffin.Response.LoginResponse;
 import com.example.staffin.Response.NationalHolidayResp;
 import com.example.staffin.Response.OverTimeResponse;
+import com.example.staffin.Response.PaySlipResponse;
 import com.example.staffin.Response.SignupResponse;
 import com.example.staffin.Response.SingleEmployeeResponse;
 import com.example.staffin.Response.TotalEmployeeResponse;
@@ -270,6 +271,10 @@ public interface ApiInterface {
                                              @Field("status") String status,
                                              @Field("leaveType") String leaveType,
                                              @Field("overtime") String overtime);
+
+
+    @GET("get-payslip/{id}")
+    Call<PaySlipResponse> getPaySlip(@Path("id") int id);
 }
 
 
