@@ -9,20 +9,27 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.staffin.PaySlipActivity;
+import com.example.staffin.PayrollActivity;
 import com.example.staffin.R;
+import com.example.staffin.Response.AllPayroll;
 import com.example.staffin.SalaryInfoActivity;
+
+import java.util.List;
 
 public class PayRollAdapter extends RecyclerView.Adapter<PayRollAdapter.MyViewHolder> {
 
     Context context;
+    List<AllPayroll.AllPayslipDetail> resp;
 
-    public PayRollAdapter(Context context) {
+    public PayRollAdapter(Context context, List<AllPayroll.AllPayslipDetail> resp) {
+        this.resp = resp;
         this.context = context;
     }
 
@@ -37,7 +44,7 @@ public class PayRollAdapter extends RecyclerView.Adapter<PayRollAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(@NonNull PayRollAdapter.MyViewHolder holder, int position) {
-
+        AllPayroll.AllPayslipDetail singleUnit = resp.get(position);
         Animation animationLeft = AnimationUtils.loadAnimation(holder.firstConstraint.getContext(), android.R.anim.slide_in_left);
         holder.firstConstraint.startAnimation(animationLeft);
         holder.imgUser.startAnimation(animationLeft);
@@ -57,13 +64,14 @@ public class PayRollAdapter extends RecyclerView.Adapter<PayRollAdapter.MyViewHo
 
     @Override
     public int getItemCount() {
-        return 10;
+        return resp.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ImageButton editIcon, viewIcon;
         ConstraintLayout firstConstraint;
         ImageView imgUser;
+        TextView textView6, reasonTv, txtEndDate, txtSalary, txtMoney;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);

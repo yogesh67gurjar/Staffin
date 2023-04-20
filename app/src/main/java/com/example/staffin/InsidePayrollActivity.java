@@ -51,6 +51,7 @@ public class InsidePayrollActivity extends AppCompatActivity {
     ApiInterface apiInterface;
     ProgressDialog progress;
     List<String> employeesList;
+    List<Integer> myId;
     List<Integer> employeesIdList;
     boolean[] selectedEmployees;
 
@@ -76,7 +77,7 @@ public class InsidePayrollActivity extends AppCompatActivity {
         progress.setMessage("please wait.....");
         employeesList = new ArrayList<>();
         employeesIdList = new ArrayList<>();
-
+        myId = new ArrayList<>();
         if (isNetworkAvailable()) {
             Call<TotalEmployeeResponse> callGetTotalEmployee = apiInterface.getTotalEmployee();
             progress.show();
@@ -129,6 +130,7 @@ public class InsidePayrollActivity extends AppCompatActivity {
                                             } else {
                                                 textViews[i].setText(" , " + employeesList.get(i));
                                             }
+                                            myId.add(employeesIdList.get(i));
                                             binding.dynamicLl.addView(textViews[i]);
                                         }
                                     }
@@ -175,23 +177,23 @@ public class InsidePayrollActivity extends AppCompatActivity {
                 String xMonth = null;
                 String months = binding.monthEt.getSelectedItem().toString();
                 if (months == "january") {
-                    xMonth = "1";
+                    xMonth = "01";
                 } else if (months == "february") {
-                    xMonth = "2";
+                    xMonth = "02";
                 } else if (months == "march") {
-                    xMonth = "3";
+                    xMonth = "03";
                 } else if (months == "april") {
-                    xMonth = "4";
+                    xMonth = "04";
                 } else if (months == "may") {
-                    xMonth = "5";
+                    xMonth = "05";
                 } else if (months == "june") {
-                    xMonth = "6";
+                    xMonth = "06";
                 } else if (months == "july") {
-                    xMonth = "7";
+                    xMonth = "07";
                 } else if (months == "august") {
-                    xMonth = "8";
+                    xMonth = "08";
                 } else if (months == "september") {
-                    xMonth = "9";
+                    xMonth = "09";
                 } else if (months == "october") {
                     xMonth = "10";
                 } else if (months == "november") {
@@ -199,7 +201,6 @@ public class InsidePayrollActivity extends AppCompatActivity {
                 } else if (months == "december") {
                     xMonth = "12";
                 }
-
 
 
 //                List<Integer> ids = new ArrayList<>();
@@ -213,12 +214,12 @@ public class InsidePayrollActivity extends AppCompatActivity {
 
 
                 String years = binding.yearEt.getSelectedItem().toString();
-                Call<PayrollResponse> payrollResponseCall = apiInterface.postPayRoll(employeesIdList, years, xMonth);
+                Call<PayrollResponse> payrollResponseCall = apiInterface.postPayRoll(myId, years, xMonth);
                 payrollResponseCall.enqueue(new Callback<PayrollResponse>() {
                     @Override
                     public void onResponse(Call<PayrollResponse> call, Response<PayrollResponse> response) {
                         if (response.isSuccessful()) {
-                            Log.e("employeelistOfId", employeesIdList.toString());
+                            Log.e("employeelistOfId", myId.toString());
                             Log.e("employee of yera", years);
                             Log.e("employee of months", months);
                             startActivity(new Intent(InsidePayrollActivity.this, MainActivity.class));

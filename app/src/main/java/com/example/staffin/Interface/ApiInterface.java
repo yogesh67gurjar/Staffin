@@ -7,6 +7,7 @@ import com.example.staffin.Response.AddEventResponse;
 import com.example.staffin.Response.AddPasswordForEmployee;
 import com.example.staffin.Response.AllEvents;
 import com.example.staffin.Response.AllEventsByYear;
+import com.example.staffin.Response.AllPayroll;
 import com.example.staffin.Response.AttendanceResponse;
 import com.example.staffin.Response.BankDetailsResponse;
 import com.example.staffin.Response.BankDetailsResponseById;
@@ -283,6 +284,10 @@ public interface ApiInterface {
     Call<PayrollResponse> postPayRoll(@Field("employee_id[]") List<Integer> employee_id,
                                       @Field("year") String year,
                                       @Field("month") String month);
+
+    @GET("get-all-payroll")
+    Call<AllPayroll> getAllPayroll();
+
 
 }
 

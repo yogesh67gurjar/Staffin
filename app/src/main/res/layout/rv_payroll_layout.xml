@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/firstConstraint"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/firstConstraint"
     android:layout_marginBottom="10dp"
     android:background="@drawable/bg_back_btn">
 
@@ -12,8 +12,8 @@
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:layout_marginVertical="15dp"
-        app:cardCornerRadius="12dp"
         android:layout_marginStart="15dp"
+        app:cardCornerRadius="12dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -98,15 +98,16 @@
         android:textColor="@color/mainColor"
         android:textSize="12sp"
         android:textStyle="normal"
-        app:layout_constraintBottom_toBottomOf="@+id/imgUser"
+        app:layout_constraintBottom_toBottomOf="@+id/imgCard"
         app:layout_constraintStart_toStartOf="@+id/reasonTv"
         app:layout_constraintTop_toBottomOf="@+id/reasonTv" />
 
     <TextView
+        android:id="@+id/txtMoney"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="10dp"
-        android:text="$500.2"
+        android:text="$5v00.2"
         android:textColor="@color/mainColor"
         android:textSize="18sp"
         app:layout_constraintBottom_toBottomOf="@+id/txtSalary"
