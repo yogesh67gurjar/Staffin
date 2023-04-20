@@ -20,6 +20,7 @@
         tools:targetApi="31">
         <activity
             android:name=".InsideEvent"
+            android:screenOrientation="portrait"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
@@ -27,21 +28,24 @@
         </activity>
         <activity
             android:name=".ExpansesActivity"
-            android:exported="false">
+            android:exported="false"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".LeaveActivity"
-            android:exported="false">
+            android:exported="false"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".HolidayActivity"
-            android:exported="false">
+            android:exported="false"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -49,6 +53,7 @@
         <activity
             android:name=".CreateEventActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.lib_name"
@@ -56,7 +61,8 @@
         </activity>
         <activity
             android:name=".PaySlipActivity"
-            android:exported="false">
+            android:exported="false"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -64,6 +70,7 @@
         <activity
             android:name=".SalaryInfoActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.lib_name"
@@ -71,7 +78,8 @@
         </activity>
         <activity
             android:name=".InsidePayrollActivity"
-            android:exported="false">
+            android:exported="false"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -79,6 +87,7 @@
         <activity
             android:name=".ConfirmPasswordActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.lib_name"
@@ -87,6 +96,7 @@
         <activity
             android:name=".VerificationActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.lib_name"
@@ -95,6 +105,7 @@
         <activity
             android:name=".ForgotActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.lib_name"
@@ -103,6 +114,7 @@
         <activity
             android:name=".SignUpActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.lib_name"
@@ -110,21 +122,24 @@
         </activity>
         <activity
             android:name=".PayrollActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".EventActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".InsideAttendanceActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -132,6 +147,7 @@
         <activity
             android:name=".BankDetailsActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.lib_name"
@@ -140,6 +156,7 @@
         <activity
             android:name=".CompanyDetailsActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.lib_name"
@@ -147,7 +164,8 @@
         </activity>
         <activity
             android:name=".AttendanceActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -155,6 +173,7 @@
         <activity
             android:name=".AddEmployeeActivity"
             android:exported="true"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.lib_name"
@@ -162,14 +181,16 @@
         </activity>
         <activity
             android:name=".EmployeeIdActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".OnBoardingActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -177,14 +198,16 @@
         <activity
             android:name=".TotalEmployeeActivity"
             android:configChanges="orientation|screenSize|keyboardHidden"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".SplashActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -198,6 +221,7 @@
         <activity
             android:name=".LoginActivity"
             android:exported="false"
+            android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.lib_name"
@@ -205,14 +229,16 @@
         </activity>
         <activity
             android:name=".CalendarSettingActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
