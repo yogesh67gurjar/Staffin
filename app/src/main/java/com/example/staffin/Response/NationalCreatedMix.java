@@ -1,6 +1,6 @@
 package com.example.staffin.Response;
 
-public class NationalCreatedMix {
+public class NationalCreatedMix implements java.io.Serializable {
     private String name;
     private String date;
     private String desc;

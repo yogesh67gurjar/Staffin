@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".Fragment.HolidayCalendar">
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/holidayRecyclerView"
         android:layout_width="match_parent"
@@ -17,5 +18,20 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/holiday_layout" />
+
+    <TextView
+        android:id="@+id/not_found_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="No Data Available Right Now"
+        android:textColor="@color/mainColor"
+        android:textSize="25sp"
+        android:textStyle="bold"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

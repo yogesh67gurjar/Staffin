@@ -11,9 +11,11 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.staffin.Adapter.HolidayAdapter;
+import com.example.staffin.Fragment.HolidayCalendar;
 import com.example.staffin.Interface.ApiInterface;
 import com.example.staffin.Response.AllHolidays;
 import com.example.staffin.Response.CreatedHolidayResp;
@@ -48,20 +50,29 @@ public class CalendarSettingActivity extends AppCompatActivity {
     ProgressDialog progressDialog;
     List<NationalCreatedMix> nationalCreatedMixList;
     List<NationalCreatedMix> nationalCreatedMixListMonthly;
+    List<NationalCreatedMix> nationalCreatedMixListWithoutT;
+    List<NationalCreatedMix> nationalCreatedMixListMonthlyWithoutT;
+
     List<NationalHolidayResp.Response.Holiday> nationalHolidaysYearly;
     List<CreatedHolidayResp.Holiday> createdHolidays;
     List<NationalHolidayResp.Response.Holiday> nationalHolidaysMonthly;
     String[] dateInParts;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCalendarSettingBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         nationalCreatedMixList = new ArrayList<>();
+        nationalCreatedMixListMonthly = new ArrayList<>();
+        nationalCreatedMixListWithoutT = new ArrayList<>();
+        nationalCreatedMixListMonthlyWithoutT = new ArrayList<>();
+
         nationalHolidaysYearly = new ArrayList<>();
         createdHolidays = new ArrayList<>();
         nationalHolidaysMonthly = new ArrayList<>();
-        nationalCreatedMixListMonthly = new ArrayList<>();
+
+
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
         progressDialog = new ProgressDialog(CalendarSettingActivity.this);
         progressDialog.setMessage("please wait");
@@ -70,7 +81,6 @@ public class CalendarSettingActivity extends AppCompatActivity {
 
         if (isNetworkAvailable()) {
             monthSetByDefault();
-
 
             binding.rightScroll.setOnClickListener(v -> {
                 binding.compactcalendarView.scrollRight();
@@ -135,6 +145,8 @@ public class CalendarSettingActivity extends AppCompatActivity {
                             binding.monthTv.setText("December  " + year);
                             break;
                     }
+
+                    apiCallNationalAndCreatedHoliday(year, month);
                 }
 
             });
@@ -149,14 +161,14 @@ public class CalendarSettingActivity extends AppCompatActivity {
             progressDialog.show();
 
             Call<NationalHolidayResp> callGetNationalHoliday = apiInterface.getNationalHoliday("my", year);
-            callGetNationalHoliday.enqueue(new Callback<NationalHolidayResp>() {
+            callGetNationalHoliday.enqueue(new Callback<>() {
                 @Override
                 public void onResponse(Call<NationalHolidayResp> call, Response<NationalHolidayResp> response) {
                     if (response.isSuccessful()) {
                         nationalHolidaysYearly = response.body().getResponse().getHolidays();
 
                         Call<CreatedHolidayResp> callGetCreatedHolidays = apiInterface.getCreatedHolidays();
-                        callGetCreatedHolidays.enqueue(new Callback<CreatedHolidayResp>() {
+                        callGetCreatedHolidays.enqueue(new Callback<>() {
                             @Override
                             public void onResponse(Call<CreatedHolidayResp> call, Response<CreatedHolidayResp> response) {
                                 if (response.isSuccessful()) {
@@ -168,15 +180,15 @@ public class CalendarSettingActivity extends AppCompatActivity {
                                         public void onResponse(Call<NationalHolidayResp> call, Response<NationalHolidayResp> response) {
                                             if (response.isSuccessful()) {
                                                 nationalHolidaysMonthly = response.body().getResponse().getHolidays();
-
+                                                nationalCreatedMixList.clear();
+                                                nationalCreatedMixListMonthly.clear();
+                                                nationalCreatedMixListWithoutT.clear();
+                                                nationalCreatedMixListMonthlyWithoutT.clear();
                                                 for (NationalHolidayResp.Response.Holiday N : nationalHolidaysYearly) {
                                                     nationalCreatedMixList.add(new NationalCreatedMix(N.getName(), N.getDate().getIso(), N.getDescription(), "national"));
                                                 }
                                                 for (CreatedHolidayResp.Holiday C : createdHolidays) {
                                                     nationalCreatedMixList.add(new NationalCreatedMix(C.getOccassion(), C.getDate(), C.getHolidayDescription(), "created"));
-                                                }
-                                                for (NationalCreatedMix m : nationalCreatedMixList) {
-                                                    Log.d(TAG, "nationalCreatedMix: " + String.valueOf(m.getName()) + m.getDate());
                                                 }
 
                                                 for (CreatedHolidayResp.Holiday cc : createdHolidays) {
@@ -187,11 +199,37 @@ public class CalendarSettingActivity extends AppCompatActivity {
                                                     nationalCreatedMixListMonthly.add(new NationalCreatedMix(hh.getName(), hh.getDate().getIso(), hh.getDescription(), "national"));
                                                 }
 
-                                                for (NationalCreatedMix mm : nationalCreatedMixListMonthly) {
-                                                    Log.d(TAG, "nationalCreatedMixMonthly" + mm.getName() + " " + mm.getDate());
+                                                for (NationalCreatedMix m : nationalCreatedMixList) {
+                                                    if (m.getDate().contains("T")) {
+                                                        nationalCreatedMixListWithoutT.add(new NationalCreatedMix(m.getName(), m.getDate().split("T")[0], m.getDesc(), m.getType()));
+                                                    } else {
+                                                        nationalCreatedMixListWithoutT.add(m);
+                                                    }
+                                                }
+                                                for (NationalCreatedMix m : nationalCreatedMixListMonthly) {
+                                                    if (m.getDate().contains("T")) {
+                                                        nationalCreatedMixListMonthlyWithoutT.add(new NationalCreatedMix(m.getName(), m.getDate().split("T")[0], m.getDesc(), m.getType()));
+                                                    } else {
+                                                        nationalCreatedMixListMonthlyWithoutT.add(m);
+                                                    }
+                                                }
+                                                for (NationalCreatedMix mm : nationalCreatedMixListMonthlyWithoutT) {
+                                                    Log.d(TAG, "nationalCreatedMixMonthly" + mm.getName() + "----" + mm.getDate() + "----" + mm.getType());
+                                                }
+                                                for (NationalCreatedMix m : nationalCreatedMixListWithoutT) {
+                                                    Log.d(TAG, "nationalCreatedMix: " + String.valueOf(m.getName()) + "----" + m.getDate() + "----" + m.getType());
                                                 }
                                                 progressDialog.dismiss();
-                                                initializeCalendar(nationalCreatedMixList);
+                                                initializeCalendar(nationalCreatedMixListWithoutT);
+                                                ArrayList<NationalCreatedMix> fragmentData = new ArrayList<>(nationalCreatedMixListMonthlyWithoutT.size());
+                                                fragmentData.addAll(nationalCreatedMixListMonthlyWithoutT);
+                                                Bundle bundle = new Bundle();
+                                                bundle.putSerializable("recyclerData", fragmentData);
+                                                HolidayCalendar holidayCalendarFragment = new HolidayCalendar();
+                                                holidayCalendarFragment.setArguments(bundle);
+
+                                                FragmentTransaction ft = getSupportFragmentManager().beginTransaction();
+                                                ft.replace(R.id.containerRecyclerView, holidayCalendarFragment).commit();
 
                                             } else {
                                                 progressDialog.dismiss();
@@ -300,7 +338,7 @@ public class CalendarSettingActivity extends AppCompatActivity {
     private void clickListeners() {
 
         binding.loginBtn.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(), HolidayActivity.class));
+            startActivity(new Intent(CalendarSettingActivity.this, HolidayActivity.class));
         });
 
         binding.btnBack.setOnClickListener(v -> {
@@ -315,6 +353,7 @@ public class CalendarSettingActivity extends AppCompatActivity {
     }
 
     private void initializeCalendar(List<NationalCreatedMix> allHolidays) {
+        progressDialog.show();
         CompactCalendarView compactCalendarView = findViewById(R.id.compactcalendar_view);
         compactCalendarView.setLocale(TimeZone.getDefault(), Locale.ENGLISH);
         compactCalendarView.setUseThreeLetterAbbreviation(true);
@@ -327,7 +366,7 @@ public class CalendarSettingActivity extends AppCompatActivity {
             if (singleUnit.getDate().contains("T")) {
                 dateInParts = singleUnit.getDate().split("T")[0].split("-");
             } else {
-                 dateInParts = singleUnit.getDate().split("-");
+                dateInParts = singleUnit.getDate().split("-");
             }
 
             Calendar calendar = Calendar.getInstance();
@@ -415,7 +454,7 @@ public class CalendarSettingActivity extends AppCompatActivity {
 //        Event ev10 = new Event(getResources().getColor(R.color.purple_200), milliTime, "Ram Navami");
 //        binding.compactcalendarView.addEvent(ev10);
 
-
+        progressDialog.dismiss();
     }
 
     private boolean isNetworkAvailable() {
@@ -424,7 +463,6 @@ public class CalendarSettingActivity extends AppCompatActivity {
         NetworkInfo activeNetworkInfo = connectivityManager != null ? connectivityManager.getActiveNetworkInfo() : null;
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
-
 }
 
 

@@ -15,14 +15,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.staffin.R;
 import com.example.staffin.Response.AllHolidays;
+import com.example.staffin.Response.NationalCreatedMix;
 
 import java.util.List;
 
 public class HolidayAdapter extends RecyclerView.Adapter<HolidayAdapter.HolidayViewHolder> {
     Context context;
-    List<AllHolidays> holidays;
+    List<NationalCreatedMix> holidays;
 
-    public HolidayAdapter(Context context, List<AllHolidays> holidays) {
+    public HolidayAdapter(Context context, List<NationalCreatedMix> holidays) {
         this.holidays = holidays;
         this.context = context;
     }
@@ -47,8 +48,8 @@ public class HolidayAdapter extends RecyclerView.Adapter<HolidayAdapter.HolidayV
         holder.descriptionTv.startAnimation(animationLeft);
 
 
-        AllHolidays singleUnit = holidays.get(position);
-        holder.titleTv.setText(singleUnit.getOccassion());
+        NationalCreatedMix singleUnit = holidays.get(position);
+        holder.titleTv.setText(singleUnit.getName());
         String[] tempDate = singleUnit.getDate().split("-");
         holder.dateTv.setText(tempDate[2]);
         String din = tempDate[1];
@@ -93,7 +94,7 @@ public class HolidayAdapter extends RecyclerView.Adapter<HolidayAdapter.HolidayV
 
         }
 //        holder.dayTv.setText(singleUnit.getHoliday_day());
-        holder.descriptionTv.setText(singleUnit.getHoliday_description());
+        holder.descriptionTv.setText(singleUnit.getDesc());
         if (position % 3 == 0) {
             holder.ll2.setBackgroundResource(R.color.mainColor);
         } else if (position % 5 == 0) {
