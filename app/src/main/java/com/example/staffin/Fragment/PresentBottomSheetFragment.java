@@ -20,6 +20,7 @@ import com.example.staffin.databinding.FragmentPresentBottomSheetBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
 import java.util.Calendar;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,7 +29,7 @@ import retrofit2.Response;
 
 public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
     FragmentPresentBottomSheetBinding binding;
-
+    private static final String TAG = "hahahahhahaha";
     boolean present;
     boolean absent;
     boolean doublePresent;
@@ -38,7 +39,7 @@ public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
     boolean unpaidLeave;
     ApiInterface apiInterface;
     String date;
-    String color;
+    String color = null;
     int monthNo;
     int Id;
     ProgressDialog progressDialog;
@@ -52,6 +53,7 @@ public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
         progressDialog = new ProgressDialog(getContext());
         progressDialog.setMessage("please wait...");
         progressDialog.setCancelable(false);
+
         binding.txtPresent.setOnClickListener(v -> {
             presentFunc();
         });
@@ -166,28 +168,37 @@ public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
         date = this.getArguments().getString("Date");
         color = this.getArguments().getString("color");
         monthNo = this.getArguments().getInt("monthNumber");
+        Log.d("ye aaya", color + date + monthNo);
         Id = this.getArguments().getInt("Id");
-        switch (color) {
-            case "green":
-            case "blue":
-                presentFunc();
-                break;
-            case "red":
-                absentFunc();
-                Log.d("colorR", color);
-                break;
-            case "orange":
-                halfDayFunc();
-                Log.d("colorO", color);
-                break;
-            case "purple":
-                paidLeaveFunc();
-                Log.d("colorP", color);
-                break;
-            case "black":
-                Log.d("colorB", color);
-                break;
+        if (!(Objects.equals(color, null))) {
+            switch (color) {
+                case "green":
+                case "blue":
+                    presentFunc();
+                    break;
+                case "red":
+                    absentFunc();
+                    Log.d("colorR", color);
+                    break;
+                case "orange":
+                    halfDayFunc();
+                    Log.d("colorO", color);
+                    break;
+                case "purple":
+                    paidLeaveFunc();
+                    Log.d("colorP", color);
+                    break;
+                case "black":
+                    Log.d("colorB", color);
+                    break;
+                default:
+                    Log.d("default", "kai ni");
+                    break;
+            }
+        } else {
+            color = " ";
         }
+
 
         Log.d("COLORCOLORCOLOR", color);
         binding.txt1.setText(date);
@@ -231,8 +242,10 @@ public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
                         leaveType = "sick_leave";
                     }
 
-                    Call<LoginResponse> calUpdateAttendanceById = apiInterface.updateAttendanceById(Id, date.split("-")[2] + "-" + monthNo + "-" + date.split("-")[0], status, leaveType, binding.txtOverTime.getText().toString());
+
+                    Call<LoginResponse> calUpdateAttendanceById = apiInterface.updateAttendanceById(Id, date.split("-")[2] + "-" + 4 + "-" + date.split("-")[0], status, leaveType, binding.txtOverTime.getText().toString());
                     progressDialog.show();
+                    Log.d(TAG, Id + "    " + date.split("-")[2] + "-" + monthNo + "-" + date.split("-")[0] + "    " + status + "    " + leaveType + "    " + binding.txtOverTime.getText().toString());
                     calUpdateAttendanceById.enqueue(new Callback<LoginResponse>() {
                         @Override
                         public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {

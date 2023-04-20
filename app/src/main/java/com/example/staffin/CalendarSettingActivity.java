@@ -357,7 +357,7 @@ public class CalendarSettingActivity extends AppCompatActivity {
         CompactCalendarView compactCalendarView = findViewById(R.id.compactcalendar_view);
         compactCalendarView.setLocale(TimeZone.getDefault(), Locale.ENGLISH);
         compactCalendarView.setUseThreeLetterAbbreviation(true);
-        int count = 0;
+
         long milliTime;
 
         for (NationalCreatedMix singleUnit : allHolidays) {
@@ -374,16 +374,12 @@ public class CalendarSettingActivity extends AppCompatActivity {
             calendar.set(Calendar.MONTH, Integer.parseInt(dateInParts[1]) - 1);
             calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateInParts[2]));
             milliTime = calendar.getTimeInMillis();
-            if (count % 3 == 0) {
-                e = new Event(getResources().getColor(R.color.mainColor), milliTime, singleUnit.getDesc());
-            } else if (count % 5 == 0) {
-                e = new Event(getResources().getColor(R.color.yellow), milliTime, singleUnit.getDesc());
-            } else if (count % 2 == 0) {
+            if (singleUnit.getType().equalsIgnoreCase("national")) {
                 e = new Event(getResources().getColor(R.color.pink), milliTime, singleUnit.getDesc());
             } else {
                 e = new Event(getResources().getColor(R.color.green), milliTime, singleUnit.getDesc());
             }
-            count++;
+
             binding.compactcalendarView.addEvent(e);
         }
 

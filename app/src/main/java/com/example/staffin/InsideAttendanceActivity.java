@@ -234,7 +234,12 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         long milliTime;
 
         for (GetMonthlyAttendance.PresentDate singleUnit : presentDates) {
-            String[] dateInParts = singleUnit.getDate().split("-");
+            String[] dateInParts;
+            if (singleUnit.getDate().contains("T")) {
+                dateInParts = singleUnit.getDate().split("T")[0].split("-");
+            } else {
+                dateInParts = singleUnit.getDate().split("-");
+            }
             Log.d("DATEOFPRESENT", singleUnit.getDate());
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.YEAR, Integer.parseInt(dateInParts[0]));
@@ -243,7 +248,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
             milliTime = calendar.getTimeInMillis();
             Event e;
             Log.d("PRESENT_IN_MAP", singleUnit.getDate());
-            mapPresent.put(singleUnit.getDate(), true);
+            mapPresent.put(dateInParts[0] + "-" + dateInParts[1] + "-" + dateInParts[2], true);
             e = new Event(getResources().getColor(R.color.calGreen), milliTime, "present");
             binding.compactcalendarView.addEvent(e);
         }
@@ -262,7 +267,12 @@ public class InsideAttendanceActivity extends AppCompatActivity {
 
         for (GetMonthlyAttendance.AbsentDate singleUnit : absentDates) {
             Log.d("DATEOFABSENT", singleUnit.getDate());
-            String[] dateInParts = singleUnit.getDate().split("-");
+            String[] dateInParts;
+            if (singleUnit.getDate().contains("T")) {
+                dateInParts = singleUnit.getDate().split("T")[0].split("-");
+            } else {
+                dateInParts = singleUnit.getDate().split("-");
+            }
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.YEAR, Integer.parseInt(dateInParts[0]));
             calendar.set(Calendar.MONTH, Integer.parseInt(dateInParts[1]) - 1);
@@ -270,7 +280,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
             milliTime = calendar.getTimeInMillis();
             Event e;
             Log.d("ABSENT_IN_MAP", singleUnit.getDate());
-            mapAbsent.put(singleUnit.getDate(), true);
+            mapAbsent.put(dateInParts[0] + "-" + dateInParts[1] + "-" + dateInParts[2], true);
             e = new Event(getResources().getColor(R.color.calRed), milliTime, "present");
             binding.compactcalendarView.addEvent(e);
         }
@@ -278,7 +288,12 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         for (GetMonthlyAttendance.PaidLeaveDate singleUnit : paidLeaveDates) {
             Log.d("DATEOFPL", singleUnit.getDate());
 
-            String[] dateInParts = singleUnit.getDate().split("-");
+            String[] dateInParts;
+            if (singleUnit.getDate().contains("T")) {
+                dateInParts = singleUnit.getDate().split("T")[0].split("-");
+            } else {
+                dateInParts = singleUnit.getDate().split("-");
+            }
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.YEAR, Integer.parseInt(dateInParts[0]));
             calendar.set(Calendar.MONTH, Integer.parseInt(dateInParts[1]) - 1);
@@ -286,7 +301,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
             milliTime = calendar.getTimeInMillis();
             Event e;
             Log.d("PAIDLEAVE_IN_MAP", singleUnit.getDate());
-            mapPaidLeave.put(singleUnit.getDate(), true);
+            mapPaidLeave.put(dateInParts[0] + "-" + dateInParts[1] + "-" + dateInParts[2], true);
             e = new Event(getResources().getColor(R.color.calPurple), milliTime, "present");
             binding.compactcalendarView.addEvent(e);
         }
@@ -294,7 +309,12 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         for (GetMonthlyAttendance.LateComingDate singleUnit : lateComingDates) {
             Log.d("DATEOFLATE", singleUnit.getDate());
 
-            String[] dateInParts = singleUnit.getDate().split("-");
+            String[] dateInParts;
+            if (singleUnit.getDate().contains("T")) {
+                dateInParts = singleUnit.getDate().split("T")[0].split("-");
+            } else {
+                dateInParts = singleUnit.getDate().split("-");
+            }
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.YEAR, Integer.parseInt(dateInParts[0]));
             calendar.set(Calendar.MONTH, Integer.parseInt(dateInParts[1]) - 1);
@@ -302,7 +322,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
             milliTime = calendar.getTimeInMillis();
             Event e;
             Log.d("LATE_IN_MAP", singleUnit.getDate());
-            mapLateComing.put(singleUnit.getDate(), true);
+            mapLateComing.put(dateInParts[0] + "-" + dateInParts[1] + "-" + dateInParts[2], true);
             e = new Event(getResources().getColor(R.color.calBlue), milliTime, "present");
             binding.compactcalendarView.addEvent(e);
         }
@@ -310,7 +330,12 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         for (GetMonthlyAttendance.HalfDayDate singleUnit : halfDayDates) {
             Log.d("DATEOFHALF", singleUnit.getDate());
 
-            String[] dateInParts = singleUnit.getDate().split("-");
+            String[] dateInParts;
+            if (singleUnit.getDate().contains("T")) {
+                dateInParts = singleUnit.getDate().split("T")[0].split("-");
+            } else {
+                dateInParts = singleUnit.getDate().split("-");
+            }
             Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.YEAR, Integer.parseInt(dateInParts[0]));
             calendar.set(Calendar.MONTH, Integer.parseInt(dateInParts[1]) - 1);
@@ -318,7 +343,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
             milliTime = calendar.getTimeInMillis();
             Event e;
             Log.d("HALFDAY_IN_MAP", singleUnit.getDate());
-            mapHalfDay.put(singleUnit.getDate(), true);
+            mapHalfDay.put(dateInParts[0] + "-" + dateInParts[1] + "-" + dateInParts[2], true);
             e = new Event(getResources().getColor(R.color.calOrange), milliTime, "present");
             binding.compactcalendarView.addEvent(e);
         }
@@ -327,6 +352,12 @@ public class InsideAttendanceActivity extends AppCompatActivity {
             @Override
             public void onDayClick(Date dateClicked) {
                 List<Event> events = binding.compactcalendarView.getEvents(dateClicked);
+
+                Log.d("presentssss", mapPresent.toString());
+                Log.d("presentssss", mapAbsent.toString());
+                Log.d("presentssss", mapPaidLeave.toString());
+                Log.d("presentssss", mapLateComing.toString());
+                Log.d("presentssss", mapHalfDay.toString());
 
                 Bundle bundle = new Bundle();
                 Calendar cal = Calendar.getInstance();
@@ -357,7 +388,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                     } else {
                         bundle.putString("color", "black");
                     }
-                } else if (month > 10 && day > 10) {
+                } else if (month >= 10 && day >= 10) {
                     Log.d("CASE", "date and month dono bde he 10 se");
                     key = year + "-" + month + "-" + day;
                     Log.d("KEY", key);
@@ -374,7 +405,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                     } else {
                         bundle.putString("color", "black");
                     }
-                } else if (month < 10 && day > 10) {
+                } else if (month < 10 && day >= 10) {
                     Log.d("CASE", "month chota he 10 se");
                     key = year + "-" + zeroMonth + "-" + day;
                     Log.d("KEY", key);
@@ -391,7 +422,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                     } else {
                         bundle.putString("color", "black");
                     }
-                } else if (month > 10 && day < 10) {
+                } else if (month >= 10 && day < 10) {
                     Log.d("CASE", "month chota he 10 se");
                     key = year + "-" + month + "-" + zeroDate;
                     Log.d("KEY", key);
