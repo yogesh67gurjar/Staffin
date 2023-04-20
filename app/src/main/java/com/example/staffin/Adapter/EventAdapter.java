@@ -193,6 +193,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
                 intent.putExtra("date", date);
                 intent.putExtra("location", location);
                 intent.putStringArrayListExtra("members", new ArrayList<>(membersArray));
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
 
 

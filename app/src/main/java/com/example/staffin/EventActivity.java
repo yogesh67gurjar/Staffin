@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.staffin.Adapter.MonthAdapter;
 import com.example.staffin.Interface.ApiInterface;
+import com.example.staffin.Response.EmployeeResult;
 import com.example.staffin.Response.EventResponse;
 import com.example.staffin.Response.EventsByYearResponse;
 import com.example.staffin.Response.EventsMix;
@@ -285,25 +286,39 @@ public class EventActivity extends AppCompatActivity {
 
 
     void filter(String text) {
-        ArrayList<EventsMix> filteredlist = new ArrayList<>();
-
-        // running a for loop to compare elements.
-        for (EventsMix item : eventsMixList) {
-            // checking if the entered string matched with any item of our recycler view.
-            if (item.getTitleName().toLowerCase().contains(text.toLowerCase())) {
-                // if the item is matched we are
-                // adding it to our filtered list.
-                filteredlist.add(item);
+        List<EventsMix> filteredList = new ArrayList();
+        for (EventsMix d : eventsMixList) {
+            if (d.getTitleName().toLowerCase().contains(text.toLowerCase())) {
+                filteredList.add(d);
             }
         }
-        if (filteredlist.isEmpty()) {
-            // if no item is added in filtered list we are
-            // displaying a toast message as no data found.
-            Toast.makeText(getApplicationContext(), "No Data Found..", Toast.LENGTH_SHORT).show();
-        } else {
-            // at last we are passing that filtered
-            // list to our adapter class.
-            adapter.filterList(filteredlist);
-        }
+        //update recyclerview
+        adapter.filterList(filteredList);
     }
+
+
+
+
+//    void filter(String text) {
+//        ArrayList<EventsMix> filteredlist = new ArrayList<>();
+//
+//        // running a for loop to compare elements.
+//        for (EventsMix item : eventsMixList) {
+//            // checking if the entered string matched with any item of our recycler view.
+//            if (item.getTitleName().toLowerCase().contains(text.toLowerCase())) {
+//                // if the item is matched we are
+//                // adding it to our filtered list.
+//                filteredlist.add(item);
+//            }
+//        }
+//        if (filteredlist.isEmpty()) {
+//            // if no item is added in filtered list we are
+//            // displaying a toast message as no data found.
+//            Toast.makeText(getApplicationContext(), "No Data Found..", Toast.LENGTH_SHORT).show();
+//        } else {
+//            // at last we are passing that filtered
+//            // list to our adapter class.
+//            adapter.filterList(filteredlist);
+//        }
+//    }
 }

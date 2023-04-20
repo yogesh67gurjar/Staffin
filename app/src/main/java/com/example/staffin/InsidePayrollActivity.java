@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.staffin.Interface.ApiInterface;
 import com.example.staffin.Response.EmployeeResult;
+import com.example.staffin.Response.PayrollResponse;
 import com.example.staffin.Response.TotalEmployeeResponse;
 import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.ActivityInsidePayrollBinding;
@@ -33,6 +34,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.List;
 
 import retrofit2.Call;
@@ -51,6 +53,7 @@ public class InsidePayrollActivity extends AppCompatActivity {
     List<String> employeesList;
     List<Integer> employeesIdList;
     boolean[] selectedEmployees;
+
 
     String[] allMonths = {"january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"};
     String[] allYears = {"2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027"};
@@ -163,18 +166,78 @@ public class InsidePayrollActivity extends AppCompatActivity {
             Toast.makeText(this, "Internet Not Available", Toast.LENGTH_SHORT).show();
         }
 
-
         binding.btnHome.setOnClickListener(v -> {
             finish();
         });
-
         binding.nextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String xMonth = null;
+                String months = binding.monthEt.getSelectedItem().toString();
+                if (months == "january") {
+                    xMonth = "1";
+                } else if (months == "february") {
+                    xMonth = "2";
+                } else if (months == "march") {
+                    xMonth = "3";
+                } else if (months == "april") {
+                    xMonth = "4";
+                } else if (months == "may") {
+                    xMonth = "5";
+                } else if (months == "june") {
+                    xMonth = "6";
+                } else if (months == "july") {
+                    xMonth = "7";
+                } else if (months == "august") {
+                    xMonth = "8";
+                } else if (months == "september") {
+                    xMonth = "9";
+                } else if (months == "october") {
+                    xMonth = "10";
+                } else if (months == "november") {
+                    xMonth = "11";
+                } else if (months == "december") {
+                    xMonth = "12";
+                }
 
-                startActivity(new Intent(InsidePayrollActivity.this, MainActivity.class));
-                Toast.makeText(InsidePayrollActivity.this, "Payrolls have been added successfully", Toast.LENGTH_SHORT).show();
-                finish();
+
+
+//                List<Integer> ids = new ArrayList<>();
+//                String check;
+//                check = String.valueOf(binding.dynamicLl.getChildCount());
+//                if (check == "") {
+//                    ids.add(employeesIdList.get(0));
+//                } else if (check == ",") {
+//                    ids.add(employeesIdList.get(1));
+//                }
+
+
+                String years = binding.yearEt.getSelectedItem().toString();
+                Call<PayrollResponse> payrollResponseCall = apiInterface.postPayRoll(employeesIdList, years, xMonth);
+                payrollResponseCall.enqueue(new Callback<PayrollResponse>() {
+                    @Override
+                    public void onResponse(Call<PayrollResponse> call, Response<PayrollResponse> response) {
+                        if (response.isSuccessful()) {
+                            Log.e("employeelistOfId", employeesIdList.toString());
+                            Log.e("employee of yera", years);
+                            Log.e("employee of months", months);
+                            startActivity(new Intent(InsidePayrollActivity.this, MainActivity.class));
+                            Toast.makeText(InsidePayrollActivity.this, "Payrolls have been added successfully", Toast.LENGTH_SHORT).show();
+                            finish();
+                        } else {
+                            Log.d(TAG, "onResponse: " + response.message());
+                            Toast.makeText(InsidePayrollActivity.this, "try again", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<PayrollResponse> call, Throwable t) {
+                        Log.d(TAG, "onFailure:" + t.getMessage());
+                        Toast.makeText(InsidePayrollActivity.this, "error found", Toast.LENGTH_SHORT).show();
+
+                    }
+                });
+
             }
         });
     }
