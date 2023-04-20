@@ -49,6 +49,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="10dp"
+
+        android:background="@color/white"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -303,19 +305,19 @@
                             app:lottie_loop="true"
                             app:lottie_rawRes="@raw/payrolllottie" />
 
-<!--                        <ImageView-->
-<!--                            android:id="@+id/imageView4"-->
-<!--                            android:layout_width="80dp"-->
-<!--                            android:layout_height="80dp"-->
-<!--                            android:background="@drawable/main_image_bg_stroke"-->
-<!--                            android:padding="3dp"-->
-<!--                            android:src="@drawable/ic_payroll"-->
-<!--                            app:layout_constraintBottom_toTopOf="@+id/main_tv4"-->
-<!--                            app:layout_constraintEnd_toEndOf="parent"-->
-<!--                            app:layout_constraintHorizontal_bias="0.5"-->
-<!--                            app:layout_constraintStart_toStartOf="parent"-->
-<!--                            app:layout_constraintTop_toTopOf="parent"-->
-<!--                            app:layout_constraintVertical_chainStyle="packed" />-->
+                        <!--                        <ImageView-->
+                        <!--                            android:id="@+id/imageView4"-->
+                        <!--                            android:layout_width="80dp"-->
+                        <!--                            android:layout_height="80dp"-->
+                        <!--                            android:background="@drawable/main_image_bg_stroke"-->
+                        <!--                            android:padding="3dp"-->
+                        <!--                            android:src="@drawable/ic_payroll"-->
+                        <!--                            app:layout_constraintBottom_toTopOf="@+id/main_tv4"-->
+                        <!--                            app:layout_constraintEnd_toEndOf="parent"-->
+                        <!--                            app:layout_constraintHorizontal_bias="0.5"-->
+                        <!--                            app:layout_constraintStart_toStartOf="parent"-->
+                        <!--                            app:layout_constraintTop_toTopOf="parent"-->
+                        <!--                            app:layout_constraintVertical_chainStyle="packed" />-->
 
                         <TextView
                             android:id="@+id/main_tv4"
