@@ -26,10 +26,12 @@ import com.example.staffin.Response.LoginResponse;
 import com.example.staffin.Response.NationalHolidayResp;
 import com.example.staffin.Response.OverTimeResponse;
 import com.example.staffin.Response.PaySlipResponse;
+import com.example.staffin.Response.PayrollResponse;
 import com.example.staffin.Response.SignupResponse;
 import com.example.staffin.Response.SingleEmployeeResponse;
 import com.example.staffin.Response.TotalEmployeeResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.MultipartBody;
@@ -198,7 +200,7 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("get-national-holiday")
     Call<NationalHolidayResp> getNationalHoliday(@Field("country") String country,
-                                           @Field("year") int year);
+                                                 @Field("year") int year);
 
 
     //Get All Employee Leave
@@ -275,6 +277,13 @@ public interface ApiInterface {
 
     @GET("get-payslip/{id}")
     Call<PaySlipResponse> getPaySlip(@Path("id") int id);
+
+    @FormUrlEncoded
+    @POST("add-payroll")
+    Call<PayrollResponse> postPayRoll(@Field("employee_id[]") List<Integer> employee_id,
+                                      @Field("year") String year,
+                                      @Field("month") String month);
+
 }
 
 

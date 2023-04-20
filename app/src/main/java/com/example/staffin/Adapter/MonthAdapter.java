@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.staffin.R;
 import com.example.staffin.Response.AllEvents;
+import com.example.staffin.Response.EmployeeResult;
 import com.example.staffin.Response.EventsByYearResponse;
 import com.example.staffin.Response.EventsMix;
 
@@ -61,6 +62,11 @@ public class MonthAdapter extends RecyclerView.Adapter<MonthAdapter.MyViewHolder
 //        januaries = filterlist;
 //        notifyDataSetChanged();
 //    }
+
+    public void filterList(List<EventsMix> filterlist) {
+        eventsMixList = filterlist;
+        notifyDataSetChanged();
+    }
 
     @NonNull
     @Override
