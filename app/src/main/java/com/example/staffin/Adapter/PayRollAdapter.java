@@ -15,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.staffin.PaySlipActivity;
 import com.example.staffin.PayrollActivity;
 import com.example.staffin.R;
@@ -49,9 +50,16 @@ public class PayRollAdapter extends RecyclerView.Adapter<PayRollAdapter.MyViewHo
         holder.firstConstraint.startAnimation(animationLeft);
         holder.imgUser.startAnimation(animationLeft);
 
+        Glide.with(context.getApplicationContext()).load(singleUnit.getEmployeeId().get(0).getProfileImageUrl()).placeholder(R.drawable.img_dp).into(holder.imgUser);
+        holder.txtMoney.setText("RM " + singleUnit.getNetSalary());
+        holder.txtUserName.setText(singleUnit.getEmployeeId().get(0).getFullName());
+        holder.reasonTv.setText("Month:-" + singleUnit.getMonth() + " Year:-" + singleUnit.getYear());
 
         holder.viewIcon.setOnClickListener(v -> {
-            context.startActivity(new Intent(context.getApplicationContext(), PaySlipActivity.class));
+            Intent startIntent = new Intent(context.getApplicationContext(), PaySlipActivity.class);
+            startIntent.putExtra("Id", singleUnit.getEmployeeId().get(0).getId());
+            startIntent.putExtra("empId", singleUnit.getEmployeeId().get(0).getEmployeeID());
+            context.startActivity(startIntent);
         });
 
         holder.editIcon.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +79,7 @@ public class PayRollAdapter extends RecyclerView.Adapter<PayRollAdapter.MyViewHo
         ImageButton editIcon, viewIcon;
         ConstraintLayout firstConstraint;
         ImageView imgUser;
-        TextView textView6, reasonTv, txtEndDate, txtSalary, txtMoney;
+        TextView txtUserName, reasonTv, txtEndDate, txtSalary, txtMoney;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -79,6 +87,11 @@ public class PayRollAdapter extends RecyclerView.Adapter<PayRollAdapter.MyViewHo
             editIcon = itemView.findViewById(R.id.editIcon);
             viewIcon = itemView.findViewById(R.id.viewIcon);
             imgUser = itemView.findViewById(R.id.imgUser);
+
+            txtMoney = itemView.findViewById(R.id.txtMoney);
+            txtUserName = itemView.findViewById(R.id.textView6);
+            reasonTv = itemView.findViewById(R.id.reasonTv);
+
         }
     }
 }

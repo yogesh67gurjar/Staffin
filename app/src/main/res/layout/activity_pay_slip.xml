@@ -72,6 +72,7 @@
 
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/content"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
@@ -91,7 +92,7 @@
                 android:id="@+id/nameTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Cameron Williamson"
+                android:text="Your Name"
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
@@ -105,7 +106,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:text="Emp. ID - TPIT000148"
+                android:text="Emp. ID - 00000000"
                 android:textColor="#02141F"
                 android:textSize="16sp"
                 android:textStyle="normal"
@@ -119,7 +120,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:text="Department - UIUX Designer"
+                android:text="Department - "
                 android:textColor="#02141F"
                 android:textSize="16sp"
                 android:textStyle="normal"
@@ -133,7 +134,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
-                android:text="Designation - IT"
+                android:text="Designation - "
                 android:textColor="#02141F"
                 android:textSize="16sp"
                 android:textStyle="normal"
@@ -232,7 +233,7 @@
                             android:layout_gravity="end"
                             android:layout_marginEnd="10dp"
                             android:paddingVertical="10dp"
-                            android:text="$300.00"
+                            android:text="$0.00"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:textStyle="normal" />
@@ -263,7 +264,7 @@
                             android:layout_gravity="end"
                             android:layout_marginEnd="10dp"
                             android:paddingVertical="10dp"
-                            android:text="$300.00"
+                            android:text="$0.00"
                             android:textColor="@color/black"
 
                             android:textSize="14sp"
@@ -295,7 +296,7 @@
                             android:layout_gravity="end"
                             android:layout_marginEnd="10dp"
                             android:paddingVertical="10dp"
-                            android:text="$300.00"
+                            android:text="$0.00"
                             android:textColor="@color/black"
 
                             android:textSize="14sp"
@@ -327,7 +328,7 @@
                             android:layout_gravity="end"
                             android:layout_marginEnd="10dp"
                             android:paddingVertical="10dp"
-                            android:text="$300.00"
+                            android:text="$0.00"
                             android:textColor="@color/black"
 
                             android:textSize="14sp"
@@ -358,7 +359,7 @@
                             android:layout_gravity="end"
                             android:layout_marginEnd="10dp"
                             android:paddingVertical="10dp"
-                            android:text="$300.00"
+                            android:text="$0.00"
 
                             android:textColor="@color/black"
                             android:textSize="14sp"
@@ -394,7 +395,7 @@
                             android:layout_gravity="end"
                             android:layout_marginEnd="10dp"
                             android:paddingVertical="10dp"
-                            android:text="$500.00"
+                            android:text="$0.00"
 
                             android:textColor="@color/black"
                             android:textSize="18sp"

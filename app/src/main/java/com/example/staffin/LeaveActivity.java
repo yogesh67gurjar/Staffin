@@ -38,6 +38,7 @@ public class LeaveActivity extends AppCompatActivity {
         binding.leaveRV.setVisibility(View.GONE);
         binding.nothingTv.setVisibility(View.VISIBLE);
         final ProgressDialog progressDialog = new ProgressDialog(LeaveActivity.this);
+        progressDialog.setCancelable(false);
         progressDialog.setMessage("Loading...");
         progressDialog.show();
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);

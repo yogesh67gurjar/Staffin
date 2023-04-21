@@ -33,7 +33,10 @@ public class MainActivity extends AppCompatActivity {
         sharedPreferences = getSharedPreferences("staffin", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         binding.card1.setOnClickListener(v -> {
-            startActivity(new Intent(getApplicationContext(), TotalEmployeeActivity.class));
+            Intent intent = new Intent(getApplicationContext(), TotalEmployeeActivity.class);
+//            startActivity(new Intent(getApplicationContext(), TotalEmployeeActivity.class));
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
         });
         binding.card2.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), AttendanceActivity.class));
@@ -92,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
         }
         backPressed = System.currentTimeMillis();
     }
-
 
 
 }

@@ -23,6 +23,7 @@ import androidx.appcompat.widget.AppCompatButton;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.staffin.Interface.ApiInterface;
 import com.example.staffin.R;
 import com.example.staffin.Response.EmployeeLeaveResult;
@@ -70,7 +71,7 @@ public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.MyViewHolder
         EmployeeLeaveResult singleUnit = leaveResultList.get(position);
         holder.txtEmpId.setText(singleUnit.getEmployeeId().toString());
         holder.txtReason.setText(singleUnit.getReason());
-
+//        Glide.with(context.getApplicationContext()).load(singleUnit.get).placeholder(R.drawable.img_dp).into(holder.userDp);
         holder.leaveCard.setOnClickListener(v -> {
             showPopup(singleUnit, position);
         });

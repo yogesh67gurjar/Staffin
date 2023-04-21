@@ -14,13 +14,19 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.staffin.R;
+import com.example.staffin.Response.AllExpenses;
+import com.example.staffin.Response.AllPayroll;
+
+import java.util.List;
 
 public class ExpansesAdapter extends RecyclerView.Adapter<ExpansesAdapter.MyViewHolder> {
 
     Context context;
+    List<AllExpenses.GetAllExpenseDetail> resp;
 
-    public ExpansesAdapter(Context context) {
+    public ExpansesAdapter(Context context, List<AllExpenses.GetAllExpenseDetail> resp) {
         this.context = context;
+        this.resp = resp;
     }
 
     @NonNull
@@ -33,24 +39,31 @@ public class ExpansesAdapter extends RecyclerView.Adapter<ExpansesAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull ExpansesAdapter.MyViewHolder holder, int position) {
-
-        Animation animationLeft= AnimationUtils.loadAnimation(holder.mainConstraint.getContext(), android.R.anim.slide_in_left);
+        AllExpenses.GetAllExpenseDetail singleUnit = resp.get(position);
+        Animation animationLeft = AnimationUtils.loadAnimation(holder.mainConstraint.getContext(), android.R.anim.slide_in_left);
         holder.mainConstraint.startAnimation(animationLeft);
         holder.txtEmpId.startAnimation(animationLeft);
         holder.txtItemName.startAnimation(animationLeft);
         holder.txtPrice.startAnimation(animationLeft);
         holder.btnDownload.startAnimation(animationLeft);
+
+        holder.txtEmpId.setText("EMP ID:-" + singleUnit.getEmployeeId().get(0).getEmployeeID());
+        holder.txtItemName.setText("Name:-" + singleUnit.getItemName());
+        holder.txtPrice.setText("Price:-" + singleUnit.getPrice());
+
+
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return resp.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout mainConstraint;
-        TextView txtEmpId,txtItemName,txtPrice;
+        TextView txtEmpId, txtItemName, txtPrice;
         ImageButton btnDownload;
+
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 

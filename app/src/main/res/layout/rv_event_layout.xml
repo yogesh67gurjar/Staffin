@@ -2,8 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
     android:id="@+id/cardEvent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="@color/white">
 
@@ -13,19 +13,19 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
-        app:cardCornerRadius="15dp"
+        app:cardCornerRadius="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/imageView"
+            android:layout_width="170dp"
+            android:layout_height="120dp"
             android:scaleType="centerCrop"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/bg_img_bday"
             android:src="@drawable/img_birthday"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+        <!--    android:background="@drawable/bg_img_bday"-->
     </androidx.cardview.widget.CardView>
 
 
@@ -137,7 +137,6 @@
         app:layout_constraintBottom_toBottomOf="@+id/cl2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/cl2"
-        app:layout_constraintTop_toTopOf="@+id/cl2"
-       />
+        app:layout_constraintTop_toTopOf="@+id/cl2" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

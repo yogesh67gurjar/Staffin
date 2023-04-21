@@ -71,9 +71,9 @@ public class InsidePayrollActivity extends AppCompatActivity {
 
     private void clickListeners() {
 
-
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
         progress = new ProgressDialog(InsidePayrollActivity.this);
+        progress.setCancelable(false);
         progress.setMessage("please wait.....");
         employeesList = new ArrayList<>();
         employeesIdList = new ArrayList<>();
@@ -203,15 +203,6 @@ public class InsidePayrollActivity extends AppCompatActivity {
                 }
 
 
-//                List<Integer> ids = new ArrayList<>();
-//                String check;
-//                check = String.valueOf(binding.dynamicLl.getChildCount());
-//                if (check == "") {
-//                    ids.add(employeesIdList.get(0));
-//                } else if (check == ",") {
-//                    ids.add(employeesIdList.get(1));
-//                }
-
 
                 String years = binding.yearEt.getSelectedItem().toString();
                 Call<PayrollResponse> payrollResponseCall = apiInterface.postPayRoll(myId, years, xMonth);
@@ -227,7 +218,7 @@ public class InsidePayrollActivity extends AppCompatActivity {
                             finish();
                         } else {
                             Log.d(TAG, "onResponse: " + response.message());
-                            Toast.makeText(InsidePayrollActivity.this, "try again", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(InsidePayrollActivity.this, "Select Employee Please", Toast.LENGTH_SHORT).show();
                         }
                     }
 
