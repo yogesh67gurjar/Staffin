@@ -42,6 +42,7 @@ public class InsideEvent extends AppCompatActivity {
         setContentView(binding.getRoot());
         progress = new ProgressDialog(InsideEvent.this);
         progress.setMessage("please wait...");
+        progress.setCancelable(false);
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
         invitedMembers = new ArrayList<>();
         String image = getIntent().getStringExtra("image");
