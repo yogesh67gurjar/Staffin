@@ -3,15 +3,16 @@ package com.example.staffin.Response;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class PayslipDetail {
+import java.util.List;
 
+public class PayslipDetail {
 
     @SerializedName("id")
     @Expose
     private Integer id;
     @SerializedName("employee_id")
     @Expose
-    private Integer employeeId;
+    private List<AllPayroll.AllPayslipDetail.EmployeeId> employeeId;
     @SerializedName("month")
     @Expose
     private String month;
@@ -72,11 +73,11 @@ public class PayslipDetail {
         this.id = id;
     }
 
-    public Integer getEmployeeId() {
+    public List<AllPayroll.AllPayslipDetail.EmployeeId> getEmployeeId() {
         return employeeId;
     }
 
-    public void setEmployeeId(Integer employeeId) {
+    public void setEmployeeId(List<AllPayroll.AllPayslipDetail.EmployeeId> employeeId) {
         this.employeeId = employeeId;
     }
 
@@ -215,6 +216,5 @@ public class PayslipDetail {
     public void setStatus(String status) {
         this.status = status;
     }
-
 
 }

@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -12,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.staffin.InsideEvent;
 import com.example.staffin.R;
 import com.example.staffin.Response.AllEvents;
@@ -28,7 +30,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
     List<EventsMix> eventsMixList;
     List<EventsMix> currentMonthEventsList;
     String image, image1, image2, image3, title, desc, date, location;
-        String[] membersArray;
+    String[] membersArray;
 
 //    List<EventsByYearResponse.EventDetails.January> januaries;
 //    List<EventsByYearResponse.EventDetails.February> februaries;
@@ -162,6 +164,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
         EventsMix singleUnit = currentMonthEventsList.get(position);
         holder.txtDate.setText(singleUnit.getDate());
         holder.txtEventName.setText(singleUnit.getTitleName());
+        Glide.with(context.getApplicationContext()).load(singleUnit.getImage()).placeholder(R.drawable.img_birthday).into(holder.imageView);
+
 //        holder.interested.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -206,20 +210,25 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
 
     @Override
     public int getItemCount() {
-        return  currentMonthEventsList.size();
+        return currentMonthEventsList.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView txtDate, txtEventName, interested;
         ConstraintLayout card;
+        ImageView imageView, el1, el2, el3;
 
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             card = itemView.findViewById(R.id.cardEvent);
+            imageView = itemView.findViewById(R.id.imageView);
 //            interested = itemView.findViewById(R.id.interested);
             txtDate = itemView.findViewById(R.id.txtDate);
             txtEventName = itemView.findViewById(R.id.txtEventName);
+            el1 = itemView.findViewById(R.id.el1);
+            el2 = itemView.findViewById(R.id.el2);
+            el3 = itemView.findViewById(R.id.el3);
         }
     }
 }

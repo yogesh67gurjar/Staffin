@@ -50,6 +50,7 @@ public class EventActivity extends AppCompatActivity {
         binding = ActivityEventBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         progress = new ProgressDialog(EventActivity.this);
+        progress.setCancelable(false);
         progress.setMessage("Please Wait....");
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
         binding.EventMonthRv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
@@ -168,14 +169,15 @@ public class EventActivity extends AppCompatActivity {
         } else {
             Toast.makeText(getApplicationContext(), "Internet Not Available", Toast.LENGTH_SHORT).show();
         }
-
+        binding.btnBack.setOnClickListener(v -> {
+            finish();
+        });
         binding.btnAddEvent.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), CreateEventActivity.class));
             }
         });
-
 
 
 //        monthsList = new ArrayList<>();
@@ -191,14 +193,11 @@ public class EventActivity extends AppCompatActivity {
     private void clickListeners() {
 
 
-
-
         binding.EventMonthRv.setLayoutManager(new LinearLayoutManager(this));
 
         binding.btnAddEvent.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), CreateEventActivity.class));
         });
-
 
 //        binding.searchBar.addTextChangedListener(new TextWatcher() {
 //            @Override
@@ -214,17 +213,14 @@ public class EventActivity extends AppCompatActivity {
 //            public void afterTextChanged(Editable s) {
 //            }
 //        });
-
-        adapter = new MonthAdapter(EventActivity.this,eventsMixList);
+        adapter = new MonthAdapter(EventActivity.this, eventsMixList);
         binding.EventMonthRv.setAdapter(adapter);
 
         binding.btnCalendar.setOnClickListener(v -> {
             startActivity(new Intent(getApplicationContext(), CalendarSettingActivity.class));
         });
 
-        binding.btnBack.setOnClickListener(v -> {
-            finish();
-        });
+
     }
 //
 //    void filterJan(String text) {
@@ -295,8 +291,6 @@ public class EventActivity extends AppCompatActivity {
         //update recyclerview
         adapter.filterList(filteredList);
     }
-
-
 
 
 //    void filter(String text) {

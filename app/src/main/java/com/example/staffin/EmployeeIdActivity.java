@@ -47,6 +47,7 @@ public class EmployeeIdActivity extends AppCompatActivity {
 
     private void clickListeners() {
         progress = new ProgressDialog(EmployeeIdActivity.this);
+        progress.setCancelable(false);
         progress.setMessage("please wait...");
         from = getIntent().getStringExtra("from");
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);

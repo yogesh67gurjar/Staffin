@@ -7,6 +7,7 @@ import com.example.staffin.Response.AddEventResponse;
 import com.example.staffin.Response.AddPasswordForEmployee;
 import com.example.staffin.Response.AllEvents;
 import com.example.staffin.Response.AllEventsByYear;
+import com.example.staffin.Response.AllExpenses;
 import com.example.staffin.Response.AllPayroll;
 import com.example.staffin.Response.AttendanceResponse;
 import com.example.staffin.Response.BankDetailsResponse;
@@ -288,6 +289,9 @@ public interface ApiInterface {
     @GET("get-all-payroll")
     Call<AllPayroll> getAllPayroll();
 
+
+    @GET("get-all-expense")
+    Call<AllExpenses> getAllExpenses();
 
 }
 
