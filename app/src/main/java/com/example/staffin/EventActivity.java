@@ -145,6 +145,10 @@ public class EventActivity extends AppCompatActivity {
                             binding.EventMonthRv.setAdapter(adapter);
                         }
 
+//                        eventDetails = response.body().getEventDetails();
+//                        adapter = new MonthAdapter(getActivity(), eventDetails);
+//                        binding.EventMonthRv.setAdapter(adapter);
+
                     } else {
                         Toast.makeText(getApplicationContext(), "Find Some Error", Toast.LENGTH_SHORT).show();
                         progress.dismiss();
@@ -172,9 +176,18 @@ public class EventActivity extends AppCompatActivity {
             }
         });
 
+//        monthsList = new ArrayList<>();
+//        membersOnly = new ArrayList<>();
+//        membersOnly.add(new MembersOfEvent(1, "fjksdnf"));
+//        membersOnly.add(new MembersOfEvent(2, "fjksdnf"));
+//        monthsList.add(new MyMonth(1, "yogesh birthday", "bfjisnsdjkf", "shajapur", "at hanuman mandir shajapur", "08-08-1999", membersOnly));
+//        monthsList.add(new MyMonth(2, "shubham birthday", "bfjisnsdjkf", "shajapur", "at hanuman mandir shajapur", "08-08-1999", membersOnly));
+//        monthsList.add(new MyMonth(3, "sunil birthday", "bfjisnsdjkf", "shajapur", "at hanuman mandir shajapur", "08-08-1999", membersOnly));
+
+
+
 
     }
-
     private void clickListeners() {
 
         binding.EventMonthRv.setLayoutManager(new LinearLayoutManager(this));

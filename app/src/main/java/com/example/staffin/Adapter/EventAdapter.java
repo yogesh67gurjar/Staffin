@@ -164,8 +164,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
         EventsMix singleUnit = currentMonthEventsList.get(position);
         holder.txtDate.setText(singleUnit.getDate());
         holder.txtEventName.setText(singleUnit.getTitleName());
-        Glide.with(context.getApplicationContext()).load(singleUnit.getImage()).placeholder(R.drawable.img_birthday).into(holder.imageView);
-
+//        Glide.with(context.getApplicationContext()).load(singleUnit.getImg1()).placeholder(R.drawable.eventimg).into(holder.imageView);
+        holder.location.setText(singleUnit.getLocation());
+        Glide.with(context.getApplicationContext()).load(singleUnit.getImg1()).into(holder.imageView);
 //        holder.interested.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
@@ -214,7 +215,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView txtDate, txtEventName, interested;
+        TextView txtDate, txtEventName, interested, location;
         ConstraintLayout card;
         ImageView imageView, el1, el2, el3;
 
@@ -224,6 +225,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
             card = itemView.findViewById(R.id.cardEvent);
             imageView = itemView.findViewById(R.id.imageView);
 //            interested = itemView.findViewById(R.id.interested);
+            location = itemView.findViewById(R.id.otp3);
             txtDate = itemView.findViewById(R.id.txtDate);
             txtEventName = itemView.findViewById(R.id.txtEventName);
             el1 = itemView.findViewById(R.id.el1);
