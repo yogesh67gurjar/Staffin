@@ -34,11 +34,7 @@ import retrofit2.Response;
 public class EventActivity extends AppCompatActivity {
 
     ActivityEventBinding binding;
-
-    //    List<MyMonth> monthsList;
     MonthAdapter adapter;
-    //    List<MembersOfEvent> membersOnly;
-//    EventsByYearResponse.EventDetails eventDetails;
     ApiInterface apiInterface;
     ProgressDialog progress;
     List<EventsMix> eventsMixList;
@@ -49,6 +45,7 @@ public class EventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityEventBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         progress = new ProgressDialog(EventActivity.this);
         progress.setCancelable(false);
         progress.setMessage("Please Wait....");
@@ -148,10 +145,6 @@ public class EventActivity extends AppCompatActivity {
                             binding.EventMonthRv.setAdapter(adapter);
                         }
 
-//                        eventDetails = response.body().getEventDetails();
-//                        adapter = new MonthAdapter(getActivity(), eventDetails);
-//                        binding.EventMonthRv.setAdapter(adapter);
-
                     } else {
                         Toast.makeText(getApplicationContext(), "Find Some Error", Toast.LENGTH_SHORT).show();
                         progress.dismiss();
@@ -180,18 +173,9 @@ public class EventActivity extends AppCompatActivity {
         });
 
 
-//        monthsList = new ArrayList<>();
-//        membersOnly = new ArrayList<>();
-//        membersOnly.add(new MembersOfEvent(1, "fjksdnf"));
-//        membersOnly.add(new MembersOfEvent(2, "fjksdnf"));
-//        monthsList.add(new MyMonth(1, "yogesh birthday", "bfjisnsdjkf", "shajapur", "at hanuman mandir shajapur", "08-08-1999", membersOnly));
-//        monthsList.add(new MyMonth(2, "shubham birthday", "bfjisnsdjkf", "shajapur", "at hanuman mandir shajapur", "08-08-1999", membersOnly));
-//        monthsList.add(new MyMonth(3, "sunil birthday", "bfjisnsdjkf", "shajapur", "at hanuman mandir shajapur", "08-08-1999", membersOnly));
-
     }
 
     private void clickListeners() {
-
 
         binding.EventMonthRv.setLayoutManager(new LinearLayoutManager(this));
 
@@ -199,20 +183,7 @@ public class EventActivity extends AppCompatActivity {
             startActivity(new Intent(getApplicationContext(), CreateEventActivity.class));
         });
 
-//        binding.searchBar.addTextChangedListener(new TextWatcher() {
-//            @Override
-//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-//            }
-//
-//            @Override
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                filter(s.toString());
-//            }
-//
-//            @Override
-//            public void afterTextChanged(Editable s) {
-//            }
-//        });
+
         adapter = new MonthAdapter(EventActivity.this, eventsMixList);
         binding.EventMonthRv.setAdapter(adapter);
 
@@ -222,55 +193,7 @@ public class EventActivity extends AppCompatActivity {
 
 
     }
-//
-//    void filterJan(String text) {
-//        List<EventsByYearResponse.EventDetails.January>jan=eventDetails.getJanuary();
-//        List<EventsByYearResponse.EventDetails.February> februaryList=eventDetails.getFebruary();
-//        List<EventsByYearResponse.EventDetails.March> marchList = eventDetails.getMarch();
-//        List<EventsByYearResponse.EventDetails.April> aprilList = eventDetails.getApril();
-//        List<EventsByYearResponse.EventDetails.May> mayList = eventDetails.getMay();
-//        List<EventsByYearResponse.EventDetails.June> juneList = eventDetails.getJune();
-//        List<EventsByYearResponse.EventDetails.July> julyList = eventDetails.getJuly();
-//        List<EventsByYearResponse.EventDetails.August> augustList = eventDetails.getAugust();
-//        List<EventsByYearResponse.EventDetails.September> septemberList =eventDetails.getSeptember();
-//        List<EventsByYearResponse.EventDetails.October> octoberList = eventDetails.getOctober();
-//        List<EventsByYearResponse.EventDetails.November> novemberList = eventDetails.getNovember();
-//        List<EventsByYearResponse.EventDetails.December> decemberList = eventDetails.getDecember();
-//        List<EventsByYearResponse.EventDetails.January> jantemp=new ArrayList<>();
-//        for(EventsByYearResponse.EventDetails.January j:eventDetails.getJanuary())
-//        {
-//            if (j.getTitleName().toLowerCase().contains(text.toLowerCase())) {
-//                jantemp.add(j);
-//            }
-//        }
-//
-//        //update recyclerview
-//        adapter.filterList(jantemp);
-//    }
-//    void filterFeb(String text) {
-//        List<EventsByYearResponse.EventDetails.January>jan=eventDetails.getJanuary();
-//        List<EventsByYearResponse.EventDetails.February> februaryList=eventDetails.getFebruary();
-//        List<EventsByYearResponse.EventDetails.March> marchList = eventDetails.getMarch();
-//        List<EventsByYearResponse.EventDetails.April> aprilList = eventDetails.getApril();
-//        List<EventsByYearResponse.EventDetails.May> mayList = eventDetails.getMay();
-//        List<EventsByYearResponse.EventDetails.June> juneList = eventDetails.getJune();
-//        List<EventsByYearResponse.EventDetails.July> julyList = eventDetails.getJuly();
-//        List<EventsByYearResponse.EventDetails.August> augustList = eventDetails.getAugust();
-//        List<EventsByYearResponse.EventDetails.September> septemberList =eventDetails.getSeptember();
-//        List<EventsByYearResponse.EventDetails.October> octoberList = eventDetails.getOctober();
-//        List<EventsByYearResponse.EventDetails.November> novemberList = eventDetails.getNovember();
-//        List<EventsByYearResponse.EventDetails.December> decemberList = eventDetails.getDecember();
-//        List<EventsByYearResponse.EventDetails.January> jantemp=new ArrayList<>();
-//        for(EventsByYearResponse.EventDetails.January j:eventDetails.getJanuary())
-//        {
-//            if (j.getTitleName().toLowerCase().contains(text.toLowerCase())) {
-//                jantemp.add(j);
-//            }
-//        }
-//
-//        //update recyclerview
-//        adapter.filterList(jantemp);
-//    }
+
 
 
     private boolean isNetworkAvailable() {
@@ -293,26 +216,4 @@ public class EventActivity extends AppCompatActivity {
     }
 
 
-//    void filter(String text) {
-//        ArrayList<EventsMix> filteredlist = new ArrayList<>();
-//
-//        // running a for loop to compare elements.
-//        for (EventsMix item : eventsMixList) {
-//            // checking if the entered string matched with any item of our recycler view.
-//            if (item.getTitleName().toLowerCase().contains(text.toLowerCase())) {
-//                // if the item is matched we are
-//                // adding it to our filtered list.
-//                filteredlist.add(item);
-//            }
-//        }
-//        if (filteredlist.isEmpty()) {
-//            // if no item is added in filtered list we are
-//            // displaying a toast message as no data found.
-//            Toast.makeText(getApplicationContext(), "No Data Found..", Toast.LENGTH_SHORT).show();
-//        } else {
-//            // at last we are passing that filtered
-//            // list to our adapter class.
-//            adapter.filterList(filteredlist);
-//        }
-//    }
 }

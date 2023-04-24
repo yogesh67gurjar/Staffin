@@ -1,6 +1,7 @@
 package com.example.staffin.Adapter;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -39,7 +40,7 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
     Context context;
     List<EmployeeResult> employeeResultList;
     Dialog adDialog;
-
+    ProgressDialog progress;
     ApiInterface apiInterface;
 
 
@@ -48,8 +49,8 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
         this.employeeResultList = employeeResultList;
         adDialog = new Dialog(this.context);
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
-
-
+        progress = new ProgressDialog(this.context);
+        progress.setMessage("please wait....");
     }
 
     public void filterList(List<EmployeeResult> filterlist) {
@@ -92,9 +93,16 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
         String[] DOB = singleUnit.getDateOfBirth().split("T");
         holder.txtDOB.setText("Dob -" + DOB[0]);//singleUnit.getDateOfBirth());
 
+
         holder.txtEmpId.setText("Emp.ID -" + singleUnit.getEmployeeID());
-        holder.txtDepartment.setText("Department -" + singleUnit.getDepartmentId().get(0).getName());
-        holder.txtDesignation.setText("Designation -" + singleUnit.getDesignation().get(0).getDesignation());
+        if (singleUnit.getDepartmentId().size() == 0) {
+            holder.txtDepartment.setText("not specified");
+            holder.txtDesignation.setText("not specified");
+        } else {
+            holder.txtDepartment.setText("Department -" + singleUnit.getDepartmentId().get(0).getName());
+            holder.txtDesignation.setText("Designation -" + singleUnit.getDesignation().get(0).getDesignation());
+        }
+
         holder.txtAtWork.setText("At work -" + singleUnit.getWorkDuration());
 
 
@@ -129,6 +137,7 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
         AppCompatButton noBtn = adDialog.findViewById(R.id.noBtn);
 
         yesBtn.setOnClickListener(v -> {
+            progress.show();
             Call<LoginResponse> callDeleteEmployeeById = apiInterface.deleteEmployeeById(Id);
             callDeleteEmployeeById.enqueue(new Callback<LoginResponse>() {
                 @Override
@@ -136,6 +145,7 @@ public class TotalEmployeeAdapter extends RecyclerView.Adapter<TotalEmployeeAdap
                     if (response.isSuccessful()) {
                         Toast.makeText(context, "Employee Removed Successfully", Toast.LENGTH_SHORT).show();
                         adDialog.dismiss();
+                        progress.dismiss();
                         employeeResultList.remove(position);
                         notifyDataSetChanged();
                     } else {

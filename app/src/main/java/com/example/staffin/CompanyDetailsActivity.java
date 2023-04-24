@@ -161,31 +161,49 @@ public class CompanyDetailsActivity extends AppCompatActivity {
                                                     public void onResponse(Call<CompanyResponseById> call, Response<CompanyResponseById> response) {
                                                         if (response.isSuccessful()) {
                                                             CompanyDetails result = response.body().getCompanyDetails();
-                                                            departmentEdit = result.getDepartment().get(0).getName();
-                                                            designationEdit = result.getDesignation().get(0).getDesignation();
-                                                            binding.annualLeaveEt.setText(result.getAnnualLeave().toString());
-                                                            binding.medicalLeaveEt.setText(result.getMedicalLeave());
-                                                            if (result.getStatus().equalsIgnoreCase("active")) {
-                                                                binding.rbActive.setChecked(true);
-                                                            } else {
-                                                                binding.rbInactive.setChecked(true);
-                                                                binding.rDateEt.setText("");
-                                                            }
-                                                            binding.jDateEt.setText(result.getJoiningDate().split("T")[0]);
-                                                            binding.basicEt.setText(String.valueOf(result.getBasic().get(0).getSalary()));
-                                                            binding.hourlyEt.setText(String.valueOf(result.getHourlyRate().get(0).getSalary()));
-                                                            if (result.getStatus().equalsIgnoreCase("inactive")) {
-                                                                binding.rDateEt.setText(result.getExit_date().split("T")[0]);
-                                                            }
-                                                            for (int i = 0; i < strArray1.length; i++) {
-                                                                if (departmentEdit.equalsIgnoreCase(strArray1[i])) {
-                                                                    binding.departmentEt.setSelection(i);
+                                                            if (result.getDepartment().size() > 0) {
+                                                                departmentEdit = result.getDepartment().get(0).getName();
+                                                                designationEdit = result.getDesignation().get(0).getDesignation();
+                                                                binding.annualLeaveEt.setText(result.getAnnualLeave().toString());
+                                                                binding.medicalLeaveEt.setText(result.getMedicalLeave());
+                                                                if (result.getStatus().equalsIgnoreCase("active")) {
+                                                                    binding.rbActive.setChecked(true);
+                                                                } else {
+                                                                    binding.rbInactive.setChecked(true);
+                                                                    binding.rDateEt.setText("");
                                                                 }
+                                                                binding.jDateEt.setText(result.getJoiningDate().split("T")[0]);
+                                                                if (result.getBasic().size() > 0) {
+                                                                    binding.basicEt.setText(String.valueOf(result.getBasic().get(0).getSalary()));
+                                                                    binding.hourlyEt.setText(String.valueOf(result.getHourlyRate().get(0).getSalary()));
+                                                                } else {
+                                                                    binding.basicEt.setText("");
+                                                                    binding.hourlyEt.setText("");
+                                                                }
+
+                                                                if (result.getStatus() == null) {
+
+                                                                } else {
+                                                                    if (result.getStatus().equalsIgnoreCase("inactive")) {
+                                                                        if (result.getExit_date() == null) {
+
+                                                                        } else {
+                                                                            binding.rDateEt.setText(result.getExit_date().split("T")[0]);
+                                                                        }
+                                                                    }
+                                                                }
+
+                                                                for (int i = 0; i < strArray1.length; i++) {
+                                                                    if (departmentEdit.equalsIgnoreCase(strArray1[i])) {
+                                                                        binding.departmentEt.setSelection(i);
+                                                                    }
 
 //                                                                if (designationEdit.equalsIgnoreCase(strArray2[i])) {
 //                                                                    binding.designationEt.setSelection(i);
 //                                                                }
+                                                                }
                                                             }
+
 
                                                         } else {
                                                             Toast.makeText(CompanyDetailsActivity.this, "Some error occured", Toast.LENGTH_SHORT).show();
@@ -313,29 +331,29 @@ public class CompanyDetailsActivity extends AppCompatActivity {
 
 //                  Id, depIdStr, desigIdStr, annualLeave, medicalLeave, finalStatus, jdate, rdate, basicSalary, hourlyRate
 
-                Call<LoginResponse> callUpdateCompanyDetailsById = apiInterface.updateCompanyDetailsById(Id,depIdStr,desigIdStr,annualLeave,medicalLeave,finalStatus,jdate,rdate,basicSalary,hourlyRate);
-                progressDialog.show();
-                callUpdateCompanyDetailsById.enqueue(new Callback<LoginResponse>() {
-                    @Override
-                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
-                        if (response.isSuccessful()) {
-                            progressDialog.dismiss();
-                            startActivity(intent);
-                        } else {
-                            Log.d("jkbfjksdf", response.message());
-                            progressDialog.dismiss();
-                            Toast.makeText(CompanyDetailsActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+                    Call<LoginResponse> callUpdateCompanyDetailsById = apiInterface.updateCompanyDetailsById(Id, depIdStr, desigIdStr, annualLeave, medicalLeave, finalStatus, jdate, rdate, basicSalary, hourlyRate);
+                    progressDialog.show();
+                    callUpdateCompanyDetailsById.enqueue(new Callback<LoginResponse>() {
+                        @Override
+                        public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                            if (response.isSuccessful()) {
+                                progressDialog.dismiss();
+                                startActivity(intent);
+                            } else {
+                                Log.d("jkbfjksdf", response.message() + response.body());
+                                progressDialog.dismiss();
+                                Toast.makeText(CompanyDetailsActivity.this, "Failure", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<LoginResponse> call, Throwable t) {
-                        progressDialog.dismiss();
-                        Log.d("sdknf", t.getMessage());
-                        Toast.makeText(CompanyDetailsActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                        Toast.makeText(CompanyDetailsActivity.this, "some error occured", Toast.LENGTH_SHORT).show();
-                    }
-                });
+                        @Override
+                        public void onFailure(Call<LoginResponse> call, Throwable t) {
+                            progressDialog.dismiss();
+                            Log.d("sdknf", t.getMessage());
+                            Toast.makeText(CompanyDetailsActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CompanyDetailsActivity.this, "some error occured", Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
                 } else {
                     intent.putExtra("from", "add");

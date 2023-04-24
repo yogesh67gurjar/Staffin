@@ -19,24 +19,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/noEventFound"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="10dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/bg_blue_corner"
-        android:gravity="center"
-        android:text="No Event Found"
-        android:textColor="@color/bluetext"
-        android:textSize="25sp"
-        android:textStyle="bold"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/monthTv" />
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/EventRv"
         android:layout_width="match_parent"
@@ -48,33 +30,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/monthTv"
         tools:listitem="@layout/rv_event_layout" />
-
-
-    <!--    <com.facebook.shimmer.ShimmerFrameLayout-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="match_parent"-->
-    <!--        android:layout_marginTop="10dp"-->
-    <!--        android:layout_marginHorizontal="10dp"-->
-    <!--        app:layout_constraintBottom_toBottomOf="parent"-->
-    <!--        app:layout_constraintEnd_toEndOf="parent"-->
-    <!--        -->
-    <!--        app:layout_constraintStart_toStartOf="parent"-->
-    <!--        app:layout_constraintTop_toTopOf="parent">-->
-
-    <!--        <LinearLayout-->
-    <!--            android:orientation="horizontal"-->
-    <!--            android:layout_width="match_parent"-->
-    <!--            android:layout_height="wrap_content">-->
-
-    <!--            <include layout="@layout/shimmer_events"/>-->
-    <!--            <include layout="@layout/shimmer_events"/>-->
-    <!--            <include layout="@layout/shimmer_events"/>-->
-
-    <!--        </LinearLayout>-->
-    <!--        -->
-
-    <!--        -->
-
-    <!--    </com.facebook.shimmer.ShimmerFrameLayout>-->
 
 </androidx.constraintlayout.widget.ConstraintLayout>
