@@ -22,8 +22,10 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.example.staffin.Interface.ApiInterface;
 import com.example.staffin.Response.AddEventResponse;
+import com.example.staffin.Response.EmployeeResult;
 import com.example.staffin.Response.LoginResponse;
 import com.example.staffin.Response.TotalEmployeeResponse;
 import com.example.staffin.Retrofit.RetrofitServices;
@@ -36,7 +38,9 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -58,7 +62,7 @@ public class CreateEventActivity extends AppCompatActivity {
     ApiInterface apiInterface;
     HashMap<String, String> map;
     List<Integer> add_member;
-
+    List<EmployeeResult> results;
     Uri uriImage1, uriImage2, uriImage3, uriImage4;
     String image1 = null, image2 = null, image3 = null, image4 = null;
     File file1, file2, file3, file4;
@@ -74,6 +78,7 @@ public class CreateEventActivity extends AppCompatActivity {
 
     private void clickListeners() {
         map = new HashMap<>();
+        results = new ArrayList<>();
         add_member = new ArrayList<>();
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
         progress = new ProgressDialog(CreateEventActivity.this);
@@ -88,7 +93,7 @@ public class CreateEventActivity extends AppCompatActivity {
                 public void onResponse(Call<TotalEmployeeResponse> call, Response<TotalEmployeeResponse> response) {
                     if (response.isSuccessful()) {
                         ImageView imageview[] = new ImageView[response.body().getEmployeeResult().size()];
-
+                        results = response.body().getEmployeeResult();
                         String[] names = new String[response.body().getEmployeeResult().size()];
 
                         for (int i = 0; i < response.body().getEmployeeResult().size(); i++) {
@@ -135,7 +140,14 @@ public class CreateEventActivity extends AppCompatActivity {
                                             imageview[i] = new ImageView(CreateEventActivity.this);
                                             imageview[i].setImageResource(R.drawable.img_dp);
                                             View child = getLayoutInflater().inflate(R.layout.add_member_in_event, null);
-                                            child.findViewById(R.id.memberDp);
+                                            CircleImageView dp = child.findViewById(R.id.memberDp);
+                                            for (EmployeeResult e : results) {
+                                                if(Objects.equals(e.getId(), idsList.get(i)))
+                                                {
+                                                    Glide.with(CreateEventActivity.this).load(e.getProfileImage()).placeholder(R.drawable.img_dp).into(dp);
+                                                }
+                                            }
+
                                             binding.dynamicLl.addView(child);
                                         }
                                         if (selectedIds[i]) {
