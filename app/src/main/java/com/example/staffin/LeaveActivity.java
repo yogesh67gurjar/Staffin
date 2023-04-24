@@ -50,7 +50,7 @@ public class LeaveActivity extends AppCompatActivity {
                     progressDialog.dismiss();
                     employeeLeaveResult = response.body().getEmployeeLeaveResult();
                     binding.leaveRV.setLayoutManager(new LinearLayoutManager(LeaveActivity.this));
-                    if (employeeLeaveResult.size() < 1) {
+                    if (employeeLeaveResult.size() == 0) {
                         binding.leaveRV.setVisibility(View.GONE);
                         binding.nothingTv.setVisibility(View.VISIBLE);
                     } else {

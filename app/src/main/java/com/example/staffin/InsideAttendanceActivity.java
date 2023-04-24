@@ -5,11 +5,14 @@ import static android.icu.lang.UCharacter.DecompositionType.SQUARE;
 import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.CalendarContract;
 import android.provider.ContactsContract;
 import android.util.Log;
@@ -18,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 
 import com.example.staffin.Fragment.PresentBottomSheetFragment;
 import com.example.staffin.Interface.ApiInterface;
@@ -30,6 +34,10 @@ import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.time.ZoneId;
 import java.util.Calendar;
@@ -182,8 +190,25 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         binding.btnBack.setOnClickListener(v -> {
             finish();
         });
-        binding.imageButton.setOnClickListener(v -> {
-            initDownload();
+        binding.btnDownload.setOnClickListener(v -> {
+//            initDownload();
+            View rootView = getWindow().getDecorView().getRootView();
+            rootView.setDrawingCacheEnabled(true);
+            Bitmap bitmap = Bitmap.createBitmap(rootView.getDrawingCache());
+            rootView.setDrawingCacheEnabled(false);
+
+            // Save the Bitmap to a file
+            File file = new File(Environment.getExternalStorageDirectory() + "/screenshot.png");
+            try {
+                FileOutputStream fos = new FileOutputStream(file);
+                bitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                fos.flush();
+                fos.close();
+                Toast.makeText(this, "Attendance Saved To " + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
+            } catch (IOException e) {
+                e.printStackTrace();
+                Toast.makeText(this, "Error Saving Attendance", Toast.LENGTH_SHORT).show();
+            }
 
         });
 
@@ -507,10 +532,10 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         progressDialog.dismiss();
     }
 
-    private void initDownload() {
-        String uri = "https://drive.google.com/file/d/1FrGQUneY7UNZCT8w33hPDHYgwhwwjNx5/view?usp=share_link";
-        download(getApplicationContext(), "CodeSpeedy_writer", ".pdf", "Downloads", uri.trim());
-    }
+//    private void initDownload() {
+//        String uri = "https://drive.google.com/file/d/1FrGQUneY7UNZCT8w33hPDHYgwhwwjNx5/view?usp=share_link";
+//        download(getApplicationContext(), "CodeSpeedy_writer", ".pdf", "Downloads", uri.trim());
+//    }
 
     private void download(Context context, String Filename, String FileExtension, String DesignationDirectory, String url) {
         DownloadManager downloadManager = (DownloadManager) context.getSystemService(Context.DOWNLOAD_SERVICE);
