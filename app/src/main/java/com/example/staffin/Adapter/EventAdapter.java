@@ -31,7 +31,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
     List<EventsMix> currentMonthEventsList;
     String image, image1, image2, image3, title, desc, date, location;
     String[] membersArray;
-
 //    List<EventsByYearResponse.EventDetails.January> januaries;
 //    List<EventsByYearResponse.EventDetails.February> februaries;
 //    List<EventsByYearResponse.EventDetails.March> marches;
@@ -45,8 +44,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
 //    List<EventsByYearResponse.EventDetails.November> novembers;
 //    List<EventsByYearResponse.EventDetails.December> decembers;
 //    int size;
-
-
     public EventAdapter(Context context, int month, List<EventsMix> eventsMixList) {
         this.context = context;
         this.month = month;
@@ -99,7 +96,6 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
 //            size = decembers.size();
 //        }
 //    }
-
     @NonNull
     @Override
     public EventAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -164,9 +160,9 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
         EventsMix singleUnit = currentMonthEventsList.get(position);
         holder.txtDate.setText(singleUnit.getDate());
         holder.txtEventName.setText(singleUnit.getTitleName());
-//        Glide.with(context.getApplicationContext()).load(singleUnit.getImg1()).placeholder(R.drawable.eventimg).into(holder.imageView);
+        Glide.with(context.getApplicationContext()).load(singleUnit.getImg1()).placeholder(R.drawable.img_event_placeholder).into(holder.imageView);
         holder.location.setText(singleUnit.getLocation());
-        Glide.with(context.getApplicationContext()).load(singleUnit.getImg1()).into(holder.imageView);
+//        Glide.with(context.getApplicationContext()).load(singleUnit.getImg1()).into(holder.imageView);
 //        holder.interested.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
