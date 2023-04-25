@@ -96,7 +96,7 @@ public class PaySlipActivity extends AppCompatActivity {
                         binding.empId.setText("Emp. ID - " + singleUnit.getEmployeeId().get(0).getEmployeeID());
 
                         binding.txt1.setText("Month:-"+singleUnit.getMonth());
-                        binding.txt2.setText("year:-"+singleUnit.getYear());
+                        binding.txt2.setText("Year:-"+singleUnit.getYear());
                         Log.e("data DEkho to", response.message());
                     }
 

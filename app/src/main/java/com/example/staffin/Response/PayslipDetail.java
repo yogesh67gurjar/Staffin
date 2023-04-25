@@ -10,9 +10,11 @@ public class PayslipDetail {
     @SerializedName("id")
     @Expose
     private Integer id;
+
     @SerializedName("employee_id")
     @Expose
     private List<AllPayroll.AllPayslipDetail.EmployeeId> employeeId;
+
     @SerializedName("month")
     @Expose
     private String month;
