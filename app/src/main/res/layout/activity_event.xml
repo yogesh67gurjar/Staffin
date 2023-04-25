@@ -52,7 +52,7 @@
         android:background="@drawable/bg_searchview"
         android:drawableStart="@drawable/ic_search"
         android:drawablePadding="10dp"
-        android:hint="Search employee"
+        android:hint="Search Event"
         android:paddingVertical="10dp"
         android:textColor="@color/black"
         android:textColorHint="@color/txtGray"
