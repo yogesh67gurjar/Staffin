@@ -37,6 +37,7 @@ public class PaySlipActivity extends AppCompatActivity {
 
     ApiInterface apiInterface;
     int Id = 0;
+    int IdI = 0;
 
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
@@ -50,6 +51,7 @@ public class PaySlipActivity extends AppCompatActivity {
         sharedPreferences = getApplicationContext().getSharedPreferences("staffin", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         Id = getIntent().getIntExtra("Id", 0);
+        IdI = getIntent().getIntExtra("IdI", 0);
         Log.i("Id AArahi AHI", String.valueOf(Id));
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
         setOnClickListener();
@@ -68,7 +70,7 @@ public class PaySlipActivity extends AppCompatActivity {
         progressDialog.setMessage("Loading...");
         progressDialog.setCancelable(false);
         progressDialog.show();
-        Call<PaySlipResponse> paySlipResponseCall = apiInterface.getPaySlip(Integer.parseInt(String.valueOf(Id)));
+        Call<PaySlipResponse> paySlipResponseCall = apiInterface.getPaySlip(Integer.parseInt(String.valueOf(IdI)));
         paySlipResponseCall.enqueue(new Callback<PaySlipResponse>() {
             @Override
             public void onResponse(Call<PaySlipResponse> call, Response<PaySlipResponse> response) {
@@ -85,18 +87,16 @@ public class PaySlipActivity extends AppCompatActivity {
                         PayslipDetail singleUnit = response.body().getPayslipDetails().get(0);
                         Glide.with(getApplicationContext()).load(singleUnit.getEmployeeId().get(0).getProfileImageUrl()).placeholder(R.drawable.img_dp).into(binding.dpImg);
                         binding.nameTv.setText(singleUnit.getEmployeeId().get(0).getFullName());
-
                         binding.indicator.setText(singleUnit.getStatus());
                         binding.basicAmount.setText(singleUnit.getBasic());
                         binding.hourlyAmount.setText(singleUnit.getOvertimeHours());
                         binding.expenseAmount.setText(singleUnit.getExpense());
                         binding.bounceAmount.setText(singleUnit.getTotalAllowance());
-                        binding.deductionAmount.setText(singleUnit.getDeductions());
+                        binding.deductionAmount.setText(singleUnit.getTotalDeduction());
                         binding.netAmount.setText(singleUnit.getNetSalary());
                         binding.empId.setText("Emp. ID - " + singleUnit.getEmployeeId().get(0).getEmployeeID());
-
-                        binding.txt1.setText("Month:-"+singleUnit.getMonth());
-                        binding.txt2.setText("Year:-"+singleUnit.getYear());
+                        binding.txt1.setText("Month:-" + singleUnit.getMonth());
+                        binding.txt2.setText("Year:-" + singleUnit.getYear());
                         Log.e("data DEkho to", response.message());
                     }
 
