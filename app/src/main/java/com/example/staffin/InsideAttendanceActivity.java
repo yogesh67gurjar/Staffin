@@ -23,6 +23,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
 
+import com.bumptech.glide.Glide;
 import com.example.staffin.Fragment.PresentBottomSheetFragment;
 import com.example.staffin.Interface.ApiInterface;
 import com.example.staffin.Response.AllHolidays;
@@ -89,7 +90,8 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
         progressDialog = new ProgressDialog(InsideAttendanceActivity.this);
         progressDialog.setMessage("Loading...");
-        progressDialog.show();
+//        progressDialog.show();
+        binding.lottie.setVisibility(View.VISIBLE);
 
 
         name = getIntent().getStringExtra("name");
@@ -99,6 +101,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         Id = getIntent().getIntExtra("Id", 0);
         binding.nameTv.setText(name);
         binding.empId.setText("Emp. ID - " + empId);
+        Glide.with(InsideAttendanceActivity.this).load(dpImg).placeholder(R.drawable.img_dp).into(binding.userImage);
         if (status.equalsIgnoreCase("absent")) {
             binding.indicator.setBackgroundResource(R.drawable.bg_red);
             binding.indicator.setText("Absent");
@@ -157,12 +160,14 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         }
 
         Call<GetMonthlyAttendance> callGetMonthlyAttendanceByEid = apiInterface.getMonthlyAttendanceByEid(month, year, Id);
-        progressDialog.show();
+//        progressDialog.show();
+        binding.lottie.setVisibility(View.VISIBLE);
         callGetMonthlyAttendanceByEid.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<GetMonthlyAttendance> call, Response<GetMonthlyAttendance> response) {
                 if (response.isSuccessful()) {
-                    progressDialog.dismiss();
+//                    progressDialog.dismiss();
+                    binding.lottie.setVisibility(View.GONE);
                     binding.presentCount.setText(response.body().getPresentDay().toString());
                     binding.absentCount.setText(response.body().getAbsent().toString());
                     binding.paidLeaveCount.setText(response.body().getPaidLeaveCount().toString());
@@ -171,7 +176,8 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                     initializeCalendar(response.body().getPresentDate(), response.body().getAbsentDate(), response.body().getPaidLeaveDate(), response.body().getLateComingDate(), response.body().getHalfdayDate(), response.body().getHolidayDate());
                 } else {
                     Log.d("kfndkfjn", response.message());
-                    progressDialog.dismiss();
+//                    progressDialog.dismiss();
+                    binding.lottie.setVisibility(View.GONE);
                     Toast.makeText(InsideAttendanceActivity.this, "some error orrured", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -179,7 +185,8 @@ public class InsideAttendanceActivity extends AppCompatActivity {
             @Override
             public void onFailure(Call<GetMonthlyAttendance> call, Throwable t) {
                 Log.d("kfndkfjn", t.getMessage());
-                progressDialog.dismiss();
+//                progressDialog.dismiss();
+                binding.lottie.setVisibility(View.GONE);
                 Toast.makeText(InsideAttendanceActivity.this, "some failure orrured", Toast.LENGTH_SHORT).show();
             }
         });
@@ -213,8 +220,8 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         });
 
 
-        progressDialog.dismiss();
-
+//        progressDialog.dismiss();
+        binding.lottie.setVisibility(View.GONE);
 
         binding.compactcalendarView.shouldScrollMonth(false);
 
@@ -255,7 +262,8 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         CompactCalendarView compactCalendarView = findViewById(R.id.compactcalendar_view);
         compactCalendarView.setLocale(TimeZone.getDefault(), Locale.ENGLISH);
         compactCalendarView.setUseThreeLetterAbbreviation(true);
-        progressDialog.show();
+//        progressDialog.show();
+        binding.lottie.setVisibility(View.VISIBLE);
         long milliTime;
 
         for (GetMonthlyAttendance.PresentDate singleUnit : presentDates) {
@@ -529,7 +537,8 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                 }
             }
         });
-        progressDialog.dismiss();
+//        progressDialog.dismiss();
+        binding.lottie.setVisibility(View.GONE);
     }
 
 //    private void initDownload() {

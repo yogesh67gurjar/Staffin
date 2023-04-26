@@ -70,13 +70,15 @@ public class EventActivity extends AppCompatActivity {
                 }
             });
 
-            progress.show();
+//            progress.show();
+            binding.lottie.setVisibility(View.VISIBLE);
             Call<EventsByYearResponse> callGetEventsByYear = apiInterface.getEventsByYear(2023);
             callGetEventsByYear.enqueue(new Callback<EventsByYearResponse>() {
                 @Override
                 public void onResponse(Call<EventsByYearResponse> call, Response<EventsByYearResponse> response) {
                     if (response.isSuccessful()) {
-                        progress.dismiss();
+//                        progress.dismiss();
+                        binding.lottie.setVisibility(View.GONE);
                         if (response.body().getEventDetails().getJanuary().size() > 0) {
                             for (EventsByYearResponse.EventDetails.January x : response.body().getEventDetails().getJanuary()) {
                                 eventsMixList.add(new EventsMix(x.getId(), x.getTitleName(), x.getImage(), x.getImg1(), x.getImg2(), x.getImg3(), x.getLocation(), x.getDescription(), x.getDate(), x.getAddMember(), 1));
@@ -151,7 +153,8 @@ public class EventActivity extends AppCompatActivity {
 
                     } else {
                         Toast.makeText(getApplicationContext(), "Find Some Error", Toast.LENGTH_SHORT).show();
-                        progress.dismiss();
+//                        progress.dismiss();
+                        binding.lottie.setVisibility(View.GONE);
                         Log.d("jnknfd", response.message());
                     }
                 }
@@ -159,7 +162,8 @@ public class EventActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<EventsByYearResponse> call, Throwable t) {
                     Toast.makeText(getApplicationContext(), "Failure,Try Again", Toast.LENGTH_SHORT).show();
-                    progress.dismiss();
+//                    progress.dismiss();
+                    binding.lottie.setVisibility(View.GONE);
                     Log.d("kdnf", t.getMessage());
                 }
             });
@@ -185,9 +189,8 @@ public class EventActivity extends AppCompatActivity {
 //        monthsList.add(new MyMonth(3, "sunil birthday", "bfjisnsdjkf", "shajapur", "at hanuman mandir shajapur", "08-08-1999", membersOnly));
 
 
-
-
     }
+
     private void clickListeners() {
 
         binding.EventMonthRv.setLayoutManager(new LinearLayoutManager(this));
@@ -206,7 +209,6 @@ public class EventActivity extends AppCompatActivity {
 
 
     }
-
 
 
     private boolean isNetworkAvailable() {
