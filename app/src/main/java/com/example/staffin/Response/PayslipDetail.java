@@ -67,6 +67,54 @@ public class PayslipDetail {
     @Expose
     private String status;
 
+    @SerializedName("bonus")
+    @Expose
+    private String bonus;
+
+    @SerializedName("total_working_day")
+    @Expose
+    private String total_working_day;
+
+    @SerializedName("daily_rate")
+    @Expose
+    private String daily_rate;
+
+    @SerializedName("deduction")
+    @Expose
+    private String deduction;
+
+    public String getBonus() {
+        return bonus;
+    }
+
+    public void setBonus(String bonus) {
+        this.bonus = bonus;
+    }
+
+    public String getTotal_working_day() {
+        return total_working_day;
+    }
+
+    public void setTotal_working_day(String total_working_day) {
+        this.total_working_day = total_working_day;
+    }
+
+    public String getDaily_rate() {
+        return daily_rate;
+    }
+
+    public void setDaily_rate(String daily_rate) {
+        this.daily_rate = daily_rate;
+    }
+
+    public String getDeduction() {
+        return deduction;
+    }
+
+    public void setDeduction(String deduction) {
+        this.deduction = deduction;
+    }
+
     public Integer getId() {
         return id;
     }

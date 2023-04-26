@@ -58,6 +58,7 @@ public class PayRollAdapter extends RecyclerView.Adapter<PayRollAdapter.MyViewHo
         holder.viewIcon.setOnClickListener(v -> {
             Intent startIntent = new Intent(context.getApplicationContext(), PaySlipActivity.class);
             startIntent.putExtra("Id", singleUnit.getEmployeeId().get(0).getId());
+            startIntent.putExtra("IdI", singleUnit.getId());
             startIntent.putExtra("empId", singleUnit.getEmployeeId().get(0).getEmployeeID());
             context.startActivity(startIntent);
         });
@@ -65,7 +66,12 @@ public class PayRollAdapter extends RecyclerView.Adapter<PayRollAdapter.MyViewHo
         holder.editIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                context.startActivity(new Intent(context.getApplicationContext(), SalaryInfoActivity.class));
+                Intent startIntent = new Intent(context.getApplicationContext(), SalaryInfoActivity.class);
+                startIntent.putExtra("Id", singleUnit.getEmployeeId().get(0).getId());
+                startIntent.putExtra("IdI", singleUnit.getId());
+                startIntent.putExtra("empId", singleUnit.getEmployeeId().get(0).getEmployeeID());
+                context.startActivity(startIntent);
+
             }
         });
     }
