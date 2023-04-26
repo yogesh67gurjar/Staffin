@@ -121,6 +121,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="1dp"
                 android:text="Department - "
+                android:visibility="gone"
                 android:textColor="#02141F"
                 android:textSize="16sp"
                 android:textStyle="normal"
@@ -130,6 +131,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/empId" />
 
             <TextView
+                android:visibility="gone"
                 android:id="@+id/DesignationTv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
