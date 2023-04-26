@@ -293,6 +293,20 @@ public interface ApiInterface {
     @GET("get-all-expense")
     Call<AllExpenses> getAllExpenses();
 
+    @FormUrlEncoded
+    @POST("update-payroll/{id}")
+    Call<LoginResponse> postUpdatePayroll(@Path("id") int id,
+                                          @Field("status") String status,
+                                          @Field("daily_rate") String daily_rate,
+                                          @Field("total_working_day") String total_working_day,
+                                          @Field("overtime_pay") String overtime_pay,
+                                          @Field("overtime_hours") String overtime_hours,
+                                          @Field("basic") String basic,
+                                          @Field("expense") String expense,
+                                          @Field("bonus") String bonus,
+                                          @Field("deduction") String deduction,
+                                          @Field("net_salary") String net_salary);
+
 }
 
 
