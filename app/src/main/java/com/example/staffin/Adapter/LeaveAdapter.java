@@ -28,6 +28,7 @@ import com.example.staffin.Interface.ApiInterface;
 import com.example.staffin.R;
 import com.example.staffin.Response.EmployeeLeaveResult;
 import com.example.staffin.Response.LeaveAcceptRejectResponse;
+import com.example.staffin.Response.LeaveResponse;
 import com.example.staffin.Retrofit.RetrofitServices;
 
 import java.util.List;
@@ -38,11 +39,11 @@ import retrofit2.Response;
 
 public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.MyViewHolder> {
     Context context;
-    List<EmployeeLeaveResult> leaveResultList;
+    List<LeaveResponse.EmployeeRes> leaveResultList;
     Dialog adDialog;
     ApiInterface apiInterface;
 
-    public LeaveAdapter(Context context, List<EmployeeLeaveResult> leaveResultList) {
+    public LeaveAdapter(Context context, List<LeaveResponse.EmployeeRes> leaveResultList) {
         this.context = context;
         this.leaveResultList = leaveResultList;
         adDialog = new Dialog(this.context);
@@ -68,8 +69,9 @@ public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.MyViewHolder
         holder.txtStartReason.startAnimation(animationLeft);
         holder.txtReason.startAnimation(animationLeft);
 
-        EmployeeLeaveResult singleUnit = leaveResultList.get(position);
-        holder.txtEmpId.setText(singleUnit.getEmployeeId().toString());
+        LeaveResponse.EmployeeRes singleUnit = leaveResultList.get(position);
+        holder.txtEmpId.setText(singleUnit.getEmployeeId().get(0).getEmployeeID());
+        Glide.with(context).load(singleUnit.getEmployeeId().get(0).getProfileImageUrl()).into(holder.userDp);
         holder.txtReason.setText(singleUnit.getReason());
 //        Glide.with(context.getApplicationContext()).load(singleUnit.get).placeholder(R.drawable.img_dp).into(holder.userDp);
         holder.leaveCard.setOnClickListener(v -> {
@@ -82,7 +84,7 @@ public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.MyViewHolder
         return leaveResultList.size();
     }
 
-    public void showPopup(EmployeeLeaveResult singleUnit, int position) {
+    public void showPopup(LeaveResponse.EmployeeRes singleUnit, int position) {
         adDialog.setContentView(R.layout.leave_application_popup);
         adDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         adDialog.setCancelable(false);
@@ -172,7 +174,7 @@ public class LeaveAdapter extends RecyclerView.Adapter<LeaveAdapter.MyViewHolder
             leaveCard = itemView.findViewById(R.id.leaveCard);
             txtEmpId = itemView.findViewById(R.id.txtempId);
             txtReason = itemView.findViewById(R.id.txtReason);
-            userDp = itemView.findViewById(R.id.imgUser);
+            userDp = itemView.findViewById(R.id.imgUser_leave);
             txtStartEmpId = itemView.findViewById(R.id.textView2);
             txtStartReason = itemView.findViewById(R.id.txtStartDate);
             txtPending = itemView.findViewById(R.id.pending);

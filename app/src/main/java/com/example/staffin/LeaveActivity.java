@@ -27,7 +27,7 @@ public class LeaveActivity extends AppCompatActivity {
     ActivityLeaveBinding binding;
     LeaveAdapter adapter;
     ApiInterface apiInterface;
-    List<EmployeeLeaveResult> employeeLeaveResult;
+    List<LeaveResponse.EmployeeRes> employeeLeaveResult;
 
 
     @Override
@@ -48,7 +48,7 @@ public class LeaveActivity extends AppCompatActivity {
             public void onResponse(Call<LeaveResponse> call, Response<LeaveResponse> response) {
                 if (response.isSuccessful()) {
                     progressDialog.dismiss();
-                    employeeLeaveResult = response.body().getEmployeeLeaveResult();
+                    employeeLeaveResult = response.body().getEmployeeResult();
                     binding.leaveRV.setLayoutManager(new LinearLayoutManager(LeaveActivity.this));
                     if (employeeLeaveResult.size() == 0) {
                         binding.leaveRV.setVisibility(View.GONE);

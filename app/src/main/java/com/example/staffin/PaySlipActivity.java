@@ -91,7 +91,12 @@ public class PaySlipActivity extends AppCompatActivity {
                         binding.basicAmount.setText(singleUnit.getBasic());
                         binding.hourlyAmount.setText(singleUnit.getOvertimeHours());
                         binding.expenseAmount.setText(singleUnit.getExpense());
-                        binding.bounceAmount.setText(singleUnit.getTotalAllowance());
+                        if (singleUnit.getBonus() == null) {
+                            binding.bounceAmount.setText("0");
+                        } else {
+                            binding.bounceAmount.setText(singleUnit.getBonus());
+                        }
+
                         binding.deductionAmount.setText(singleUnit.getTotalDeduction());
                         binding.netAmount.setText(singleUnit.getNetSalary());
                         binding.empId.setText("Emp. ID - " + singleUnit.getEmployeeId().get(0).getEmployeeID());

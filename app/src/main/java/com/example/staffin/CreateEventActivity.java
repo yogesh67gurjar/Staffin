@@ -54,6 +54,8 @@ public class CreateEventActivity extends AppCompatActivity {
     ActivityCreateEventBinding binding;
 
     List<String> employeesList;
+    List<String> profileImages;
+    List<String> myProfiles;
     List<Integer> idsList;
     boolean[] selectedIds;
     boolean[] selectedEmployees;
@@ -78,8 +80,10 @@ public class CreateEventActivity extends AppCompatActivity {
 
     private void clickListeners() {
         map = new HashMap<>();
+        myProfiles = new ArrayList<>();
         results = new ArrayList<>();
         add_member = new ArrayList<>();
+        profileImages = new ArrayList<>();
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
         progress = new ProgressDialog(CreateEventActivity.this);
         progress.setMessage("please wait....");
@@ -101,6 +105,7 @@ public class CreateEventActivity extends AppCompatActivity {
                             Log.d("dfuhksdf", employeesList.get(i));
                             names[i] = employeesList.get(i);
                             idsList.add(response.body().getEmployeeResult().get(i).getId());
+                            profileImages.add(response.body().getEmployeeResult().get(i).getProfileImage());
                             map.put(response.body().getEmployeeResult().get(i).getFullName(), response.body().getEmployeeResult().get(i).getProfileImage());
                         }
 
@@ -134,6 +139,8 @@ public class CreateEventActivity extends AppCompatActivity {
                                 builder.setPositiveButton("Done", (dialog, which) -> {
                                     binding.dynamicLl.removeAllViews();
                                     add_member.clear();
+                                    myProfiles.clear();
+
 
                                     for (int i = 0; i < selectedEmployees.length; i++) {
                                         if (selectedEmployees[i]) {
@@ -142,8 +149,8 @@ public class CreateEventActivity extends AppCompatActivity {
                                             View child = getLayoutInflater().inflate(R.layout.add_member_in_event, null);
                                             CircleImageView dp = child.findViewById(R.id.memberDp);
                                             for (EmployeeResult e : results) {
-                                                if(Objects.equals(e.getId(), idsList.get(i)))
-                                                {
+                                                if (Objects.equals(e.getId(), idsList.get(i))) {
+                                                    myProfiles.add(e.getProfileImage());
                                                     Glide.with(CreateEventActivity.this).load(e.getProfileImage()).placeholder(R.drawable.img_dp).into(dp);
                                                 }
                                             }
@@ -254,13 +261,19 @@ public class CreateEventActivity extends AppCompatActivity {
                     RequestBody des = RequestBody.create(MediaType.parse("text/plain"), description);
                     RequestBody loc = RequestBody.create(MediaType.parse("text/plain"), location);
                     RequestBody dat = RequestBody.create(MediaType.parse("text/plain"), date);
-
+////////////////////////////
                     String integerListString = TextUtils.join(",", add_member);
                     RequestBody add_memb = RequestBody.create(MediaType.parse("text/plain"), integerListString);
 
+                    String profileImagesString = TextUtils.join(",,,,,,,,,,", myProfiles);
+                    RequestBody add_memb_profiles = RequestBody.create(MediaType.parse("text/plain"), profileImagesString);
+
+                    int count = add_member.size();
+                    RequestBody add_memb_count = RequestBody.create(MediaType.parse("text/plain"), String.valueOf(count));
+//////////////////////////
                     if (binding.second.getDrawable() == null && binding.third.getDrawable() == null && binding.fourth.getDrawable() == null) {
 
-                        callAddEventFunc = apiInterface.addEventFunc(image, null, null, null, tit, loc, des, dat, add_memb);
+                        callAddEventFunc = apiInterface.addEventFunc(image, null, null, null, tit, loc, des, dat, add_memb, add_memb_profiles, add_memb_count);
 
                     } else if (binding.second.getDrawable() != null && binding.third.getDrawable() == null && binding.fourth.getDrawable() == null) {
 
@@ -268,7 +281,7 @@ public class CreateEventActivity extends AppCompatActivity {
                         RequestBody image22 = RequestBody.create(MediaType.parse("image/*"), file2);
                         MultipartBody.Part image1 = MultipartBody.Part.createFormData("image1", file2.getName(), image22);
 
-                        callAddEventFunc = apiInterface.addEventFunc(image, image1, null, null, tit, loc, des, dat, add_memb);
+                        callAddEventFunc = apiInterface.addEventFunc(image, image1, null, null, tit, loc, des, dat, add_memb, add_memb_profiles, add_memb_count);
 
                     } else if (binding.second.getDrawable() != null && binding.third.getDrawable() != null && binding.fourth.getDrawable() == null) {
 
@@ -279,7 +292,7 @@ public class CreateEventActivity extends AppCompatActivity {
                         RequestBody image33 = RequestBody.create(MediaType.parse("image/*"), file3);
                         MultipartBody.Part image2 = MultipartBody.Part.createFormData("image2", file3.getName(), image33);
 
-                        callAddEventFunc = apiInterface.addEventFunc(image, image1, image2, null, tit, loc, des, dat, add_memb);
+                        callAddEventFunc = apiInterface.addEventFunc(image, image1, image2, null, tit, loc, des, dat, add_memb, add_memb_profiles, add_memb_count);
 
                     } else if (binding.second.getDrawable() != null && binding.third.getDrawable() != null && binding.fourth.getDrawable() != null) {
 
@@ -292,7 +305,7 @@ public class CreateEventActivity extends AppCompatActivity {
                         file4 = new File(image4);
                         RequestBody image44 = RequestBody.create(MediaType.parse("image/*"), file4);
                         MultipartBody.Part image3 = MultipartBody.Part.createFormData("image3", file4.getName(), image44);
-                        callAddEventFunc = apiInterface.addEventFunc(image, image1, image2, image3, tit, loc, des, dat, add_memb);
+                        callAddEventFunc = apiInterface.addEventFunc(image, image1, image2, image3, tit, loc, des, dat, add_memb, add_memb_profiles, add_memb_count);
 
                     }
 
