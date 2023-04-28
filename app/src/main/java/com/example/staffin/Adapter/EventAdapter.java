@@ -31,7 +31,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
     List<EventsMix> currentMonthEventsList;
     String image, image1, image2, image3, title, desc, date, location;
     String[] membersArray;
-//    List<EventsByYearResponse.EventDetails.January> januaries;
+
+    //    List<EventsByYearResponse.EventDetails.January> januaries;
 //    List<EventsByYearResponse.EventDetails.February> februaries;
 //    List<EventsByYearResponse.EventDetails.March> marches;
 //    List<EventsByYearResponse.EventDetails.April> aprils;
@@ -55,7 +56,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
             }
         }
     }
-//    public EventAdapter(Context context, List<EventsByYearResponse.EventDetails.January> januaries, List<EventsByYearResponse.EventDetails.February> februaries, List<EventsByYearResponse.EventDetails.March> marches, List<EventsByYearResponse.EventDetails.April> aprils, List<EventsByYearResponse.EventDetails.May> mays, List<EventsByYearResponse.EventDetails.June> junes, List<EventsByYearResponse.EventDetails.July> julies, List<EventsByYearResponse.EventDetails.August> augusts, List<EventsByYearResponse.EventDetails.September> septembers, List<EventsByYearResponse.EventDetails.October> octobers, List<EventsByYearResponse.EventDetails.November> novembers, List<EventsByYearResponse.EventDetails.December> decembers) {
+
+    //    public EventAdapter(Context context, List<EventsByYearResponse.EventDetails.January> januaries, List<EventsByYearResponse.EventDetails.February> februaries, List<EventsByYearResponse.EventDetails.March> marches, List<EventsByYearResponse.EventDetails.April> aprils, List<EventsByYearResponse.EventDetails.May> mays, List<EventsByYearResponse.EventDetails.June> junes, List<EventsByYearResponse.EventDetails.July> julies, List<EventsByYearResponse.EventDetails.August> augusts, List<EventsByYearResponse.EventDetails.September> septembers, List<EventsByYearResponse.EventDetails.October> octobers, List<EventsByYearResponse.EventDetails.November> novembers, List<EventsByYearResponse.EventDetails.December> decembers) {
 //        this.context = context;
 //        this.januaries = januaries;
 //        this.februaries = februaries;
@@ -162,6 +164,12 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
         holder.txtEventName.setText(singleUnit.getTitleName());
         Glide.with(context.getApplicationContext()).load(singleUnit.getImg1()).placeholder(R.drawable.img_event_placeholder).into(holder.imageView);
         holder.location.setText(singleUnit.getLocation());
+        if (singleUnit.getAdd_member_count() != null) {
+            holder.el1.setVisibility(View.INVISIBLE);
+            holder.el2.setVisibility(View.INVISIBLE);
+            holder.el3.setVisibility(View.INVISIBLE);
+            holder.el4.setVisibility(View.INVISIBLE);
+        }
 //        Glide.with(context.getApplicationContext()).load(singleUnit.getImg1()).into(holder.imageView);
 //        holder.interested.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -211,7 +219,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        TextView txtDate, txtEventName, interested, location;
+        TextView txtDate, txtEventName, interested, location, el4;
         ConstraintLayout card;
         ImageView imageView, el1, el2, el3;
 
@@ -220,6 +228,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
             super(itemView);
             card = itemView.findViewById(R.id.cardEvent);
             imageView = itemView.findViewById(R.id.imageView);
+            el4 = itemView.findViewById(R.id.el4);
 //            interested = itemView.findViewById(R.id.interested);
             location = itemView.findViewById(R.id.otp3);
             txtDate = itemView.findViewById(R.id.txtDate);
