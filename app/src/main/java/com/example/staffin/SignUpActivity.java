@@ -32,6 +32,10 @@ public class SignUpActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
         progress = new ProgressDialog(SignUpActivity.this);
         progress.setMessage("please wait...");
+        binding.alreadyUser.setOnClickListener(v -> {
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+            finish();
+        });
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
         binding.signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
