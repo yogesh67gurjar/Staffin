@@ -213,7 +213,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
                 holder.el2.setVisibility(View.VISIBLE);
                 holder.el3.setVisibility(View.VISIBLE);
                 holder.el4.setVisibility(View.VISIBLE);
-                Log.e("kffsdf", "dfsdfasd");
+                Log.e("kffsdf", " ");
                 Glide.with(context.getApplicationContext()).load(image1).placeholder(R.drawable.img_user).into(holder.el1);
                 Glide.with(context.getApplicationContext()).load(image2).placeholder(R.drawable.img_user).into(holder.el2);
                 Glide.with(context.getApplicationContext()).load(image3).placeholder(R.drawable.img_user).into(holder.el3);
