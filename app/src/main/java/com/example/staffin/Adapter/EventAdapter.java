@@ -2,6 +2,7 @@ package com.example.staffin.Adapter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import com.example.staffin.Response.EventsByYearResponse;
 import com.example.staffin.Response.EventsMix;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder> {
@@ -31,6 +33,8 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
     List<EventsMix> currentMonthEventsList;
     String image, image1, image2, image3, title, desc, date, location;
     String[] membersArray;
+    String[] FirstImage;
+    int count;
 
     //    List<EventsByYearResponse.EventDetails.January> januaries;
 //    List<EventsByYearResponse.EventDetails.February> februaries;
@@ -49,6 +53,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
         this.context = context;
         this.month = month;
         this.eventsMixList = eventsMixList;
+        FirstImage = new String[5];
         currentMonthEventsList = new ArrayList<>();
         for (EventsMix e : eventsMixList) {
             if (e.getMonth() == month) {
@@ -164,12 +169,66 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
         holder.txtEventName.setText(singleUnit.getTitleName());
         Glide.with(context.getApplicationContext()).load(singleUnit.getImg1()).placeholder(R.drawable.img_event_placeholder).into(holder.imageView);
         holder.location.setText(singleUnit.getLocation());
-        if (singleUnit.getAdd_member_count() != null) {
+
+
+        if (singleUnit.getAdd_member_images() != null) {
+            FirstImage = (singleUnit.getAdd_member_images().split(",,,,,,,,,,"));
+            if (singleUnit.getAdd_member_count() != null) {
+                holder.el1.setVisibility(View.INVISIBLE);
+                holder.el2.setVisibility(View.INVISIBLE);
+                holder.el3.setVisibility(View.INVISIBLE);
+                holder.el4.setVisibility(View.INVISIBLE);
+            } else if (singleUnit.getAdd_member_count() == "1") {
+                String image1 = FirstImage[0];
+                holder.el1.setVisibility(View.VISIBLE);
+                holder.el2.setVisibility(View.INVISIBLE);
+                holder.el3.setVisibility(View.INVISIBLE);
+                holder.el4.setVisibility(View.INVISIBLE);
+                Glide.with(context.getApplicationContext()).load(image1).placeholder(R.drawable.img_user).into(holder.el1);
+            } else if (singleUnit.getAdd_member_count() == "2") {
+                String image1 = FirstImage[0];
+                String image2 = FirstImage[1];
+                holder.el1.setVisibility(View.VISIBLE);
+                holder.el2.setVisibility(View.VISIBLE);
+                holder.el3.setVisibility(View.INVISIBLE);
+                holder.el4.setVisibility(View.INVISIBLE);
+                Glide.with(context.getApplicationContext()).load(image1).placeholder(R.drawable.img_user).into(holder.el1);
+                Glide.with(context.getApplicationContext()).load(image2).placeholder(R.drawable.img_user).into(holder.el2);
+            } else if (singleUnit.getAdd_member_count() == "3") {
+                String image1 = FirstImage[0];
+                String image2 = FirstImage[1];
+                String image3 = FirstImage[2];
+                holder.el1.setVisibility(View.VISIBLE);
+                holder.el2.setVisibility(View.VISIBLE);
+                holder.el3.setVisibility(View.VISIBLE);
+                holder.el4.setVisibility(View.INVISIBLE);
+                Glide.with(context.getApplicationContext()).load(image1).placeholder(R.drawable.img_user).into(holder.el1);
+                Glide.with(context.getApplicationContext()).load(image2).placeholder(R.drawable.img_user).into(holder.el2);
+                Glide.with(context.getApplicationContext()).load(image3).placeholder(R.drawable.img_user).into(holder.el3);
+            } else {
+                String image1 = FirstImage[0];
+                String image2 = FirstImage[1];
+                String image3 = FirstImage[2];
+                holder.el1.setVisibility(View.VISIBLE);
+                holder.el2.setVisibility(View.VISIBLE);
+                holder.el3.setVisibility(View.VISIBLE);
+                holder.el4.setVisibility(View.VISIBLE);
+                Log.e("kffsdf", "dfsdfasd");
+                Glide.with(context.getApplicationContext()).load(image1).placeholder(R.drawable.img_user).into(holder.el1);
+                Glide.with(context.getApplicationContext()).load(image2).placeholder(R.drawable.img_user).into(holder.el2);
+                Glide.with(context.getApplicationContext()).load(image3).placeholder(R.drawable.img_user).into(holder.el3);
+//                count = Integer.parseInt(singleUnit.getAdd_member_count());
+//                count -= 3;
+
+//                holder.el4.setText(String.valueOf(count));
+            }
+        } else {
             holder.el1.setVisibility(View.INVISIBLE);
             holder.el2.setVisibility(View.INVISIBLE);
             holder.el3.setVisibility(View.INVISIBLE);
             holder.el4.setVisibility(View.INVISIBLE);
         }
+
 //        Glide.with(context.getApplicationContext()).load(singleUnit.getImg1()).into(holder.imageView);
 //        holder.interested.setOnClickListener(new View.OnClickListener() {
 //            @Override
