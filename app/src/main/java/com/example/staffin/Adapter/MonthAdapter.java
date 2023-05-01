@@ -58,7 +58,6 @@ public class MonthAdapter extends RecyclerView.Adapter<MonthAdapter.MyViewHolder
         }
     }
 
-
     public void filterList(List<EventsMix> filterlist) {
         eventsMixList = filterlist;
         notifyDataSetChanged();
