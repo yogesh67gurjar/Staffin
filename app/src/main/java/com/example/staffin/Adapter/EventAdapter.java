@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -171,63 +172,79 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
         holder.location.setText(singleUnit.getLocation());
 
 
-        if (singleUnit.getAdd_member_images() != null) {
-            FirstImage = (singleUnit.getAdd_member_images().split(",,,,,,,,,,"));
-            if (singleUnit.getAdd_member_count() != null) {
-                holder.el1.setVisibility(View.INVISIBLE);
-                holder.el2.setVisibility(View.INVISIBLE);
-                holder.el3.setVisibility(View.INVISIBLE);
+//        if (singleUnit.getAdd_member_images() != null) {
+        FirstImage = (singleUnit.getAdd_member_images().split(",,,,,,,,,,"));
+//            if (singleUnit.getAdd_member_count() != null) {
+//                holder.el1.setVisibility(View.INVISIBLE);
+//                holder.el2.setVisibility(View.INVISIBLE);
+//                holder.el3.setVisibility(View.INVISIBLE);
+//                holder.el4.setVisibility(View.INVISIBLE);
+//            } else
+        Log.e("onBindViewHolder: ", "Images");
+        if (Integer.parseInt(singleUnit.getAdd_member_count()) == 1) {
+            Log.e("onBindViewHolder: ", "FirstImages");
+            String image1 = FirstImage[0];
+            holder.el1.setVisibility(View.VISIBLE);
+            holder.el2.setVisibility(View.INVISIBLE);
+            holder.el3.setVisibility(View.INVISIBLE);
+            holder.el4.setVisibility(View.INVISIBLE);
+            Glide.with(context.getApplicationContext()).load(image1).placeholder(R.drawable.img_user).into(holder.el1);
+        } else if (Integer.parseInt(singleUnit.getAdd_member_count()) == 2) {
+            Log.e("onBindViewHolder: ", "SecondImages");
+            String image1 = FirstImage[0];
+            String image2 = FirstImage[1];
+            holder.el1.setVisibility(View.VISIBLE);
+            holder.el2.setVisibility(View.VISIBLE);
+            holder.el3.setVisibility(View.INVISIBLE);
+            holder.el4.setVisibility(View.INVISIBLE);
+            Glide.with(context.getApplicationContext()).load(image1).placeholder(R.drawable.img_user).into(holder.el1);
+            Glide.with(context.getApplicationContext()).load(image2).placeholder(R.drawable.img_user).into(holder.el2);
+        } else if (Integer.parseInt(singleUnit.getAdd_member_count()) == 3) {
+            Log.e("onBindViewHolder: ", "ThirdImages");
+            String image1 = FirstImage[0];
+            String image2 = FirstImage[1];
+            String image3 = FirstImage[2];
+            holder.el1.setVisibility(View.VISIBLE);
+            holder.el2.setVisibility(View.VISIBLE);
+            holder.el3.setVisibility(View.VISIBLE);
+            holder.el4.setVisibility(View.INVISIBLE);
+            Glide.with(context.getApplicationContext()).load(image1).placeholder(R.drawable.img_user).into(holder.el1);
+            Glide.with(context.getApplicationContext()).load(image2).placeholder(R.drawable.img_user).into(holder.el2);
+            Glide.with(context.getApplicationContext()).load(image3).placeholder(R.drawable.img_user).into(holder.el3);
+        } else if (Integer.parseInt(singleUnit.getAdd_member_count()) >= 4) {
+            String image1 = FirstImage[0];
+            String image2 = FirstImage[1];
+            String image3 = FirstImage[2];
+            holder.el1.setVisibility(View.VISIBLE);
+            holder.el2.setVisibility(View.VISIBLE);
+            holder.el3.setVisibility(View.VISIBLE);
+            Log.e("onBindViewHolder: ", "CountImages");
+            Glide.with(context.getApplicationContext()).load(image1).placeholder(R.drawable.img_user).into(holder.el1);
+            Glide.with(context.getApplicationContext()).load(image2).placeholder(R.drawable.img_user).into(holder.el2);
+            Glide.with(context.getApplicationContext()).load(image3).placeholder(R.drawable.img_user).into(holder.el3);
+            count = Integer.parseInt(singleUnit.getAdd_member_count());
+            count -= 3;
+            if (count == 0) {
                 holder.el4.setVisibility(View.INVISIBLE);
-            } else if (singleUnit.getAdd_member_count() == "1") {
-                String image1 = FirstImage[0];
-                holder.el1.setVisibility(View.VISIBLE);
-                holder.el2.setVisibility(View.INVISIBLE);
-                holder.el3.setVisibility(View.INVISIBLE);
-                holder.el4.setVisibility(View.INVISIBLE);
-                Glide.with(context.getApplicationContext()).load(image1).placeholder(R.drawable.img_user).into(holder.el1);
-            } else if (singleUnit.getAdd_member_count() == "2") {
-                String image1 = FirstImage[0];
-                String image2 = FirstImage[1];
-                holder.el1.setVisibility(View.VISIBLE);
-                holder.el2.setVisibility(View.VISIBLE);
-                holder.el3.setVisibility(View.INVISIBLE);
-                holder.el4.setVisibility(View.INVISIBLE);
-                Glide.with(context.getApplicationContext()).load(image1).placeholder(R.drawable.img_user).into(holder.el1);
-                Glide.with(context.getApplicationContext()).load(image2).placeholder(R.drawable.img_user).into(holder.el2);
-            } else if (singleUnit.getAdd_member_count() == "3") {
-                String image1 = FirstImage[0];
-                String image2 = FirstImage[1];
-                String image3 = FirstImage[2];
-                holder.el1.setVisibility(View.VISIBLE);
-                holder.el2.setVisibility(View.VISIBLE);
-                holder.el3.setVisibility(View.VISIBLE);
-                holder.el4.setVisibility(View.INVISIBLE);
-                Glide.with(context.getApplicationContext()).load(image1).placeholder(R.drawable.img_user).into(holder.el1);
-                Glide.with(context.getApplicationContext()).load(image2).placeholder(R.drawable.img_user).into(holder.el2);
-                Glide.with(context.getApplicationContext()).load(image3).placeholder(R.drawable.img_user).into(holder.el3);
             } else {
-                String image1 = FirstImage[0];
-                String image2 = FirstImage[1];
-                String image3 = FirstImage[2];
-                holder.el1.setVisibility(View.VISIBLE);
-                holder.el2.setVisibility(View.VISIBLE);
-                holder.el3.setVisibility(View.VISIBLE);
                 holder.el4.setVisibility(View.VISIBLE);
-                Log.e("kffsdf", " ");
-                Glide.with(context.getApplicationContext()).load(image1).placeholder(R.drawable.img_user).into(holder.el1);
-                Glide.with(context.getApplicationContext()).load(image2).placeholder(R.drawable.img_user).into(holder.el2);
-                Glide.with(context.getApplicationContext()).load(image3).placeholder(R.drawable.img_user).into(holder.el3);
-//                count = Integer.parseInt(singleUnit.getAdd_member_count());
-//                count -= 3;
-
-//                holder.el4.setText(String.valueOf(count));
+                holder.el4.setText(count + "+");
             }
         } else {
+            Log.e("onBindViewHolder: ", "else me aagya");
             holder.el1.setVisibility(View.INVISIBLE);
             holder.el2.setVisibility(View.INVISIBLE);
             holder.el3.setVisibility(View.INVISIBLE);
             holder.el4.setVisibility(View.INVISIBLE);
         }
+//        } else {
+////            Log.e("skjahfduasf", singleUnit.getAdd_member_images());
+//            Log.e("onBindVi", "djofjio");
+//            holder.el1.setVisibility(View.INVISIBLE);
+//            holder.el2.setVisibility(View.INVISIBLE);
+//            holder.el3.setVisibility(View.INVISIBLE);
+//            holder.el4.setVisibility(View.INVISIBLE);
+//        }
 
 //        Glide.with(context.getApplicationContext()).load(singleUnit.getImg1()).into(holder.imageView);
 //        holder.interested.setOnClickListener(new View.OnClickListener() {
