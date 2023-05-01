@@ -1,7 +1,9 @@
 package com.example.staffin.Adapter;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,14 +19,21 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.staffin.InsideEvent;
+import com.example.staffin.Interface.ApiInterface;
 import com.example.staffin.R;
 import com.example.staffin.Response.AllEvents;
 import com.example.staffin.Response.EventsByYearResponse;
 import com.example.staffin.Response.EventsMix;
+import com.example.staffin.Retrofit.RetrofitServices;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder> {
 
@@ -33,77 +42,24 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
     List<EventsMix> eventsMixList;
     List<EventsMix> currentMonthEventsList;
     String image, image1, image2, image3, title, desc, date, location;
-    String[] membersArray;
     String[] FirstImage;
     int count;
+    ArrayList<String> interestedMembers;
 
-    //    List<EventsByYearResponse.EventDetails.January> januaries;
-//    List<EventsByYearResponse.EventDetails.February> februaries;
-//    List<EventsByYearResponse.EventDetails.March> marches;
-//    List<EventsByYearResponse.EventDetails.April> aprils;
-//    List<EventsByYearResponse.EventDetails.May> mays;
-//    List<EventsByYearResponse.EventDetails.June> junes;
-//    List<EventsByYearResponse.EventDetails.July> julies;
-//    List<EventsByYearResponse.EventDetails.August> augusts;
-//    List<EventsByYearResponse.EventDetails.September> septembers;
-//    List<EventsByYearResponse.EventDetails.October> octobers;
-//    List<EventsByYearResponse.EventDetails.November> novembers;
-//    List<EventsByYearResponse.EventDetails.December> decembers;
-//    int size;
+
     public EventAdapter(Context context, int month, List<EventsMix> eventsMixList) {
         this.context = context;
         this.month = month;
         this.eventsMixList = eventsMixList;
-        FirstImage = new String[5];
         currentMonthEventsList = new ArrayList<>();
         for (EventsMix e : eventsMixList) {
             if (e.getMonth() == month) {
                 currentMonthEventsList.add(e);
             }
         }
+        interestedMembers = new ArrayList<>();
     }
 
-    //    public EventAdapter(Context context, List<EventsByYearResponse.EventDetails.January> januaries, List<EventsByYearResponse.EventDetails.February> februaries, List<EventsByYearResponse.EventDetails.March> marches, List<EventsByYearResponse.EventDetails.April> aprils, List<EventsByYearResponse.EventDetails.May> mays, List<EventsByYearResponse.EventDetails.June> junes, List<EventsByYearResponse.EventDetails.July> julies, List<EventsByYearResponse.EventDetails.August> augusts, List<EventsByYearResponse.EventDetails.September> septembers, List<EventsByYearResponse.EventDetails.October> octobers, List<EventsByYearResponse.EventDetails.November> novembers, List<EventsByYearResponse.EventDetails.December> decembers) {
-//        this.context = context;
-//        this.januaries = januaries;
-//        this.februaries = februaries;
-//        this.marches = marches;
-//        this.aprils = aprils;
-//        this.mays = mays;
-//        this.junes = junes;
-//        this.julies = julies;
-//        this.augusts = augusts;
-//        this.septembers = septembers;
-//        this.octobers = octobers;
-//        this.novembers = novembers;
-//        this.decembers = decembers;
-//
-//        if (januaries != null) {
-//            size = januaries.size();
-//        } else if (februaries != null) {
-//            size = februaries.size();
-//        } else if (marches != null) {
-//            size = marches.size();
-//        } else if (aprils != null) {
-//            size = aprils.size();
-//        } else if (mays != null) {
-//            size = mays.size();
-//        } else if (junes != null) {
-//            size = junes.size();
-//        } else if (julies != null) {
-//            size = julies.size();
-//        } else if (augusts != null) {
-//            size = augusts.size();
-//        } else if (septembers != null) {
-//            size = septembers.size();
-//        } else if (octobers != null) {
-//            size = octobers.size();
-//        } else if (novembers != null) {
-//            size = novembers.size();
-//        } else if (decembers != null) {
-//            size = decembers.size();
-//        }
-//    }
     @NonNull
     @Override
     public EventAdapter.MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -114,151 +70,16 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull EventAdapter.MyViewHolder holder, int position) {
-//
-//        if (januaries != null) {
-//            EventsByYearResponse.EventDetails.January singleUnit = januaries.get(position);
-//            holder.txtDate.setText(singleUnit.getDate());
-//            holder.txtEventName.setText(singleUnit.getTitleName());
-//        } else if (februaries != null) {
-//            EventsByYearResponse.EventDetails.February singleUnit = februaries.get(position);
-//            holder.txtDate.setText(singleUnit.getDate());
-//            holder.txtEventName.setText(singleUnit.getTitleName());
-//        } else if (marches != null) {
-//            EventsByYearResponse.EventDetails.March singleUnit = marches.get(position);
-//            holder.txtDate.setText(singleUnit.getDate());
-//            holder.txtEventName.setText(singleUnit.getTitleName());
-//        } else if (aprils != null) {
-//            EventsByYearResponse.EventDetails.April singleUnit = aprils.get(position);
-//            holder.txtDate.setText(singleUnit.getDate());
-//            holder.txtEventName.setText(singleUnit.getTitleName());
-//        } else if (mays != null) {
-//            EventsByYearResponse.EventDetails.May singleUnit = mays.get(position);
-//            holder.txtDate.setText(singleUnit.getDate());
-//            holder.txtEventName.setText(singleUnit.getTitleName());
-//        } else if (junes != null) {
-//            EventsByYearResponse.EventDetails.June singleUnit = junes.get(position);
-//            holder.txtDate.setText(singleUnit.getDate());
-//            holder.txtEventName.setText(singleUnit.getTitleName());
-//        } else if (julies != null) {
-//            EventsByYearResponse.EventDetails.July singleUnit = julies.get(position);
-//            holder.txtDate.setText(singleUnit.getDate());
-//            holder.txtEventName.setText(singleUnit.getTitleName());
-//        } else if (augusts != null) {
-//            EventsByYearResponse.EventDetails.August singleUnit = augusts.get(position);
-//            holder.txtDate.setText(singleUnit.getDate());
-//            holder.txtEventName.setText(singleUnit.getTitleName());
-//        } else if (septembers != null) {
-//            EventsByYearResponse.EventDetails.September singleUnit = septembers.get(position);
-//            holder.txtDate.setText(singleUnit.getDate());
-//            holder.txtEventName.setText(singleUnit.getTitleName());
-//        } else if (octobers != null) {
-//            EventsByYearResponse.EventDetails.October singleUnit = octobers.get(position);
-//            holder.txtDate.setText(singleUnit.getDate());
-//            holder.txtEventName.setText(singleUnit.getTitleName());
-//        } else if (novembers != null) {
-//            EventsByYearResponse.EventDetails.November singleUnit = novembers.get(position);
-//            holder.txtDate.setText(singleUnit.getDate());
-//            holder.txtEventName.setText(singleUnit.getTitleName());
-//        } else if (decembers != null) {
-//            EventsByYearResponse.EventDetails.December singleUnit = decembers.get(position);
-//            holder.txtDate.setText(singleUnit.getDate());
-//            holder.txtEventName.setText(singleUnit.getTitleName());
-//        }
-//
+
         EventsMix singleUnit = currentMonthEventsList.get(position);
         holder.txtDate.setText(singleUnit.getDate());
         holder.txtEventName.setText(singleUnit.getTitleName());
-        Glide.with(context.getApplicationContext()).load(singleUnit.getImg1()).placeholder(R.drawable.img_event_placeholder).into(holder.imageView);
-        holder.location.setText(singleUnit.getLocation());
+        Glide.with(context.getApplicationContext()).load(singleUnit.getImage()).placeholder(R.drawable.img_birthday).into(holder.imageView);
+        List<String> membersArray = List.of(singleUnit.getAddMember().split(","));
 
-
-//        if (singleUnit.getAdd_member_images() != null) {
-        FirstImage = (singleUnit.getAdd_member_images().split(",,,,,,,,,,"));
-//            if (singleUnit.getAdd_member_count() != null) {
-//                holder.el1.setVisibility(View.INVISIBLE);
-//                holder.el2.setVisibility(View.INVISIBLE);
-//                holder.el3.setVisibility(View.INVISIBLE);
-//                holder.el4.setVisibility(View.INVISIBLE);
-//            } else
-        Log.e("onBindViewHolder: ", "Images");
-        if (Integer.parseInt(singleUnit.getAdd_member_count()) == 1) {
-            Log.e("onBindViewHolder: ", "FirstImages");
-            String image1 = FirstImage[0];
-            holder.el1.setVisibility(View.VISIBLE);
-            holder.el2.setVisibility(View.INVISIBLE);
-            holder.el3.setVisibility(View.INVISIBLE);
-            holder.el4.setVisibility(View.INVISIBLE);
-            Glide.with(context.getApplicationContext()).load(image1).placeholder(R.drawable.img_user).into(holder.el1);
-        } else if (Integer.parseInt(singleUnit.getAdd_member_count()) == 2) {
-            Log.e("onBindViewHolder: ", "SecondImages");
-            String image1 = FirstImage[0];
-            String image2 = FirstImage[1];
-            holder.el1.setVisibility(View.VISIBLE);
-            holder.el2.setVisibility(View.VISIBLE);
-            holder.el3.setVisibility(View.INVISIBLE);
-            holder.el4.setVisibility(View.INVISIBLE);
-            Glide.with(context.getApplicationContext()).load(image1).placeholder(R.drawable.img_user).into(holder.el1);
-            Glide.with(context.getApplicationContext()).load(image2).placeholder(R.drawable.img_user).into(holder.el2);
-        } else if (Integer.parseInt(singleUnit.getAdd_member_count()) == 3) {
-            Log.e("onBindViewHolder: ", "ThirdImages");
-            String image1 = FirstImage[0];
-            String image2 = FirstImage[1];
-            String image3 = FirstImage[2];
-            holder.el1.setVisibility(View.VISIBLE);
-            holder.el2.setVisibility(View.VISIBLE);
-            holder.el3.setVisibility(View.VISIBLE);
-            holder.el4.setVisibility(View.INVISIBLE);
-            Glide.with(context.getApplicationContext()).load(image1).placeholder(R.drawable.img_user).into(holder.el1);
-            Glide.with(context.getApplicationContext()).load(image2).placeholder(R.drawable.img_user).into(holder.el2);
-            Glide.with(context.getApplicationContext()).load(image3).placeholder(R.drawable.img_user).into(holder.el3);
-        } else if (Integer.parseInt(singleUnit.getAdd_member_count()) >= 4) {
-            String image1 = FirstImage[0];
-            String image2 = FirstImage[1];
-            String image3 = FirstImage[2];
-            holder.el1.setVisibility(View.VISIBLE);
-            holder.el2.setVisibility(View.VISIBLE);
-            holder.el3.setVisibility(View.VISIBLE);
-            Log.e("onBindViewHolder: ", "CountImages");
-            Glide.with(context.getApplicationContext()).load(image1).placeholder(R.drawable.img_user).into(holder.el1);
-            Glide.with(context.getApplicationContext()).load(image2).placeholder(R.drawable.img_user).into(holder.el2);
-            Glide.with(context.getApplicationContext()).load(image3).placeholder(R.drawable.img_user).into(holder.el3);
-            count = Integer.parseInt(singleUnit.getAdd_member_count());
-            count -= 3;
-            if (count == 0) {
-                holder.el4.setVisibility(View.INVISIBLE);
-            } else {
-                holder.el4.setVisibility(View.VISIBLE);
-                holder.el4.setText(count + "+");
-            }
-        } else {
-            Log.e("onBindViewHolder: ", "else me aagya");
-            holder.el1.setVisibility(View.INVISIBLE);
-            holder.el2.setVisibility(View.INVISIBLE);
-            holder.el3.setVisibility(View.INVISIBLE);
-            holder.el4.setVisibility(View.INVISIBLE);
-        }
-//        } else {
-////            Log.e("skjahfduasf", singleUnit.getAdd_member_images());
-//            Log.e("onBindVi", "djofjio");
-//            holder.el1.setVisibility(View.INVISIBLE);
-//            holder.el2.setVisibility(View.INVISIBLE);
-//            holder.el3.setVisibility(View.INVISIBLE);
-//            holder.el4.setVisibility(View.INVISIBLE);
-//        }
-
-//        Glide.with(context.getApplicationContext()).load(singleUnit.getImg1()).into(holder.imageView);
-//        holder.interested.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(context, "You are interested in this event", Toast.LENGTH_SHORT).show();
-//            }
-//        });
         holder.card.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                membersArray = new String[singleUnit.getAddMember().split(",").length];
-                List<String> membersArray = List.of(singleUnit.getAddMember().split(","));
-
                 Intent intent = new Intent(context, InsideEvent.class);
                 image = singleUnit.getImage();
                 image1 = singleUnit.getImg1();
@@ -269,6 +90,29 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
                 date = singleUnit.getDate();
                 location = singleUnit.getLocation();
 
+                interestedMembers.clear();
+
+                if (singleUnit.getAdd_intruted_member() != null) {
+                    Log.d("fsdfsdfasd", singleUnit.getAdd_intruted_member());
+
+                    if (singleUnit.getAdd_intruted_member().contains(",,,,,,,,,")) {
+                        String[] names = new String[singleUnit.getAdd_intruted_member().split(",,,,,,,,,").length];
+                        names = singleUnit.getAdd_intruted_member().split(",,,,,,,,,");
+
+                        for (String name : names) {
+                            if (!Objects.equals(name, "0")) {
+                                interestedMembers.add(name);
+                            }
+                        }
+
+                        intent.putStringArrayListExtra("interested", interestedMembers);
+                    } else {
+                        interestedMembers.add(singleUnit.getAdd_intruted_member());
+                        intent.putStringArrayListExtra("interested", interestedMembers);
+                    }
+                }
+
+
                 intent.putExtra("image", image);
                 intent.putExtra("image1", image1);
                 intent.putExtra("image2", image2);
@@ -277,17 +121,17 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
                 intent.putExtra("desc", desc);
                 intent.putExtra("date", date);
                 intent.putExtra("location", location);
+
+
                 intent.putStringArrayListExtra("members", new ArrayList<>(membersArray));
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
+                intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 context.startActivity(intent);
-
-
-//                context.startActivity(new Intent(context, InsideEvent.class));
-//                Toast.makeText(context, singleUnit.getTitleName() + singleUnit.getDate(), Toast.LENGTH_SHORT).show();
             }
         });
 
     }
+
 
     @Override
     public int getItemCount() {

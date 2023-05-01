@@ -34,6 +34,7 @@ public class InsideEvent extends AppCompatActivity {
 
     List<String> invitedMembers;
     ProgressDialog progress;
+    String image, image1, image2, image3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,21 +43,17 @@ public class InsideEvent extends AppCompatActivity {
         setContentView(binding.getRoot());
         progress = new ProgressDialog(InsideEvent.this);
         progress.setMessage("please wait...");
-        progress.setCancelable(false);
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
         invitedMembers = new ArrayList<>();
-        String image = getIntent().getStringExtra("image");
-        String image1 = getIntent().getStringExtra("image1");
-        String image2 = getIntent().getStringExtra("image2");
-        String image3 = getIntent().getStringExtra("image3");
+
+
         String title = getIntent().getStringExtra("title");
         String desc = getIntent().getStringExtra("desc");
         String date = getIntent().getStringExtra("date");
         String location = getIntent().getStringExtra("location");
         ArrayList<String> members = getIntent().getStringArrayListExtra("members");
-        binding.btnBack.setOnClickListener(v -> {
-            finish();
-        });
+        ArrayList<String> interested = getIntent().getStringArrayListExtra("interested");
+
 
         Call<TotalEmployeeResponse> callGetTotalEmployee = apiInterface.getTotalEmployee();
         progress.show();
@@ -76,21 +73,51 @@ public class InsideEvent extends AppCompatActivity {
                         }
                     }
 
-
-                    Glide.with(getApplicationContext()).load(image).into(binding.image1);
-                    Glide.with(getApplicationContext()).load(image1).into(binding.image2);
-                    Glide.with(getApplicationContext()).load(image2).into(binding.image3);
-                    Glide.with(getApplicationContext()).load(image3).into(binding.image4);
+                    if (!(getIntent().getStringExtra("image").equals("") || getIntent().getStringExtra("image") == null)) {
+                        image = getIntent().getStringExtra("image");
+                        Glide.with(getApplicationContext()).load(image).into(binding.image1);
+                    } else {
+                        binding.image1.setImageResource(R.drawable.img_event_placeholder);
+                    }
+                    if (!(getIntent().getStringExtra("image1").equals("") || getIntent().getStringExtra("image1") == null)) {
+                        image1 = getIntent().getStringExtra("image1");
+                        Glide.with(getApplicationContext()).load(image1).into(binding.image2);
+                    } else {
+                        binding.image2.setImageResource(R.drawable.img_event_placeholder);
+                    }
+                    if (!(getIntent().getStringExtra("image2").equals("") || getIntent().getStringExtra("image2") == null)) {
+                        image2 = getIntent().getStringExtra("image2");
+                        Glide.with(getApplicationContext()).load(image2).into(binding.image3);
+                    } else {
+                        binding.image3.setImageResource(R.drawable.img_event_placeholder);
+                    }
+                    if (!(getIntent().getStringExtra("image3").equals("") || getIntent().getStringExtra("image3") == null)) {
+                        image3 = getIntent().getStringExtra("image3");
+                        Glide.with(getApplicationContext()).load(image3).into(binding.image4);
+                    } else {
+                        binding.image4.setImageResource(R.drawable.img_event_placeholder);
+                    }
 
                     binding.title.setText(title);
                     binding.desc.setText(desc);
                     binding.date.setText(date);
                     binding.location.setText(location);
 
-
+                    if (interested != null) {
+                        ArrayAdapter<String> interest;
+                        interest = new ArrayAdapter<>(InsideEvent.this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, interested);
+                        binding.listViewInterested.setAdapter(interest);
+                        binding.listViewInterested.setVisibility(View.VISIBLE);
+                        binding.interestedTv.setVisibility(View.VISIBLE);
+                    } else {
+                        binding.listViewInterested.setVisibility(View.GONE);
+                        binding.interestedTv.setVisibility(View.GONE);
+                    }
                     ArrayAdapter<String> arr;
                     arr = new ArrayAdapter<>(InsideEvent.this, androidx.appcompat.R.layout.support_simple_spinner_dropdown_item, invitedMembers);
                     binding.listView.setAdapter(arr);
+
+
                     progress.dismiss();
                     binding.image1.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -131,6 +158,10 @@ public class InsideEvent extends AppCompatActivity {
                 Toast.makeText(InsideEvent.this, "failed to fetch data", Toast.LENGTH_SHORT).show();
                 Log.d(TAG, "onFailure: " + t.getMessage());
             }
+        });
+
+        binding.btnBack.setOnClickListener(v -> {
+            finish();
         });
     }
 
