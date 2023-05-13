@@ -1,15 +1,25 @@
 package com.example.staffin;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentSender;
+import android.content.pm.PackageManager;
 import android.database.Cursor;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.CancellationSignal;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -18,26 +28,47 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
 import com.example.staffin.Interface.ApiInterface;
+import com.example.staffin.Interface.BottomSheetListener;
+import com.example.staffin.Maps.MapFragBottomSheet;
 import com.example.staffin.Response.AddEventResponse;
 import com.example.staffin.Response.EmployeeResult;
 import com.example.staffin.Response.LoginResponse;
 import com.example.staffin.Response.TotalEmployeeResponse;
 import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.ActivityCreateEventBinding;
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.common.api.ResolvableApiException;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.tasks.CancellationTokenSource;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -50,8 +81,11 @@ import retrofit2.Response;
 import retrofit2.http.Field;
 import retrofit2.http.Part;
 
-public class CreateEventActivity extends AppCompatActivity {
+public class CreateEventActivity extends AppCompatActivity implements BottomSheetListener {
     ActivityCreateEventBinding binding;
+
+    public static final int LOCATION = 1313;
+    private static final int REQUEST_CHECK_SETTINGS = 10001;
 
     List<String> employeesList;
     List<String> profileImages;
@@ -69,13 +103,84 @@ public class CreateEventActivity extends AppCompatActivity {
     String image1 = null, image2 = null, image3 = null, image4 = null;
     File file1, file2, file3, file4;
     String title, description, date, location;
+    FusedLocationProviderClient fusedLocationProviderClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityCreateEventBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        requestRuntimePermissionFunc("location");
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(CreateEventActivity.this);
         clickListeners();
+    }
+
+    @Override
+    public void onTextSelected(String text) {
+        binding.locationEt.setText(text);
+    }
+
+    private void requestRuntimePermissionFunc(String location) {
+        if (location.equals("location")) {
+            if (ContextCompat.checkSelfPermission(CreateEventActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            } else if (ActivityCompat.shouldShowRequestPermissionRationale(CreateEventActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION)) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(CreateEventActivity.this);
+                builder.setMessage("this permission is required for this and this")
+                        .setTitle("location required")
+                        .setCancelable(false)
+                        .setPositiveButton("accept", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                ActivityCompat.requestPermissions(CreateEventActivity.this, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION);
+                            }
+                        })
+                        .setNegativeButton("reject", (dialog, which) -> dialog.dismiss())
+                        .show();
+            } else {
+                ActivityCompat.requestPermissions(CreateEventActivity.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, LOCATION);
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == LOCATION) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "accepted", Toast.LENGTH_SHORT).show();
+            } else if (!ActivityCompat.shouldShowRequestPermissionRationale(CreateEventActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(CreateEventActivity.this);
+                builder.setMessage("this feature is unavailable , now open settings ")
+                        .setTitle("location to chaiye")
+                        .setCancelable(false)
+                        .setPositiveButton("accept", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                                intent.setData(uri);
+                                startActivity(intent);
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton("reject", (dialog, which) -> dialog.dismiss())
+                        .show();
+            } else {
+                requestRuntimePermissionFunc("location");
+            }
+        }
+    }
+
+    private boolean isGPSEnabled() {
+
+        LocationManager locationManager = null;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.M) {
+            locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        }
+        boolean isEnabled = false;
+
+        isEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        return isEnabled;
     }
 
     private void clickListeners() {
@@ -115,6 +220,61 @@ public class CreateEventActivity extends AppCompatActivity {
                         binding.btnBack.setOnClickListener(view -> {
                             finish();
                         });
+
+
+                        binding.locationEt.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+//                                Bundle bundle = new Bundle();
+
+//                                bundle.putString("EmployeeId", singleUnit.getEmployeeId());
+
+
+                                if (isNetworkAvailable()) {
+                                    if (ContextCompat.checkSelfPermission(CreateEventActivity.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                                        if (isGPSEnabled()) {
+
+                                            Task<Location> task = fusedLocationProviderClient.getCurrentLocation(LocationRequest.PRIORITY_HIGH_ACCURACY, new CancellationTokenSource().getToken());
+                                            task.addOnSuccessListener(CreateEventActivity.this, location -> {
+                                                if (location != null) {
+                                                    Geocoder geocoder = new Geocoder(CreateEventActivity.this, Locale.getDefault());
+                                                    try {
+                                                        List<Address> loc = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+                                                        String currentLocation = loc.get(0).getAddressLine(0) + loc.get(0).getLocality();
+                                                        Log.d("Latitude", String.valueOf(location.getLatitude()));
+                                                        Log.d("Logni", String.valueOf(location.getLongitude()));
+                                                        Log.d("LOCATION_IS", currentLocation);
+
+
+                                                        MapFragBottomSheet mapFragBottomSheet = new MapFragBottomSheet(CreateEventActivity.this);
+                                                        FragmentManager fm = getSupportFragmentManager();
+                                                        Bundle bundle = new Bundle();
+                                                        bundle.putString("latitude", String.valueOf(location.getLatitude()));
+                                                        bundle.putString("longitude", String.valueOf(location.getLongitude()));
+                                                        mapFragBottomSheet.setCancelable(false);
+                                                        mapFragBottomSheet.setArguments(bundle);
+                                                        mapFragBottomSheet.show(fm, mapFragBottomSheet.getTag());
+                                                    } catch (IOException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                } else {
+                                                    Toast.makeText(CreateEventActivity.this, "Unable To Find Location", Toast.LENGTH_SHORT).show();
+                                                }
+                                            });
+                                        } else {
+                                            turnOnGPS();
+                                        }
+
+                                    } else {
+                                        Toast.makeText(CreateEventActivity.this, "Location Permission Required , Open Settings And Allow Permission", Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    Toast.makeText(CreateEventActivity.this, "Internet Not Available", Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                        });
+
                         binding.addMemberBtn.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -418,6 +578,52 @@ public class CreateEventActivity extends AppCompatActivity {
                     year, month, day);
             datePickerDialog.show();
         });
+    }
+
+    private void turnOnGPS() {
+
+        LocationRequest locationRequest = LocationRequest.create();
+        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setInterval(5000);
+        locationRequest.setFastestInterval(2000);
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder()
+                .addLocationRequest(locationRequest);
+        builder.setAlwaysShow(true);
+
+        Task<LocationSettingsResponse> result = LocationServices.getSettingsClient(CreateEventActivity.this)
+                .checkLocationSettings(builder.build());
+
+        result.addOnCompleteListener(new OnCompleteListener<LocationSettingsResponse>() {
+            @Override
+            public void onComplete(@NonNull Task<LocationSettingsResponse> task) {
+
+                try {
+                    LocationSettingsResponse response = task.getResult(ApiException.class);
+                    Toast.makeText(CreateEventActivity.this, "GPS is already tured on", Toast.LENGTH_SHORT).show();
+
+                } catch (ApiException e) {
+
+                    switch (e.getStatusCode()) {
+                        case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+
+                            try {
+                                ResolvableApiException resolvableApiException = (ResolvableApiException) e;
+
+                                resolvableApiException.startResolutionForResult(CreateEventActivity.this, REQUEST_CHECK_SETTINGS);
+                            } catch (IntentSender.SendIntentException ex) {
+                                ex.printStackTrace();
+                            }
+                            break;
+
+                        case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                            //Device does not have location
+                            break;
+                    }
+                }
+            }
+        });
+
     }
 
     private String getRealPathFromURI(Uri contentURI) {
