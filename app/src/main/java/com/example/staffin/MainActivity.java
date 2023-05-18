@@ -1,5 +1,6 @@
 package com.example.staffin;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
@@ -15,7 +16,13 @@ import android.view.animation.ScaleAnimation;
 import android.widget.Toast;
 
 import com.example.staffin.databinding.ActivityMainBinding;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
     ActivityMainBinding binding;
@@ -24,12 +31,22 @@ public class MainActivity extends AppCompatActivity {
     SharedPreferences sharedPreferences;
     SharedPreferences.Editor editor;
 
+    GoogleSignInClient googleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        googleSignInClient = GoogleSignIn.getClient(this, gso);
+
         sharedPreferences = getSharedPreferences("staffin", Context.MODE_PRIVATE);
         editor = sharedPreferences.edit();
         binding.card1.setOnClickListener(v -> {
@@ -66,9 +83,24 @@ public class MainActivity extends AppCompatActivity {
             dialog.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+
+                    if (sharedPreferences.contains("firebase")) {
+                        FirebaseAuth.getInstance().signOut();
+                        googleSignInClient.signOut().addOnCompleteListener(MainActivity.this,
+                                new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        editor.remove("firebase");
+                                    }
+                                });
+                    }
+
+
                     editor.remove("login");
+
                     editor.apply();
+                    startActivity(new Intent(MainActivity.this, LoginActivity.class));
+
                     finish();
 
                 }

@@ -223,6 +223,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             startActivity(new Intent(LoginActivity.this, MainActivity.class));
                             editor.putString("login", "yes");
+                            editor.putString("firebase", "yes");
                             editor.apply();
                             finish();
 //                            updateUI(user);
