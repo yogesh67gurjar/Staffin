@@ -32,13 +32,14 @@
         <!--        &lt;!&ndash;        app:mk_color="<color>" (Optional. Default is #ffffff)&ndash;&gt;-->
 
         <ScrollView
-            android:layout_marginTop="45dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="45dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
@@ -143,8 +144,6 @@
                     android:layout_marginTop="30dp"
                     android:background="@drawable/login_btn_bg"
                     android:paddingVertical="18dp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginBottom="10dp"
                     android:text="Login"
                     android:textAllCaps="false"
                     android:textColor="@color/white"
@@ -153,6 +152,31 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/forgotTv" />
+
+
+                <TextView
+                    android:id="@+id/or"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:text="or"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/loginBtn" />
+
+                <com.google.android.gms.common.SignInButton
+                    android:id="@+id/googleSignInBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="15dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginBottom="15dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/or" />
+
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     startActivity(new Intent(getApplicationContext(), LoginActivity.class));
-                    editor.remove("mobile");
+                    editor.remove("login");
                     editor.apply();
                     finish();
 

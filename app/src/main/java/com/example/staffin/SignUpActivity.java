@@ -13,6 +13,7 @@ import com.example.staffin.Interface.ApiInterface;
 import com.example.staffin.Response.SignupResponse;
 import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.ActivitySignUpBinding;
+import com.google.firebase.auth.FirebaseAuth;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -25,11 +26,14 @@ public class SignUpActivity extends AppCompatActivity {
     ProgressDialog progress;
     private static final String TAG = "SignUpActivity";
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         progress = new ProgressDialog(SignUpActivity.this);
         progress.setMessage("please wait...");
         binding.alreadyUser.setOnClickListener(v -> {
@@ -37,6 +41,10 @@ public class SignUpActivity extends AppCompatActivity {
             finish();
         });
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
+
+
+
+
         binding.signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
