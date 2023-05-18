@@ -1,13 +1,19 @@
 package com.example.staffin.Maps;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -17,9 +23,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import com.example.staffin.CreateEventActivity;
 import com.example.staffin.Interface.BottomSheetListener;
 import com.example.staffin.R;
 import com.example.staffin.databinding.FragmentMapFragBottomSheetBinding;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -29,6 +38,7 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
@@ -36,13 +46,14 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 public class MapFragBottomSheet extends BottomSheetDialogFragment implements OnMapReadyCallback {
     FragmentMapFragBottomSheetBinding binding;
     private BottomSheetListener mListener;
 
     Context context;
-
+    FusedLocationProviderClient fusedLocationProviderClient;
     private GoogleMap mMap;
     private Marker mMarker;
 
@@ -68,7 +79,7 @@ public class MapFragBottomSheet extends BottomSheetDialogFragment implements OnM
                              Bundle savedInstanceState) {
         binding = FragmentMapFragBottomSheetBinding.inflate(inflater, container, false);
         geocoder = new Geocoder(getContext(), Locale.getDefault());
-
+        fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context);
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapBottom);
         mapFragment.getMapAsync(this);
         mapFragment.getView().setClickable(false);
@@ -125,8 +136,29 @@ public class MapFragBottomSheet extends BottomSheetDialogFragment implements OnM
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-
+        if (ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(context, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions((Activity) context, new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION}, 0);
+            return;
+        }
+        mMap.setMyLocationEnabled(true);
+        mMap.setOnMyLocationButtonClickListener(new GoogleMap.OnMyLocationButtonClickListener() {
+            @SuppressLint("MissingPermission")
+            @Override
+            public boolean onMyLocationButtonClick() {
+                fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        if (location != null) {
+                            // Move camera to current location
+                            LatLng currentLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+                            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLatLng, 15));
+                        }
+                    }
+                });
+                return false;
+            }
+        });
         LatLng sydney = new LatLng(latitude, longitude);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15f));
 
@@ -134,7 +166,7 @@ public class MapFragBottomSheet extends BottomSheetDialogFragment implements OnM
         BitmapDescriptor icon = BitmapDescriptorFactory.fromResource(R.drawable.marker);
         mMarker = mMap.addMarker(new MarkerOptions().position(center).icon(icon).anchor(0.1f, 0.1f));
 
-        mMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
+        mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
         // Set a move listener on the map to move the marker to the center of the screen when the map moves
         mMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
             @Override
