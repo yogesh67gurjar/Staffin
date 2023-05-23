@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "745843325141",
+    "project_id": "staffin-bfa16",
+    "storage_bucket": "staffin-bfa16.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:745843325141:android:89592054147a64c19f8a5c",
+        "android_client_info": {
+          "package_name": "com.example.staffin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "745843325141-1rmg0htampggick7doquo6e0rt52csq8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCrQWyCAHNkZGfGR8qNf8iBgmhAw0YVPm4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "745843325141-1rmg0htampggick7doquo6e0rt52csq8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

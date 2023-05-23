@@ -27,7 +27,6 @@ public class SignUpActivity extends AppCompatActivity {
     private static final String TAG = "SignUpActivity";
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,8 +42,6 @@ public class SignUpActivity extends AppCompatActivity {
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
 
 
-
-
         binding.signUpBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,13 +49,15 @@ public class SignUpActivity extends AppCompatActivity {
                 if (binding.nameEt.getText().toString().isEmpty()) {
                     binding.nameEt.setError("Enter Your Name");
                     binding.nameEt.requestFocus();
-                } else if (binding.phoneEt.getText().toString().trim().isEmpty()) {
-                    binding.phoneEt.setError("Enter Mobile Number");
-                    binding.phoneEt.requestFocus();
-                } else if (binding.phoneEt.getText().toString().trim().length() < 10) {
-                    binding.phoneEt.setError("Enter Correct Mobile Number");
-                    binding.phoneEt.requestFocus();
-                } else if (binding.passwordEt.getText().toString().trim().isEmpty()) {
+                }
+//                else if (binding.phoneEt.getText().toString().trim().isEmpty()) {
+//                    binding.phoneEt.setError("Enter Mobile Number");
+//                    binding.phoneEt.requestFocus();
+//                } else if (binding.phoneEt.getText().toString().trim().length() < 10) {
+//                    binding.phoneEt.setError("Enter Correct Mobile Number");
+//                    binding.phoneEt.requestFocus();
+//                }
+                else if (binding.passwordEt.getText().toString().trim().isEmpty()) {
                     binding.passwordEt.setError("Enter Password");
                     binding.passwordEt.requestFocus();
                 } else if (binding.passwordEt.getText().toString().trim().length() < 4) {
@@ -73,7 +72,10 @@ public class SignUpActivity extends AppCompatActivity {
                 } else {
                     progress.show();
                     String name = binding.nameEt.getText().toString();
-                    String phone = binding.phoneEt.getText().toString();
+                    String phone = "";
+                    if (!binding.phoneEt.getText().toString().isEmpty()) {
+                        phone = binding.phoneEt.getText().toString();
+                    }
                     String email = binding.emailEt.getText().toString();
                     String pw = binding.passwordEt.getText().toString();
                     Call<SignupResponse> callPostSignupResponse = apiInterface.postSignupResponse(name, email, phone, pw);
