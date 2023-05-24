@@ -1,6 +1,7 @@
 package com.example.staffin.Adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +16,12 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.staffin.PaySlipActivity;
 import com.example.staffin.R;
 import com.example.staffin.Response.AllPayroll;
 import com.example.staffin.Response.PayslipDetail;
 import com.example.staffin.Response.SearchPayslip;
+import com.example.staffin.SalaryInfoActivity;
 
 import java.util.List;
 
@@ -53,7 +56,25 @@ public class PayslipAdapter extends RecyclerView.Adapter<PayslipAdapter.MyViewHo
         holder.txtMoney.setText("RM " + singleUnit.getNetSalary());
         holder.txtUserName.setText(singleUnit.getEmployeeId().get(0).getFullName());
         holder.reasonTv.setText("Month:-" + singleUnit.getMonth() + " Year:-" + singleUnit.getYear());
+        holder.viewIcon.setOnClickListener(v -> {
+            Intent startIntent = new Intent(context.getApplicationContext(), PaySlipActivity.class);
+            startIntent.putExtra("Id", singleUnit.getEmployeeId().get(0).getId());
+            startIntent.putExtra("IdI", singleUnit.getId());
+            startIntent.putExtra("empId", singleUnit.getEmployeeId().get(0).getEmployeeID());
+            context.startActivity(startIntent);
+        });
 
+        holder.editIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startIntent = new Intent(context.getApplicationContext(), SalaryInfoActivity.class);
+                startIntent.putExtra("Id", singleUnit.getEmployeeId().get(0).getId());
+                startIntent.putExtra("IdI", singleUnit.getId());
+                startIntent.putExtra("empId", singleUnit.getEmployeeId().get(0).getEmployeeID());
+                context.startActivity(startIntent);
+
+            }
+        });
     }
 
     @Override
