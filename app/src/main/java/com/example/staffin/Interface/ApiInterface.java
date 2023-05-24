@@ -29,6 +29,7 @@ import com.example.staffin.Response.NationalHolidayResp;
 import com.example.staffin.Response.OverTimeResponse;
 import com.example.staffin.Response.PaySlipResponse;
 import com.example.staffin.Response.PayrollResponse;
+import com.example.staffin.Response.SearchPayslip;
 import com.example.staffin.Response.SignupResponse;
 import com.example.staffin.Response.SingleEmployeeResponse;
 import com.example.staffin.Response.TotalEmployeeResponse;
@@ -310,8 +311,11 @@ public interface ApiInterface {
                                           @Field("net_salary") String net_salary);
 
 
-
-
+    @FormUrlEncoded
+    @POST("search-payslip")
+    Call<SearchPayslip> getPayslipBySearch(@Field("employee_id") String employee_id,
+                                           @Field("month") String month,
+                                           @Field("year") String year);
 }
 
 
