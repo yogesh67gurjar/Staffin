@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -18,11 +19,14 @@ import com.example.staffin.Adapter.PayRollAdapter;
 import com.example.staffin.Adapter.PayslipAdapter;
 import com.example.staffin.Interface.ApiInterface;
 import com.example.staffin.Response.AllPayroll;
+import com.example.staffin.Response.EmployeeResult;
 import com.example.staffin.Response.PayslipDetail;
 import com.example.staffin.Response.SearchPayslip;
+import com.example.staffin.Response.TotalEmployeeResponse;
 import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.ActivityPayrollBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -33,7 +37,10 @@ public class PayrollActivity extends AppCompatActivity {
 
     ActivityPayrollBinding binding;
     ApiInterface apiInterface;
-    String selectedMonth, selectedYear;
+    List<String> employeesList;
+    List<Integer> employeesIdList;
+    String selectEmployee, selectedMonth, selectedYear;
+    int selectedId;
     String[] allMonths = {"Month", "january", "february", "march", "april", "may", "june", "july", "august", "september", "october", "november", "december"};
     String[] allYears = {"Year", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017", "2018", "2019", "2020", "2021", "2022", "2023", "2024", "2025", "2026", "2027"};
 
@@ -42,6 +49,9 @@ public class PayrollActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityPayrollBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        employeesList = new ArrayList<>();
+//        employeesList.add("Employee");
+        employeesIdList = new ArrayList<>();
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
         binding.noDataFound.setVisibility(View.GONE);
         binding.PayRollRv.setVisibility(View.GONE);
@@ -59,6 +69,52 @@ public class PayrollActivity extends AppCompatActivity {
     }
 
     private void shortdata() {
+
+
+        Call<TotalEmployeeResponse> callGetTotalEmployee = apiInterface.getTotalEmployee();
+        callGetTotalEmployee.enqueue(new Callback<TotalEmployeeResponse>() {
+            @Override
+            public void onResponse(Call<TotalEmployeeResponse> call, Response<TotalEmployeeResponse> response) {
+                if (response.isSuccessful()) {
+                    List<EmployeeResult> resp = response.body().getEmployeeResult();
+
+                    TextView[] textViews = new TextView[resp.size()];
+
+                    String[] names = new String[response.body().getEmployeeResult().size()];
+
+                    for (int i = 0; i < response.body().getEmployeeResult().size(); i++) {
+                        employeesList.add(resp.get(i).getFullName());
+                        employeesIdList.add(resp.get(i).getId());
+                        names[i] = employeesList.get(i);
+                    }
+                    ArrayAdapter ee = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, names);
+                    ee.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    binding.spinnerEmployeeName.setAdapter(ee);
+                    binding.spinnerEmployeeName.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                        @Override
+                        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                            selectEmployee = names[position];
+                            selectedId = employeesIdList.get(position);
+//                            Toast.makeText(PayrollActivity.this, String.valueOf(selectedId), Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onNothingSelected(AdapterView<?> parent) {
+
+                        }
+                    });
+                } else {
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<TotalEmployeeResponse> call, Throwable t) {
+
+            }
+        });
+
+
 //monthSpinner
         ArrayAdapter aa = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, allMonths);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -77,7 +133,7 @@ public class PayrollActivity extends AppCompatActivity {
 
             }
         });
-//yearSpinner
+        //yearSpinner
         ArrayAdapter yy = new ArrayAdapter(getApplicationContext(), android.R.layout.simple_spinner_item, allYears);
         aa.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         //Setting the ArrayAdapter data on the Spinner
@@ -143,7 +199,7 @@ public class PayrollActivity extends AppCompatActivity {
                 }
 
 
-                Call<SearchPayslip> searchPayslipCall = apiInterface.getPayslipBySearch("", xMonth, selectedYear);
+                Call<SearchPayslip> searchPayslipCall = apiInterface.getPayslipBySearch(String.valueOf(selectedId), xMonth, selectedYear);
                 searchPayslipCall.enqueue(new Callback<SearchPayslip>() {
                     @Override
                     public void onResponse(Call<SearchPayslip> call, Response<SearchPayslip> response) {
