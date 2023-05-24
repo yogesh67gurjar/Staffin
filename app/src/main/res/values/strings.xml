@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">Staffin</string>
 
-    <string name="login_tv1">Login with Mobile Number</string>
+    <string name="login_tv1">Login with Email Address</string>
     <string name="login_tv2">Lorem Ipsum is simply dummy text of the printing and .</string>
     <string name="login_tv3">Forgot Password ?</string>
 
-    <string name="SignUp_tv1">Sign up with  Mobile Number </string>
+    <string name="SignUp_tv1">Sign up with Email Address </string>
 
-    <string name="Forgot_tv1">Forgot Password with  Mobile Number </string>
+    <string name="Forgot_tv1">Forgot Password with  Email Address</string>
 
 
     <string name="main_tv1">Total Employees</string>

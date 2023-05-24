@@ -72,6 +72,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
     HashMap<String, Boolean> mapHalfDay;
     HashMap<String, Boolean> mapLateComing;
     HashMap<String, Boolean> mapHoliday;
+    HashMap<String, Boolean> mapDoublePresent;
     String zeroMonth = "";
     String zeroDate = "";
     private SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MMMM- yyyy", Locale.getDefault());
@@ -87,6 +88,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         mapHalfDay = new HashMap<>();
         mapLateComing = new HashMap<>();
         mapHoliday = new HashMap<>();
+        mapDoublePresent = new HashMap<>();
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
         progressDialog = new ProgressDialog(InsideAttendanceActivity.this);
         progressDialog.setMessage("Loading...");
@@ -168,12 +170,12 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                 if (response.isSuccessful()) {
 //                    progressDialog.dismiss();
                     binding.lottie.setVisibility(View.GONE);
-                    binding.presentCount.setText(response.body().getPresentDay().toString());
+                    binding.presentCount.setText(String.valueOf(Integer.parseInt(response.body().getPresentDay().toString())+Integer.parseInt(response.body().getDouble_present_count().toString())));
                     binding.absentCount.setText(response.body().getAbsent().toString());
                     binding.paidLeaveCount.setText(response.body().getPaidLeaveCount().toString());
                     binding.lateCount.setText(response.body().getLateComing().toString());
                     binding.halfDayCount.setText(response.body().getHalfday().toString());
-                    initializeCalendar(response.body().getPresentDate(), response.body().getAbsentDate(), response.body().getPaidLeaveDate(), response.body().getLateComingDate(), response.body().getHalfdayDate(), response.body().getHolidayDate());
+                    initializeCalendar(response.body().getPresentDate(), response.body().getAbsentDate(), response.body().getPaidLeaveDate(), response.body().getLateComingDate(), response.body().getHalfdayDate(), response.body().getHolidayDate(), response.body().getDouble_present_date());
                 } else {
                     Log.d("kfndkfjn", response.message());
 //                    progressDialog.dismiss();
@@ -258,7 +260,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         }
     }
 
-    private void initializeCalendar(List<GetMonthlyAttendance.PresentDate> presentDates, List<GetMonthlyAttendance.AbsentDate> absentDates, List<GetMonthlyAttendance.PaidLeaveDate> paidLeaveDates, List<GetMonthlyAttendance.LateComingDate> lateComingDates, List<GetMonthlyAttendance.HalfDayDate> halfDayDates, List<GetMonthlyAttendance.HolidayDate> holidayDates) {
+    private void initializeCalendar(List<GetMonthlyAttendance.PresentDate> presentDates, List<GetMonthlyAttendance.AbsentDate> absentDates, List<GetMonthlyAttendance.PaidLeaveDate> paidLeaveDates, List<GetMonthlyAttendance.LateComingDate> lateComingDates, List<GetMonthlyAttendance.HalfDayDate> halfDayDates, List<GetMonthlyAttendance.HolidayDate> holidayDates, List<GetMonthlyAttendance.DoublePresentDate> doublePresentDates) {
         CompactCalendarView compactCalendarView = findViewById(R.id.compactcalendar_view);
         compactCalendarView.setLocale(TimeZone.getDefault(), Locale.ENGLISH);
         compactCalendarView.setUseThreeLetterAbbreviation(true);
@@ -286,6 +288,25 @@ public class InsideAttendanceActivity extends AppCompatActivity {
             binding.compactcalendarView.addEvent(e);
         }
 
+        for (GetMonthlyAttendance.DoublePresentDate singleUnit : doublePresentDates) {
+            String[] dateInParts;
+            if (singleUnit.getDate().contains("T")) {
+                dateInParts = singleUnit.getDate().split("T")[0].split("-");
+            } else {
+                dateInParts = singleUnit.getDate().split("-");
+            }
+            Log.d("DATEOFDOUBLEPRESENT", singleUnit.getDate());
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, Integer.parseInt(dateInParts[0]));
+            calendar.set(Calendar.MONTH, Integer.parseInt(dateInParts[1]) - 1);
+            calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateInParts[2]));
+            milliTime = calendar.getTimeInMillis();
+            Event e;
+            Log.d("DOUBLE_PRESENT_IN_MAP", singleUnit.getDate());
+            mapDoublePresent.put(dateInParts[0] + "-" + dateInParts[1] + "-" + dateInParts[2], true);
+            e = new Event(getResources().getColor(R.color.calGreen), milliTime, "present");
+            binding.compactcalendarView.addEvent(e);
+        }
 //        for (GetMonthlyAttendance.HolidayDate singleUnit : holidayDates) {
 //            String[] dateInParts = singleUnit.getDate().split("-");
 //            Calendar calendar = Calendar.getInstance();
@@ -391,6 +412,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                 Log.d("presentssss", mapPaidLeave.toString());
                 Log.d("presentssss", mapLateComing.toString());
                 Log.d("presentssss", mapHalfDay.toString());
+                Log.d("presentssss", mapDoublePresent.toString());
 
                 Bundle bundle = new Bundle();
                 Calendar cal = Calendar.getInstance();
@@ -410,6 +432,8 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                     Log.d("KEY", key);
                     if (mapPresent.containsKey(key)) {
                         bundle.putString("color", "green");
+                    } else if (mapDoublePresent.containsKey(key)) {
+                        bundle.putString("color", "greend");
                     } else if (mapAbsent.containsKey(key)) {
                         bundle.putString("color", "red");
                     } else if (mapHalfDay.containsKey(key)) {
@@ -427,6 +451,8 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                     Log.d("KEY", key);
                     if (mapPresent.containsKey(key)) {
                         bundle.putString("color", "green");
+                    } else if (mapDoublePresent.containsKey(key)) {
+                        bundle.putString("color", "greend");
                     } else if (mapAbsent.containsKey(key)) {
                         bundle.putString("color", "red");
                     } else if (mapHalfDay.containsKey(key)) {
@@ -444,6 +470,8 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                     Log.d("KEY", key);
                     if (mapPresent.containsKey(key)) {
                         bundle.putString("color", "green");
+                    } else if (mapDoublePresent.containsKey(key)) {
+                        bundle.putString("color", "greend");
                     } else if (mapAbsent.containsKey(key)) {
                         bundle.putString("color", "red");
                     } else if (mapHalfDay.containsKey(key)) {
@@ -461,6 +489,8 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                     Log.d("KEY", key);
                     if (mapPresent.containsKey(key)) {
                         bundle.putString("color", "green");
+                    } else if (mapDoublePresent.containsKey(key)) {
+                        bundle.putString("color", "greend");
                     } else if (mapAbsent.containsKey(key)) {
                         bundle.putString("color", "red");
                     } else if (mapHalfDay.containsKey(key)) {

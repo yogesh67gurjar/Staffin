@@ -176,6 +176,9 @@ public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
                 case "blue":
                     presentFunc();
                     break;
+                case "greend":
+                    doublePresentFunc();
+                    break;
                 case "red":
                     absentFunc();
                     Log.d("colorR", color);
@@ -282,6 +285,34 @@ public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
         });
 
         return binding.getRoot();
+    }
+
+    private void doublePresentFunc() {
+        if (!doublePresent) {
+            doublePresent = true;
+            Log.d("SFHKFHdfsfdfSDFSD", "nfsdfhsdgfhrghnsdf");
+            absent = present = halfDay = paidLeave = sickLeave = unpaidLeave = false;
+            binding.txtDoublePresent.setBackgroundResource(R.drawable.bg_green);
+            binding.txtDoublePresent.setTextColor(getResources().getColor(R.color.white));
+
+            binding.txtPresent.setBackgroundResource(R.drawable.bg_green_corner);
+            binding.txtPresent.setTextColor(getResources().getColor(R.color.txtGreen));
+            binding.txtAbsent.setBackgroundResource(R.drawable.bg_red_corner);
+            binding.txtAbsent.setTextColor(getResources().getColor(R.color.txtRed));
+            binding.txtHalfDay.setBackgroundResource(R.drawable.bg_orange_corner);
+            binding.txtHalfDay.setTextColor(getResources().getColor(R.color.txtOrange));
+
+            binding.txtPaidLeave.setBackgroundResource(R.drawable.bg_purple_corner);
+            binding.txtPaidLeave.setTextColor(getResources().getColor(R.color.txtPurple));
+            binding.txtSickLeave.setBackgroundResource(R.drawable.bg_purple_corner);
+            binding.txtSickLeave.setTextColor(getResources().getColor(R.color.txtPurple));
+            binding.txtUnPaidLeave.setBackgroundResource(R.drawable.bg_purple_corner);
+            binding.txtUnPaidLeave.setTextColor(getResources().getColor(R.color.txtPurple));
+        } else {
+            doublePresent = false;
+            binding.txtDoublePresent.setBackgroundResource(R.drawable.bg_green_corner);
+            binding.txtDoublePresent.setTextColor(getResources().getColor(R.color.txtGreen));
+        }
     }
 
     private void paidLeaveFunc() {

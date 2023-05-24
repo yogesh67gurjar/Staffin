@@ -99,10 +99,12 @@ public class LoginActivity extends AppCompatActivity {
                 if (binding.phoneEt.getText().toString().trim().isEmpty()) {
                     binding.phoneEt.setError("Enter Mobile Number");
                     binding.phoneEt.requestFocus();
-                } else if (binding.phoneEt.getText().toString().trim().length() < 10) {
-                    binding.phoneEt.setError("Enter Correct Mobile Number");
-                    binding.phoneEt.requestFocus();
-                } else if (binding.passwordEt.getText().toString().trim().isEmpty()) {
+                }
+//                else if (binding.phoneEt.getText().toString().trim().length() < 10) {
+//                    binding.phoneEt.setError("Enter Correct Mobile Number");
+//                    binding.phoneEt.requestFocus();
+//                }
+                else if (binding.passwordEt.getText().toString().trim().isEmpty()) {
                     binding.passwordEt.setError("Enter Password");
                     binding.passwordEt.requestFocus();
                 } else if (binding.passwordEt.getText().toString().trim().length() < 4) {
