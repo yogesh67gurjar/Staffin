@@ -75,7 +75,7 @@ public class EventAdapter extends RecyclerView.Adapter<EventAdapter.MyViewHolder
         holder.txtDate.setText(singleUnit.getDate());
         holder.txtEventName.setText(singleUnit.getTitleName());
         Glide.with(context.getApplicationContext()).load(singleUnit.getImage()).placeholder(R.drawable.img_birthday).into(holder.imageView);
-
+        holder.location.setText(singleUnit.getLocation());
 
         FirstImage = (singleUnit.getAdd_member_images().split(",,,,,,,,,,"));
         Log.e("onBindViewHolder: ", "Images");
