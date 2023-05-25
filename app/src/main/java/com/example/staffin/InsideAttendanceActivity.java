@@ -585,12 +585,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                 builder.setMessage("this permission is required for this and this")
                         .setTitle("storage required")
                         .setCancelable(false)
-                        .setPositiveButton("accept", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                ActivityCompat.requestPermissions(InsideAttendanceActivity.this, new String[]{android.Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE);
-                            }
-                        })
+                        .setPositiveButton("accept", (dialog, which) -> ActivityCompat.requestPermissions(InsideAttendanceActivity.this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, STORAGE))
                         .setNegativeButton("reject", (dialog, which) -> dialog.dismiss())
                         .show();
             } else {
@@ -784,15 +779,12 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                 builder.setMessage("this feature is unavailable , now open settings ")
                         .setTitle("storage to chaiye")
                         .setCancelable(false)
-                        .setPositiveButton("accept", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                Uri uri = Uri.fromParts("package", getPackageName(), null);
-                                intent.setData(uri);
-                                startActivity(intent);
-                                dialog.dismiss();
-                            }
+                        .setPositiveButton("accept", (dialog, which) -> {
+                            Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                            Uri uri = Uri.fromParts("package", getPackageName(), null);
+                            intent.setData(uri);
+                            startActivity(intent);
+                            dialog.dismiss();
                         })
                         .setNegativeButton("reject", (dialog, which) -> dialog.dismiss())
                         .show();

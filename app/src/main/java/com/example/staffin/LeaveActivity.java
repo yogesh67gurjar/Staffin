@@ -75,6 +75,8 @@ public class LeaveActivity extends AppCompatActivity {
                 progressDialog.dismiss();
                 binding.leaveRV.setVisibility(View.GONE);
                 binding.nothingTv.setVisibility(View.VISIBLE);
+                Log.d("ggdfsg", t.getMessage());
+
                 Toast.makeText(LeaveActivity.this, "Failure,Try Again", Toast.LENGTH_SHORT).show();
 
             }
