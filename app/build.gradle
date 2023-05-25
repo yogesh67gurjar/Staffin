@@ -87,4 +87,9 @@ dependencies {
     //Lottie
     implementation 'com.airbnb.android:lottie:6.0.0'
 
+    // pdf generator
+//    implementation 'com.itextpdf:itext7-core:7.1.15'
+//    implementation 'com.itextpdf:itextg:5.5.10'
+//    implementation 'org.apache.pdfbox:pdfbox:2.0.24'
+
 }

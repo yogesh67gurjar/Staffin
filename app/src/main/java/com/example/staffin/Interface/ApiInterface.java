@@ -60,7 +60,7 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("admin-login")
-    Call<LoginResponse> postLoginResponse(@Field("mobile") String mobile,
+    Call<LoginResponse> postLoginResponse(@Field("email") String email,
                                           @Field("password") String password);
 
     @Multipart
@@ -310,12 +310,13 @@ public interface ApiInterface {
                                           @Field("deduction") String deduction,
                                           @Field("net_salary") String net_salary);
 
-
     @FormUrlEncoded
     @POST("search-payslip")
     Call<SearchPayslip> getPayslipBySearch(@Field("employee_id") String employee_id,
                                            @Field("month") String month,
                                            @Field("year") String year);
+
+
 }
 
 
