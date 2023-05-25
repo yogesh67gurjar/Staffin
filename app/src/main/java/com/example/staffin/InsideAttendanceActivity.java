@@ -614,7 +614,6 @@ public class InsideAttendanceActivity extends AppCompatActivity {
 
     private void generatePdf() {
 
-
 //            // Create a PDDocument instance
 //            PDDocument document = new PDDocument();
 //

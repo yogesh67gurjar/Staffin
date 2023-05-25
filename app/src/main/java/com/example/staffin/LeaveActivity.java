@@ -65,7 +65,7 @@ public class LeaveActivity extends AppCompatActivity {
                     binding.leaveRV.setVisibility(View.GONE);
                     binding.nothingTv.setVisibility(View.VISIBLE);
                     progressDialog.dismiss();
-                    Log.d("dfgsdfg", response.message());
+                    Log.d("On Response Else", response.message());
 //                    Toast.makeText(LeaveActivity.this, "Some Error Occured", Toast.LENGTH_SHORT).show();
                 }
             }
