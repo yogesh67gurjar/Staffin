@@ -89,15 +89,16 @@ public class LoginActivity extends AppCompatActivity {
 
         binding.forgotTv.setOnClickListener(v -> {
 
-            startActivity(new Intent(getApplicationContext(), ForgotActivity.class));
-            finish();
+                startActivity(new Intent(getApplicationContext(), ForgotActivity.class));
+                finish();
+
 
         });
         binding.loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (binding.phoneEt.getText().toString().trim().isEmpty()) {
-                    binding.phoneEt.setError("Enter Mobile Number");
+                    binding.phoneEt.setError("Enter Email");
                     binding.phoneEt.requestFocus();
                 }
 //                else if (binding.phoneEt.getText().toString().trim().length() < 10) {
