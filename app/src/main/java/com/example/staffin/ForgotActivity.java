@@ -9,6 +9,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.example.staffin.Interface.ApiInterface;
+import com.example.staffin.Response.Example;
 import com.example.staffin.Response.LoginResponse;
 import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.ActivityForgotBinding;
@@ -41,25 +42,33 @@ public class ForgotActivity extends AppCompatActivity {
                 binding.numberEt.requestFocus();
             } else {
                 progressDialog.show();
-                Call<LoginResponse> call = apiInterface.hrForgotPassword(binding.numberEt.getText().toString().trim());
-                call.enqueue(new Callback<LoginResponse>() {
+                Call<Example> call = apiInterface.hrForgotPassword(binding.numberEt.getText().toString().trim());
+                call.enqueue(new Callback<Example>() {
                     @Override
-                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                    public void onResponse(Call<Example> call, Response<Example> response) {
                         if (response.isSuccessful()) {
                             progressDialog.dismiss();
-                            startActivity(new Intent(getApplicationContext(), VerificationActivity.class));
+                            if (!response.body().getMessage().contains("Email sent")) {
+                                Toast.makeText(ForgotActivity.this, "Email not found in our database , enter valid email", Toast.LENGTH_SHORT).show();
+                            } else {
+
+                                Intent i = new Intent(getApplicationContext(), VerificationActivity.class);
+                                i.putExtra("email", binding.numberEt.getText().toString());
+                                startActivity(i);
+                            }
+
                         } else {
                             progressDialog.dismiss();
                             Toast.makeText(ForgotActivity.this, response.message(), Toast.LENGTH_SHORT).show();
-                            Log.d("dgkdfgdfgs", response.message());
+                            Log.e("dgkdfgdfgs", response.message());
                         }
                     }
 
                     @Override
-                    public void onFailure(Call<LoginResponse> call, Throwable t) {
+                    public void onFailure(Call<Example> call, Throwable t) {
                         progressDialog.dismiss();
                         Toast.makeText(ForgotActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
-                        Log.d("dgkdfgdfgs", t.getMessage());
+                        Log.e("dgkdfdgsdfgdfgs", t.getMessage());
                     }
                 });
 

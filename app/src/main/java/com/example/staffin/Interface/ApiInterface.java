@@ -20,6 +20,7 @@ import com.example.staffin.Response.DepartmentResponse;
 import com.example.staffin.Response.DesignationResponse;
 import com.example.staffin.Response.EventResponse;
 import com.example.staffin.Response.EventsByYearResponse;
+import com.example.staffin.Response.Example;
 import com.example.staffin.Response.GetMonthlyAttendance;
 import com.example.staffin.Response.HolidayResponse;
 import com.example.staffin.Response.LeaveAcceptRejectResponse;
@@ -319,9 +320,20 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("hr-forget-password")
-    Call<LoginResponse> hrForgotPassword(@Field("email") String email);
+    Call<Example> hrForgotPassword(@Field("email") String email);
 
 
+    @GET("verify-email/{token}")
+    Call<LoginResponse> verifyTokenForgot(@Path("token") String token);
+
+    // get reset login response
+    @GET("get-reset/{token}")
+    Call<LoginResponse> getResetGet(@Path("token") String token);
+
+
+    @FormUrlEncoded
+    @POST("hr-forget-password")
+    Call<Example> newPassword(@Path("reset_code") String reset_code, @Path("password") String password, @Path("email") String email);
 }
 
 

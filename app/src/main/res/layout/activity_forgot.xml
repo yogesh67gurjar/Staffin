@@ -73,7 +73,7 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/login_btn_bg"
             android:paddingVertical="18dp"
-            android:text="Get OTP"
+            android:text="Get Token"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="17sp"
