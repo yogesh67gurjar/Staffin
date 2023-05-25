@@ -36,6 +36,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
+            android:visibility="gone"
             android:layout_marginTop="10dp"
             android:text="@string/login_tv2"
             android:textColor="@color/black"
@@ -49,7 +50,7 @@
             android:layout_marginHorizontal="15dp"
             android:layout_marginTop="20dp"
             android:textColorHint="@color/txtGray"
-            android:hint="Mobile Number"
+            android:hint="Email"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tv2">
@@ -59,8 +60,8 @@
                 android:layout_width="match_parent"
                 android:textColor="@color/black"
                 android:layout_height="wrap_content"
-                android:inputType="phone"
-                android:maxLength="13" />
+                android:inputType="textEmailAddress"
+                 />
         </com.google.android.material.textfield.TextInputLayout>
 
 

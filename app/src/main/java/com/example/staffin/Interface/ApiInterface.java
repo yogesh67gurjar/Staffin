@@ -317,6 +317,11 @@ public interface ApiInterface {
                                            @Field("year") String year);
 
 
+    @FormUrlEncoded
+    @POST("hr-forget-password")
+    Call<LoginResponse> hrForgotPassword(@Field("email") String email);
+
+
 }
 
 
