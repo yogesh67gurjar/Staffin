@@ -45,20 +45,29 @@ public class BankDetailsActivity extends AppCompatActivity {
         empId = getIntent().getStringExtra("empId");
         Id = getIntent().getIntExtra("Id", 0);
 
+//        Toast.makeText(this, from+"   "+empId+"   "+Id, Toast.LENGTH_SHORT).show();
+//        Log.d("from,empId,Id",);
+
 
         if (from.equalsIgnoreCase("edit")) {
 
+
             Call<BankDetailsResponseById> bankDetailsResponseByIdCall = apiInterface.getBankDetailsById(Id);
-            bankDetailsResponseByIdCall.enqueue(new Callback<BankDetailsResponseById>() {
+            bankDetailsResponseByIdCall.enqueue(new Callback<>() {
                 @Override
                 public void onResponse(Call<BankDetailsResponseById> call, Response<BankDetailsResponseById> response) {
                     if (response.isSuccessful()) {
                         progress.dismiss();
-                        BankDetail singleUnit = response.body().getBankDetails().get(0);
-                        binding.holderEt.setText(singleUnit.getAccountName());
-                        binding.accNoEt.setText(singleUnit.getAccountNumber());
-                        binding.ifscEt.setText(singleUnit.getBranch());
-                        binding.bankEt.setText(singleUnit.getBank());
+                        try {
+                            BankDetail singleUnit = response.body().getBankDetails().get(0);
+                            binding.holderEt.setText(singleUnit.getAccountName());
+                            binding.accNoEt.setText(singleUnit.getAccountNumber());
+                            binding.ifscEt.setText(singleUnit.getBranch());
+                            binding.bankEt.setText(singleUnit.getBank());
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+
                     } else {
                         progress.dismiss();
                         Log.d("nfsdf", response.message());
@@ -76,9 +85,8 @@ public class BankDetailsActivity extends AppCompatActivity {
                 }
             });
 
+
         }
-
-
     }
 
     private void clickListeners() {
@@ -94,7 +102,6 @@ public class BankDetailsActivity extends AppCompatActivity {
             if (!binding.ifscEt.getText().toString().trim().isEmpty()) {
                 branch = binding.ifscEt.getText().toString();
             }
-
             if (binding.holderEt.getText().toString().isEmpty()) {
                 binding.holderEt.setError("Enter Holder Name");
                 binding.holderEt.requestFocus();
@@ -109,7 +116,7 @@ public class BankDetailsActivity extends AppCompatActivity {
                     if (from.equalsIgnoreCase("add")) {
                         progress.show();
                         Call<BankDetailsResponse> callPostSingleBankDetails = apiInterface.postSingleBankDetails(Id, binding.holderEt.getText().toString(), binding.accNoEt.getText().toString(), binding.bankEt.getText().toString(), branch);
-                        callPostSingleBankDetails.enqueue(new Callback<BankDetailsResponse>() {
+                        callPostSingleBankDetails.enqueue(new Callback<>() {
                             @Override
                             public void onResponse(Call<BankDetailsResponse> call, Response<BankDetailsResponse> response) {
                                 if (response.isSuccessful()) {
@@ -120,7 +127,9 @@ public class BankDetailsActivity extends AppCompatActivity {
                                 } else {
                                     progress.dismiss();
                                     Log.d("nfsdf", response.message());
-                                    Toast.makeText(BankDetailsActivity.this, "error", Toast.LENGTH_SHORT).show();
+                                    Log.d("detailsfgsdfgb", Id + binding.holderEt.getText().toString() + binding.accNoEt.getText().toString() + binding.ifscEt.getText().toString() + binding.bankEt.getText().toString());
+
+                                    Toast.makeText(BankDetailsActivity.this, "Try Again...", Toast.LENGTH_SHORT).show();
                                 }
                             }
 
@@ -134,9 +143,10 @@ public class BankDetailsActivity extends AppCompatActivity {
 
 
                     } else {
-
-                        Call<BankDetailsResponse> callUpdateBankDetailsById=apiInterface.updateBankDetailsById(Id,binding.holderEt.getText().toString(),binding.accNoEt.getText().toString(),binding.bankEt.getText().toString(),branch);
-                        callUpdateBankDetailsById.enqueue(new Callback<BankDetailsResponse>() {
+                        Log.d("detailsfgsdfgb", Id + binding.holderEt.getText().toString() + binding.accNoEt.getText().toString() + binding.ifscEt.getText().toString() + binding.bankEt.getText().toString());
+                        Toast.makeText(this, Id + binding.holderEt.getText().toString() + binding.accNoEt.getText().toString() + binding.ifscEt.getText().toString() + binding.bankEt.getText().toString(), Toast.LENGTH_SHORT).show();
+                        Call<BankDetailsResponse> callUpdateBankDetailsById = apiInterface.updateBankDetailsById(Id, binding.holderEt.getText().toString(), binding.accNoEt.getText().toString(), binding.bankEt.getText().toString(), branch);
+                        callUpdateBankDetailsById.enqueue(new Callback<>() {
                             @Override
                             public void onResponse(Call<BankDetailsResponse> call, Response<BankDetailsResponse> response) {
                                 if (response.isSuccessful()) {
@@ -146,8 +156,10 @@ public class BankDetailsActivity extends AppCompatActivity {
                                     finish();
                                 } else {
                                     progress.dismiss();
+//                                    Log.d("detailsfgsdfgb", );
+
                                     Log.d("nfsdf", response.message());
-                                    Toast.makeText(BankDetailsActivity.this, "error", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(BankDetailsActivity.this, "Please Create User Properly", Toast.LENGTH_SHORT).show();
                                 }
                             }
 

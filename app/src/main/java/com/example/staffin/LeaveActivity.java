@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -64,7 +65,8 @@ public class LeaveActivity extends AppCompatActivity {
                     binding.leaveRV.setVisibility(View.GONE);
                     binding.nothingTv.setVisibility(View.VISIBLE);
                     progressDialog.dismiss();
-                    Toast.makeText(LeaveActivity.this, "Some Error Occured", Toast.LENGTH_SHORT).show();
+                    Log.d("dfgsdfg", response.message());
+//                    Toast.makeText(LeaveActivity.this, "Some Error Occured", Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -73,6 +75,8 @@ public class LeaveActivity extends AppCompatActivity {
                 progressDialog.dismiss();
                 binding.leaveRV.setVisibility(View.GONE);
                 binding.nothingTv.setVisibility(View.VISIBLE);
+                Log.d("ggdfsg", t.getMessage());
+
                 Toast.makeText(LeaveActivity.this, "Failure,Try Again", Toast.LENGTH_SHORT).show();
 
             }
