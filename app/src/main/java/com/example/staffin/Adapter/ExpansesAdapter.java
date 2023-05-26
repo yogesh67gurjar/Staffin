@@ -16,15 +16,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.staffin.R;
 import com.example.staffin.Response.AllExpenses;
 import com.example.staffin.Response.AllPayroll;
+import com.example.staffin.Response.Expenses;
 
 import java.util.List;
 
 public class ExpansesAdapter extends RecyclerView.Adapter<ExpansesAdapter.MyViewHolder> {
 
     Context context;
-    List<AllExpenses.GetAllExpenseDetail> resp;
+    List<Expenses.GetAllExpenseDetail> resp;
 
-    public ExpansesAdapter(Context context, List<AllExpenses.GetAllExpenseDetail> resp) {
+    public ExpansesAdapter(Context context, List<Expenses.GetAllExpenseDetail> resp) {
         this.context = context;
         this.resp = resp;
     }
@@ -39,7 +40,7 @@ public class ExpansesAdapter extends RecyclerView.Adapter<ExpansesAdapter.MyView
 
     @Override
     public void onBindViewHolder(@NonNull ExpansesAdapter.MyViewHolder holder, int position) {
-        AllExpenses.GetAllExpenseDetail singleUnit = resp.get(position);
+        Expenses.GetAllExpenseDetail singleUnit = resp.get(position);
         Animation animationLeft = AnimationUtils.loadAnimation(holder.mainConstraint.getContext(), android.R.anim.slide_in_left);
         holder.mainConstraint.startAnimation(animationLeft);
         holder.txtEmpId.startAnimation(animationLeft);
@@ -59,7 +60,7 @@ public class ExpansesAdapter extends RecyclerView.Adapter<ExpansesAdapter.MyView
         return resp.size();
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         ConstraintLayout mainConstraint;
         TextView txtEmpId, txtItemName, txtPrice;
         ImageButton btnDownload;
