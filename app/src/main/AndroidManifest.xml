@@ -21,7 +21,9 @@
         android:theme="@style/Theme.Staffin"
         android:windowSoftInputMode="adjustResize"
         tools:targetApi="31">
-
+        <activity
+            android:name=".ShowExpansesActivity"
+            android:exported="false" />
         <!--
              TODO: Before you run your application, you need a Google Maps API key.
 
@@ -40,9 +42,7 @@
         <activity
             android:name=".Maps.MapsActivity"
             android:exported="true"
-            android:label="@string/title_activity_maps">
-
-        </activity>
+            android:label="@string/title_activity_maps"></activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -91,7 +91,6 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize">
-
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
@@ -245,12 +244,12 @@
             android:name=".SplashActivity"
             android:exported="true"
             android:screenOrientation="portrait">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
