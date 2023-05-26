@@ -76,7 +76,12 @@ public class AttendanceAdapter extends RecyclerView.Adapter<AttendanceAdapter.My
             holder.statusTv.setTextColor(Color.WHITE);
             holder.statusTv.setBackgroundResource(R.drawable.bg_green);
 
-            holder.txtPunchIn.setText(singleUnit.getAttendanceData().get(0).getClockIn().split("T")[1].split("\\.")[0]);
+            try {
+                holder.txtPunchIn.setText(singleUnit.getAttendanceData().get(0).getClockIn().split("T")[1].split("\\.")[0]);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
             if (!(singleUnit.getAttendanceData().get(0).getClockOut() == null)) {
                 holder.txtPunchOut.setText(singleUnit.getAttendanceData().get(0).getClockOut().split("T")[1].split("\\.")[0]);
             }

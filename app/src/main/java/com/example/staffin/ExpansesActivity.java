@@ -49,7 +49,7 @@ public class ExpansesActivity extends AppCompatActivity {
         progressDialog.setMessage("Loading...");
         progressDialog.show();
         Call<AllExpenses> allExpensesCall = apiInterface.getAllExpenses();
-        allExpensesCall.enqueue(new Callback<AllExpenses>() {
+        allExpensesCall.enqueue(new Callback<>() {
             @Override
             public void onResponse(Call<AllExpenses> call, Response<AllExpenses> response) {
                 if (response.isSuccessful()) {
