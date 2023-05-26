@@ -49,12 +49,12 @@ public class VerificationActivity extends AppCompatActivity {
             } else {
                 Call<LoginResponse> call = apiInterface.verifyTokenForgot(binding.numberEt.getText().toString().trim());
                 progressDialog.show();
-                call.enqueue(new Callback<LoginResponse>() {
+                call.enqueue(new Callback<>() {
                     @Override
                     public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                         if (response.isSuccessful()) {
                             progressDialog.dismiss();
-                            if (!response.body().getMessage().contains("nvalid")) {
+                            if (response.body().getMessage().contains("nvalid")) {
                                 Toast.makeText(VerificationActivity.this, "invalid token", Toast.LENGTH_SHORT).show();
                             } else {
 

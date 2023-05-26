@@ -276,10 +276,10 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("update-attendance")
     Call<Example> updateAttendanceById(@Field("employeeID") int employeeID,
-                                             @Field("date") String date,
-                                             @Field("status") String status,
-                                             @Field("leaveType") String leaveType,
-                                             @Field("overtime") String overtime);
+                                       @Field("date") String date,
+                                       @Field("status") String status,
+                                       @Field("leaveType") String leaveType,
+                                       @Field("overtime") String overtime);
 
 
     @GET("get-payslip/{id}")
@@ -333,8 +333,8 @@ public interface ApiInterface {
 
 
     @FormUrlEncoded
-    @POST("hr-forget-password")
-    Call<Example> newPassword(@Path("reset_code") String reset_code, @Path("password") String password, @Path("email") String email);
+    @POST("reset-password")
+    Call<LoginResponse> newPassword(@Field("password") String password, @Field("email") String email);
 }
 
 

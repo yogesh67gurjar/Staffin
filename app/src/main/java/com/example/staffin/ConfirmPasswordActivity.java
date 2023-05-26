@@ -10,6 +10,7 @@ import android.widget.Toast;
 
 import com.example.staffin.Interface.ApiInterface;
 import com.example.staffin.Response.Example;
+import com.example.staffin.Response.LoginResponse;
 import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.ActivityConfirmPasswordBinding;
 
@@ -53,15 +54,15 @@ public class ConfirmPasswordActivity extends AppCompatActivity {
                 binding.confirmPasswordEt.requestFocus();
             } else {
 
-                Call<Example> call = apiInterface.newPassword(token, binding.newPasswordEt.getText().toString().trim(), email);
+                Call<LoginResponse> call = apiInterface.newPassword(binding.newPasswordEt.getText().toString().trim(), email);
                 progressDialog.show();
-                call.enqueue(new Callback<Example>() {
+                call.enqueue(new Callback<LoginResponse>() {
                     @Override
-                    public void onResponse(Call<Example> call, Response<Example> response) {
+                    public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
                         if (response.isSuccessful()) {
-                            if (response.body().getStatus().equals("success")) {
+                            if (response.body().getMessage().contains("successfull")) {
                                 progressDialog.dismiss();
-                                Toast.makeText(ConfirmPasswordActivity.this, "", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(ConfirmPasswordActivity.this, "Password Updated Successfully", Toast.LENGTH_SHORT).show();
                                 startActivity(new Intent(getApplicationContext(), LoginActivity.class));
                                 finish();
                             } else {
@@ -78,7 +79,7 @@ public class ConfirmPasswordActivity extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<Example> call, Throwable t) {
+                    public void onFailure(Call<LoginResponse> call, Throwable t) {
                         progressDialog.dismiss();
                         Log.d("sdfasdg", t.getMessage());
                         Toast.makeText(ConfirmPasswordActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();

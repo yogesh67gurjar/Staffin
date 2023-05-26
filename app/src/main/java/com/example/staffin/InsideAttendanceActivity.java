@@ -83,6 +83,9 @@ public class InsideAttendanceActivity extends AppCompatActivity {
     HashMap<String, Boolean> mapLateComing;
     HashMap<String, Boolean> mapHoliday;
     HashMap<String, Boolean> mapDoublePresent;
+
+    HashMap<String, Boolean> mapSickLeave;
+    HashMap<String, Boolean> mapUnpaidLeave;
     String zeroMonth = "";
     String zeroDate = "";
     private SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MMMM- yyyy", Locale.getDefault());
@@ -99,6 +102,9 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         mapLateComing = new HashMap<>();
         mapHoliday = new HashMap<>();
         mapDoublePresent = new HashMap<>();
+        mapSickLeave = new HashMap<>();
+        mapUnpaidLeave = new HashMap<>();
+
         apiInterface = RetrofitServices.getRetrofit().create(ApiInterface.class);
         progressDialog = new ProgressDialog(InsideAttendanceActivity.this);
         progressDialog.setMessage("Loading...");
@@ -185,7 +191,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                     binding.paidLeaveCount.setText(response.body().getPaidLeaveCount().toString());
                     binding.lateCount.setText(response.body().getLateComing().toString());
                     binding.halfDayCount.setText(response.body().getHalfday().toString());
-                    initializeCalendar(response.body().getPresentDate(), response.body().getAbsentDate(), response.body().getPaidLeaveDate(), response.body().getLateComingDate(), response.body().getHalfdayDate(), response.body().getHolidayDate(), response.body().getDouble_present_date());
+                    initializeCalendar(response.body().getPresentDate(), response.body().getAbsentDate(), response.body().getPaidLeaveDate(), response.body().getLateComingDate(), response.body().getHalfdayDate(), response.body().getHolidayDate(), response.body().getDouble_present_date(), response.body().getSick_leave_date(), response.body().getUnpaid_leave_date());
 
                 } else {
                     Log.d("kfndkfjn", response.message());
@@ -250,7 +256,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         }
     }
 
-    private void initializeCalendar(List<GetMonthlyAttendance.PresentDate> presentDates, List<GetMonthlyAttendance.AbsentDate> absentDates, List<GetMonthlyAttendance.PaidLeaveDate> paidLeaveDates, List<GetMonthlyAttendance.LateComingDate> lateComingDates, List<GetMonthlyAttendance.HalfDayDate> halfDayDates, List<GetMonthlyAttendance.HolidayDate> holidayDates, List<GetMonthlyAttendance.DoublePresentDate> doublePresentDates) {
+    private void initializeCalendar(List<GetMonthlyAttendance.PresentDate> presentDates, List<GetMonthlyAttendance.AbsentDate> absentDates, List<GetMonthlyAttendance.PaidLeaveDate> paidLeaveDates, List<GetMonthlyAttendance.LateComingDate> lateComingDates, List<GetMonthlyAttendance.HalfDayDate> halfDayDates, List<GetMonthlyAttendance.HolidayDate> holidayDates, List<GetMonthlyAttendance.DoublePresentDate> doublePresentDates, List<GetMonthlyAttendance.SickLeaveDate> sickLeaveDates, List<GetMonthlyAttendance.UnpaidLeaveDate> unpaidLeaveDates) {
         CompactCalendarView compactCalendarView = findViewById(R.id.compactcalendar_view);
         compactCalendarView.setLocale(TimeZone.getDefault(), Locale.ENGLISH);
         compactCalendarView.setUseThreeLetterAbbreviation(true);
@@ -349,6 +355,46 @@ public class InsideAttendanceActivity extends AppCompatActivity {
             e = new Event(getResources().getColor(R.color.calPurple), milliTime, "present");
             binding.compactcalendarView.addEvent(e);
         }
+        for (GetMonthlyAttendance.SickLeaveDate singleUnit : sickLeaveDates) {
+            Log.d("DATEOFSL", singleUnit.getDate());
+
+            String[] dateInParts;
+            if (singleUnit.getDate().contains("T")) {
+                dateInParts = singleUnit.getDate().split("T")[0].split("-");
+            } else {
+                dateInParts = singleUnit.getDate().split("-");
+            }
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, Integer.parseInt(dateInParts[0]));
+            calendar.set(Calendar.MONTH, Integer.parseInt(dateInParts[1]) - 1);
+            calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateInParts[2]));
+            milliTime = calendar.getTimeInMillis();
+            Event e;
+            Log.d("SICKLEAVE_IN_MAP", singleUnit.getDate());
+            mapSickLeave.put(dateInParts[0] + "-" + dateInParts[1] + "-" + dateInParts[2], true);
+            e = new Event(getResources().getColor(R.color.sickLeave), milliTime, "present");
+            binding.compactcalendarView.addEvent(e);
+        }
+        for (GetMonthlyAttendance.UnpaidLeaveDate singleUnit : unpaidLeaveDates) {
+            Log.d("DATEOFUL", singleUnit.getDate());
+
+            String[] dateInParts;
+            if (singleUnit.getDate().contains("T")) {
+                dateInParts = singleUnit.getDate().split("T")[0].split("-");
+            } else {
+                dateInParts = singleUnit.getDate().split("-");
+            }
+            Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.YEAR, Integer.parseInt(dateInParts[0]));
+            calendar.set(Calendar.MONTH, Integer.parseInt(dateInParts[1]) - 1);
+            calendar.set(Calendar.DAY_OF_MONTH, Integer.parseInt(dateInParts[2]));
+            milliTime = calendar.getTimeInMillis();
+            Event e;
+            Log.d("UNPAIDLEAVE_IN_MAP", singleUnit.getDate());
+            mapUnpaidLeave.put(dateInParts[0] + "-" + dateInParts[1] + "-" + dateInParts[2], true);
+            e = new Event(getResources().getColor(R.color.unpaidLeave), milliTime, "present");
+            binding.compactcalendarView.addEvent(e);
+        }
 
         for (GetMonthlyAttendance.LateComingDate singleUnit : lateComingDates) {
             Log.d("DATEOFLATE", singleUnit.getDate());
@@ -418,6 +464,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                 Log.d("presentssss", mapHalfDay.toString());
                 Log.d("presentssss", mapDoublePresent.toString());
 
+
                 Bundle bundle = new Bundle();
                 Calendar cal = Calendar.getInstance();
                 cal.setTime(dateClicked);
@@ -446,6 +493,10 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                         bundle.putString("color", "purple");
                     } else if (mapLateComing.containsKey(key)) {
                         bundle.putString("color", "blue");
+                    } else if (mapUnpaidLeave.containsKey(key)) {
+                        bundle.putString("color", "unpaid");
+                    } else if (mapSickLeave.containsKey(key)) {
+                        bundle.putString("color", "sick");
                     } else {
                         bundle.putString("color", "black");
                     }
@@ -465,6 +516,10 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                         bundle.putString("color", "purple");
                     } else if (mapLateComing.containsKey(key)) {
                         bundle.putString("color", "blue");
+                    }else if (mapUnpaidLeave.containsKey(key)) {
+                        bundle.putString("color", "unpaid");
+                    } else if (mapSickLeave.containsKey(key)) {
+                        bundle.putString("color", "sick");
                     } else {
                         bundle.putString("color", "black");
                     }
@@ -482,7 +537,11 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                         bundle.putString("color", "orange");
                     } else if (mapPaidLeave.containsKey(key)) {
                         bundle.putString("color", "purple");
-                    } else if (mapLateComing.containsKey(key)) {
+                    } else if (mapUnpaidLeave.containsKey(key)) {
+                        bundle.putString("color", "unpaid");
+                    } else if (mapSickLeave.containsKey(key)) {
+                        bundle.putString("color", "sick");
+                    }else if (mapLateComing.containsKey(key)) {
                         bundle.putString("color", "blue");
                     } else {
                         bundle.putString("color", "black");
@@ -499,6 +558,10 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                         bundle.putString("color", "red");
                     } else if (mapHalfDay.containsKey(key)) {
                         bundle.putString("color", "orange");
+                    } else if (mapUnpaidLeave.containsKey(key)) {
+                        bundle.putString("color", "unpaid");
+                    } else if (mapSickLeave.containsKey(key)) {
+                        bundle.putString("color", "sick");
                     } else if (mapPaidLeave.containsKey(key)) {
                         bundle.putString("color", "purple");
                     } else if (mapLateComing.containsKey(key)) {
@@ -579,7 +642,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         if (str.equals("storage")) {
             if (ContextCompat.checkSelfPermission(InsideAttendanceActivity.this, android.Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                 generatePdf();
-                Toast.makeText(this, "storage permission already granted", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "storage permission already granted", Toast.LENGTH_SHORT).show();
             } else if (ActivityCompat.shouldShowRequestPermissionRationale(InsideAttendanceActivity.this, android.Manifest.permission.READ_EXTERNAL_STORAGE)) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(InsideAttendanceActivity.this);
                 builder.setMessage("this permission is required for this and this")
@@ -596,7 +659,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                 if (Environment.isExternalStorageManager()) {
                     // Permission is granted
                     generatePdf();
-                    Toast.makeText(this, "manage storage permission already granted", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(this, "manage storage permission already granted", Toast.LENGTH_SHORT).show();
                     Log.d("dgdgsdfgsdfgs", "yes yes yes yes ");
                 } else {
                     // Permission is not granted, request it
@@ -755,6 +818,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
             fos.close();
             Toast.makeText(this, "attendance saved to " + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
+            Log.e("eeeeeee",e.toString());
             e.printStackTrace();
             Toast.makeText(this, "Error saving attendance", Toast.LENGTH_SHORT).show();
         }

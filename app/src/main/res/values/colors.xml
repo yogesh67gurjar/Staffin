@@ -32,5 +32,8 @@
 
     <color name="background1">#5E5E5E</color>
 
+    <color name="sickLeave">#FBFF70</color>
+    <color name="unpaidLeave">#7CFFCA</color>
+
 
 </resources>
