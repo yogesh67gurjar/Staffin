@@ -58,7 +58,6 @@ public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
             presentFunc();
         });
 
-
         binding.txtDoublePresent.setOnClickListener(v -> {
             if (!doublePresent) {
                 doublePresent = true;
@@ -87,25 +86,22 @@ public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
             }
         });
 
-
         binding.txtAbsent.setOnClickListener(v -> {
             absentFunc();
         });
 
-
         binding.txtHalfDay.setOnClickListener(v -> {
             halfDayFunc();
         });
-
 //        binding.txtOverTime.setOnClickListener(v -> {
 //            binding.txtOverTime.setBackgroundResource(R.drawable.bg_green);
 //            binding.txtOverTime.setTextColor(getResources().getColor(R.color.white));
 //            binding.txtOverTime.setText("2 Hour");
 //        });
-
         binding.txtPaidLeave.setOnClickListener(v -> {
             paidLeaveFunc();
         });
+
         binding.txtSickLeave.setOnClickListener(v -> {
             if (!sickLeave) {
                 sickLeave = true;
@@ -135,6 +131,7 @@ public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
                 binding.txtSickLeave.setTextColor(getResources().getColor(R.color.txtPurple));
             }
         });
+
         binding.txtUnPaidLeave.setOnClickListener(v -> {
             if (!unpaidLeave) {
                 unpaidLeave = true;
@@ -244,7 +241,6 @@ public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
                     } else if (sickLeave) {
                         leaveType = "sick_leave";
                     }
-
 
                     Call<LoginResponse> calUpdateAttendanceById = apiInterface.updateAttendanceById(Id, date.split("-")[2] + "-" + 4 + "-" + date.split("-")[0], status, leaveType, binding.txtOverTime.getText().toString());
                     progressDialog.show();
