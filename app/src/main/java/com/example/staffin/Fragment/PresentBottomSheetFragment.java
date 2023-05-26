@@ -14,6 +14,7 @@ import android.widget.Toast;
 import com.example.staffin.InsideAttendanceActivity;
 import com.example.staffin.Interface.ApiInterface;
 import com.example.staffin.R;
+import com.example.staffin.Response.Example;
 import com.example.staffin.Response.LoginResponse;
 import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.FragmentPresentBottomSheetBinding;
@@ -242,21 +243,30 @@ public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
                         leaveType = "sick_leave";
                     }
 
-                    Call<LoginResponse> calUpdateAttendanceById = apiInterface.updateAttendanceById(Id, date.split("-")[2] + "-" + 4 + "-" + date.split("-")[0], status, leaveType, binding.txtOverTime.getText().toString());
+               //     Call<LoginResponse> calUpdateAttendanceById = apiInterface.updateAttendanceById(Id, date.split("-")[2] + "-" + 4 + "-" + date.split("-")[0], status, leaveType, binding.txtOverTime.getText().toString());
+                    Log.d("yebhejahe", Id + "     " + date.split("-")[2] + "-" + monthNo + "-" + date.split("-")[0] + "     " + status + "     " + leaveType + "     " + binding.txtOverTime.getText().toString());
+                    Call<Example> calUpdateAttendanceById = apiInterface.updateAttendanceById(Id, date.split("-")[2] + "-" + monthNo + "-" + date.split("-")[0], status, leaveType, binding.txtOverTime.getText().toString());
                     progressDialog.show();
                     Log.d(TAG, Id + "    " + date.split("-")[2] + "-" + monthNo + "-" + date.split("-")[0] + "    " + status + "    " + leaveType + "    " + binding.txtOverTime.getText().toString());
-                    calUpdateAttendanceById.enqueue(new Callback<LoginResponse>() {
+                    calUpdateAttendanceById.enqueue(new Callback<Example>() {
                         @Override
-                        public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                        public void onResponse(Call<Example> call, Response<Example> response) {
                             if (response.isSuccessful()) {
                                 progressDialog.dismiss();
-                                Log.d("API", response.message());
-                                Toast.makeText(getActivity(), "Changes saved successfully", Toast.LENGTH_SHORT).show();
-                                PresentBottomSheetFragment.this.dismiss();
-                                getActivity().finish();
+                                if (response.body().getMessage().equalsIgnoreCase("success")) {
+                                    Log.d("API", response.message());
+                                    Toast.makeText(getActivity(), "Changes saved successfully", Toast.LENGTH_SHORT).show();
+                                    PresentBottomSheetFragment.this.dismiss();
+                                    getActivity().finish();
+                                } else {
+                                    Log.d("APIkfndkfjn", response.message());
+                                    Toast.makeText(getActivity(), "unable to change status", Toast.LENGTH_SHORT).show();
+                                    getActivity().finish();
+
+                                }
 
                             } else {
-                                Log.d("APIkfndkfjn", response.message());
+                                Log.d("APIkfndkfjn", response.message() + response.code());
                                 progressDialog.dismiss();
                                 Toast.makeText(getActivity(), "unable to change status", Toast.LENGTH_SHORT).show();
                                 getActivity().finish();
@@ -265,7 +275,7 @@ public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
                         }
 
                         @Override
-                        public void onFailure(Call<LoginResponse> call, Throwable t) {
+                        public void onFailure(Call<Example> call, Throwable t) {
                             Log.d("APIFaIL", t.getMessage());
                             progressDialog.dismiss();
                             Toast.makeText(getActivity(), "failure", Toast.LENGTH_SHORT).show();
@@ -431,4 +441,9 @@ public class PresentBottomSheetFragment extends BottomSheetDialogFragment {
             binding.txtPresent.setTextColor(getResources().getColor(R.color.txtGreen));
         }
     }
+
+
+
+
+
 }

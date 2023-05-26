@@ -21,6 +21,7 @@ import com.example.staffin.Response.DesignationResponse;
 import com.example.staffin.Response.EventResponse;
 import com.example.staffin.Response.EventsByYearResponse;
 import com.example.staffin.Response.Example;
+import com.example.staffin.Response.Expenses;
 import com.example.staffin.Response.GetMonthlyAttendance;
 import com.example.staffin.Response.HolidayResponse;
 import com.example.staffin.Response.LeaveAcceptRejectResponse;
@@ -274,7 +275,7 @@ public interface ApiInterface {
 
     @FormUrlEncoded
     @POST("update-attendance")
-    Call<LoginResponse> updateAttendanceById(@Field("employeeID") int employeeID,
+    Call<Example> updateAttendanceById(@Field("employeeID") int employeeID,
                                              @Field("date") String date,
                                              @Field("status") String status,
                                              @Field("leaveType") String leaveType,
@@ -295,7 +296,7 @@ public interface ApiInterface {
 
 
     @GET("get-all-expense")
-    Call<AllExpenses> getAllExpenses();
+    Call<Expenses> getAllExpenses();
 
     @FormUrlEncoded
     @POST("update-payroll/{id}")

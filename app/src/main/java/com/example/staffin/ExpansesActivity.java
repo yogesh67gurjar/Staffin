@@ -15,6 +15,7 @@ import android.widget.Toast;
 import com.example.staffin.Adapter.ExpansesAdapter;
 import com.example.staffin.Interface.ApiInterface;
 import com.example.staffin.Response.AllExpenses;
+import com.example.staffin.Response.Expenses;
 import com.example.staffin.Retrofit.RetrofitServices;
 import com.example.staffin.databinding.ActivityExpansesBinding;
 
@@ -48,13 +49,13 @@ public class ExpansesActivity extends AppCompatActivity {
         progressDialog.setCancelable(false);
         progressDialog.setMessage("Loading...");
         progressDialog.show();
-        Call<AllExpenses> allExpensesCall = apiInterface.getAllExpenses();
+        Call<Expenses> allExpensesCall = apiInterface.getAllExpenses();
         allExpensesCall.enqueue(new Callback<>() {
             @Override
-            public void onResponse(Call<AllExpenses> call, Response<AllExpenses> response) {
+            public void onResponse(Call<Expenses> call, Response<Expenses> response) {
                 if (response.isSuccessful()) {
                     progressDialog.dismiss();
-                    List<AllExpenses.GetAllExpenseDetail> resp = response.body().getGetAllExpenseDetails();
+                    List<Expenses.GetAllExpenseDetail> resp = response.body().getGetAllExpenseDetails();
                     binding.expansesRv.setLayoutManager(new LinearLayoutManager(ExpansesActivity.this));
                     binding.expansesRv.setAdapter(new ExpansesAdapter(ExpansesActivity.this, resp));
                     Log.d("onResponse: ", response.message());
@@ -67,7 +68,7 @@ public class ExpansesActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<AllExpenses> call, Throwable t) {
+            public void onFailure(Call<Expenses> call, Throwable t) {
                 progressDialog.dismiss();
                 Log.d("onFailure: ", t.getMessage());
                 Toast.makeText(ExpansesActivity.this, "Server Problem", Toast.LENGTH_SHORT).show();
