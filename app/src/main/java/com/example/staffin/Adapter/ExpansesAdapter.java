@@ -3,6 +3,7 @@ package com.example.staffin.Adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,6 +62,7 @@ public class ExpansesAdapter extends RecyclerView.Adapter<ExpansesAdapter.MyView
         holder.txtItemName.setText("Name:-" + singleUnit.getItemName());
         holder.txtPrice.setText("Price:-" + singleUnit.getPrice());
 
+        Log.e("Id send Kri",String.valueOf(singleUnit.getId()));
         holder.btnDownload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -287,6 +289,7 @@ public class ExpansesAdapter extends RecyclerView.Adapter<ExpansesAdapter.MyView
                 }
 
                 bundle.putStringArrayList("img", (ArrayList<String>) images);
+                bundle.putString("ID",String.valueOf(singleUnit.getId()));
                 intent.putExtras(bundle);
                 context.startActivity(intent);
             }

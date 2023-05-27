@@ -23,6 +23,7 @@ import com.example.staffin.Response.EventsByYearResponse;
 import com.example.staffin.Response.Example;
 import com.example.staffin.Response.Expenses;
 import com.example.staffin.Response.GetMonthlyAttendance;
+import com.example.staffin.Response.Hao;
 import com.example.staffin.Response.HolidayResponse;
 import com.example.staffin.Response.LeaveAcceptRejectResponse;
 import com.example.staffin.Response.LeaveResponse;
@@ -335,6 +336,10 @@ public interface ApiInterface {
     @FormUrlEncoded
     @POST("reset-password")
     Call<LoginResponse> newPassword(@Field("password") String password, @Field("email") String email);
+
+
+    @GET("get-expense/{id}")
+    Call<Hao> getExpenses(@Path("id") int id);
 }
 
 

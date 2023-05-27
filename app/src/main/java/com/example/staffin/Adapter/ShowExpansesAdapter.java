@@ -1,6 +1,7 @@
 package com.example.staffin.Adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.staffin.R;
 import com.example.staffin.Response.AllExpenses;
+import com.example.staffin.Response.Hao;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +22,14 @@ import java.util.List;
 public class ShowExpansesAdapter extends RecyclerView.Adapter<ShowExpansesAdapter.MyViewHolder> {
     Context context;
     AllExpenses.GetAllExpenseDetail listOfExpanses;
+
+    List<Hao.GetAllExpenseDetail> res;
     List<String> images;
 
     public ShowExpansesAdapter(Context context, List<String> images) {
         this.context = context;
         this.images = images;
+        images = new ArrayList<>();
     }
 
     @NonNull
@@ -37,12 +42,14 @@ public class ShowExpansesAdapter extends RecyclerView.Adapter<ShowExpansesAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ShowExpansesAdapter.MyViewHolder holder, int position) {
+
         Glide.with(context).load(images.get(position)).into(holder.showImage);
+
     }
 
     @Override
     public int getItemCount() {
-        return images.size();
+        return (images.size());
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
