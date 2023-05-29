@@ -441,7 +441,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
         binding.btnDownload.setOnClickListener(v -> {
 
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
 
                 requestRuntimePermissionFunc("manageStorage");
             } else {
@@ -516,7 +516,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                         bundle.putString("color", "purple");
                     } else if (mapLateComing.containsKey(key)) {
                         bundle.putString("color", "blue");
-                    }else if (mapUnpaidLeave.containsKey(key)) {
+                    } else if (mapUnpaidLeave.containsKey(key)) {
                         bundle.putString("color", "unpaid");
                     } else if (mapSickLeave.containsKey(key)) {
                         bundle.putString("color", "sick");
@@ -541,7 +541,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
                         bundle.putString("color", "unpaid");
                     } else if (mapSickLeave.containsKey(key)) {
                         bundle.putString("color", "sick");
-                    }else if (mapLateComing.containsKey(key)) {
+                    } else if (mapLateComing.containsKey(key)) {
                         bundle.putString("color", "blue");
                     } else {
                         bundle.putString("color", "black");
@@ -818,7 +818,7 @@ public class InsideAttendanceActivity extends AppCompatActivity {
             fos.close();
             Toast.makeText(this, "attendance saved to " + file.getAbsolutePath(), Toast.LENGTH_SHORT).show();
         } catch (IOException e) {
-            Log.e("eeeeeee",e.toString());
+            Log.e("eeeeeee", e.toString());
             e.printStackTrace();
             Toast.makeText(this, "Error saving attendance", Toast.LENGTH_SHORT).show();
         }

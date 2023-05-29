@@ -85,7 +85,7 @@ public class ShowExpansesAdapter extends RecyclerView.Adapter<ShowExpansesAdapte
         return (count);
     }
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public static class MyViewHolder extends RecyclerView.ViewHolder {
         ImageView showImage;
 
         public MyViewHolder(@NonNull View itemView) {

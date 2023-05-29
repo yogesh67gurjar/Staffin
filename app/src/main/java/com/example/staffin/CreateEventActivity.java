@@ -147,7 +147,7 @@ public class CreateEventActivity extends AppCompatActivity implements BottomShee
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         if (requestCode == LOCATION) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                Toast.makeText(this, "accepted", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(this, "accepted", Toast.LENGTH_SHORT).show();
             } else if (!ActivityCompat.shouldShowRequestPermissionRationale(CreateEventActivity.this, Manifest.permission.ACCESS_FINE_LOCATION)) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(CreateEventActivity.this);
                 builder.setMessage("this feature is unavailable , now open settings ")
