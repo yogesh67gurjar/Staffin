@@ -21,15 +21,14 @@ import java.util.List;
 
 public class ShowExpansesAdapter extends RecyclerView.Adapter<ShowExpansesAdapter.MyViewHolder> {
     Context context;
-    AllExpenses.GetAllExpenseDetail listOfExpanses;
-
-    List<Hao.GetAllExpenseDetail> res;
+    //    AllExpenses.GetAllExpenseDetail listOfExpanses;
+//
+//    List<Hao.GetAllExpenseDetail> res;
     List<String> images;
 
     public ShowExpansesAdapter(Context context, List<String> images) {
         this.context = context;
         this.images = images;
-        images = new ArrayList<>();
     }
 
     @NonNull
@@ -42,14 +41,48 @@ public class ShowExpansesAdapter extends RecyclerView.Adapter<ShowExpansesAdapte
 
     @Override
     public void onBindViewHolder(@NonNull ShowExpansesAdapter.MyViewHolder holder, int position) {
-
-        Glide.with(context).load(images.get(position)).into(holder.showImage);
+        String img = images.get(position);
+        if (!img.endsWith("0")) {
+            Glide.with(context).load(img).into(holder.showImage);
+        }
 
     }
 
     @Override
     public int getItemCount() {
-        return (images.size());
+        int count = 0;
+        if (!images.get(0).endsWith("0")) {
+            ++count;
+        }
+        if (!images.get(1).endsWith("0")) {
+            ++count;
+        }
+        if (!images.get(2).endsWith("0")) {
+            ++count;
+        }
+        if (!images.get(3).endsWith("0")) {
+            ++count;
+        }
+        if (!images.get(4).endsWith("0")) {
+            ++count;
+        }
+        if (!images.get(5).endsWith("0")) {
+            ++count;
+        }
+        if (!images.get(6).endsWith("0")) {
+            ++count;
+        }
+        if (!images.get(7).endsWith("0")) {
+            ++count;
+        }
+        if (!images.get(8).endsWith("0")) {
+            ++count;
+        }
+        if (!images.get(9).endsWith("0")) {
+            ++count;
+        }
+
+        return (count);
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
