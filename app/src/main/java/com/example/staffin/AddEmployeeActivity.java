@@ -438,7 +438,7 @@ public class AddEmployeeActivity extends AppCompatActivity {
                 public void onFailure(Call<AddEmployeeResponse> call, Throwable t) {
                     Log.d("Pdkjfnsdf", t.getMessage());
                     progressDialog.dismiss();
-                    Toast.makeText(AddEmployeeActivity.this, "Network Error", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddEmployeeActivity.this, t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
